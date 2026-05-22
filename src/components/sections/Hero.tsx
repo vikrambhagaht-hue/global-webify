@@ -19,12 +19,14 @@ const GoogleLogo = () => (
 );
 
 // --- 1. Typing Headline ---
-const TypingHeadline = () => {
-  const phrases = [
+const TypingHeadline = ({ phrases = [] }: { phrases?: string[] }) => {
+  const defaultPhrases = [
     "वेबसाइट जो ब्रांड भी बनाए, बिज़नेस भी बढ़ाए।",
     "Websites that build brands, and grow businesses.",
   ];
-  const [currentText, setCurrentText] = useState(phrases[0]);
+  const activePhrases = phrases.length > 0 ? phrases : defaultPhrases;
+
+  const [currentText, setCurrentText] = useState(activePhrases[0] || "");
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(100);
@@ -34,11 +36,21 @@ const TypingHeadline = () => {
     setMounted(true);
   }, []);
 
+  // Reset animation if phrases change dynamically
   useEffect(() => {
-    if (!mounted) return;
+    if (activePhrases.length > 0) {
+      setCurrentText(activePhrases[0]);
+      setIsDeleting(false);
+      setLoopNum(0);
+      setTypingSpeed(100);
+    }
+  }, [JSON.stringify(activePhrases)]);
+
+  useEffect(() => {
+    if (!mounted || activePhrases.length === 0) return;
     
-    const i = loopNum % phrases.length;
-    const fullText = phrases[i];
+    const i = loopNum % activePhrases.length;
+    const fullText = activePhrases[i];
 
     const timer = setTimeout(() => {
       if (!isDeleting) {
@@ -62,7 +74,7 @@ const TypingHeadline = () => {
     }, typingSpeed);
 
     return () => clearTimeout(timer);
-  }, [currentText, isDeleting, loopNum, mounted, typingSpeed, phrases]);
+  }, [currentText, isDeleting, loopNum, mounted, typingSpeed, activePhrases]);
 
   return (
     <div className="min-h-[120px] md:min-h-[160px] flex items-start w-full overflow-visible">
@@ -248,7 +260,17 @@ const badges = [
   { title: "AI Powered", sub: "Intelligent Solutions", icon: <Image src="/artificial-intelligence.png" alt="AI" width={34} height={34} className="object-contain" /> },
 ];
 
-export default function Hero({ city }: { city?: string }) {
+export default function Hero({ 
+  city, 
+  heroTexts = [], 
+  cityHeroSettings,
+  homepageHeroDesc
+}: { 
+  city?: string; 
+  heroTexts?: string[]; 
+  cityHeroSettings?: { title: string; description: string } | null;
+  homepageHeroDesc?: string;
+}) {
   const [mounted, setMounted] = useState(false);
   const [paddingTop, setPaddingTop] = useState(80);
   const [isAuditOpen, setIsAuditOpen] = useState(false);
@@ -302,23 +324,28 @@ export default function Hero({ city }: { city?: string }) {
 
             {city ? (
               <div className="min-h-[120px] md:min-h-[160px] flex items-start w-full overflow-visible">
-                <h1 className="text-[25px] sm:text-3xl md:text-[38px] lg:text-[42px] font-bold text-gray-950 leading-relaxed tracking-normal text-left font-lexend">
-                  Your Website Isn’t Bringing Leads—and It’s Costing You Business in <span className="text-[#1a8b4c]">{city}</span>
-                </h1>
+                <h1 
+                  className="text-[25px] sm:text-3xl md:text-[38px] lg:text-[42px] font-bold text-gray-950 leading-relaxed tracking-normal text-left font-lexend"
+                  dangerouslySetInnerHTML={{ __html: cityHeroSettings?.title || `Your Website Isn’t Bringing Leads—and It’s Costing You Business in <span class="text-[#1a8b4c]">${city}</span>` }}
+                />
               </div>
             ) : (
-              <TypingHeadline />
+              <TypingHeadline phrases={heroTexts} />
             )}
 
-            <p className="text-gray-900 text-[14px] md:text-[16px] font-medium max-w-lg leading-relaxed text-left mt-2">
+            <div className="text-gray-900 text-[14px] md:text-[16px] font-medium max-w-lg leading-relaxed text-left mt-2">
               {city ? (
-                <span className="text-sm md:text-[15px] font-semibold text-gray-700 block">
-                  We combine result-oriented Digital Marketing, modern Web Design, and branding strategies to help <span className="text-[#1a8b4c] font-bold">{city}</span> businesses stand out online and grow faster without wasted ad spend.
-                </span>
+                <div 
+                  className="text-sm md:text-[15px] font-semibold text-gray-700 block city-hero-desc"
+                  dangerouslySetInnerHTML={{ __html: cityHeroSettings?.description || `We combine result-oriented Digital Marketing, modern Web Design, and branding strategies to help <span class="text-[#1a8b4c] font-bold">${city}</span> businesses stand out online and grow faster without wasted ad spend.` }}
+                />
               ) : (
-                "We build AI-integrated websites that generate leads and scale your growth automatically."
+                <div 
+                  className="text-sm md:text-[15px] font-semibold text-gray-700 block homepage-hero-desc"
+                  dangerouslySetInnerHTML={{ __html: homepageHeroDesc || "We build AI-integrated websites that generate leads and scale your growth automatically." }}
+                />
               )}
-            </p>
+            </div>
 
             {/* CTAs */}
             <div className="flex flex-row gap-4 w-full mt-1">

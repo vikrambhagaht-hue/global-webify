@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import Hero from '@/components/sections/Hero';
 import { db } from '@/lib/db';
 import { FAQSection } from '@/components/sections/FAQSection';
-import { getHomepageFaqs } from '@/app/admin/(dashboard)/homepage/actions';
+import { getHomepageFaqs, getHeroTexts, getAboutSeo, getCityHeroSettings, getHomepageHeroDesc } from '@/app/admin/(dashboard)/homepage/actions';
 
 const ServicesGrid = dynamic(() => import('@/components/sections/ServicesGrid'), {
   ssr: true,
@@ -67,10 +67,57 @@ export default async function HomeView({ city, cityKey }: { city?: string; cityK
   }
 
   let homepageFaqs = [];
+  let heroTexts: string[] = [];
   try {
     homepageFaqs = await getHomepageFaqs();
   } catch (e) {
     console.error("Could not fetch FAQs:", e);
+  }
+
+  try {
+    heroTexts = await getHeroTexts();
+  } catch (e) {
+    console.error("Could not fetch hero texts:", e);
+  }
+
+  let homepageHeroDesc = "";
+  try {
+    homepageHeroDesc = await getHomepageHeroDesc();
+  } catch (e) {
+    console.error("Could not fetch homepage hero description:", e);
+  }
+
+  let cityHeroSettings = null;
+  if (cityKey) {
+    try {
+      cityHeroSettings = await getCityHeroSettings(cityKey);
+    } catch (e) {
+      console.error("Could not fetch city hero settings:", e);
+    }
+  }
+
+  let aboutSeoData = null;
+  try {
+    aboutSeoData = await getAboutSeo();
+  } catch (e) {
+    console.error("Could not fetch AboutSEO data:", e);
+  }
+
+  // Fetch dynamic descriptions for ServicesGrid from database
+  let serviceDescriptions: Record<string, string> = {};
+  try {
+    const services = await db.servicePage.findMany({
+      where: { isActive: true },
+      select: { slug: true, heroDescription: true }
+    });
+    services.forEach(s => {
+      const key = s.slug.startsWith('/') ? s.slug.substring(1) : s.slug;
+      if (s.heroDescription) {
+        serviceDescriptions[key] = s.heroDescription;
+      }
+    });
+  } catch (e) {
+    console.error("Could not fetch service descriptions:", e);
   }
 
   const locationName = city || "";
@@ -95,11 +142,11 @@ export default async function HomeView({ city, cityKey }: { city?: string; cityK
       </div>
 
       {/* New Hero Section Component */}
-      <Hero city={city} />
+      <Hero city={city} heroTexts={heroTexts} cityHeroSettings={cityHeroSettings} homepageHeroDesc={homepageHeroDesc} />
 
       <div className="space-y-0">
         {/* New Services Grid Section */}
-        <ServicesGrid cityKey={cityKey} />
+        <ServicesGrid cityKey={cityKey} dynamicDescriptions={serviceDescriptions} />
 
         <Portfolio />
 
@@ -109,7 +156,7 @@ export default async function HomeView({ city, cityKey }: { city?: string; cityK
 
         <ResultsSection />
 
-        <AboutSEO />
+        {!cityKey && <AboutSEO data={aboutSeoData} />}
         <TrustSection />
         
         {homepageFaqs.length > 0 && <FAQSection faqs={homepageFaqs} />}
