@@ -94,7 +94,7 @@ export default function BlogContactForm() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Enter name"
-                className="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-3 text-[13px] font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/10 transition-all duration-300 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)]"
+                className="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/10 transition-all duration-300 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)]"
               />
             </div>
             
@@ -107,7 +107,7 @@ export default function BlogContactForm() {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="Enter email"
-                className="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-3 text-[13px] font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/10 transition-all duration-300 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)]"
+                className="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/10 transition-all duration-300 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)]"
               />
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function BlogContactForm() {
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               placeholder="Enter phone number"
-              className="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-3 text-[13px] font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/10 transition-all duration-300 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)]"
+              className="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/10 transition-all duration-300 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)]"
             />
           </div>
           
@@ -133,7 +133,7 @@ export default function BlogContactForm() {
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               placeholder="Tell us about your project..."
-              className="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-3 text-[13px] font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/10 transition-all duration-300 resize-none shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)]"
+              className="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/10 transition-all duration-300 resize-none shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)]"
             />
           </div>
           

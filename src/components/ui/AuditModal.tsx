@@ -228,7 +228,7 @@ export default function AuditModal({ isOpen, onClose }: AuditModalProps) {
                         style={{
                           width:"100%", boxSizing:"border-box",
                           background:"#f8fafc", border:"1.5px solid #e2e8f0",
-                          borderRadius:"11px", fontSize:"14px", fontWeight:500,
+                          borderRadius:"11px", fontSize:"16px", fontWeight:500,
                           color:"#111827", padding:"13px 13px 13px 40px",
                           outline:"none", fontFamily:"inherit",
                           transition:"border-color 0.15s, box-shadow 0.15s",

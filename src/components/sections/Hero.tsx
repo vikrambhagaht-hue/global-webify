@@ -337,7 +337,7 @@ export default function Hero({
           priority
           sizes="(max-width: 768px) 1200px, 100vw"
           quality={95}
-          className="object-cover object-top opacity-[0.25] md:opacity-[0.35] saturate-[1.05] contrast-[0.9]"
+          className="object-cover object-top opacity-[0.65] md:opacity-[0.8] saturate-[1.60] contrast-[1.15]"
         />
       </div>
 
@@ -412,15 +412,15 @@ export default function Hero({
             </div>
 
             {/* Phone */}
-            <a href="tel:18008905489" className="bg-white border-2 border-gray-200 shadow-sm p-3.5 md:p-4 rounded-2xl flex items-center gap-3 md:gap-4 w-full max-w-[520px] hover:shadow-lg transition-all cursor-pointer group mt-1 hover:border-[#1a8b4c]">
-              <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-full bg-green-50 flex items-center justify-center group-hover:bg-[#1a8b4c] transition-colors">
-                <Phone className="text-[#1a8b4c] group-hover:text-white w-4 h-4 md:w-5 md:h-5 transition-colors" />
+            <div className="bg-white border-2 border-gray-200 shadow-sm p-3.5 md:p-4 rounded-2xl flex items-center gap-3 md:gap-4 w-full max-w-[520px] mt-1">
+              <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-full bg-green-50 flex items-center justify-center">
+                <Phone className="text-[#1a8b4c] w-4 h-4 md:w-5 md:h-5" />
               </div>
               <div>
-                <p className="text-[8px] md:text-[9px] text-gray-500 font-black uppercase tracking-widest mb-1 text-left">Toll Free Number</p>
-                <p className="text-base md:text-lg font-black text-gray-950 group-hover:text-[#1a8b4c] transition-colors tracking-tight text-left">1800-890-5489</p>
+                <p className="text-[8px] md:text-[9px] text-gray-500 font-bold uppercase tracking-widest mb-1 text-left">Toll Free Number</p>
+                <a href="tel:18008905489" className="text-base md:text-lg font-bold text-gray-950 tracking-tight text-left block hover:text-[#1a8b4c] transition-colors">1800-890-5489</a>
               </div>
-            </a>
+            </div>
           </div>
 
           {/* ---- RIGHT COLUMN ---- */}

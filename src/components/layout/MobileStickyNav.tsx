@@ -20,12 +20,6 @@ const projects = [
     link: "https://drkumarvishal.com/"
   },
   {
-    title: "Elevate HR Services",
-    category: "HR & RECRUITMENT",
-    image: "/portfolio/elevatehrservices.webp",
-    link: "https://elevate-hrservices.com/"
-  },
-  {
     title: "Firayalal Public School",
     category: "EDUCATION PORTAL",
     image: "/Firayalal_Public_School_Ranchi.webp",
@@ -66,7 +60,7 @@ export default function MobileStickyNav() {
       }, 600);
 
       return () => clearTimeout(timer);
-    }, 5000); // 5-second interval loop
+    }, 3000); // 3-second interval loop
 
     return () => {
       if (idleInterval.current) clearInterval(idleInterval.current);
