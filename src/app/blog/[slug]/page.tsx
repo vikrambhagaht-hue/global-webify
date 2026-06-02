@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 import { replaceLocation } from '@/lib/replaceLocation';
 import { BlogPostView } from '@/features/blog/components/BlogPostView';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // Cache page and revalidate at most every hour or on-demand
 
 interface Props {
   params: { slug: string };

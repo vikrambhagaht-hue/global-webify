@@ -8,7 +8,7 @@ import { CityLandingView } from '@/features/services/components/CityLandingView'
 import { CITIES_MAP } from '@/features/services/constants/cities';
 import { parseFaqs } from '@/features/services/utils/faq-parser';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // Cache page and revalidate at most every hour or on-demand
 
 interface Props {
   params: { slug: string };
