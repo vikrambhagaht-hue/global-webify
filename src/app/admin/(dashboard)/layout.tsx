@@ -149,11 +149,11 @@ export default async function AdminDashboardLayout({
     `stroke-[2.2] flex-shrink-0 transition-colors ${isActive ? 'text-white' : 'text-gray-500 group-hover/navlink:text-white'}`;
 
   return (
-    <div className="h-screen overflow-hidden bg-gray-50 flex font-sans">
+    <div className="h-screen overflow-hidden bg-[#eff3f1] flex font-sans selection:bg-[#1a8b4c] selection:text-white relative">
       {/* Sidebar Navigation */}
-      <aside className="w-64 bg-gray-950 text-white flex flex-col flex-shrink-0 border-r border-gray-900 h-full hidden md:flex">
+      <aside className="w-64 bg-[#0a1911] text-white flex flex-col flex-shrink-0 border-r border-[#132a1d] h-full hidden md:flex shadow-2xl relative z-20">
         {/* Brand/Header */}
-        <div className="p-6 border-b border-gray-900 flex flex-col items-center justify-center text-center gap-3">
+        <div className="p-6 border-b border-[#132a1d] flex flex-col items-center justify-center text-center gap-3 bg-[#0a1911]">
           <div className="w-14 h-14 rounded-2xl overflow-hidden bg-white flex items-center justify-center p-1.5 flex-shrink-0 shadow-lg shadow-black/30">
             <img
               src="/global_webify_logo.png"
@@ -175,21 +175,31 @@ export default async function AdminDashboardLayout({
         <SidebarNav initialActiveServiceCategory={activeServiceCategory} />
 
         {/* Sidebar Footer / Logout */}
-        <div className="p-4 border-t border-gray-900">
+        <div className="p-4 border-t border-[#132a1d] bg-[#08140e]">
           <a
             href="/api/auth/logout"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-950/40 text-red-400/90 hover:text-red-400 text-xs md:text-sm font-bold transition-all duration-200"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-950/40 text-red-400/90 hover:text-red-400 text-xs md:text-sm font-bold transition-all duration-200 group"
           >
-            <LogOut size={18} className="stroke-[2.2]" />
+            <LogOut size={18} className="stroke-[2.2] group-hover:scale-110 transition-transform" />
             <span>Sign Out</span>
           </a>
         </div>
       </aside>
 
       {/* Main Panel Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto">
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden relative">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03]">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <pattern id="admin-dots" width="20" height="20" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1.5" fill="#1a8b4c" />
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#admin-dots)" />
+          </svg>
+        </div>
+
         {/* Top Header */}
-        <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6 md:px-8 flex-shrink-0 md:hidden">
+        <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/60 h-16 flex items-center justify-between px-6 md:px-8 flex-shrink-0 sticky top-0 z-10 shadow-sm">
           <div className="flex items-center gap-3">
             {!isOverview && (
               <Link
@@ -247,10 +257,10 @@ export default async function AdminDashboardLayout({
 
             <div className="h-6 w-[1px] bg-gray-200 hidden md:block" />
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-green-50 text-[#1a8b4c] font-black text-xs flex items-center justify-center border border-green-200 shadow-sm">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#1a8b4c] to-[#0e5e3b] text-white font-black text-xs flex items-center justify-center shadow-md border border-[#1a8b4c]">
                 A
               </div>
-              <span className="text-xs font-bold text-gray-700 hidden md:block">
+              <span className="text-xs font-bold text-gray-800 hidden md:block">
                 System Administrator
               </span>
             </div>
@@ -258,8 +268,10 @@ export default async function AdminDashboardLayout({
         </header>
 
         {/* Page Inner Content */}
-        <main className="flex-grow p-4 md:p-5 bg-gray-50/50">
-          {children}
+        <main className="flex-grow p-4 md:p-6 overflow-y-auto z-10 relative">
+          <div className="bg-white rounded-3xl shadow-xl shadow-[#1a8b4c]/5 border border-gray-200/60 min-h-full p-4 md:p-6 lg:p-8">
+            {children}
+          </div>
         </main>
       </div>
     </div>

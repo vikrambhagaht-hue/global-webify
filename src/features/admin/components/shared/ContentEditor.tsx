@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
@@ -481,6 +481,21 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
         </div>
       </div>
 
+      {/* ===== BUBBLE MENU ===== */}
+      {editor && (
+        <BubbleMenu editor={editor} tippyOptions={{ duration: 150 }}>
+          <div className="tiptap-bubble shadow-2xl border border-gray-700/50 backdrop-blur-md bg-[#1e1e2e]/90">
+            <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'active' : ''}>B</button>
+            <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'active' : ''}>I</button>
+            <button type="button" onClick={() => editor.chain().focus().toggleUnderline().run()} className={editor.isActive('underline') ? 'active' : ''}>U</button>
+            <button type="button" onClick={() => editor.chain().focus().toggleStrike().run()} className={editor.isActive('strike') ? 'active' : ''}>S</button>
+            <button type="button" onClick={setLink} className={editor.isActive('link') ? 'active' : ''}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            </button>
+          </div>
+        </BubbleMenu>
+      )}
+
       {/* ===== EDITOR CANVAS ===== */}
       <EditorContent editor={editor} />
 
@@ -491,15 +506,16 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
 
         /* WRAPPER */
         .tiptap-wrapper {
-          border: 1px solid #e5e7eb;
-          border-radius: 16px;
+          border: 1px solid #e2e8f0;
+          border-radius: 12px;
           overflow: hidden;
-          background: #fff;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+          background: #ffffff;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+          transition: all 0.2s ease;
         }
         .tiptap-wrapper:focus-within {
-          border-color: #a3a3a3;
-          box-shadow: 0 0 0 3px rgba(0,0,0,0.04);
+          border-color: #1a8b4c;
+          box-shadow: 0 0 0 4px rgba(26, 139, 76, 0.1);
         }
 
         /* TOOLBAR */
@@ -507,10 +523,11 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
           display: flex;
           flex-wrap: wrap;
           align-items: center;
-          gap: 2px;
-          padding: 6px 12px;
-          background: #fafafa;
-          border-bottom: 1px solid #f1f5f9;
+          gap: 4px;
+          padding: 8px 16px;
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid #e2e8f0;
           position: sticky;
           top: 0;
           z-index: 10;
