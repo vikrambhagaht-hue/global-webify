@@ -55,6 +55,7 @@ export default function RootLayout({
           easing="ease"
           speed={200}
           shadow="0 0 10px #1a8b4c,0 0 5px #1a8b4c"
+          zIndex={1600000}
         />
         {!isAdmin && <Header />}
         {!isAdmin && <BreadcrumbWrapper />}
