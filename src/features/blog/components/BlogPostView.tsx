@@ -192,13 +192,14 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
         .article-detail-image {
           position: relative;
           width: 100%;
-          aspect-ratio: 21 / 10;
           overflow: hidden;
+          background: var(--gray-100);
         }
         .article-detail-img {
           width: 100%;
-          height: 100%;
-          object-fit: cover;
+          height: auto;
+          max-height: 550px;
+          object-fit: contain;
           display: block;
         }
         .article-detail-overlay {
@@ -263,9 +264,9 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
 
         .article-detail-title {
           font-family: 'Lexend', var(--font-lexend), sans-serif;
-          font-size: clamp(24px, 4vw, 36px);
+          font-size: 25.712px !important;
           font-weight: 800;
-          color: var(--primary-green);
+          color: #2CA65A !important;
           line-height: 1.25;
           margin-bottom: 1rem;
           letter-spacing: -0.02em;
@@ -406,26 +407,29 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
            ARTICLE BODY — Content from editor/Word
            ============================================= */
         .article-detail-body h1 {
-          font-family: 'Lexend', var(--font-lexend), sans-serif;
-          font-size: clamp(24px, 3.5vw, 32px);
-          font-weight: 800;
-          color: var(--neutral-dark);
+          font-family: 'Lexend', var(--font-lexend), sans-serif !important;
+          font-size: 25.712px !important;
+          font-weight: 800 !important;
+          color: #2CA65A !important;
           margin-top: 2rem !important;
           margin-bottom: 1rem !important;
-          line-height: 1.25;
+          line-height: 1.25 !important;
         }
 
         .article-detail-body h2:not([style*="color"]) {
           color: #2CA65A !important;
         }
         .article-detail-body h2 {
-          font-family: 'Lexend', var(--font-lexend), sans-serif !important;
-          font-size: clamp(20px, 3vw, 28px) !important;
+          font-family: 'Jost', var(--font-jost), sans-serif !important;
+          font-size: 16px !important;
           font-weight: 700 !important;
+          color: #2CA65A !important;
+          text-decoration: underline !important;
+          text-underline-offset: 4px;
           margin-top: 2rem !important;
           margin-bottom: 0.75rem !important;
           padding-bottom: 0.5rem !important;
-          border-bottom: 2px solid currentColor !important;
+          border-bottom: none !important;
           scroll-margin-top: 120px !important;
           line-height: 1.375 !important;
         }
@@ -436,8 +440,8 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
         }
 
         .article-detail-body h3 {
-          font-family: 'Lexend', var(--font-lexend), sans-serif !important;
-          font-size: clamp(18px, 2.5vw, 22px) !important;
+          font-family: 'Jost', var(--font-jost), sans-serif !important;
+          font-size: 15px !important;
           font-weight: 600 !important;
           color: var(--neutral-dark) !important;
           margin-top: 1.75rem !important;
@@ -463,17 +467,19 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
           line-height: 1.5;
         }
 
+        .article-detail-body p:not([style*="color"]) {
+          color: var(--gray-600) !important;
+        }
         .article-detail-body p {
-          font-family: 'Jost', var(--font-jost), sans-serif;
-          font-size: var(--font-base);
-          font-weight: 400;
-          line-height: 1.625;
-          color: var(--gray-600);
+          font-family: 'Jost', var(--font-jost), sans-serif !important;
+          font-size: 16px !important;
+          font-weight: 400 !important;
+          line-height: 1.625 !important;
           margin-bottom: 1rem !important;
           margin-top: 0 !important;
         }
         @media (max-width: 480px) {
-          .article-detail-body p { font-size: var(--font-sm); line-height: 1.5; }
+          .article-detail-body p { font-size: 16px !important; line-height: 1.625 !important; }
         }
 
         .article-detail-body ul {
@@ -492,22 +498,30 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
           font-size: var(--font-base);
           font-weight: 400;
           line-height: 1.625;
-          color: var(--gray-600);
+          color: #000000 !important;
           margin-bottom: 0.5rem !important;
+        }
+        .article-detail-body li::marker {
+          color: #000000 !important;
         }
         @media (max-width: 480px) {
           .article-detail-body li { font-size: var(--font-sm); line-height: 1.5; }
         }
 
+        .article-detail-body strong,
+        .article-detail-body b {
+          font-weight: 700 !important;
+        }
+
         .article-detail-body a {
-          color: var(--primary-green);
-          font-weight: 700;
-          text-decoration: none;
+          color: #2CA65A !important;
+          font-weight: 700 !important;
+          text-decoration: none !important;
           transition: color 0.15s ease;
         }
         .article-detail-body a:hover {
-          color: var(--primary-green-dark);
-          text-decoration: underline;
+          color: #166534 !important;
+          text-decoration: underline !important;
         }
 
         .article-detail-body blockquote {

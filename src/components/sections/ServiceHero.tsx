@@ -63,13 +63,7 @@ export default function ServiceHero({ title, description, city }: ServiceHeroPro
       {/* Hero Container */}
       <div className="max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 w-full relative z-20 flex justify-center">
         <div 
-          className="w-full max-w-[1140px] rounded-[32px] p-5 sm:p-8 md:p-10 lg:p-12 shadow-2xl flex flex-col items-start text-left border border-white/50"
-          style={{ 
-            backgroundColor: "rgba(255, 255, 255, 0.65)", 
-            backdropFilter: "blur(14px)", 
-            WebkitBackdropFilter: "blur(14px)",
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.12)"
-          }}
+          className="w-full max-w-[1140px] rounded-[32px] p-5 sm:p-8 md:p-10 lg:p-12 flex flex-col items-start text-left border border-white/50 bg-white/85 md:bg-white/65 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.1)] md:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.12)] backdrop-blur-none md:backdrop-blur-md"
         >
           {/* Location Badge (only if city is present) */}
           {city && (

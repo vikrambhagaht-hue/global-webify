@@ -78,8 +78,8 @@ const TypingHeadline = ({ phrases = [] }: { phrases?: string[] }) => {
   }, [currentText, isDeleting, loopNum, mounted, typingSpeed, activePhrases]);
 
   return (
-    <div className="min-h-[120px] md:min-h-[115px] flex items-start justify-center min-[900px]:justify-start w-full overflow-visible">
-      <h1 className="text-[32px] sm:text-4xl md:text-[44px] font-extrabold md:font-black text-gray-950 leading-tight tracking-tight text-center min-[900px]:text-left font-sans font-lexend">
+    <div className="min-h-[120px] md:min-h-[115px] flex items-start justify-start w-full overflow-visible">
+      <h1 className="text-[32px] sm:text-4xl md:text-[44px] font-extrabold md:font-black text-[#171717] leading-tight tracking-tight text-left font-lexend">
         {currentText}
         <motion.span
           animate={{ opacity: [1, 0] }}
@@ -113,7 +113,7 @@ const AuditCardDesktop = () => {
       style={{ perspective: 1200 }}
       onMouseMove={handleMouse}
       onMouseLeave={() => { x.set(0.5); y.set(0.5); }}
-      className="w-full max-w-[620px] mx-auto cursor-default z-20 relative font-jost"
+      className="w-full max-w-[580px] mx-auto cursor-default z-20 relative font-jost"
     >
       <motion.div
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
@@ -150,7 +150,7 @@ const AuditCardDesktop = () => {
 
             {/* Main white content area */}
             <div className="flex-1 bg-white rounded-b-[12px] overflow-hidden flex flex-col min-w-0 text-left">
-              <div className="p-5 md:p-6 flex-1 flex flex-col gap-5">
+              <div className="p-4 md:p-5 flex-1 flex flex-col gap-4">
                 {/* Website Audit Report header + Grade A+ */}
                 <div className="flex justify-between items-start">
                   <div className="text-left">
@@ -161,14 +161,14 @@ const AuditCardDesktop = () => {
                 </div>
 
                 {/* 4 Score cards */}
-                <div className="grid grid-cols-4 gap-3">
+                <div className="grid grid-cols-4 gap-2">
                   {[
                     { label: "PERFORMANCE", val: "98" },
                     { label: "ACCESSIBILITY", val: "100" },
                     { label: "BEST PRACTICES", val: "95" },
                     { label: "SEO", val: "100" },
                   ].map((stat, i) => (
-                    <div key={i} className="bg-[#f8fafc] border border-slate-200 rounded-xl p-3.5 text-center shadow-sm flex flex-col items-center gap-2.5">
+                    <div key={i} className="bg-[#f8fafc] border border-slate-200 rounded-xl p-2.5 text-center shadow-sm flex flex-col items-center gap-2">
                       <div className="w-full bg-slate-100 h-[5px] rounded-full overflow-hidden">
                         <div className="h-full bg-[#22C55E] rounded-full" style={{ width: `${stat.val}%` }} />
                       </div>
@@ -181,8 +181,8 @@ const AuditCardDesktop = () => {
                 </div>
 
                 {/* Critical Optimization Opportunities */}
-                <div className="bg-[#f8fafc] border border-slate-200 rounded-xl p-5 shadow-sm">
-                  <p className="text-[14px] font-bold text-slate-900 mb-4 text-left">Critical Optimization Opportunities</p>
+                <div className="bg-[#f8fafc] border border-slate-200 rounded-xl p-4 shadow-sm">
+                  <p className="text-[14px] font-bold text-slate-900 mb-3 text-left">Critical Optimization Opportunities</p>
                   <div className="flex flex-col gap-0">
                     {[
                       { 
@@ -210,7 +210,7 @@ const AuditCardDesktop = () => {
                         badgeColor: "bg-emerald-50 text-emerald-600 border-emerald-200" 
                       },
                     ].map((item, i) => (
-                      <div key={i} className={`flex items-center justify-between gap-4 text-left py-3.5 ${i < 2 ? 'border-b border-slate-100' : ''}`}>
+                      <div key={i} className={`flex items-center justify-between gap-3 text-left py-2.5 ${i < 2 ? 'border-b border-slate-100' : ''}`}>
                         <div className="flex items-center gap-3 min-w-0">
                           <div className="relative w-4 h-4 flex items-center justify-center shrink-0">
                             <span className={`w-4 h-4 rounded-full border-2 ${item.ringColor} bg-white absolute`} />
@@ -346,7 +346,7 @@ export default function Hero({
         id="hero" 
         variant="transparent"
         spacing="hero" 
-        className="z-10 pt-[82px] md:pt-[95px] lg:pt-[132px]"
+        className="z-10 pt-[100px] md:pt-[130px] lg:pt-[160px]"
       >
         <div className="flex flex-col min-[900px]:flex-row items-center justify-between gap-6 md:gap-8 lg:gap-10 xl:gap-12">
 
@@ -361,9 +361,9 @@ export default function Hero({
             </div>
 
             {city ? (
-              <div className="min-h-[120px] md:min-h-[115px] flex items-start justify-center min-[900px]:justify-start w-full overflow-visible">
+              <div className="min-h-[120px] md:min-h-[115px] flex items-start justify-start w-full overflow-visible">
                 <h1 
-                  className="text-[32px] sm:text-3xl md:text-[38px] lg:text-[42px] font-extrabold md:font-black text-gray-950 leading-tight tracking-tight text-center min-[900px]:text-left font-lexend"
+                  className="text-[32px] sm:text-3xl md:text-[38px] lg:text-[42px] font-extrabold md:font-black text-[#171717] leading-tight tracking-tight text-left font-sans font-lexend"
                   dangerouslySetInnerHTML={{ __html: cityHeroSettings?.title || `Your Website Isn’t Bringing Leads—and It’s Costing You Business in <span class="text-[#1a8b4c]">${city}</span>` }}
                 />
               </div>
@@ -371,7 +371,7 @@ export default function Hero({
               <TypingHeadline phrases={heroTexts} />
             )}
 
-            <div className="text-gray-700 text-[15.5px] md:text-[17.5px] font-medium max-w-lg leading-relaxed text-center min-[900px]:text-left mt-3 font-jost mx-auto min-[900px]:mx-0">
+            <div className="text-[#545454] text-[18px] md:text-[20px] font-normal max-w-lg leading-relaxed text-center min-[900px]:text-left mt-3 font-jost mx-auto min-[900px]:mx-0">
               {city ? (
                 <div 
                   className="block city-hero-desc"
@@ -387,37 +387,37 @@ export default function Hero({
 
             {/* CTAs */}
             <div className="flex flex-row gap-4 w-full mt-1">
-              <a href="tel:+917563901100" className="flex-1 bg-[#1a8b4c] hover:bg-[#14733e] text-white text-[13px] md:text-[14px] font-bold px-4 md:px-5 py-2.5 md:py-3.5 rounded-xl transition-all shadow-xl shadow-green-700/20 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap text-center inline-block">
-                Free Consultation →
+              <a href="tel:+917563901100" className="flex-1 md:flex-none bg-gradient-to-r from-[#1cb05b] to-[#117846] hover:from-[#21c767] hover:to-[#158e53] text-white text-[14px] md:text-[16px] font-bold px-5 md:px-8 md:py-[18px] py-3 rounded-xl transition-all shadow-xl shadow-green-900/20 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap text-center inline-block">
+                Free Consultation
               </a>
-              <button onClick={() => setIsAuditOpen(true)} className="flex-1 bg-white border-2 border-[#1a8b4c] hover:border-[#BBE3CB] text-[#1a8b4c] hover:bg-green-50 text-[13px] md:text-[14px] font-bold px-4 md:px-5 py-2.5 md:py-3.5 rounded-xl transition-all shadow-md hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
+              <button onClick={() => setIsAuditOpen(true)} className="flex-1 md:flex-none bg-white border-2 border-[#1a8b4c]/40 hover:border-[#1a8b4c] hover:shadow-none text-[#1a8b4c] hover:bg-green-50 text-[13px] md:text-[15px] font-bold px-4 md:px-7 md:py-4 py-2.5 rounded-xl transition-all shadow-md hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
                 Get Free Audit
               </button>
             </div>
 
             {/* Badge grid */}
-            <div className="grid grid-cols-2 gap-2 md:gap-3 w-full max-w-[540px] mt-1">
+            <div className="grid grid-cols-2 gap-2 md:gap-4 w-full max-w-[480px] mt-1">
               {badges.map((badge, i) => (
-                <div key={i} className="bg-white p-2.5 md:p-4 rounded-xl md:rounded-2xl flex items-center gap-2 md:gap-4 border-2 border-gray-200 shadow-sm transition-all hover:border-[#BBE3CB] hover:shadow-md hover:-translate-y-1 group">
-                  <div className="w-8 h-8 md:w-12 md:h-12 shrink-0 rounded-full flex items-center justify-center border md:border-2 border-gray-100 bg-gray-50 group-hover:bg-green-50 group-hover:border-[#BBE3CB] transition-colors">
+                <div key={i} className="bg-white p-2.5 md:py-3 md:px-4 rounded-xl md:rounded-2xl flex items-center gap-2 md:gap-4 border-2 border-gray-200 shadow-sm transition-all hover:border-[#1a8b4c] hover:shadow-none hover:-translate-y-1 group">
+                  <div className="w-8 h-8 md:w-12 md:h-12 shrink-0 flex items-center justify-center">
                     <div className="scale-75 md:scale-100 flex items-center justify-center">
                       {badge.icon}
                     </div>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] md:text-[12.5px] font-bold text-gray-900 leading-tight">{badge.title}</p>
-                    <p className="text-[8px] md:text-[10px] font-medium text-gray-500 leading-tight">{badge.sub}</p>
+                    <p className="text-[10px] md:text-[13px] font-bold text-gray-900 leading-tight">{badge.title}</p>
+                    <p className="text-[8px] md:text-[11px] font-medium text-gray-500 leading-tight">{badge.sub}</p>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* Phone */}
-            <div className="bg-white border-2 border-gray-200 shadow-sm p-3.5 md:p-4 rounded-2xl flex items-center justify-center min-[900px]:justify-start gap-3 md:gap-4 w-full max-w-[520px] mt-1">
+            <div className="bg-white border-2 border-gray-200 shadow-sm p-3.5 md:p-4 rounded-2xl flex items-center justify-start gap-3 md:gap-4 w-full max-w-[480px] mt-1">
               <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-full bg-green-50 flex items-center justify-center">
                 <Phone className="text-[#1a8b4c] w-4 h-4 md:w-5 md:h-5" />
               </div>
-              <div className="text-center min-[900px]:text-left">
+              <div className="text-left">
                 <p className="text-[8px] md:text-[9px] text-gray-500 font-bold uppercase tracking-widest mb-1">Toll Free Number</p>
                 <a href="tel:18008905489" className="text-base md:text-lg font-bold text-gray-950 tracking-tight block hover:text-[#1a8b4c] transition-colors">1800-890-5489</a>
               </div>

@@ -27,7 +27,7 @@ const services: Service[] = [
     desc: "We build custom, high-performance web solutions using cutting-edge tech stacks. From corporate sites to complex web apps, we ensure maximum speed, security, and a flawless user experience.",
     link: "/web-development",
     color: "#1a8b4c",
-    borderColor: "border-green-100",
+    borderColor: "border-green-300",
     hoverBorder: "border-[#1a8b4c]",
     mesh: "bg-[#1a8b4c]/10"
   },
@@ -37,7 +37,7 @@ const services: Service[] = [
     desc: "Dominate search engine rankings and capture high-intent organic traffic. Our proven strategies ensure your business stays ahead of the competition and reaches your target audience effectively.",
     link: "/seo-services",
     color: "#0ea5e9",
-    borderColor: "border-blue-100",
+    borderColor: "border-blue-300",
     hoverBorder: "border-blue-500",
     mesh: "bg-blue-500/10"
   },
@@ -46,10 +46,10 @@ const services: Service[] = [
     icon: <Sparkles />,
     desc: "The future of search is here. We use advanced AI-driven keyword intelligence and automated ranking strategies to help your business appear in Google AI, ChatGPT, and modern search recommendations.",
     link: "/ai-seo-services",
-    color: "#ec4899",
-    borderColor: "border-pink-100",
-    hoverBorder: "border-pink-500",
-    mesh: "bg-pink-500/10"
+    color: "#f97316",
+    borderColor: "border-orange-300",
+    hoverBorder: "border-orange-500",
+    mesh: "bg-orange-500/10"
   },
   {
     title: "Google Ads Management",
@@ -57,7 +57,7 @@ const services: Service[] = [
     desc: "Precision-targeted ad campaigns designed to maximize your ROI. We use data-driven bidding and advanced conversion tracking to ensure every dollar spent drives real growth for your business.",
     link: "/google-ads-management",
     color: "#f59e0b",
-    borderColor: "border-amber-100",
+    borderColor: "border-amber-300",
     hoverBorder: "border-amber-500",
     mesh: "bg-amber-500/10"
   },
@@ -67,7 +67,7 @@ const services: Service[] = [
     desc: "High-quality, engaging content that builds authority and drives conversions. From blogs to technical copy, we create content that resonates with your audience and boosts your brand presence.",
     link: "/content-marketing",
     color: "#06b6d4",
-    borderColor: "border-cyan-100",
+    borderColor: "border-cyan-300",
     hoverBorder: "border-cyan-500",
     mesh: "bg-cyan-500/10"
   },
@@ -77,7 +77,7 @@ const services: Service[] = [
     desc: "User-focused, visually stunning designs that convert visitors into customers. Our design approach balances modern aesthetics with intuitive UI/UX for a world-class digital experience.",
     link: "/web-design-services",
     color: "#10b981",
-    borderColor: "border-emerald-100",
+    borderColor: "border-emerald-300",
     hoverBorder: "border-emerald-500",
     mesh: "bg-emerald-500/10"
   }
@@ -88,49 +88,48 @@ function ServiceCard({ service, index, cityKey, onOpenQuote }: { service: Servic
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "150px" }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
+      viewport={{ once: true, margin: "300px" }}
+      transition={{ duration: 0.3, delay: index * 0.02 }}
       className="group relative flex flex-col w-full h-full"
     >
       <Link
         href={linkHref}
-        className="relative flex-1 flex flex-col w-full bg-white rounded-3xl border border-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_rgba(26,139,76,0.12)] hover:border-green-200/60 overflow-hidden"
+        className={`relative flex-1 flex flex-col w-full bg-white rounded-[32px] border-2 ${service.borderColor} shadow-[0_8px_30px_rgba(0,0,0,0.04),inset_2px_2px_8px_rgba(255,255,255,0.9),inset_-2px_-2px_8px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),inset_2px_2px_8px_rgba(255,255,255,0.9),inset_-2px_-2px_8px_rgba(0,0,0,0.03)] hover:border-[#1a8b4c] overflow-hidden group/card`}
       >
-        {/* Subtle accent color top bar */}
-        <div className="h-[4px] w-full" style={{ backgroundColor: service.color }} />
-
-        <div className="relative flex-1 p-6 md:p-8 flex flex-col items-start text-left">
+        <div className="relative flex-1 p-6 md:p-8 flex flex-col items-center text-center z-10">
+          
           {/* Icon Container */}
-          <div
-            className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 border transition-all duration-300 group-hover:scale-105"
-            style={{
-              backgroundColor: `${service.color}0D`,
-              borderColor: `${service.color}25`,
-              color: service.color,
-            }}
-          >
-            {React.cloneElement(service.icon, { size: 24, strokeWidth: 2 })}
+          <div className="relative mb-6">
+            <div 
+              className="absolute inset-0 blur-[15px] opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full" 
+              style={{ backgroundColor: service.color }}
+            />
+            <div 
+              className="relative w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-500 group-hover:scale-110 group-hover:-translate-y-1 shadow-[0_8px_16px_rgba(0,0,0,0.08)] text-white"
+              style={{ backgroundColor: service.color, borderColor: service.color }}
+            >
+              {React.cloneElement(service.icon, { size: 26, strokeWidth: 2 })}
+            </div>
           </div>
 
           {/* Title */}
-          <h3 className="text-[18px] md:text-[20px] font-bold font-lexend mb-2 leading-snug tracking-tight text-[#0f5132]">
+          <h3 className="text-[20px] md:text-[22px] font-bold font-lexend mb-3 leading-snug tracking-tight text-[#064e3b] transition-colors">
             {service.title}
           </h3>
 
           {/* Description */}
-          <p className="text-gray-500 font-jost text-[14px] leading-relaxed mb-5 line-clamp-3 overflow-hidden text-ellipsis">
+          <p className="text-gray-500 font-jost text-[14px] leading-relaxed mb-6 line-clamp-2 overflow-hidden text-ellipsis px-1 md:px-2">
             {service.desc}
           </p>
 
           {/* Actions */}
-          <div className="w-full mt-auto pt-4 border-t border-gray-100/80 flex items-center justify-between">
+          <div className="w-full mt-auto pt-5 border-t border-gray-100 flex items-center justify-between">
             <span
-              className="flex items-center gap-1.5 text-[13px] font-semibold font-jost tracking-wide group-hover:gap-2.5 transition-all duration-300"
-              style={{ color: service.color }}
+              className="flex items-center gap-1.5 text-[13px] font-bold font-jost tracking-wide group-hover:gap-2.5 transition-all duration-300 text-[#1a8b4c]"
             >
-              Explore Services
+              Explore
               <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.5} />
             </span>
             
@@ -149,8 +148,7 @@ function ServiceCard({ service, index, cityKey, onOpenQuote }: { service: Servic
                   onOpenQuote(service.title);
                 }
               }}
-              className="h-9 px-4 rounded-xl text-white text-[12px] font-semibold font-jost flex items-center justify-center gap-1.5 transition-all duration-200 hover:brightness-95 active:scale-[0.97] cursor-pointer"
-              style={{ backgroundColor: service.color }}
+              className="h-9 px-4 rounded-xl text-[#1a8b4c] text-[12px] font-bold font-jost flex items-center justify-center gap-1.5 transition-all duration-300 bg-[#1a8b4c]/10 border border-[#1a8b4c]/20 backdrop-blur-md hover:bg-[#1a8b4c]/20 hover:border-[#1a8b4c]/40 active:scale-[0.97] cursor-pointer shadow-sm"
             >
               Get Quote
             </div>
@@ -184,7 +182,7 @@ export default function ServicesGrid({ cityKey, dynamicDescriptions }: { cityKey
   }, [activeService]);
 
   return (
-    <Section id="services" spacing="md" variant="white" className="relative overflow-hidden font-sans bg-white py-8 md:py-16">
+    <Section id="services" spacing="md" variant="white" className="relative overflow-hidden font-sans bg-[#f8fafc] py-8 md:py-16 border-t border-gray-100">
       <div className="text-center max-w-[1200px] mx-auto mb-12 md:mb-16 relative z-10 px-4">
         <motion.div
           initial={{ opacity: 0, y: 10 }}

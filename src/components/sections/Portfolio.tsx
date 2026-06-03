@@ -66,8 +66,8 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "150px" }}
-      transition={{ delay: index * 0.1, duration: 0.6 }}
+      viewport={{ once: true, margin: "300px" }}
+      transition={{ delay: index * 0.02, duration: 0.3 }}
       className="relative"
       style={{ perspective: 1000 }}
     >

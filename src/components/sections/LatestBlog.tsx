@@ -24,16 +24,32 @@ export default function LatestBlog({ dbPosts = [] }: LatestBlogProps) {
  
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Title matching screenshot style exactly */}
-        <div className="text-center mb-8 md:mb-12">
+        {/* Header Section */}
+        <div className="text-center mb-12 md:mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 bg-green-50 text-[#1a8b4c] px-4 py-2 rounded-full text-[12px] font-black uppercase tracking-widest mb-4"
+          >
+            <Calendar size={18} /> Our Blog
+          </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-[22px] sm:text-[28px] md:text-[36px] font-black text-[#1a8b4c] uppercase tracking-wider leading-tight"
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-[28px] md:text-[36px] font-black text-gray-950 leading-tight lg:whitespace-nowrap"
           >
-            LATEST BLOG POSTS
+            Latest <span className="text-[#1a8b4c]">Insights & News</span>
           </motion.h2>
-          <div className="w-20 h-1 bg-[#1a8b4c] mx-auto mt-3 rounded-full" />
+          <motion.p 
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-gray-500 mt-4 font-medium max-w-2xl mx-auto"
+          >
+            Stay up to date with the latest trends, strategies, and growth hacks in the digital world.
+          </motion.p>
         </div>
 
         {/* 4-Column Responsive Grid */}
@@ -52,7 +68,7 @@ export default function LatestBlog({ dbPosts = [] }: LatestBlogProps) {
                 <motion.article
                   initial={{ opacity: 0, y: 25 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05, duration: 0.4 }}
+                  transition={{ delay: i * 0.02, duration: 0.3 }}
                   className="bg-green-50/10 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.03)] border border-[#1a8b4c]/10 hover:border-[#1a8b4c] hover:shadow-[0_12px_40px_rgba(26,139,76,0.08)] hover:bg-green-50/20 hover:translate-y-[-4px] transition-all duration-300 group flex flex-col h-full"
                 >
                   

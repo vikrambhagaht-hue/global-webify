@@ -29,6 +29,7 @@ const testimonials = [
 
 export default function ResultsSection() {
   const [index, setIndex] = React.useState(0);
+  const [isExpanded, setIsExpanded] = React.useState(false);
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -40,7 +41,7 @@ export default function ResultsSection() {
   const current = testimonials[index];
 
   return (
-    <Section id="results" variant="white" className="bg-white font-sans overflow-hidden">
+    <Section id="results" variant="white" className="pt-10 pb-20 md:pt-16 md:pb-32 bg-white font-sans overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8">
         
         {/* Header Section */}
@@ -58,35 +59,32 @@ export default function ResultsSection() {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "150px" }}
-            className="lg:col-span-6 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-[40px] p-8 md:p-12 flex flex-col justify-between relative overflow-hidden group min-h-[450px]"
+            className="lg:col-span-6 bg-gradient-to-br from-gray-950 to-[#022c22] shadow-2xl rounded-[40px] p-8 md:p-12 flex flex-col justify-between relative overflow-hidden group min-h-[450px]"
           >
             <div className="relative z-10">
-              <h3 className="text-[36px] md:text-[44px] font-black text-gray-950 leading-[1.1] mb-8">
+              <h3 className="text-[36px] md:text-[44px] font-black text-[#1cb05b] leading-[1.1] mb-8">
                 Data-Driven <br /> Growth Agency
               </h3>
-              <div className="space-y-4 max-w-md">
-                <p className="text-gray-900/80 font-semibold text-[15px] md:text-[16px] leading-relaxed">
+              <div className="max-w-md">
+                <p className={`text-white/75 font-normal text-[15px] md:text-[16px] leading-relaxed ${isExpanded ? '' : 'line-clamp-6'}`}>
                   We offer AI-powered digital marketing services to help businesses appear in Google AI, ChatGPT, and Perplexity recommendations.
-                </p>
-                <p className="text-gray-900/80 font-semibold text-[15px] md:text-[16px] leading-relaxed">
+                  <br /><br />
                   Our strategies are focused on sustainable, ethical, and conversion-oriented growth for brands worldwide.
                 </p>
               </div>
             </div>
 
-            <div className="mt-12 flex items-center justify-between relative z-10">
-              <button className="bg-transparent border-2 border-gray-950 text-gray-950 px-8 py-3 rounded-full font-black text-[15px] hover:bg-gray-950 hover:text-white transition-all uppercase tracking-wider">
-                Discover More
+            <div className="mt-12 flex items-start relative z-10">
+              <button 
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="bg-white/10 border-2 border-white/20 text-white px-8 py-3 rounded-full font-black text-[15px] hover:bg-[#1cb05b] hover:border-[#1cb05b] hover:text-white transition-all uppercase tracking-wider shadow-sm hover:shadow-lg"
+              >
+                {isExpanded ? 'Read Less' : 'Read More'}
               </button>
-              
-              {/* Corner Arrow Icon */}
-              <div className="w-16 h-16 bg-black text-white rounded-[20px] flex items-center justify-center transition-transform group-hover:scale-110">
-                <ArrowUpRight size={32} />
-              </div>
             </div>
 
             {/* Decorative background circle */}
-            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-white/10 blur-[80px] rounded-full -mr-32 -mt-32" />
+            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#1a8b4c]/20 blur-[100px] rounded-full -mr-32 -mt-32 pointer-events-none" />
           </motion.div>
 
           {/* MIDDLE COLUMN: Stats */}
@@ -97,18 +95,18 @@ export default function ResultsSection() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "150px" }}
-              className="bg-[#dcfce7] rounded-[32px] p-8 flex flex-col justify-center flex-1 group hover:shadow-xl transition-shadow"
+              className="bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] shadow-xl shadow-blue-900/20 rounded-[32px] p-8 flex flex-col justify-center flex-1 group hover:-translate-y-1 transition-all"
             >
-              <h4 className="text-[42px] font-black text-blue-600 mb-2">350%</h4>
-              <p className="text-gray-500 text-[11px] font-black uppercase tracking-[0.2em] leading-tight">
+              <h4 className="text-[42px] font-black text-white mb-2">350%</h4>
+              <p className="text-green-300 text-[11px] font-black uppercase tracking-[0.2em] leading-tight">
                 Average ROI <br /> Increase
               </p>
-              <div className="mt-4 h-1.5 w-full bg-blue-100 rounded-full overflow-hidden">
+              <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
                 <motion.div 
                   initial={{ width: 0 }}
                   whileInView={{ width: "85%" }}
                   transition={{ duration: 1, delay: 0.5 }}
-                  className="h-full bg-blue-600"
+                  className="h-full bg-blue-400"
                 />
               </div>
             </motion.div>
@@ -119,18 +117,18 @@ export default function ResultsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "150px" }}
               transition={{ delay: 0.1 }}
-              className="bg-gradient-to-br from-[#f472b6] to-[#ec4899] rounded-[32px] p-8 flex flex-col justify-center flex-1 text-white group hover:shadow-xl transition-shadow"
+              className="bg-gradient-to-br from-[#1e1b4b] to-[#4c1d95] shadow-xl shadow-purple-900/20 rounded-[32px] p-8 flex flex-col justify-center flex-1 text-white group hover:-translate-y-1 transition-all"
             >
-              <h4 className="text-[42px] font-black mb-2">12k+</h4>
-              <p className="text-white/80 text-[11px] font-black uppercase tracking-[0.2em] leading-tight">
+              <h4 className="text-[42px] font-black text-white mb-2">12k+</h4>
+              <p className="text-green-300 text-[11px] font-black uppercase tracking-[0.2em] leading-tight">
                 Leads <br /> Generated
               </p>
-              <div className="mt-4 h-1.5 w-full bg-white/20 rounded-full overflow-hidden">
+              <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
                 <motion.div 
                   initial={{ width: 0 }}
                   whileInView={{ width: "95%" }}
                   transition={{ duration: 1, delay: 0.7 }}
-                  className="h-full bg-white"
+                  className="h-full bg-purple-400"
                 />
               </div>
             </motion.div>
@@ -205,13 +203,13 @@ export default function ResultsSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "150px" }}
-            className="bg-[#f0fdf4] border-2 border-[#1a8b4c]/10 rounded-[24px] md:rounded-[32px] p-5 md:p-6 flex flex-col md:flex-row items-center justify-between group hover:border-[#1a8b4c]/30 transition-all text-center md:text-left shadow-sm"
+            className="bg-[#f0fdf4] border border-[#1a8b4c]/10 shadow-lg shadow-[#1a8b4c]/5 rounded-[24px] md:rounded-[32px] p-5 md:p-6 flex flex-col md:flex-row items-center justify-between group hover:border-[#1a8b4c]/30 transition-all text-center md:text-left"
           >
             <div>
-              <h4 className="text-[28px] md:text-[36px] font-black text-[#1a8b4c] leading-none mb-1">98%</h4>
-              <p className="text-[#166534] text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em]">Retention</p>
+              <h4 className="text-[28px] md:text-[36px] font-black text-gray-950 leading-none mb-1">98%</h4>
+              <p className="text-gray-500 text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em]">Retention</p>
             </div>
-            <div className="hidden md:flex w-12 h-12 bg-white text-[#1a8b4c] rounded-full items-center justify-center group-hover:bg-[#1a8b4c] group-hover:text-white transition-colors shadow-sm">
+            <div className="hidden md:flex w-12 h-12 bg-gray-50 text-[#1a8b4c] rounded-full items-center justify-center group-hover:bg-[#1a8b4c] group-hover:text-white transition-colors shadow-sm">
               <Star size={24} fill="currentColor" />
             </div>
           </motion.div>
@@ -221,13 +219,13 @@ export default function ResultsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "150px" }}
             transition={{ delay: 0.1 }}
-            className="bg-[#f0fdfa] border-2 border-[#0d9488]/10 rounded-[24px] md:rounded-[32px] p-5 md:p-6 flex flex-col md:flex-row items-center justify-between group hover:border-[#0d9488]/30 transition-all text-center md:text-left shadow-sm"
+            className="bg-[#f0fdf4] border border-[#1a8b4c]/10 shadow-lg shadow-[#1a8b4c]/5 rounded-[24px] md:rounded-[32px] p-5 md:p-6 flex flex-col md:flex-row items-center justify-between group hover:border-[#1a8b4c]/30 transition-all text-center md:text-left"
           >
             <div>
-              <h4 className="text-[28px] md:text-[36px] font-black text-[#0d9488] leading-none mb-1">24/7</h4>
-              <p className="text-[#0f766e] text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em]">Support</p>
+              <h4 className="text-[28px] md:text-[36px] font-black text-gray-950 leading-none mb-1">24/7</h4>
+              <p className="text-gray-500 text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em]">Support</p>
             </div>
-            <div className="hidden md:flex w-12 h-12 bg-white text-[#0d9488] rounded-full items-center justify-center group-hover:bg-[#0d9488] group-hover:text-white transition-colors shadow-sm">
+            <div className="hidden md:flex w-12 h-12 bg-gray-50 text-[#1a8b4c] rounded-full items-center justify-center group-hover:bg-[#1a8b4c] group-hover:text-white transition-colors shadow-sm">
               <ArrowUpRight size={24} />
             </div>
           </motion.div>

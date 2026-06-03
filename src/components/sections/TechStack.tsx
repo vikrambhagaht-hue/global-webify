@@ -28,11 +28,11 @@ const techStack = [
     bg: "bg-[#21759B]/5"
   },
   { 
-    name: "JavaScript", 
-    icon: "https://cdn.simpleicons.org/javascript/F7DF1E",
-    desc: "Frontend",
-    color: "#F7DF1E",
-    bg: "bg-[#F7DF1E]/5"
+    name: "Node.js", 
+    icon: "https://cdn.simpleicons.org/nodedotjs/339933",
+    desc: "Backend",
+    color: "#339933",
+    bg: "bg-[#339933]/5"
   },
   { 
     name: "React", 
@@ -56,11 +56,11 @@ const techStack = [
     bg: "bg-[#3DDC84]/5"
   },
   { 
-    name: "iOS", 
-    icon: "https://cdn.simpleicons.org/apple/000000",
-    desc: "Mobile",
-    color: "#000000",
-    bg: "bg-gray-100/50"
+    name: "Next.js", 
+    icon: "https://cdn.simpleicons.org/nextdotjs/FFFFFF",
+    desc: "React Framework",
+    color: "#FFFFFF",
+    bg: "bg-white/5"
   },
   { 
     name: "Google Ads", 
@@ -73,9 +73,11 @@ const techStack = [
 
 export default function TechStack() {
   return (
-    <Section id="tech-stack" variant="white" className="bg-white relative overflow-hidden font-sans">
-      {/* Decorative background blur */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-green-50/50 blur-[100px] rounded-full -mr-48 -mt-48" />
+    <Section id="tech-stack" variant="dark" className="bg-gradient-to-br from-[#064e3b] to-[#022c22] relative overflow-hidden font-sans border-t border-[#064e3b]">
+      {/* Decorative liquid glass lighting */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none -mr-48 -mt-48" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#1a8b4c]/10 blur-[120px] rounded-full pointer-events-none -ml-48 -mb-48" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
       
       <div className="relative z-10">
         <div className="text-center max-w-[1100px] mx-auto mb-8 md:mb-12 px-4">
@@ -90,10 +92,10 @@ export default function TechStack() {
             </span>
             Powering Innovation
           </motion.span>
-          <h2 className="text-[28px] md:text-[36px] font-bold text-gray-900 leading-tight tracking-tight mb-4">
-            Our <span className="text-[#1a8b4c]">Cutting-Edge</span> Tech Stack
+          <h2 className="text-[28px] md:text-[36px] font-bold text-white leading-tight tracking-tight mb-4">
+            Our <span className="text-[#1cb05b]">Cutting-Edge</span> Tech Stack
           </h2>
-          <p className="text-gray-500 text-[13px] md:text-[15px] font-medium mx-auto lg:whitespace-nowrap">
+          <p className="text-gray-400 text-[13px] md:text-[15px] font-medium mx-auto lg:whitespace-nowrap">
             We use the most powerful and modern technologies to build scalable, high-performance digital solutions for your business.
           </p>
         </div>
@@ -103,39 +105,55 @@ export default function TechStack() {
           {techStack.map((tech, i) => (
             <motion.div
               key={tech.name}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "150px" }}
-              transition={{ delay: i * 0.05 }}
+              viewport={{ once: true, margin: "300px" }}
+              transition={{ delay: i * 0.015, duration: 0.3 }}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
               className="group flex flex-col items-center"
+              style={{ '--tech-color': tech.color } as React.CSSProperties}
             >
-              <div className={`w-full aspect-square ${tech.bg} border-[2px] border-gray-200 rounded-2xl p-3 md:p-5 flex items-center justify-center transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:shadow-xl group-hover:bg-white group-hover:border-[#1a8b4c]/40 relative overflow-hidden`}>
+              <div 
+                className="w-full aspect-square border border-white/30 md:border-white/20 rounded-[36px] p-3 md:p-5 flex items-center justify-center transition-all duration-500 shadow-[0_10px_25px_rgba(0,0,0,0.25)] md:shadow-[0_15px_35px_rgba(0,0,0,0.4),inset_0_0_20px_rgba(255,255,255,0.05),inset_0_2px_5px_rgba(255,255,255,0.3)] backdrop-blur-none md:backdrop-blur-2xl group-hover:-translate-y-2 relative overflow-hidden group/card"
+                style={{ backgroundColor: `${tech.color}10` }}
+              >
+                
+                {/* Dynamic Colored Border Overlay on Hover */}
+                <div 
+                  className="absolute inset-0 rounded-[36px] border opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none z-20"
+                  style={{ borderColor: tech.color }}
+                />
+
+                {/* Unique Water Droplet Bottom Glow */}
+                <div 
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[60%] pointer-events-none opacity-60 group-hover/card:opacity-100 transition-opacity duration-500"
+                  style={{ background: `linear-gradient(to top, ${tech.color}30, transparent)` }}
+                />
+                
                 <Image 
                   src={tech.icon} 
                   alt={tech.name} 
-                  width={48}
-                  height={48}
-                  className="w-8 h-8 md:w-10 md:h-10 object-contain filter transition-all duration-300 group-hover:scale-110 relative z-10"
-                  unoptimized={tech.icon.includes('.org')} // External dynamic SVGs often need to be unoptimized or handled carefully
+                  width={56}
+                  height={56}
+                  className="w-11 h-11 md:w-12 md:h-12 object-contain filter transition-all duration-300 group-hover:scale-110 relative z-10"
+                  unoptimized={tech.icon.includes('.org')}
                 />
                 
-                {/* Subtle Glow on Hover */}
-                <div className="absolute inset-0 bg-[#1a8b4c]/5 opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity pointer-events-none" />
+                {/* Unique Subtle Glow on Hover */}
+                <div 
+                  className="absolute inset-0 opacity-0 group-hover/card:opacity-100 rounded-[36px] transition-opacity pointer-events-none"
+                  style={{ backgroundColor: `${tech.color}25` }}
+                />
               </div>
               
               <div className="mt-3 text-center">
-                <p className="text-[11px] md:text-[13px] font-semibold text-gray-900 group-hover:text-[#1a8b4c] transition-colors line-clamp-1">{tech.name}</p>
+                <p className="text-[11px] md:text-[13px] font-semibold text-white/90 group-hover:text-[var(--tech-color)] transition-colors line-clamp-1">{tech.name}</p>
                 <p className="hidden md:block text-[9px] font-medium text-gray-400 uppercase tracking-widest mt-0.5">{tech.desc}</p>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Dynamic Background Text (Watermark) */}
-        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 text-[120px] md:text-[200px] font-bold text-gray-50 pointer-events-none select-none whitespace-nowrap -z-10 opacity-40 uppercase tracking-tighter">
-          Technologies
-        </div>
       </div>
     </Section>
   );

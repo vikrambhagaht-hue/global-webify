@@ -39,7 +39,7 @@ export function ServicePageView({ page, remainingSubMenus, faqs, locationName = 
   };
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white min-h-screen font-sans">
       <ServiceHero 
         title={page.title || ""} 
         description={page.heroDescription || undefined}
@@ -50,16 +50,15 @@ export function ServicePageView({ page, remainingSubMenus, faqs, locationName = 
       <section className="py-12 bg-white border-b border-gray-100">
         <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-20 items-start">
-            <div className="lg:col-span-3 min-w-0">
-              <h2 className="text-2xl md:text-[30px] lg:text-[34px] font-black text-gray-900 text-left mb-3 tracking-tight leading-tight break-all">
+            <div className="lg:col-span-3 min-w-0 font-jost">
+              <h2 className="text-[25px] font-black text-[#22c55e] text-left mb-6 tracking-tight leading-tight break-words font-lexend underline underline-offset-8 decoration-[#22c55e]">
                 {page.contentTitle || `Professional ${page.title}`}
               </h2>
-              <div className="w-16 h-[4px] bg-gradient-to-r from-[#1a8b4c] to-[#2ecc71] rounded-full mb-8" />
               
               {page.content && page.content.trim() !== "" && stripHtml(page.content).trim() !== "" ? (
                 <ExpandableContent htmlContent={page.content} maxHeight={300} />
               ) : (
-                <div className="prose max-w-none text-gray-600">
+                <div className="prose max-w-none text-gray-600 font-jost">
                   <p>We provide industry-leading {page.title} to help you dominate your market. Our expert team is dedicated to delivering visually stunning, high-performance solutions focused on driving more engagement and conversions.</p>
                   <p className="mt-4">Contact us today using the form to learn how we can accelerate your growth.</p>
                 </div>

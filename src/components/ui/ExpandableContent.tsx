@@ -36,11 +36,12 @@ export function ExpandableContent({
         <div
           ref={contentRef}
           className="
-            text-[14.5px] md:text-[15.5px] text-gray-600 leading-[1.8] text-left
-            [&_p]:mb-4 [&_p]:leading-[1.8] [&_p]:text-left
-            [&_span]:text-gray-600
-            [&_strong]:font-bold [&_strong]:text-gray-900
-            [&_b]:font-bold [&_b]:text-gray-900
+            !font-jost !text-[15px] md:!text-[16px] text-gray-600 !leading-[1.6] text-left
+            [&_*]:!font-jost
+            [&_p]:!mb-3 [&_p]:!leading-[1.6] [&_p]:!text-[15px] md:[&_p]:!text-[16px] [&_p]:!text-left
+            [&_span]:text-gray-600 [&_span]:!text-[15px] md:[&_span]:!text-[16px] [&_span]:!leading-[1.6]
+            [&_strong]:!font-bold [&_strong]:text-gray-900
+            [&_b]:!font-bold [&_b]:text-gray-900
             [&_li]:text-gray-600 [&_li]:mb-1.5 [&_li]:leading-[1.7] [&_li]:list-item
             [&_h1]:text-2xl md:text-3xl [&_h1]:font-black [&_h1]:text-gray-900 [&_h1]:mb-4 [&_h1]:mt-8 [&_h1]:leading-tight
             [&_h2]:text-xl md:text-2xl [&_h2]:font-extrabold [&_h2]:text-gray-900 [&_h2]:mb-3 [&_h2]:mt-6 [&_h2]:leading-snug
@@ -48,7 +49,7 @@ export function ExpandableContent({
             [&_h4]:text-base md:text-lg [&_h4]:font-bold [&_h4]:text-gray-900 [&_h4]:mb-2 [&_h4]:mt-4
             [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ul]:space-y-1 [&_ul]:text-left
             [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4 [&_ol]:space-y-1 [&_ol]:text-left
-            [&_a]:text-blue-600 [&_a]:underline hover:[&_a]:text-blue-800
+            [&_a]:!text-[#2CA65A] [&_a]:!font-bold [&_a]:!no-underline hover:[&_a]:!text-[#166534] hover:[&_a]:!underline
             [&_blockquote]:border-l-4 [&_blockquote]:border-gray-200 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-gray-500 [&_blockquote]:my-4
           "
           dangerouslySetInnerHTML={{ __html: htmlContent }}
