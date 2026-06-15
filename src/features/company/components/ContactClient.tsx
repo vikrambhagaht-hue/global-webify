@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { 
   Mail, Phone, MapPin, Send, Facebook, Twitter, 
   Instagram, Linkedin, Youtube, User, Briefcase, 
@@ -59,7 +59,7 @@ export default function ContactClient() {
       {/* Custom Toast Notification */}
       <AnimatePresence>
         {showToast && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -72,7 +72,7 @@ export default function ContactClient() {
               <p className="text-xs font-black uppercase tracking-wider text-green-400">Success</p>
               <p className="text-xs font-semibold text-gray-300">Message sent! We'll get back within 24 hours.</p>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
@@ -80,22 +80,22 @@ export default function ContactClient() {
         
         {/* Title Header */}
         <div className="text-center mb-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             className="inline-flex items-center gap-2 bg-[#dcfce7] border border-green-200 px-4 py-1.5 rounded-full mb-4"
           >
             <span className="w-2 h-2 rounded-full bg-[#1a8b4c] animate-pulse" />
             <span className="text-[#1a8b4c] text-[11px] font-black uppercase tracking-widest">Connect with Experts</span>
-          </motion.div>
+          </m.div>
 
-          <motion.h1 
+          <m.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-[32px] md:text-[44px] font-black font-heading text-gray-900 leading-none mb-4"
           >
             Let's Start Your <span className="text-[#1a8b4c]">Success Story</span>
-          </motion.h1>
+          </m.h1>
           <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-[15px] font-medium leading-relaxed">
             Have a project in mind or want to consult with our experts? Send us a query or call us at any of our global offices.
           </p>
@@ -106,7 +106,7 @@ export default function ContactClient() {
           
           {/* LEFT COLUMN: Premium Contact Form */}
           <div className="lg:col-span-7">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
@@ -219,7 +219,7 @@ export default function ContactClient() {
                 </div>
 
                 {/* Submit Button */}
-                <motion.button 
+                <m.button 
                   whileHover={{ scale: 1.01, translateY: -1 }}
                   whileTap={{ scale: 0.99 }}
                   type="submit"
@@ -227,17 +227,17 @@ export default function ContactClient() {
                 >
                   Send Message
                   <Send size={13} className="stroke-[2.5]" />
-                </motion.button>
+                </m.button>
 
               </form>
-            </motion.div>
+            </m.div>
           </div>
 
           {/* RIGHT COLUMN: Contact Details & Map */}
           <div className="lg:col-span-5 space-y-6">
             
             {/* Interactive Map Widget */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
@@ -252,10 +252,10 @@ export default function ContactClient() {
                   loading="lazy"
                 ></iframe>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Our Offices Card */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -311,10 +311,10 @@ export default function ContactClient() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Partner Offices Card */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
@@ -366,10 +366,10 @@ export default function ContactClient() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Connect With Us Card */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
@@ -401,7 +401,7 @@ export default function ContactClient() {
                   );
                 })}
               </div>
-            </motion.div>
+            </m.div>
 
           </div>
 

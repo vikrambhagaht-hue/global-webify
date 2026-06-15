@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Award, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Section } from '../layout/Responsive/Section';
 import Image from 'next/image';
@@ -67,7 +67,7 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
             <div className="relative group">
               <div className="aspect-[4/3] bg-gray-50 rounded-[32px] border-4 border-gray-100 overflow-hidden shadow-2xl relative">
                 <AnimatePresence mode="wait">
-                  <motion.div
+                  <m.div
                     key={certIndex}
                     initial={{ opacity: 0, scale: 0.95, x: 20 }}
                     animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -85,21 +85,23 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
-                  </motion.div>
+                  </m.div>
                 </AnimatePresence>
 
                 {/* Navigation Buttons */}
                 <button 
                   onClick={prevCert}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur shadow-lg rounded-full flex items-center justify-center text-gray-900 hover:bg-[#1a8b4c] hover:text-white transition-all z-10 opacity-0 group-hover:opacity-100"
+                  aria-label="Previous Certificate"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur shadow-lg rounded-full flex items-center justify-center text-gray-900 hover:bg-[#1a8b4c] hover:text-white transition-all z-10 opacity-0 group-hover:opacity-100 focus:opacity-100 outline-none focus:ring-2 focus:ring-[#1a8b4c]"
                 >
-                  <ChevronLeft size={24} />
+                  <ChevronLeft size={24} aria-hidden="true" />
                 </button>
                 <button 
                   onClick={nextCert}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur shadow-lg rounded-full flex items-center justify-center text-gray-900 hover:bg-[#1a8b4c] hover:text-white transition-all z-10 opacity-0 group-hover:opacity-100"
+                  aria-label="Next Certificate"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur shadow-lg rounded-full flex items-center justify-center text-gray-900 hover:bg-[#1a8b4c] hover:text-white transition-all z-10 opacity-0 group-hover:opacity-100 focus:opacity-100 outline-none focus:ring-2 focus:ring-[#1a8b4c]"
                 >
-                  <ChevronRight size={24} />
+                  <ChevronRight size={24} aria-hidden="true" />
                 </button>
               </div>
 
@@ -109,7 +111,8 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
                   <button
                     key={i}
                     onClick={() => setCertIndex(i)}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${i === certIndex ? 'w-8 bg-[#1a8b4c]' : 'w-2 bg-gray-200'}`}
+                    aria-label={`Go to certificate ${i + 1}`}
+                    className={`h-1.5 rounded-full transition-all duration-300 outline-none focus:ring-2 focus:ring-[#1a8b4c] focus:ring-offset-2 ${i === certIndex ? 'w-8 bg-[#1a8b4c]' : 'w-2 bg-gray-200'}`}
                   />
                 ))}
               </div>
@@ -134,6 +137,7 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
                   poster="/bg-pattern-landing.avif"
                 >
                   <source src="/videoplayback.mp4" type="video/mp4" />
+                  <track kind="captions" src="/placeholder.txt" srcLang="en" label="English" />
                   Your browser does not support the video tag.
                 </video>
                 

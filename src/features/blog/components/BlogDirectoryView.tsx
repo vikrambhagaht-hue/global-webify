@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Calendar, User, ArrowRight, BookOpen, Users, Tag, Star, Send, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -24,13 +24,13 @@ export default function BlogDirectoryView({ posts, currentPage = 1, totalPages =
         
         {/* Featured Blog Posts Title Header */}
         <div className="text-center mb-16">
-          <motion.h1 
+          <m.h1 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-[26px] sm:text-[32px] md:text-[38px] font-black text-[#1a8b4c] uppercase tracking-wider leading-tight"
           >
             FEATURED BLOG POSTS
-          </motion.h1>
+          </m.h1>
           <p className="text-gray-500 text-[11px] md:text-[12px] font-bold max-w-2xl mx-auto uppercase tracking-wider mt-3">
             Explore our latest research, insights, and guides to boost your business visibility online.
           </p>
@@ -51,7 +51,7 @@ export default function BlogDirectoryView({ posts, currentPage = 1, totalPages =
                 key={post.title}
                 className="block h-full cursor-pointer"
               >
-                <motion.article
+                <m.article
                   initial={{ opacity: 0, y: 25 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05, duration: 0.4 }}
@@ -100,7 +100,7 @@ export default function BlogDirectoryView({ posts, currentPage = 1, totalPages =
 
                   </div>
 
-                </motion.article>
+                </m.article>
               </Link>
             );
           })}
@@ -259,7 +259,7 @@ export default function BlogDirectoryView({ posts, currentPage = 1, totalPages =
 
         {/* Central White CTA Card matching screenshot exactly */}
         <div className="relative z-10 w-full max-w-[540px] mx-4">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
@@ -302,7 +302,7 @@ export default function BlogDirectoryView({ posts, currentPage = 1, totalPages =
 
             </div>
 
-          </motion.div>
+          </m.div>
         </div>
 
       </section>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, startTransition } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Menu, X, Facebook, Twitter, Linkedin, Instagram, Youtube, Phone, MessageCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { 
@@ -181,7 +181,7 @@ export default function Header({ initialSettings }: HeaderProps) {
     <header className="fixed top-0 left-0 right-0 z-[9999] bg-white border-b border-gray-200 font-sans">
       {/* Preload the promo background image to ensure instant display on hover */}
       <div className="absolute -left-[9999px] -top-[9999px] w-1 h-1 opacity-0 pointer-events-none" aria-hidden="true">
-        <img src="/nav-promo.png" alt="Promo Background Preload - Global Webify" />
+        <img src="/nav-promo.png" alt="Promo Background Preload - Global Webify" width="1" height="1" />
       </div>
 
       {/* Top Bar Component */}
@@ -246,7 +246,7 @@ export default function Header({ initialSettings }: HeaderProps) {
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
@@ -269,14 +269,14 @@ export default function Header({ initialSettings }: HeaderProps) {
                             {link.name}
                           </span>
                         </div>
-                        <motion.div
+                        <m.div
                           animate={{ rotate: mobileMenuOpen === link.id ? 180 : 0 }}
                           transition={{ duration: 0.2 }}
                         >
                           <svg className={cn("w-4 h-4 transition-colors", mobileMenuOpen === link.id ? "text-[#1a8b4c]" : "text-gray-900")} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                           </svg>
-                        </motion.div>
+                        </m.div>
                       </button>
                     ) : (
                       <Link 
@@ -302,7 +302,7 @@ export default function Header({ initialSettings }: HeaderProps) {
                     {/* Mobile Dropdown Content */}
                     <AnimatePresence>
                       {link.hasDropdown && mobileMenuOpen === link.id && (
-                        <motion.div
+                        <m.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
@@ -335,7 +335,7 @@ export default function Header({ initialSettings }: HeaderProps) {
                               )}
                             </div>
                           ))}
-                        </motion.div>
+                        </m.div>
                       )}
                     </AnimatePresence>
                   </div>
@@ -366,7 +366,7 @@ export default function Header({ initialSettings }: HeaderProps) {
                   ))}
                 </div>
              </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </header>

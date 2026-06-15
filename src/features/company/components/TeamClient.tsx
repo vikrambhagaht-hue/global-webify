@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { 
   Facebook, 
   Instagram, 
@@ -91,23 +91,23 @@ export default function TeamClient() {
       {/* Hero Header Section */}
       <section className="pt-16 md:pt-24 pb-12 bg-[#f1faf5] border-b border-gray-100">
         <div className="container-custom text-center">
-          <motion.h1 
+          <m.h1 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-3xl md:text-5xl font-black font-lexend text-primary-dark mb-4 uppercase tracking-tight"
           >
             Meet Our Team
-          </motion.h1>
+          </m.h1>
           <div className="w-16 h-1 bg-primary mx-auto mb-6 rounded-full"></div>
-          <motion.p 
+          <m.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
             className="text-base md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
           >
             Meet the passionate experts, designers, developers, and strategists behind Global Webify's success.
-          </motion.p>
+          </m.p>
         </div>
       </section>
 
@@ -216,7 +216,7 @@ export default function TeamClient() {
         {selectedMember && (
           <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4">
             {/* Dark Backdrop */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -225,7 +225,7 @@ export default function TeamClient() {
             />
 
             {/* Modal Box */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
@@ -340,7 +340,7 @@ export default function TeamClient() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           </div>
         )}
       </AnimatePresence>

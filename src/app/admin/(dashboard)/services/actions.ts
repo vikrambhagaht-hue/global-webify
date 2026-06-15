@@ -58,6 +58,7 @@ export async function saveService(formData: {
   revalidatePath('/[slug]');
   revalidatePath('/admin/services');
   revalidateTag('services');
+  revalidateTag('breadcrumb-dynamic-pages');
   
   return { success: true, id: savedRecord.id, slug: savedRecord.slug };
 }
@@ -80,6 +81,7 @@ export async function deleteService(id: number) {
     revalidatePath('/digital-marketing');
     revalidatePath('/branding-pr');
     revalidatePath('/[slug]');
+    revalidateTag('breadcrumb-dynamic-pages');
   }
 
   revalidatePath('/admin/services');

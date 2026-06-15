@@ -109,14 +109,14 @@ const AuditCardMobile = () => (
             <div className="w-2 h-2 rounded-full bg-[#f59e0b]" />
             <div className="w-2 h-2 rounded-full bg-[#10b981]" />
           </div>
-          <div className="bg-[#F8FAFC] border border-gray-200 text-gray-400 text-[8px] px-3 py-1 rounded flex-1 text-center font-mono truncate">
+          <div className="bg-[#F8FAFC] border border-gray-200 text-gray-500 text-[8px] px-3 py-1 rounded flex-1 text-center font-mono truncate">
             https://audit.globalwebify.com/report
           </div>
         </div>
         <div className="p-4">
           <div className="flex justify-between items-center mb-4 bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
             <div className="text-left">
-              <p className="text-[7px] font-bold text-gray-400 uppercase tracking-widest">Website Audit</p>
+              <p className="text-[7px] font-bold text-gray-500 uppercase tracking-widest">Website Audit</p>
               <h3 className="text-sm font-black text-gray-900 leading-tight font-heading">globalwebify.com</h3>
             </div>
             <span className="bg-[#DCFCE7] text-[#166534] text-[9px] font-bold px-2 py-1 rounded border border-[#BBF7D0]">A+</span>
@@ -130,7 +130,7 @@ const AuditCardMobile = () => (
             ].map((stat, i) => (
               <div key={i} className="bg-white border border-gray-200 rounded-lg p-1.5 text-center shadow-sm">
                 <div className="text-[11px] font-black text-gray-900">{stat.v}</div>
-                <div className="text-[6px] font-black text-gray-400 uppercase">{stat.l}</div>
+                <div className="text-[6px] font-black text-gray-500 uppercase">{stat.l}</div>
                 <div className="h-1 w-full bg-gray-100 mt-1 rounded-full overflow-hidden">
                   <div className="h-full bg-[#10b981]" style={{ width: `${stat.v}%` }} />
                 </div>
@@ -147,9 +147,9 @@ const AuditCardMobile = () => (
                 <div key={i} className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className={`w-1.5 h-1.5 rounded-full ${item.c}`} />
-                    <p className="text-[8px] font-bold text-gray-700">{item.t}</p>
+                    <p className="text-[8px] font-bold text-gray-800">{item.t}</p>
                   </div>
-                  <p className="text-[7px] font-black text-gray-400">{item.v}</p>
+                  <p className="text-[7px] font-black text-gray-500">{item.v}</p>
                 </div>
               ))}
             </div>
@@ -195,7 +195,7 @@ export default function Hero({
           alt="Background Pattern"
           fill
           priority
-          sizes="(max-width: 768px) 1200px, 100vw"
+          sizes="(max-width: 768px) 640px, 100vw"
           quality={80}
           className="object-cover object-top opacity-[0.65] md:opacity-[0.8] saturate-[1.60] contrast-[1.15]"
         />
@@ -249,7 +249,7 @@ export default function Hero({
               <a href="tel:+917563901100" title="Free Consultation - Global Webify" className="flex-1 md:flex-none bg-gradient-to-r from-[#1cb05b] to-[#117846] hover:from-[#21c767] hover:to-[#158e53] text-white text-[14px] md:text-[16px] font-bold px-5 md:px-8 md:py-[18px] py-3 rounded-xl transition-all shadow-xl shadow-green-900/20 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap text-center inline-block">
                 Free Consultation
               </a>
-              <button onClick={() => setIsAuditOpen(true)} className="flex-1 md:flex-none bg-white border-2 border-[#1a8b4c]/40 hover:border-[#1a8b4c] hover:shadow-none text-[#1a8b4c] hover:bg-green-50 text-[13px] md:text-[15px] font-bold px-4 md:px-7 md:py-4 py-2.5 rounded-xl transition-all shadow-md hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
+              <button onClick={() => setIsAuditOpen(true)} className="flex-1 md:flex-none bg-white border-2 border-[#1a8b4c] hover:shadow-none text-[#1a8b4c] hover:bg-green-50 text-[13px] md:text-[15px] font-bold px-4 md:px-7 md:py-4 py-2.5 rounded-xl transition-all shadow-md hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
                 Get Free Audit
               </button>
             </div>

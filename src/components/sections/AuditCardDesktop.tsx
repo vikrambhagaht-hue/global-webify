@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { m, useMotionValue, useTransform, useSpring } from 'framer-motion';
 
 // --- Desktop Audit Card with framer-motion 3D hover effect ---
 // This is lazy-loaded via dynamic() in Hero.tsx — framer-motion only loads after page paint
@@ -22,13 +22,13 @@ export default function AuditCardDesktop() {
   }
 
   return (
-    <motion.div
+    <m.div
       style={{ perspective: 1200 }}
       onMouseMove={handleMouse}
       onMouseLeave={() => { x.set(0.5); y.set(0.5); }}
       className="w-full max-w-[580px] mx-auto cursor-default z-20 relative font-jost"
     >
-      <motion.div
+      <m.div
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
         whileHover={{ scale: 1.02, y: -6, boxShadow: "0px 28px 56px -12px rgba(26,139,76,0.18)" }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -147,7 +147,7 @@ export default function AuditCardDesktop() {
         {/* Bottom base/stand edge */}
         <div className="bg-[#1f2d3f] h-[8px] rounded-b-[20px] border border-t-0 border-[#2a3a4e]" />
         <div className="bg-[#2d3d52] h-[5px] rounded-b-[10px] mx-5 opacity-60" />
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }

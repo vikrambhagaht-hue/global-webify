@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { m, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { Section } from '../layout/Responsive/Section';
@@ -63,7 +63,7 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
   }
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "300px" }}
@@ -72,7 +72,7 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
       style={{ perspective: 1000 }}
     >
       <Link href={project.link} target="_blank" rel="noopener noreferrer" title={`${project.title} - Global Webify`}>
-        <motion.div
+        <m.div
           onMouseMove={handleMouse}
           onMouseLeave={() => { x.set(0.5); y.set(0.5); }}
           style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
@@ -84,10 +84,9 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
               src={project.image}
               alt={project.title}
               fill
-              priority={index < 3}
-              quality={90}
+              quality={80}
               className="object-cover group-hover:scale-110 transition-transform duration-700 brightness-[1.05] contrast-[1.05]"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 768px) 480px, (max-width: 1200px) 50vw, 33vw"
             />
 
             {/* Stronger Green Tinted Bottom Shade */}
@@ -116,9 +115,9 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </Link>
-    </motion.div>
+    </m.div>
   );
 };
 
@@ -133,7 +132,7 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
 
       <div className="relative z-10">
         <div className="text-center max-w-[1100px] mx-auto mb-10 px-4">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -141,10 +140,10 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
           >
             <span className="w-2 h-2 rounded-full bg-[#1a8b4c] animate-pulse" />
             <span className="text-[#1a8b4c] text-[12px] font-bold uppercase tracking-widest">Success Stories</span>
-          </motion.div>
+          </m.div>
 
           {sectionTitle ? (
-            <motion.h2
+            <m.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -152,18 +151,18 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
               dangerouslySetInnerHTML={{ __html: sectionTitle }}
             />
           ) : (
-            <motion.h2
+            <m.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-[#1a8b4c] leading-tight mb-6 tracking-tight font-heading xl:whitespace-nowrap"
             >
               Our Work Speaks for Itself
-            </motion.h2>
+            </m.h2>
           )}
 
           {sectionDesc ? (
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -172,7 +171,7 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
               dangerouslySetInnerHTML={{ __html: sectionDesc }}
             />
           ) : (
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -180,7 +179,7 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
               className="text-gray-600 text-[14px] md:text-[18px] font-medium lg:whitespace-nowrap"
             >
               We've successfully delivered <span className="text-[#1a8b4c] font-bold underline decoration-green-200 decoration-4 underline-offset-4">500+ live projects</span>. Explore how we help businesses win online.
-            </motion.p>
+            </m.p>
           )}
         </div>
 
@@ -193,18 +192,18 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
         {/* Refined Brand Logos Section */}
         <div className="mt-16 py-14 bg-[#052e16] rounded-[32px] md:rounded-[40px] overflow-hidden relative shadow-2xl border border-green-900/20 px-4">
           <div className="text-center mb-10">
-            <motion.h3
+            <m.h3
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 0.8 }}
               viewport={{ once: true }}
               className="text-[11px] md:text-[13px] font-bold text-green-100 font-heading uppercase tracking-[0.4em]"
             >
               Trusted by Industry Leaders
-            </motion.h3>
+            </m.h3>
           </div>
 
           <div className="relative flex overflow-x-hidden">
-            <motion.div
+            <m.div
               className="flex whitespace-nowrap py-2"
               animate={{ x: ["0%", "-50%"] }}
               transition={{
@@ -227,7 +226,7 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
                   </div>
                 </div>
               ))}
-            </motion.div>
+            </m.div>
           </div>
 
           <div className="absolute inset-y-0 left-0 w-24 md:w-48 bg-gradient-to-r from-[#052e16] to-transparent z-10 pointer-events-none" />
@@ -236,14 +235,14 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
 
         <div className="mt-12 text-center">
           <Link href="/portfolio" className="inline-block">
-            <motion.div
+            <m.div
               whileHover={{ scale: 1.05, boxShadow: "0 10px 20px -5px rgba(26,139,76,0.3)" }}
               whileTap={{ scale: 0.95 }}
               className="group bg-[#1a8b4c] text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl text-[16px] md:text-[17px] font-bold shadow-md shadow-green-900/10 hover:bg-[#15803d] transition-all flex items-center gap-3 mx-auto cursor-pointer"
             >
               View All Projects
               <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-            </motion.div>
+            </m.div>
           </Link>
         </div>
       </div>

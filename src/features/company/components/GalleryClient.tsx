@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCw, RefreshCw, Maximize2 } from 'lucide-react';
 import Image from 'next/image';
 import galleryImages from '@/data/gallery_scraped.json';
@@ -119,42 +119,42 @@ export default function GalleryClient() {
       <div className="relative z-10 container-custom">
         {/* Header Block */}
         <div className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto pt-6">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="inline-flex items-center gap-2 bg-green-100/50 border border-green-200 px-4 py-1.5 rounded-full mb-4 shadow-sm"
           >
             <span className="w-2.5 h-2.5 rounded-full bg-[#1a8b4c] animate-pulse" />
             <span className="text-[#1a8b4c] text-[12px] font-bold uppercase tracking-widest font-lexend">Our Culture & Workspace</span>
-          </motion.div>
+          </m.div>
 
-          <motion.h1 
+          <m.h1 
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-gray-900 mb-5 leading-tight"
           >
             Our <span className="text-[#2CA65A] underline decoration-green-200 decoration-4 sm:decoration-8 underline-offset-4">Gallery</span>
-          </motion.h1>
+          </m.h1>
           
-          <motion.p 
+          <m.p 
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
             className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed px-4"
           >
             A sneak peek into our office life, teamwork sessions, celebratory events, and custom milestones. Meet the energy driving our digital agency forward.
-          </motion.p>
+          </m.p>
         </div>
 
         {/* Responsive Grid with Aspect Ratio Optimization and Next.js Image Optimization */}
-        <motion.div 
+        <m.div 
           variants={containerVariants}
           initial="hidden"
           animate="show"
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-[1400px] mx-auto px-4"
         >
           {galleryImages.map((imagePath, index) => (
-            <motion.div
+            <m.div
               key={index}
               variants={itemVariants}
               onClick={() => setSelectedIdx(index)}
@@ -182,9 +182,9 @@ export default function GalleryClient() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Lightbox Modal with Sliding Transitions & Manipulation Controls */}
@@ -252,7 +252,7 @@ export default function GalleryClient() {
 
             {/* Image display container */}
             <div className="w-full max-w-5xl max-h-[82vh] px-4 md:px-16 flex items-center justify-center overflow-hidden pointer-events-none">
-              <motion.div
+              <m.div
                 key={selectedIdx}
                 initial={{ opacity: 0, scale: 0.96 }}
                 animate={{ opacity: 1, scale: zoomScale, rotate: `${rotation}deg` }}
@@ -266,7 +266,7 @@ export default function GalleryClient() {
                   className="max-w-full max-h-[82vh] object-contain rounded-2xl shadow-2xl border border-white/5 select-none"
                   style={{ pointerEvents: 'none' }}
                 />
-              </motion.div>
+              </m.div>
             </div>
 
             {/* Right navigation arrow */}

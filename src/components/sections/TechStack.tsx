@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import Image from 'next/image';
 import { Section } from '../layout/Responsive/Section';
 
@@ -81,7 +81,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
       
       <div className="relative z-10">
         <div className="text-center max-w-[1100px] mx-auto mb-8 md:mb-12 px-4">
-          <motion.span 
+          <m.span 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 bg-green-50 border border-green-100 text-[#1a8b4c] text-[11px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-4 shadow-sm"
@@ -91,7 +91,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#1a8b4c]" />
             </span>
             Powering Innovation
-          </motion.span>
+          </m.span>
           {sectionTitle ? (
             <h2 
               className="text-[28px] md:text-[36px] font-bold text-white leading-tight tracking-tight mb-4"
@@ -117,7 +117,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
         {/* Tech Grid */}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 gap-3 md:gap-4 max-w-[1400px] mx-auto">
           {techStack.map((tech, i) => (
-            <motion.div
+            <m.div
               key={tech.name}
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -164,7 +164,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
                 <p className="text-[11px] md:text-[13px] font-semibold text-white/90 group-hover:text-[var(--tech-color)] transition-colors line-clamp-1">{tech.name}</p>
                 <p className="hidden md:block text-[9px] font-medium text-gray-400 uppercase tracking-widest mt-0.5">{tech.desc}</p>
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 

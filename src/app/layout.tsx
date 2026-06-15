@@ -9,21 +9,21 @@ import { unstable_cache } from "next/cache";
 
 const poppins = Poppins({ 
   subsets: ["latin"], 
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "600", "700", "900"],
   variable: "--font-poppins",
   display: "swap"
 });
 
 const lexend = Lexend({ 
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "600", "700", "900"],
   variable: "--font-lexend",
   display: "swap"
 });
 
 const jost = Jost({ 
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "700", "800"],
   variable: "--font-jost",
   display: "swap"
 });

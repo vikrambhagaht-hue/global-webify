@@ -109,6 +109,7 @@ model Job {
   updatedAt    DateTime @updatedAt
 
   @@index([isActive])
+  @@index([createdAt(sort: Desc)])
   @@map("job")
 }
 
@@ -128,5 +129,15 @@ model JobApplication {
 
   @@index([createdAt(sort: Desc)])
   @@map("jobapplication")
+}
+
+model Redirect {
+  id          Int      @id @default(autoincrement())
+  source      String   @unique
+  destination String
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("redirect")
 }
 

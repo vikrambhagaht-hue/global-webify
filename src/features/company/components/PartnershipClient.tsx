@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { 
   Mail, Phone, MapPin, Send, CheckCircle2, Building2, 
   Handshake, Globe2, Sparkles, Award, Users2, LineChart, ShieldCheck
@@ -120,7 +120,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
       {/* Custom Toast Notification */}
       <AnimatePresence>
         {showToast && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -133,7 +133,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
               <p className="text-xs font-black uppercase tracking-wider text-green-400">Application Received</p>
               <p className="text-xs font-semibold text-gray-300">Thank you! Our Partnership Team will contact you shortly.</p>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
@@ -145,7 +145,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
           <div className="lg:col-span-6 space-y-6 text-left">
 
 
-            <motion.h1 
+            <m.h1 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-[36px] md:text-[52px] font-black font-heading text-gray-900 leading-[1.1]"
@@ -163,7 +163,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                 }
                 return heroTitle;
               })()}
-            </motion.h1>
+            </m.h1>
 
             <p className="text-gray-600 text-sm md:text-[15px] font-semibold leading-relaxed max-w-xl">
               {heroDesc}
@@ -184,7 +184,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
 
           {/* Right Image Block */}
           <div className="lg:col-span-6">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -195,7 +195,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                 alt="Become a Partner"
                 className="w-full h-auto max-h-[440px] object-contain rounded-2xl drop-shadow-sm hover:scale-[1.02] transition-transform duration-500" 
               />
-            </motion.div>
+            </m.div>
           </div>
         </div>
 
@@ -206,7 +206,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
               {expandHeading}
             </h2>
             
-            <motion.div 
+            <m.div 
               animate={{ height: isExpanded ? 'auto' : '360px' }}
               transition={{ duration: 0.5, ease: [0.04, 0.62, 0.23, 0.98] }}
               className="relative overflow-hidden"
@@ -221,7 +221,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
               {!isExpanded && (
                 <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white via-white/95 to-transparent pointer-events-none z-10" />
               )}
-            </motion.div>
+            </m.div>
             
             <div className="flex justify-center mt-6">
               <button
@@ -268,7 +268,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
               {benefits.map((benefit, i) => {
                 const Icon = benefit.icon;
                 return (
-                  <motion.div
+                  <m.div
                     key={i}
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -286,7 +286,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                         {benefit.desc}
                       </p>
                     </div>
-                  </motion.div>
+                  </m.div>
                 );
               })}
             </div>
@@ -294,7 +294,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
 
           {/* RIGHT COLUMN: Premium Partnership Form */}
           <div className="lg:col-span-7">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
@@ -410,7 +410,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                 </div>
 
                 {/* Submit Button */}
-                <motion.button 
+                <m.button 
                   whileHover={{ scale: 1.01, translateY: -1 }}
                   whileTap={{ scale: 0.99 }}
                   disabled={submitting}
@@ -419,10 +419,10 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                 >
                   {submitting ? 'Submitting Application...' : 'Submit Partner Request'}
                   <Send size={13} className="stroke-[2.5]" />
-                </motion.button>
+                </m.button>
 
               </form>
-            </motion.div>
+            </m.div>
           </div>
 
         </div>

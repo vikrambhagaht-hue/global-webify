@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -28,16 +28,16 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
         
         {/* Header Section */}
         <div className="text-center mb-12 md:mb-16">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="inline-flex items-center gap-2 bg-green-50 text-[#1a8b4c] px-4 py-2 rounded-full text-[12px] font-black uppercase tracking-widest mb-4"
           >
             <Calendar size={18} /> Our Blog
-          </motion.div>
+          </m.div>
           {sectionTitle ? (
-            <motion.h2 
+            <m.h2 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -45,18 +45,18 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
               dangerouslySetInnerHTML={{ __html: sectionTitle }}
             />
           ) : (
-            <motion.h2 
+            <m.h2 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="text-[28px] md:text-[36px] font-black text-gray-950 leading-tight lg:whitespace-nowrap"
             >
               Latest <span className="text-[#1a8b4c]">Insights & News</span>
-            </motion.h2>
+            </m.h2>
           )}
 
           {sectionDesc ? (
-            <motion.p 
+            <m.p 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -64,14 +64,14 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
               dangerouslySetInnerHTML={{ __html: sectionDesc }}
             />
           ) : (
-            <motion.p 
+            <m.p 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="text-gray-500 mt-4 font-medium max-w-2xl mx-auto"
             >
               Stay up to date with the latest trends, strategies, and growth hacks in the digital world.
-            </motion.p>
+            </m.p>
           )}
         </div>
 
@@ -89,7 +89,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
                 title={`${post.title} - Global Webify`}
                 className="block h-full cursor-pointer"
               >
-                <motion.article
+                <m.article
                   initial={{ opacity: 0, y: 25 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.02, duration: 0.3 }}
@@ -114,7 +114,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
                   <div className="p-5 md:p-6 flex flex-col flex-grow">
                     
                     {/* Date stamp with Calendar Icon */}
-                    <div className="flex items-center gap-1.5 text-xs font-medium text-gray-400 uppercase tracking-widest mb-3.5">
+                    <div className="flex items-center gap-1.5 text-xs font-medium text-gray-500 uppercase tracking-widest mb-3.5">
                       <Calendar size={14} className="stroke-[2]" />
                       <span>{date}</span>
                     </div>
@@ -132,7 +132,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
                   {/* Read More Indicator anchored to bottom */}
                   <div className="mt-auto">
                     <div 
-                      className="text-[#1a8b4c] font-semibold flex items-center gap-1.5 group-hover:gap-2.5 transition-all text-[11.5px] uppercase tracking-widest"
+                      className="text-[#15803d] font-semibold flex items-center gap-1.5 group-hover:gap-2.5 transition-all text-[11.5px] uppercase tracking-widest"
                     >
                       Read More <ArrowRight size={14} className="stroke-[2]" />
                     </div>
@@ -140,7 +140,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
 
                 </div>
 
-              </motion.article>
+              </m.article>
             </Link>
           );
         })}
@@ -148,7 +148,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
 
         {/* View All Blogs CTA centered below */}
         <div className="flex justify-center mt-8 md:mt-12">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -158,7 +158,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
             >
               View All Blogs <ArrowRight size={16} className="stroke-[2]" />
             </Link>
-          </motion.div>
+          </m.div>
         </div>
 
       </div>

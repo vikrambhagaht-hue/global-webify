@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, startTransition } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import {
   Code, Search, Target, ArrowRight, X, Phone, Check,
   Users, Share2, ShoppingCart
@@ -87,7 +87,7 @@ function ServiceCard({ service, index, cityKey, onOpenQuote }: { service: Servic
   const linkHref = cityKey ? `/${cityKey}${service.link}` : service.link;
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "300px" }}
@@ -156,7 +156,7 @@ function ServiceCard({ service, index, cityKey, onOpenQuote }: { service: Servic
           </div>
         </div>
       </Link>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -197,14 +197,14 @@ export default function ServicesGrid({ cityKey, dynamicDescriptions, sectionTitl
   return (
     <Section id="services" spacing="md" variant="white" className="relative overflow-hidden font-sans bg-[#f8fafc] py-8 md:py-16 border-t border-gray-100">
       <div className="text-center max-w-[1200px] mx-auto mb-12 md:mb-16 relative z-10 px-4">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "150px" }}
-          className="inline-flex items-center gap-2 bg-gray-50 border border-gray-100 text-[#1a8b4c] text-[10px] md:text-[11px] font-bold px-3 py-1 md:px-4 md:py-1.5 rounded-full uppercase tracking-widest mb-4 md:mb-5 shadow-sm"
+          className="inline-flex items-center gap-2 bg-gray-50 border border-gray-100 text-[#15803d] text-[10px] md:text-[11px] font-bold px-3 py-1 md:px-4 md:py-1.5 rounded-full uppercase tracking-widest mb-4 md:mb-5 shadow-sm"
         >
           Our Expertise
-        </motion.div>
+        </m.div>
         
         {sectionTitle ? (
           <h2 id="services-title" className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-gray-900 leading-[1.2] tracking-tight mb-4 font-heading px-2" dangerouslySetInnerHTML={{ __html: sectionTitle }} />
@@ -238,14 +238,14 @@ export default function ServicesGrid({ cityKey, dynamicDescriptions, sectionTitl
 
       <AnimatePresence>
         {activeService && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeQuoteModal}
             className="fixed inset-0 z-[100000] overflow-y-auto bg-black/60 backdrop-blur-sm flex justify-center items-start sm:items-center p-3 sm:p-4"
           >
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -332,8 +332,8 @@ export default function ServicesGrid({ cityKey, dynamicDescriptions, sectionTitl
               <div className="text-center text-gray-400 font-jost text-[11px] sm:text-[12px] font-medium">
                 🔥 <span className="font-semibold text-gray-500">Limited slots available</span> this week — book yours now
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </Section>

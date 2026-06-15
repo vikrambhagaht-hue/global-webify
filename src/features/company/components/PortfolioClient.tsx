@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Globe } from 'lucide-react';
 import Image from 'next/image';
 
@@ -429,7 +429,7 @@ const ProjectCard = ({ project }: { project: typeof projects[0] }) => {
   }, []);
 
   return (
-    <motion.div
+    <m.div
       layout
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
@@ -516,7 +516,7 @@ const ProjectCard = ({ project }: { project: typeof projects[0] }) => {
           </a>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 };
 
@@ -538,23 +538,23 @@ export default function PortfolioClient() {
         <div className="text-center mb-8 sm:mb-10 max-w-3xl mx-auto">
 
 
-          <motion.h1 
+          <m.h1 
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
             className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-gray-900 mb-4 leading-tight"
           >
             Our <span className="text-[#2CA65A] underline decoration-green-200 decoration-4 sm:decoration-8 underline-offset-4">Portfolio</span>
-          </motion.h1>
+          </m.h1>
           
-          <motion.p 
+          <m.p 
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.05 }}
             className="text-gray-600 text-sm sm:text-base md:text-lg mb-5 leading-relaxed"
           >
             Discover our best website projects showcasing performance, UX, and reliability.
-          </motion.p>
+          </m.p>
 
           {/* Filtering buttons */}
           <div className="flex flex-wrap md:flex-nowrap justify-center items-center gap-1.5 sm:gap-2 py-1.5 px-4 select-none">
@@ -575,7 +575,7 @@ export default function PortfolioClient() {
         </div>
 
         {/* Grid layout */}
-        <motion.div 
+        <m.div 
           layout
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 max-w-[1400px] mx-auto"
         >
@@ -584,7 +584,7 @@ export default function PortfolioClient() {
               <ProjectCard key={project.id} project={project} />
             ))}
           </AnimatePresence>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

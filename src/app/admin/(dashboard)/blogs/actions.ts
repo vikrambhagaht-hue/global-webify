@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/lib/db';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { requireAdmin } from '@/lib/auth';
 
@@ -60,6 +60,7 @@ export async function saveBlogPost(formData: {
   revalidatePath(formattedSlug);
   revalidatePath('/blog/[slug]');
   revalidatePath('/sitemap.ts');
+  revalidateTag('breadcrumb-dynamic-pages');
 
   return { success: true, id: savedRecord.id };
 }
@@ -80,6 +81,7 @@ export async function deleteBlogPost(id: number) {
     revalidatePath('/blog');
     revalidatePath(post.slug);
     revalidatePath('/blog/[slug]');
+    revalidateTag('breadcrumb-dynamic-pages');
   }
 
   revalidatePath('/admin/blogs');

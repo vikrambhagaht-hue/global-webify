@@ -309,7 +309,8 @@ export default function Footer() {
                      rel="noopener noreferrer"
                      className="w-8 h-8 bg-white border border-gray-100 rounded-full flex items-center justify-center text-gray-600 shadow-sm hover:bg-[#7c3aed] hover:text-white transition-all transform hover:-translate-y-0.5"
                    >
-                     <Icon size={14} />
+                     <span className="sr-only">Visit our {social.name} page</span>
+                     <Icon size={14} aria-hidden="true" />
                    </a>
                  );
                })}

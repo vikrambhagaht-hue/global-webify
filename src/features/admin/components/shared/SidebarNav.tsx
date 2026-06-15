@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { 
-  LayoutDashboard, Layers, Newspaper, MessageSquare, Home, Briefcase, Handshake
+  LayoutDashboard, Layers, Newspaper, MessageSquare, Home, Briefcase, Handshake, Shuffle
 } from 'lucide-react';
 import SidebarCategories from './SidebarCategories';
 
@@ -24,6 +24,7 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
   const isHomepage = pathname.startsWith('/admin/homepage') && !pathname.startsWith('/admin/subdomains/homepage');
   const isSubdomainHomepage = pathname.startsWith('/admin/subdomains/homepage');
   const isPartnershipPage = pathname === '/admin/partnership';
+  const isRedirects = pathname.startsWith('/admin/redirects');
 
   const [openHomepage, setOpenHomepage] = React.useState(isHomepage);
   const [openSubdomainHomepage, setOpenSubdomainHomepage] = React.useState(isSubdomainHomepage);
@@ -313,6 +314,12 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
       <Link href="/admin/contacts" className={linkClass(isContacts)}>
         <MessageSquare className={iconClass(isContacts)} />
         <span>Contact Submissions</span>
+      </Link>
+
+      {/* Redirects Button */}
+      <Link href="/admin/redirects" className={linkClass(isRedirects)}>
+        <Shuffle className={iconClass(isRedirects)} />
+        <span>SEO Redirects</span>
       </Link>
 
     </nav>

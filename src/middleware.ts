@@ -10,6 +10,40 @@ export async function middleware(request: NextRequest) {
   requestHeaders.set('x-pathname', pathname);
   requestHeaders.set('x-url', request.url);
 
+  // Check custom redirects first (excluding assets, api, and admin panel pages)
+  if (
+    !pathname.startsWith('/_next') &&
+    !pathname.startsWith('/api') &&
+    !pathname.startsWith('/admin')
+  ) {
+    try {
+      // Fetch the statically updated redirects JSON file without caching
+      const res = await fetch(new URL('/redirects.json', request.url), {
+        cache: 'no-store',
+        next: { revalidate: 0 }
+      });
+      if (res.ok) {
+        const redirects = await res.json();
+        if (Array.isArray(redirects)) {
+          const match = redirects.find(
+            (r: any) =>
+              r.source === pathname ||
+              r.source === pathname + '/' ||
+              pathname === r.source + '/'
+          );
+          if (match && match.destination) {
+            const destUrl = match.destination.startsWith('http')
+              ? match.destination
+              : new URL(match.destination, request.url).toString();
+            return NextResponse.redirect(destUrl, 301);
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Middleware redirect check error:', err);
+    }
+  }
+
   // We only care about protecting /admin and /api/admin routes
   const isAdminRoute = pathname.startsWith('/admin');
   const isAdminApiRoute = pathname.startsWith('/api/admin');

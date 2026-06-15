@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from 'framer-motion';
 import {
   X, Globe, TrendingUp, Lock, Zap, UserX,
   Search, CheckCircle2, Shield, Activity, ArrowRight, AlertTriangle,
@@ -172,7 +172,7 @@ export default function AuditModal({ isOpen, onClose }: AuditModalProps) {
   const modal = (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <m.div
           key="backdrop"
           initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
           transition={{ duration:0.18 }}
@@ -186,7 +186,7 @@ export default function AuditModal({ isOpen, onClose }: AuditModalProps) {
             fontFamily:"var(--font-montserrat,'Inter',sans-serif)",
           }}
         >
-          <motion.div
+          <m.div
             key="card"
             initial={{ opacity:0, scale:0.93, y:24 }}
             animate={{ opacity:1, scale:1, y:0 }}
@@ -209,7 +209,7 @@ export default function AuditModal({ isOpen, onClose }: AuditModalProps) {
 
                 {/* ═ STEP 1 ═══════════════════════════════════════════════ */}
                 {step === 1 && (
-                  <motion.div key="s1"
+                  <m.div key="s1"
                     initial={{ opacity:0, x:-14 }} animate={{ opacity:1, x:0 }}
                     exit={{ opacity:0, x:14 }} transition={{ duration:0.2 }}
                     style={{ padding:"20px" }}
@@ -275,19 +275,19 @@ export default function AuditModal({ isOpen, onClose }: AuditModalProps) {
                         </div>
                       ))}
                     </div>
-                  </motion.div>
+                  </m.div>
                 )}
 
                 {/* ═ STEP 2 ═══════════════════════════════════════════════ */}
                 {step === 2 && (
-                  <motion.div key="s2"
+                  <m.div key="s2"
                     initial={{ opacity:0, x:-14 }} animate={{ opacity:1, x:0 }}
                     exit={{ opacity:0, x:14 }} transition={{ duration:0.2 }}
                     style={{ padding:"16px 20px 18px", display:"flex", flexDirection:"column", alignItems:"center" }}
                   >
                     {/* Pulsing icon */}
                     <div style={{ position:"relative", width:"58px", height:"58px", marginBottom:"12px" }}>
-                      <motion.div
+                      <m.div
                         animate={{ scale:[1,1.22,1], opacity:[0.3,0.65,0.3] }}
                         transition={{ duration:1.8, repeat:Infinity }}
                         style={{ position:"absolute", inset:0, borderRadius:"50%", background:"#dcfce7" }}
@@ -307,7 +307,7 @@ export default function AuditModal({ isOpen, onClose }: AuditModalProps) {
                       width:"100%", height:"4px", background:"#f1f5f9",
                       borderRadius:"999px", overflow:"hidden", marginBottom:"10px",
                     }}>
-                      <motion.div
+                      <m.div
                         style={{ height:"100%", background:"#1a8b4c", borderRadius:"999px" }}
                         initial={{ width:"0%" }}
                         animate={{ width:`${Math.round(((loadingStep+1)/5)*100)}%` }}
@@ -343,11 +343,11 @@ export default function AuditModal({ isOpen, onClose }: AuditModalProps) {
                             }}>
                               {isDone ? <CheckCircle2 size={12}/> :
                                isActive ? (
-                                <motion.div animate={{ rotate:360 }}
+                                <m.div animate={{ rotate:360 }}
                                   transition={{ duration:1.4, repeat:Infinity, ease:"linear" }}
                                   style={{ display:"flex" }}>
                                   {item.icon}
-                                </motion.div>
+                                </m.div>
                                ) : item.icon}
                             </div>
                             <span style={{
@@ -374,12 +374,12 @@ export default function AuditModal({ isOpen, onClose }: AuditModalProps) {
                         A 1-second delay in load time causes a 7% drop in conversions.
                       </p>
                     </div>
-                  </motion.div>
+                  </m.div>
                 )}
 
                 {/* ═ STEP 3 ═══════════════════════════════════════════════ */}
                 {step === 3 && scores && (
-                  <motion.div key="s3"
+                  <m.div key="s3"
                     initial={{ opacity:0, scale:0.94 }} animate={{ opacity:1, scale:1 }}
                     transition={{ type:"spring", stiffness:300, damping:26 }}
                     style={{ padding:"16px 20px 20px", display:"flex", flexDirection:"column", alignItems:"center" }}
@@ -502,13 +502,13 @@ export default function AuditModal({ isOpen, onClose }: AuditModalProps) {
                         ✅ Powered by Google Lighthouse · Real mobile data
                       </p>
                     )}
-                  </motion.div>
+                  </m.div>
                 )}
 
               </AnimatePresence>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

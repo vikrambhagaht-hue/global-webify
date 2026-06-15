@@ -1,13 +1,13 @@
 "use client";
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export const SectionDivider = () => {
   return (
     <div className="relative w-full h-24 overflow-hidden pointer-events-none -my-12 z-20">
       {/* Soft Green Glow that "bleeds" from one section to the next */}
-      <motion.div 
+      <m.div 
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Phone, MessageCircle, Briefcase, X, ArrowRight } from 'lucide-react';
 import { CITIES_MAP } from '@/features/services/constants/cities';
 
@@ -115,7 +115,7 @@ export default function MobileStickyNav() {
 
   return (
     <>
-      <motion.div 
+      <m.div 
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", damping: 20, stiffness: 100 }}
@@ -151,7 +151,7 @@ export default function MobileStickyNav() {
             delay: 1.0
           }
         ].map((item, i) => (
-          <motion.div
+          <m.div
             key={item.label}
             className={`flex-1 flex border-white/20 relative overflow-hidden ${i !== 2 ? 'border-r-[1.5px]' : ''}`}
             whileTap={{ backgroundColor: "rgba(255,255,255,0.1)" }}
@@ -163,16 +163,16 @@ export default function MobileStickyNav() {
                 title={`${item.label} - Global Webify`}
                 className="flex-1 flex flex-col items-center justify-center gap-1.5 text-white transition-colors relative z-10 overflow-hidden"
               >
-                <motion.div
+                <m.div
                   animate={item.animateState ? "tingle" : "idle"}
                   variants={getVariants(item.delay)}
                 >
                   {item.icon}
-                </motion.div>
+                </m.div>
                 <span className="text-[10px] font-black uppercase tracking-[0.15em]">{item.label}</span>
 
                 {item.animateState && (
-                  <motion.div
+                  <m.div
                     initial={{ left: "-100%" }}
                     animate={{ left: "200%" }}
                     transition={{ duration: 0.6, ease: "easeInOut" }}
@@ -186,28 +186,28 @@ export default function MobileStickyNav() {
                 title={`${item.label} - Global Webify`}
                 className="flex-1 flex flex-col items-center justify-center gap-1.5 text-white transition-colors relative z-10 w-full overflow-hidden"
               >
-                <motion.div
+                <m.div
                   animate={item.animateState ? "tingle" : "idle"}
                   variants={getVariants(item.delay)}
                 >
                   {item.icon}
-                </motion.div>
+                </m.div>
                 <span className="text-[10px] font-black uppercase tracking-[0.15em]">{item.label}</span>
               </button>
             )}
-          </motion.div>
+          </m.div>
         ))}
 
         {/* Subtle bottom glow */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-t from-white/10 to-transparent pointer-events-none" />
-      </motion.div>
+      </m.div>
 
       {/* Right Sidebar Drawer for Portfolio Showcase */}
       <AnimatePresence>
         {isDrawerOpen && (
           <>
             {/* Backdrop */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0 }} 
               animate={{ opacity: 0.5 }} 
               exit={{ opacity: 0 }} 
@@ -216,7 +216,7 @@ export default function MobileStickyNav() {
             />
 
             {/* Sidebar drawer */}
-            <motion.div
+            <m.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
@@ -287,7 +287,7 @@ export default function MobileStickyNav() {
                   </Link>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           </>
         )}
       </AnimatePresence>

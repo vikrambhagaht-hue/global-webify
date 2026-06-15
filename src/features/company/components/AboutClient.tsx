@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { m, useInView } from 'framer-motion';
 import { CheckCircle2, Star, FolderKanban, PhoneCall, Target, Eye, Heart, ArrowRight, Crown, Code2, Leaf } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -79,23 +79,23 @@ export default function AboutClient() {
       {/* Top Header Section */}
       <section className="pt-0 pb-6 bg-white border-b border-gray-100">
         <div className="container-custom text-center">
-          <motion.h1 
+          <m.h1 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-3xl md:text-5xl font-black font-lexend text-primary-dark mb-4 uppercase tracking-tight"
           >
             About Global Webify
-          </motion.h1>
+          </m.h1>
           <div className="w-16 h-1 bg-primary mx-auto mb-6 rounded-full"></div>
-          <motion.p 
+          <m.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
             className="text-base md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
           >
             We help businesses grow online with custom web development, SEO, and digital marketing solutions.
-          </motion.p>
+          </m.p>
         </div>
       </section>
 
@@ -103,7 +103,7 @@ export default function AboutClient() {
       <section className="py-12 md:py-16 bg-gradient-to-b from-white via-slate-50/50 to-[#f4fbf7]/40">
         <div className="container-custom">
           {/* Centered Main Section Heading */}
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -112,11 +112,11 @@ export default function AboutClient() {
             <h2 className="text-2xl md:text-4xl font-extrabold font-lexend text-primary-dark tracking-wide uppercase leading-tight">
               Transforming Ideas Into Digital Reality
             </h2>
-          </motion.div>
+          </m.div>
 
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             {/* Left Column: Rich Copy Content */}
-            <motion.div 
+            <m.div 
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
@@ -124,17 +124,17 @@ export default function AboutClient() {
               className="lg:col-span-7 space-y-8"
             >
               {/* Introduction Paragraphs */}
-              <motion.div variants={fadeInUp} className="space-y-4 text-gray-700 leading-relaxed text-sm md:text-base">
+              <m.div variants={fadeInUp} className="space-y-4 text-gray-700 leading-relaxed text-sm md:text-base">
                 <p>
                   At <span className="font-semibold text-gray-900">Global Webify</span>, we believe that a strong digital presence is not a luxury—it’s a necessity for business growth. Since 2015, we have been helping businesses across India and beyond build powerful brands, create high-performing websites, and achieve measurable results through strategic digital marketing.
                 </p>
                 <p>
                   With over two decades of industry experience, Global Webify has evolved alongside the digital landscape, adapting to new technologies, search algorithms, and user behaviors. Our focus has always remained the same: delivering value-driven solutions that help our clients grow, compete, and succeed online.
                 </p>
-              </motion.div>
+              </m.div>
 
               {/* Who We Are */}
-              <motion.div variants={fadeInUp} className="space-y-3">
+              <m.div variants={fadeInUp} className="space-y-3">
                 <h3 className="text-xl md:text-2xl font-bold font-lexend text-primary-dark border-l-4 border-primary pl-3">
                   Who We Are
                 </h3>
@@ -146,10 +146,10 @@ export default function AboutClient() {
                     Our team consists of experienced strategists, designers, developers, and digital marketers who work collaboratively to create impactful digital experiences.
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
 
               {/* Our Expertise & Services */}
-              <motion.div variants={fadeInUp} className="space-y-4">
+              <m.div variants={fadeInUp} className="space-y-4">
                 <h3 className="text-xl md:text-2xl font-bold font-lexend text-primary-dark border-l-4 border-primary pl-3">
                   Our Expertise & Services
                 </h3>
@@ -199,10 +199,10 @@ export default function AboutClient() {
                     Every service we offer is backed by strategy, analytics, and a clear focus on ROI.
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
 
               {/* Why Clients Trust Global Webify */}
-              <motion.div variants={fadeInUp} className="space-y-4">
+              <m.div variants={fadeInUp} className="space-y-4">
                 <h3 className="text-xl md:text-2xl font-bold font-lexend text-primary-dark border-l-4 border-primary pl-3">
                   Why Clients Trust Global Webify
                 </h3>
@@ -228,10 +228,10 @@ export default function AboutClient() {
                 <p className="text-sm md:text-base font-semibold text-gray-950 pt-2 border-t border-gray-100">
                   We measure success not just by rankings or traffic, but by the growth our clients achieve.
                 </p>
-              </motion.div>
+              </m.div>
 
               {/* Action Buttons */}
-              <motion.div variants={fadeInUp} className="flex flex-wrap gap-4 pt-4">
+              <m.div variants={fadeInUp} className="flex flex-wrap gap-4 pt-4">
                 <Link 
                   href="/portfolio"
                   className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-full font-bold shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 text-sm md:text-base"
@@ -246,11 +246,11 @@ export default function AboutClient() {
                   <PhoneCall size={18} />
                   Contact Us
                 </Link>
-              </motion.div>
-            </motion.div>
+              </m.div>
+            </m.div>
 
             {/* Right Column: Premium Visual & About1 Image (Reduced size, centered on mobile, right-aligned on desktop) */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -258,7 +258,7 @@ export default function AboutClient() {
               className="lg:col-span-5 lg:sticky lg:top-24 space-y-6 w-full max-w-[420px] mx-auto lg:ml-auto lg:mr-0"
             >
               {/* Premium Image Container with Framer Motion Hover Lift Effect */}
-              <motion.div 
+              <m.div 
                 whileHover={{ y: -8, scale: 1.015 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
                 className="relative group rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl border border-gray-100 bg-white"
@@ -274,10 +274,10 @@ export default function AboutClient() {
                     priority
                   />
                 </div>
-              </motion.div>
+              </m.div>
 
               {/* Premium Video Container with Hover Lift Effect */}
-              <motion.div 
+              <m.div 
                 whileHover={{ y: -6 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
                 className="relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl border border-gray-100 bg-white"
@@ -292,7 +292,7 @@ export default function AboutClient() {
                   controls
                   className="w-full h-auto object-cover rounded-3xl"
                 />
-              </motion.div>
+              </m.div>
 
               {/* Accompanying Stats Grid */}
               <div className="grid grid-cols-2 gap-4">
@@ -309,7 +309,7 @@ export default function AboutClient() {
                   <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Client Focused</p>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -320,7 +320,7 @@ export default function AboutClient() {
           {/* Row 1: Our Mission */}
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-stretch">
             {/* Mission Text Card */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -355,10 +355,10 @@ export default function AboutClient() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Mission Image Card */}
-            <motion.div 
+            <m.div 
               whileHover={{ y: -8, scale: 1.015 }}
               transition={{ type: "spring", stiffness: 300, damping: 22 }}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -381,13 +381,13 @@ export default function AboutClient() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-            </motion.div>
+            </m.div>
           </div>
 
           {/* Row 2: Our Vision */}
           <div id="vision-card" className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-stretch pt-8">
             {/* Vision Image Card */}
-            <motion.div 
+            <m.div 
               whileHover={{ y: -8, scale: 1.015 }}
               transition={{ type: "spring", stiffness: 300, damping: 22 }}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -410,10 +410,10 @@ export default function AboutClient() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Vision Text Card */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -448,7 +448,7 @@ export default function AboutClient() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -474,7 +474,7 @@ export default function AboutClient() {
             {/* Card 1: Vikram Bhagat */}
             <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               {/* Text Card */}
-              <motion.div 
+              <m.div 
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -482,12 +482,12 @@ export default function AboutClient() {
               >
                 {/* Circle Type Animation in Top-Left Corner */}
                 <div className="absolute -top-6 -left-6 w-20 h-20 pointer-events-none z-0">
-                  <motion.div 
+                  <m.div 
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
                     className="w-full h-full rounded-full border border-dashed border-emerald-400/20"
                   />
-                  <motion.div 
+                  <m.div 
                     animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
                     transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
                     className="absolute inset-4 rounded-full bg-emerald-500/10 blur-[2px]"
@@ -497,7 +497,7 @@ export default function AboutClient() {
                 {/* 3D Glossy Bouncing Ball with Shadow (Repositioned to bottom-right to avoid button overlap) */}
                 <div className="absolute right-8 bottom-8 w-16 h-24 pointer-events-none z-0 flex flex-col items-center justify-between">
                   {/* Bouncing Sphere */}
-                  <motion.div 
+                  <m.div 
                     animate={{ y: [0, -35, 0] }}
                     transition={{ 
                       repeat: Infinity, 
@@ -507,7 +507,7 @@ export default function AboutClient() {
                     className="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-400 to-green-300 shadow-lg shadow-emerald-400/50 border border-emerald-300/30"
                   />
                   {/* Bouncing Shadow */}
-                  <motion.div 
+                  <m.div 
                     animate={{ scale: [1, 0.5, 1], opacity: [0.6, 0.2, 0.6] }}
                     transition={{ 
                       repeat: Infinity, 
@@ -541,10 +541,10 @@ export default function AboutClient() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
 
               {/* Image Card */}
-              <motion.div 
+              <m.div 
                 whileHover={{ y: -8, scale: 1.015 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -567,13 +567,13 @@ export default function AboutClient() {
                     sizes="(max-width: 1024px) 100vw, 33vw"
                   />
                 </div>
-              </motion.div>
+              </m.div>
             </div>
 
             {/* Card 2: Shakti Singh */}
             <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               {/* Image Card */}
-              <motion.div 
+              <m.div 
                 whileHover={{ y: -8, scale: 1.015 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -596,10 +596,10 @@ export default function AboutClient() {
                     sizes="(max-width: 1024px) 100vw, 33vw"
                   />
                 </div>
-              </motion.div>
+              </m.div>
 
               {/* Text Card */}
-              <motion.div 
+              <m.div 
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -607,12 +607,12 @@ export default function AboutClient() {
               >
                 {/* Circle Type Animation in Top-Left Corner */}
                 <div className="absolute -top-6 -left-6 w-20 h-20 pointer-events-none z-0">
-                  <motion.div 
+                  <m.div 
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
                     className="w-full h-full rounded-full border border-dashed border-blue-400/20"
                   />
-                  <motion.div 
+                  <m.div 
                     animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
                     transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
                     className="absolute inset-4 rounded-full bg-blue-500/10 blur-[2px]"
@@ -622,7 +622,7 @@ export default function AboutClient() {
                 {/* 3D Glossy Bouncing Ball with Shadow (Repositioned to bottom-right to avoid button overlap) */}
                 <div className="absolute right-8 bottom-8 w-16 h-24 pointer-events-none z-0 flex flex-col items-center justify-between">
                   {/* Bouncing Sphere */}
-                  <motion.div 
+                  <m.div 
                     animate={{ y: [0, -35, 0] }}
                     transition={{ 
                       repeat: Infinity, 
@@ -632,7 +632,7 @@ export default function AboutClient() {
                     className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-400 to-cyan-300 shadow-lg shadow-blue-400/50 border border-blue-300/30"
                   />
                   {/* Bouncing Shadow */}
-                  <motion.div 
+                  <m.div 
                     animate={{ scale: [1, 0.5, 1], opacity: [0.6, 0.2, 0.6] }}
                     transition={{ 
                       repeat: Infinity, 
@@ -666,13 +666,13 @@ export default function AboutClient() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
 
             {/* Card 3: Abhishek Kumar */}
             <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               {/* Text Card */}
-              <motion.div 
+              <m.div 
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -680,12 +680,12 @@ export default function AboutClient() {
               >
                 {/* Circle Type Animation in Top-Left Corner */}
                 <div className="absolute -top-6 -left-6 w-20 h-20 pointer-events-none z-0">
-                  <motion.div 
+                  <m.div 
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
                     className="w-full h-full rounded-full border border-dashed border-emerald-400/20"
                   />
-                  <motion.div 
+                  <m.div 
                     animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
                     transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
                     className="absolute inset-4 rounded-full bg-emerald-500/10 blur-[2px]"
@@ -695,7 +695,7 @@ export default function AboutClient() {
                 {/* 3D Glossy Bouncing Ball with Shadow (Repositioned to bottom-right to avoid button overlap) */}
                 <div className="absolute right-8 bottom-8 w-16 h-24 pointer-events-none z-0 flex flex-col items-center justify-between">
                   {/* Bouncing Sphere */}
-                  <motion.div 
+                  <m.div 
                     animate={{ y: [0, -35, 0] }}
                     transition={{ 
                       repeat: Infinity, 
@@ -705,7 +705,7 @@ export default function AboutClient() {
                     className="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-400 to-green-300 shadow-lg shadow-emerald-400/50 border border-emerald-300/30"
                   />
                   {/* Bouncing Shadow */}
-                  <motion.div 
+                  <m.div 
                     animate={{ scale: [1, 0.5, 1], opacity: [0.6, 0.2, 0.6] }}
                     transition={{ 
                       repeat: Infinity, 
@@ -745,10 +745,10 @@ export default function AboutClient() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
 
               {/* Image Card */}
-              <motion.div 
+              <m.div 
                 whileHover={{ y: -8, scale: 1.015 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -771,7 +771,7 @@ export default function AboutClient() {
                     sizes="(max-width: 1024px) 100vw, 33vw"
                   />
                 </div>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -793,7 +793,7 @@ export default function AboutClient() {
                   { src: "/Certificate6.avif", alt: "ISO 9001:2015 (Quality Management)" },
                   { src: "/Certificate7.avif", alt: "Certificate of Registration of Firm" },
                 ].map((cert, index) => (
-                  <motion.div
+                  <m.div
                     key={index}
                     whileHover={{ y: -6, scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -810,7 +810,7 @@ export default function AboutClient() {
                       className="object-cover"
                       sizes="(max-width: 768px) 25vw, 15vw"
                     />
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </div>
@@ -871,7 +871,7 @@ export default function AboutClient() {
               { src: "/BankOfBaroda.avif", alt: "Bank of Baroda" },
               { src: "/IndianOverseasBank.avif", alt: "Indian Overseas Bank" },
             ].map((partner, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 whileHover={{ scale: 1.05, y: -4 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -884,7 +884,7 @@ export default function AboutClient() {
                   height={90}
                   className="object-contain max-h-full max-w-full"
                 />
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>

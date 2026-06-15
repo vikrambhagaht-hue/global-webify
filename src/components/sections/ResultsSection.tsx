@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ArrowUpRight, Star, Award } from 'lucide-react';
 import { Section } from '../layout/Responsive/Section';
 import { AnimatePresence } from 'framer-motion';
@@ -55,7 +55,7 @@ export default function ResultsSection({ cardData }: { cardData?: any }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
           
           {/* LEFT LARGE CARD: Main Info */}
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "150px" }}
@@ -77,7 +77,7 @@ export default function ResultsSection({ cardData }: { cardData?: any }) {
             <div className="mt-12 flex items-start relative z-10">
               <button 
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="bg-white/10 border-2 border-white/20 text-white px-8 py-3 rounded-full font-black text-[15px] hover:bg-[#1cb05b] hover:border-[#1cb05b] hover:text-white transition-all uppercase tracking-wider shadow-sm hover:shadow-lg"
+                className="bg-white/10 border-2 border-white/40 text-white px-8 py-3 rounded-full font-black text-[15px] hover:bg-[#1cb05b] hover:border-[#1cb05b] hover:text-white transition-all uppercase tracking-wider shadow-sm hover:shadow-lg"
               >
                 {isExpanded ? 'Read Less' : (cardData?.buttonText || 'Read More')}
               </button>
@@ -85,13 +85,13 @@ export default function ResultsSection({ cardData }: { cardData?: any }) {
 
             {/* Decorative background circle */}
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#1a8b4c]/20 blur-[100px] rounded-full -mr-32 -mt-32 pointer-events-none" />
-          </motion.div>
+          </m.div>
 
           {/* MIDDLE COLUMN: Stats */}
           <div className="lg:col-span-3 flex flex-col gap-4 md:gap-6">
             
             {/* ROI Card */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "150px" }}
@@ -102,17 +102,17 @@ export default function ResultsSection({ cardData }: { cardData?: any }) {
                 Average ROI <br /> Increase
               </p>
               <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                <motion.div 
+                <m.div 
                   initial={{ width: 0 }}
                   whileInView={{ width: "85%" }}
                   transition={{ duration: 1, delay: 0.5 }}
                   className="h-full bg-blue-400"
                 />
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Leads Card */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "150px" }}
@@ -124,18 +124,18 @@ export default function ResultsSection({ cardData }: { cardData?: any }) {
                 Leads <br /> Generated
               </p>
               <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                <motion.div 
+                <m.div 
                   initial={{ width: 0 }}
                   whileInView={{ width: "95%" }}
                   transition={{ duration: 1, delay: 0.7 }}
                   className="h-full bg-purple-400"
                 />
               </div>
-            </motion.div>
+            </m.div>
           </div>
 
           {/* RIGHT COLUMN: Testimonial Slider */}
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "150px" }}
@@ -148,7 +148,7 @@ export default function ResultsSection({ cardData }: { cardData?: any }) {
 
               <div className="flex-1 relative h-[220px] md:h-[260px] overflow-hidden">
                 <AnimatePresence mode="wait">
-                  <motion.p 
+                  <m.p 
                     key={index}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -157,13 +157,13 @@ export default function ResultsSection({ cardData }: { cardData?: any }) {
                     className="text-gray-800 font-medium text-[14px] md:text-[15px] italic leading-relaxed mb-8 absolute inset-0"
                   >
                     "{current.text}"
-                  </motion.p>
+                  </m.p>
                 </AnimatePresence>
               </div>
             </div>
 
             <div className="relative z-10 mt-auto">
-              <motion.div 
+              <m.div 
                 key={`author-${index}`}
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -176,7 +176,7 @@ export default function ResultsSection({ cardData }: { cardData?: any }) {
                   <h5 className="font-black text-gray-950 text-[15px]">{current.author}</h5>
                   <p className="text-gray-500 text-[11px] font-bold">{current.role}</p>
                 </div>
-              </motion.div>
+              </m.div>
 
               <div className="flex items-center justify-between">
                 <div className="flex gap-2">
@@ -193,13 +193,13 @@ export default function ResultsSection({ cardData }: { cardData?: any }) {
 
             {/* Corner styling */}
             <div className="absolute top-0 right-0 w-24 h-24 bg-white/40 rounded-bl-[40px] z-0" />
-          </motion.div>
+          </m.div>
 
         </div>
 
         {/* Bottom stats row - Optimized for Mobile */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mt-6">
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "150px" }}
@@ -212,9 +212,9 @@ export default function ResultsSection({ cardData }: { cardData?: any }) {
             <div className="hidden md:flex w-12 h-12 bg-gray-50 text-[#1a8b4c] rounded-full items-center justify-center group-hover:bg-[#1a8b4c] group-hover:text-white transition-colors shadow-sm">
               <Star size={24} fill="currentColor" />
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "150px" }}
@@ -228,9 +228,9 @@ export default function ResultsSection({ cardData }: { cardData?: any }) {
             <div className="hidden md:flex w-12 h-12 bg-gray-50 text-[#1a8b4c] rounded-full items-center justify-center group-hover:bg-[#1a8b4c] group-hover:text-white transition-colors shadow-sm">
               <Award size={24} />
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "150px" }}
@@ -244,7 +244,7 @@ export default function ResultsSection({ cardData }: { cardData?: any }) {
             <div className="hidden md:flex w-12 h-12 bg-gray-50 text-[#1a8b4c] rounded-full items-center justify-center group-hover:bg-[#1a8b4c] group-hover:text-white transition-colors shadow-sm">
               <ArrowUpRight size={24} />
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </Section>

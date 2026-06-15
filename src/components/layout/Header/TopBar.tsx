@@ -29,7 +29,7 @@ export const TopBar = ({ isOpen, setIsOpen }: TopBarProps) => {
                 alt="Global Webify Logo"
                 fill
                 priority
-                quality={100}
+                quality={85}
                 className="object-contain py-1"
                 sizes="(max-width: 768px) 120px, 150px"
               />
