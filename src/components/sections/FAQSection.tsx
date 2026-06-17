@@ -27,21 +27,21 @@ export function FAQSection({ faqs, sectionTitle, sectionDesc }: { faqs: FAQItem[
         <div className="text-center mb-12">
           {sectionTitle ? (
             <h2 
-              className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight"
+              className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-gray-950 leading-tight tracking-tight font-heading"
               dangerouslySetInnerHTML={{ __html: sectionTitle }}
             />
           ) : (
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight">
+            <h2 className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-gray-950 leading-tight tracking-tight font-heading">
               Frequently Asked <span className="text-[#1a8b4c]">Questions</span>
             </h2>
           )}
           {sectionDesc ? (
             <p 
-              className="mt-4 text-xs md:text-sm text-gray-500 font-bold uppercase tracking-wider"
+              className="mt-4 text-[14px] md:text-[16px] text-gray-500 max-w-[800px] mx-auto font-medium leading-relaxed"
               dangerouslySetInnerHTML={{ __html: sectionDesc }}
             />
           ) : (
-            <p className="mt-4 text-xs md:text-sm text-gray-500 font-bold uppercase tracking-wider">
+            <p className="mt-4 text-[14px] md:text-[16px] text-gray-500 max-w-[800px] mx-auto font-medium leading-relaxed">
               Everything you need to know about our process and booking.
             </p>
           )}

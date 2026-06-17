@@ -72,6 +72,18 @@ const techStack = [
 ];
 
 export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?: string; sectionDesc?: string }) {
+  const [isDesktop, setIsDesktop] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkDevice = () => {
+      const isLargeHover = window.innerWidth >= 1024 && window.matchMedia('(hover: hover)').matches;
+      setIsDesktop(prev => (prev !== isLargeHover ? isLargeHover : prev));
+    };
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
+
   return (
     <Section id="tech-stack" variant="dark" className="bg-gradient-to-br from-[#064e3b] to-[#022c22] relative overflow-hidden font-sans border-t border-[#064e3b]">
       {/* Decorative liquid glass lighting */}
@@ -82,8 +94,8 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
       <div className="relative z-10">
         <div className="text-center max-w-[1100px] mx-auto mb-8 md:mb-12 px-4">
           <m.span 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={isDesktop ? { opacity: 0, y: 10 } : { opacity: 1, y: 0 }}
+            animate={isDesktop ? { opacity: 1, y: 0 } : undefined}
             className="inline-flex items-center gap-2 bg-green-50 border border-green-100 text-[#1a8b4c] text-[11px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-4 shadow-sm"
           >
             <span className="relative flex h-2 w-2">
@@ -119,12 +131,12 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
           {techStack.map((tech, i) => (
             <m.div
               key={tech.name}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={isDesktop ? { opacity: 0, y: 15 } : { opacity: 1, y: 0 }}
+              whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true, margin: "300px" }}
               transition={{ delay: i * 0.015, duration: 0.3 }}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="group flex flex-col items-center"
+              whileHover={isDesktop ? { y: -5, transition: { duration: 0.2 } } : undefined}
+              className="group flex flex-col items-center transform-gpu will-change-transform"
               style={{ '--tech-color': tech.color } as React.CSSProperties}
             >
               <div 

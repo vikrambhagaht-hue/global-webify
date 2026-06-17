@@ -1,0 +1,18 @@
+- [x] Fix overflow bug in homepage portfolio description text
+- [x] Push Prisma schema changes to database (`npx prisma db push`)
+- [x] Create server actions for Reviews in `src/app/admin/(dashboard)/reviews/actions.ts`
+- [x] Create Reviews administration view at `src/app/admin/(dashboard)/reviews/page.tsx`
+- [x] Add "Manage Reviews" link to the admin sidebar in `src/features/admin/components/shared/SidebarNav.tsx`
+- [x] Load reviews in `src/features/home/components/HomeView.tsx` and pass them to the growth section
+- [x] Display reviews dynamically in `src/components/sections/ResultsSection.tsx` with star selection and fallback
+- [x] Limit review text length to 280 characters to prevent overflow
+- [x] Make Results section title/description editable from the Admin Panel via section headers configuration
+- [x] Remove whitespace-nowrap classes from all homepage section descriptions (Services, LatestBlog, TechStack, TrustSection, Results) to ensure consistent responsive wrapping
+- [x] Fix mobile navbar safe area spacing and transparent gap issue (Safari, Chrome, Brave, Firefox, Opera, Operamini compatible) in `MobileStickyNav.tsx`
+- [x] Create server actions for policy content management in siteSetting table in `policies/actions.ts`
+- [x] Create Policies administration tab in admin console in `policies/page.tsx`
+- [x] Add policies management link in admin sidebar in `SidebarNav.tsx`
+- [x] Create dynamic front-end Return Policy page with premium layout in `(company)/return-policy/page.tsx`
+- [x] Create dynamic front-end Delivery Policy page with premium layout in `(company)/delivery-policy/page.tsx`
+- [x] Create dynamic front-end Refund Policy page with premium layout in `(company)/refund-policy/page.tsx`
+- [x] Add links to footer for Return, Delivery, and Refund policies in `Footer.tsx`

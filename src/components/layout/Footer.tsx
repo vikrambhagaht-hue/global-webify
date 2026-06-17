@@ -60,6 +60,18 @@ export default function Footer() {
   const isCityHome = segments.length === 1 && citySlugs.includes(segments[0].toLowerCase());
   const isHomepage = pathname === '/' || isCityHome;
 
+  const currentCity = segments.length > 0 && citySlugs.includes(segments[0].toLowerCase()) 
+    ? segments[0].toLowerCase() 
+    : null;
+
+  const getDynamicLink = (href: string) => {
+    if (currentCity) {
+      const cleanHref = href.startsWith('/') ? href : `/${href}`;
+      return `/${currentCity}${cleanHref}`;
+    }
+    return href;
+  };
+
   return (
     <footer className={`bg-[#f8fbfa] pt-12 ${isHomepage ? 'pb-[75px]' : 'pb-12'} md:pt-20 md:pb-12 font-sans border-t border-gray-100`}>
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
@@ -99,7 +111,7 @@ export default function Footer() {
               {/* Trust Badges */}
               <div className="flex flex-wrap gap-2.5 pt-1">
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-100 rounded-xl shadow-xs">
-                  <span className="text-[11px] font-black text-amber-500">★ 4.6/5</span>
+                  <span className="text-[11px] font-black text-amber-500">★ 4.7/5</span>
                   <span className="text-[10px] font-bold text-gray-500">Google Rating</span>
                 </div>
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-100 rounded-xl shadow-xs">
@@ -126,7 +138,7 @@ export default function Footer() {
                   return (
                     <Link 
                       key={i}
-                      href={service.href} 
+                      href={getDynamicLink(service.href)} 
                       className="group flex items-center gap-2.5 hover:translate-x-1 transition-transform duration-200"
                     >
                       <div className={`w-7 h-7 shrink-0 rounded-lg flex items-center justify-center ${service.color} transition-transform group-hover:scale-110`}>
@@ -144,7 +156,7 @@ export default function Footer() {
                   return (
                     <Link 
                       key={i}
-                      href={service.href} 
+                      href={getDynamicLink(service.href)} 
                       className="group flex items-center gap-2.5 hover:translate-x-1 transition-transform duration-200"
                     >
                       <div className={`w-7 h-7 shrink-0 rounded-lg flex items-center justify-center ${service.color} transition-transform group-hover:scale-110`}>
@@ -172,14 +184,14 @@ export default function Footer() {
                   return (
                     <Link 
                       key={i}
-                      href={service.href} 
+                      href={getDynamicLink(service.href)} 
                       title={`${service.name} - Global Webify`}
                       className="group flex items-center gap-2.5 hover:translate-x-1 transition-transform duration-200"
                     >
                       <div className={`w-7 h-7 shrink-0 rounded-lg flex items-center justify-center ${service.color} transition-transform group-hover:scale-110`}>
                         <Icon size={14} />
                       </div>
-                      <span className="text-[13px] text-gray-650 font-semibold group-hover:text-[#1a8b4c] transition-colors leading-tight">{service.name}</span>
+                      <span className="text-[13px] text-gray-600 font-semibold group-hover:text-[#1a8b4c] transition-colors leading-tight">{service.name}</span>
                     </Link>
                   );
                 })}
@@ -351,11 +363,12 @@ export default function Footer() {
              © {new Date().getFullYear()} Global Webify. All rights reserved.
            </p>
            <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 sm:gap-x-8 text-center">
-             {["Privacy Policy", "Terms of Service", "Cookie Policy", "Sitemap"].map((link) => {
+             {["Privacy Policy", "Terms of Service", "Cookie Policy", "Refund Policy", "Sitemap"].map((link) => {
                const slugMap: Record<string, string> = {
                  "Privacy Policy": "/privacy-policy",
                  "Terms of Service": "/terms-of-service",
                  "Cookie Policy": "/cookie-policy",
+                 "Refund Policy": "/refund-policy",
                  "Sitemap": "/sitemap"
                };
                return (

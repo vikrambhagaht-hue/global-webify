@@ -92,6 +92,26 @@ export default function MobileStickyNav() {
     };
   }, [isDrawerOpen]);
 
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
+  useEffect(() => {
+    const handleFocus = (e: any) => {
+      const target = e.target;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
+        setIsInputFocused(true);
+      }
+    };
+    const handleBlur = () => {
+      setIsInputFocused(false);
+    };
+    document.addEventListener('focusin', handleFocus);
+    document.addEventListener('focusout', handleBlur);
+    return () => {
+      document.removeEventListener('focusin', handleFocus);
+      document.removeEventListener('focusout', handleBlur);
+    };
+  }, []);
+
   const getVariants = (delay: number) => ({
     tingle: {
       rotate: [0, -12, 12, -12, 12, 0],
@@ -113,14 +133,47 @@ export default function MobileStickyNav() {
     }
   });
 
+  const [viewportBottom, setViewportBottom] = useState(0);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.visualViewport) return;
+
+    const handleVisualViewportChange = () => {
+      const vv = window.visualViewport;
+      if (!vv) return;
+      // Calculate how far the bottom of the visual viewport is from the bottom of the layout viewport
+      const offset = window.innerHeight - vv.height - vv.offsetTop;
+      setViewportBottom(Math.max(0, offset));
+    };
+
+    window.visualViewport.addEventListener('resize', handleVisualViewportChange);
+    window.visualViewport.addEventListener('scroll', handleVisualViewportChange);
+    window.addEventListener('scroll', handleVisualViewportChange);
+    
+    handleVisualViewportChange();
+
+    return () => {
+      window.visualViewport?.removeEventListener('resize', handleVisualViewportChange);
+      window.visualViewport?.removeEventListener('scroll', handleVisualViewportChange);
+      window.removeEventListener('scroll', handleVisualViewportChange);
+    };
+  }, []);
+
+  if (isInputFocused) return null;
+
   return (
     <>
-      <m.div 
-        initial={{ y: 100 }}
-        animate={{ y: 0 }}
-        transition={{ type: "spring", damping: 20, stiffness: 100 }}
-        className="md:hidden fixed bottom-0 left-0 right-0 z-[100] bg-[#1a8b4c] border-t border-white/20 shadow-[0_-8px_30px_rgba(0,0,0,0.25)] flex flex-col pb-[env(safe-area-inset-bottom)]"
+      <div 
+        className="md:hidden fixed left-0 right-0 z-[100] bg-[#1a8b4c] border-t border-white/20 shadow-[0_-8px_30px_rgba(0,0,0,0.25)] flex flex-col overflow-visible"
+        style={{ 
+          bottom: `${viewportBottom}px`,
+          paddingBottom: 'env(safe-area-inset-bottom)',
+          transition: 'bottom 0.1s ease-out'
+        }}
       >
+        {/* Safety overlay to prevent dynamic browser bar bottom gaps */}
+        <div className="absolute top-full left-0 right-0 h-40 bg-[#1a8b4c] pointer-events-none" />
+
         {/* Background with very subtle noise or gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
 
@@ -202,7 +255,7 @@ export default function MobileStickyNav() {
 
         {/* Subtle bottom glow */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-t from-white/10 to-transparent pointer-events-none" />
-      </m.div>
+      </div>
 
       {/* Right Sidebar Drawer for Portfolio Showcase */}
       <AnimatePresence>

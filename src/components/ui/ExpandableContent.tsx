@@ -113,9 +113,6 @@ export function ExpandableContent({
               font-size: 20px !important;
               font-weight: 700 !important;
               color: #1a8b4c !important;
-              text-decoration: underline !important;
-              text-underline-offset: 4px !important;
-              text-decoration-color: rgba(26, 139, 76, 0.6) !important;
               margin-bottom: 12px !important;
               margin-top: 24px !important;
               line-height: 1.375 !important;

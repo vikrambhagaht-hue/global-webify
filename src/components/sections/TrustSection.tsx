@@ -66,13 +66,13 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
           <div className="w-full lg:w-3/5">
             <div className="relative group">
               <div className="aspect-[4/3] bg-gray-50 rounded-[32px] border-4 border-gray-100 overflow-hidden shadow-2xl relative">
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="popLayout">
                   <m.div
                     key={certIndex}
                     initial={{ opacity: 0, scale: 0.95, x: 20 }}
                     animate={{ opacity: 1, scale: 1, x: 0 }}
                     exit={{ opacity: 0, scale: 1.05, x: -20 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.4 }}
                     className="absolute inset-0 p-4 flex items-center justify-center bg-white"
                   >
                     <div className="relative w-full h-full">
@@ -81,12 +81,19 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
                         alt={`Global Webify Certification ${certIndex + 1}`}
                         fill
                         className="object-contain"
-                        loading="lazy"
                         sizes="(max-width: 768px) 100vw, 50vw"
+                        priority={true}
                       />
                     </div>
                   </m.div>
                 </AnimatePresence>
+                
+                {/* Eager image preloader to cache all certificates immediately */}
+                <div className="hidden" aria-hidden="true">
+                  {certificates.map((cert) => (
+                    <img key={cert} src={cert} alt="" />
+                  ))}
+                </div>
 
                 {/* Navigation Buttons */}
                 <button 
@@ -125,7 +132,7 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
               <div className="absolute -top-6 -left-6 w-20 h-20 bg-green-100 rounded-full blur-2xl opacity-60 z-0" />
               <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-yellow-100 rounded-full blur-3xl opacity-60 z-0" />
               
-              <div className="relative z-10 rounded-[40px] overflow-hidden shadow-2xl border-8 border-white bg-black aspect-[9/16] group">
+              <div className="relative z-10 rounded-[40px] overflow-hidden border-8 border-white bg-black aspect-[9/16] shadow-2xl group">
                 <video 
                   className="w-full h-full object-cover"
                   controls

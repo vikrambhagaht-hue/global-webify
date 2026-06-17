@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { 
-  LayoutDashboard, Layers, Newspaper, MessageSquare, Home, Briefcase, Handshake, Shuffle, Star
+  LayoutDashboard, Layers, Newspaper, MessageSquare, Home, Briefcase, Handshake, Shuffle, Star, FileText
 } from 'lucide-react';
 import SidebarCategories from './SidebarCategories';
 
@@ -26,6 +26,7 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
   const isPartnershipPage = pathname === '/admin/partnership';
   const isRedirects = pathname.startsWith('/admin/redirects');
   const isReviews = pathname.startsWith('/admin/reviews');
+  const isPolicies = pathname.startsWith('/admin/policies');
 
   const [openHomepage, setOpenHomepage] = React.useState(isHomepage);
   const [openSubdomainHomepage, setOpenSubdomainHomepage] = React.useState(isSubdomainHomepage);
@@ -327,6 +328,12 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
       <Link href="/admin/reviews" className={linkClass(isReviews)}>
         <Star className={iconClass(isReviews)} />
         <span>Manage Reviews</span>
+      </Link>
+
+      {/* Policies Button */}
+      <Link href="/admin/policies" className={linkClass(isPolicies)}>
+        <FileText className={iconClass(isPolicies)} />
+        <span>Manage Policies</span>
       </Link>
 
     </nav>

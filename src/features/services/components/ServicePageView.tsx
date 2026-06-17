@@ -88,7 +88,7 @@ export function ServicePageView({ page, remainingSubMenus, faqs, locationName = 
               )}
             </div>
             
-            <div className="lg:col-span-2 sticky top-[150px] min-w-0">
+            <div className="lg:col-span-2 lg:sticky lg:top-[150px] min-w-0">
               <BlogContactForm />
             </div>
           </div>

@@ -28,6 +28,9 @@ function replaceLocation(text: string, loc: string = ""): string {
   
   let result = text.replace(spanRegex, loc).replace(rawRegex, loc);
   if (loc && loc.toLowerCase() !== 'ranchi') {
+    result = result.replace(/ranchi,\s*jharkhand/gi, loc);
+    result = result.replace(/ranchi\s*\(\s*jharkhand\s*\)/gi, loc);
+    result = result.replace(/ranchi\s+jharkhand/gi, loc);
     result = result.replace(/ranchi/gi, loc);
   }
   return result;
@@ -40,7 +43,7 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
 
   // Fix 2: Fire both DB queries in parallel instead of sequentially
   try {
-    const [rawPosts, services, dbReviews] = await Promise.all([
+    const [rawPosts, services, dbReviews, subdomainOverrides] = await Promise.all([
       db.blogPost.findMany({
         where: { isActive: true },
         orderBy: { createdAt: 'desc' },
@@ -52,15 +55,24 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
       }),
       db.review.findMany({
         orderBy: { createdAt: 'desc' }
-      })
+      }),
+      db.subdomainContent.findMany({})
     ]);
 
     dbPosts = rawPosts;
     reviews = dbReviews;
     services.forEach(s => {
       const key = s.slug.startsWith('/') ? s.slug.substring(1) : s.slug;
-      if (s.heroDescription) {
-        serviceDescriptions[key] = s.heroDescription;
+      let desc = s.heroDescription || "";
+      
+      // Look for subdomain-specific overrides for this service
+      const override = subdomainOverrides.find(o => o.pageType === key);
+      if (override && override.heroDescription) {
+        desc = override.heroDescription;
+      }
+
+      if (desc) {
+        serviceDescriptions[key] = desc;
       }
     });
   } catch (e) {
@@ -150,6 +162,11 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
       }
     }
 
+    // Apply location replacement to service descriptions for the services grid
+    Object.keys(serviceDescriptions).forEach(key => {
+      serviceDescriptions[key] = replaceLocation(serviceDescriptions[key], locationName);
+    });
+
     // Overrides from subdomain content if needed
     if (subdomainContent?.title) {
       homepageHeroTitle = replaceLocation(subdomainContent.title, locationName);
@@ -167,16 +184,6 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
 
   return (
     <div className="bg-white overflow-hidden pb-12">
-      
-      {/* Background Wavy Pattern */}
-      <div className="fixed inset-0 -z-10 pointer-events-none opacity-[0.04]">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <pattern id="waves" width="100" height="20" patternUnits="userSpaceOnUse">
-            <path d="M0 10 Q 25 0, 50 10 T 100 10" fill="none" stroke="#22c55e" strokeWidth="0.5" />
-          </pattern>
-          <rect width="100%" height="100%" fill="url(#waves)" />
-        </svg>
-      </div>
 
       {/* New Hero Section Component */}
       <Hero city={locationName} heroTexts={heroTexts} homepageHeroTitle={homepageHeroTitle} homepageHeroDesc={homepageHeroDesc} />

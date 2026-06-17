@@ -46,7 +46,7 @@ const projects = [
   }
 ];
 
-const ProjectCard = ({ project, index }: { project: any, index: number }) => {
+const ProjectCard = ({ project, index, isDesktop }: { project: any, index: number, isDesktop: boolean }) => {
   const x = useMotionValue(0.5);
   const y = useMotionValue(0.5);
 
@@ -57,6 +57,7 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
   const rotateY = useTransform(mouseXSpring, [0, 1], [-5, 5]);
 
   function handleMouse(event: React.MouseEvent<HTMLDivElement>) {
+    if (!isDesktop) return;
     const rect = event.currentTarget.getBoundingClientRect();
     x.set((event.clientX - rect.left) / rect.width);
     y.set((event.clientY - rect.top) / rect.height);
@@ -64,8 +65,8 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
 
   return (
     <m.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+      whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
       viewport={{ once: true, margin: "300px" }}
       transition={{ delay: index * 0.02, duration: 0.3 }}
       className="relative"
@@ -73,13 +74,13 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
     >
       <Link href={project.link} target="_blank" rel="noopener noreferrer" title={`${project.title} - Global Webify`}>
         <m.div
-          onMouseMove={handleMouse}
-          onMouseLeave={() => { x.set(0.5); y.set(0.5); }}
-          style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-          className="group relative bg-white rounded-[24px] overflow-hidden shadow-lg hover:shadow-[0_24px_48px_-12px_rgba(26,139,76,0.2)] transition-shadow duration-500 border border-gray-100"
+          onMouseMove={isDesktop ? handleMouse : undefined}
+          onMouseLeave={isDesktop ? () => { x.set(0.5); y.set(0.5); } : undefined}
+          style={isDesktop ? { rotateX, rotateY, transformStyle: "preserve-3d" } : {}}
+          className="group relative bg-white rounded-[24px] overflow-hidden shadow-lg hover:shadow-[0_24px_48px_-12px_rgba(26,139,76,0.2)] hover:-translate-y-1.5 lg:hover:-translate-y-2 transition-all duration-500 border border-gray-100 transform-gpu will-change-transform"
         >
           {/* Image Container */}
-          <div className="relative aspect-[16/10] overflow-hidden" style={{ transform: "translateZ(0px)" }}>
+          <div className="relative aspect-[16/10] overflow-hidden transform-gpu will-change-transform" style={{ transform: isDesktop ? "translateZ(0px)" : undefined }}>
             <Image
               src={project.image}
               alt={project.title}
@@ -123,6 +124,17 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
 
 export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?: string; sectionDesc?: string }) {
   const logos = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 15];
+  const [isDesktop, setIsDesktop] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkDevice = () => {
+      const isLargeHover = window.innerWidth >= 1024 && window.matchMedia('(hover: hover)').matches;
+      setIsDesktop(prev => (prev !== isLargeHover ? isLargeHover : prev));
+    };
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
 
   return (
     <Section id="portfolio" variant="gray" className="bg-[#f0fdf4] font-sans relative overflow-hidden">
@@ -133,8 +145,8 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
       <div className="relative z-10">
         <div className="text-center max-w-[1100px] mx-auto mb-10 px-4">
           <m.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={isDesktop ? { opacity: 0, scale: 0.9 } : { opacity: 1, scale: 1 }}
+            whileInView={isDesktop ? { opacity: 1, scale: 1 } : undefined}
             viewport={{ once: true }}
             className="inline-flex items-center gap-2 bg-green-100/50 border border-green-200 px-4 py-1.5 rounded-full mb-6"
           >
@@ -144,16 +156,16 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
 
           {sectionTitle ? (
             <m.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+              whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true }}
               className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-[#1a8b4c] leading-tight mb-6 tracking-tight font-heading"
               dangerouslySetInnerHTML={{ __html: sectionTitle }}
             />
           ) : (
             <m.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+              whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true }}
               className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-[#1a8b4c] leading-tight mb-6 tracking-tight font-heading"
             >
@@ -163,8 +175,8 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
 
           {sectionDesc ? (
             <m.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+              whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               className="text-gray-600 text-[14px] md:text-[18px] font-medium"
@@ -172,8 +184,8 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
             />
           ) : (
             <m.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+              whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               className="text-gray-600 text-[14px] md:text-[18px] font-medium"
@@ -185,7 +197,7 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8 max-w-[1400px] mx-auto px-4">
           {projects.map((project, i) => (
-            <ProjectCard key={i} project={project} index={i} />
+            <ProjectCard key={i} project={project} index={i} isDesktop={isDesktop} />
           ))}
         </div>
 
@@ -193,8 +205,8 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
         <div className="mt-16 py-14 bg-[#052e16] rounded-[32px] md:rounded-[40px] overflow-hidden relative shadow-2xl border border-green-900/20 px-4">
           <div className="text-center mb-10">
             <m.h3
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 0.8 }}
+              initial={isDesktop ? { opacity: 0 } : { opacity: 0.8 }}
+              whileInView={isDesktop ? { opacity: 0.8 } : undefined}
               viewport={{ once: true }}
               className="text-[11px] md:text-[13px] font-bold text-green-100 font-heading uppercase tracking-[0.4em]"
             >
@@ -203,30 +215,34 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
           </div>
 
           <div className="relative flex overflow-x-hidden">
-            <m.div
-              className="flex whitespace-nowrap py-2"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{
-                duration: 60,
-                repeat: Infinity,
-                ease: "linear",
-              }}
+            <style>{`
+              @keyframes logoMarquee {
+                0% { transform: translate3d(0, 0, 0); }
+                100% { transform: translate3d(-50%, 0, 0); }
+              }
+              .animate-logo-marquee {
+                animation: logoMarquee 60s linear infinite;
+              }
+            `}</style>
+            <div
+              className="flex whitespace-nowrap py-2 transform-gpu will-change-transform animate-logo-marquee"
+              style={{ transform: 'translateZ(0)' }}
             >
               {[...logos, ...logos].map((num, i) => (
                 <div key={`${num}-${i}`} className="mx-3 flex-shrink-0">
-                  <div className="bg-white rounded-xl w-[120px] md:w-[150px] h-[80px] md:h-[110px] flex items-center justify-center shadow-lg transition-transform hover:scale-105 duration-500 p-4 relative">
+                  <div className="bg-white rounded-xl w-[140px] md:w-[180px] h-[90px] md:h-[120px] flex items-center justify-center shadow-lg transition-transform hover:scale-105 duration-500 p-2 relative">
                     <Image
                       src={num <= 4 ? `/${num}.avif` : `/${num}.webp`}
                       alt={`Partner Logo ${num}`}
                       fill
-                      className="object-contain p-4"
-                      sizes="(max-width: 768px) 120px, 150px"
+                      className="object-contain p-2"
+                      sizes="(max-width: 768px) 140px, 180px"
                       loading="lazy"
                     />
                   </div>
                 </div>
               ))}
-            </m.div>
+            </div>
           </div>
 
           <div className="absolute inset-y-0 left-0 w-24 md:w-48 bg-gradient-to-r from-[#052e16] to-transparent z-10 pointer-events-none" />
@@ -236,8 +252,8 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
         <div className="mt-12 text-center">
           <Link href="/portfolio" className="inline-block">
             <m.div
-              whileHover={{ scale: 1.05, boxShadow: "0 10px 20px -5px rgba(26,139,76,0.3)" }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={isDesktop ? { scale: 1.05, boxShadow: "0 10px 20px -5px rgba(26,139,76,0.3)" } : undefined}
+              whileTap={isDesktop ? { scale: 0.95 } : undefined}
               className="group bg-[#1a8b4c] text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl text-[16px] md:text-[17px] font-bold shadow-md shadow-green-900/10 hover:bg-[#15803d] transition-all flex items-center gap-3 mx-auto cursor-pointer"
             >
               View All Projects

@@ -120,7 +120,6 @@ export const CRM_SERVICES = [
 
 export const COMPANY_LINKS = [
   { name: "About Us", href: "/about" },
-  { name: "Our Process", href: "/about" },
   { name: "Our Team", href: "/team" },
   { name: "Careers", href: "/career" },
   { name: "Gallery", href: "/gallery" },

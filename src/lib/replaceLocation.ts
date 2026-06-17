@@ -19,6 +19,9 @@ export function replaceLocation(text: string, loc: string): string {
   
   let result = text.replace(spanRegex, loc).replace(rawRegex, loc);
   if (loc && loc.toLowerCase() !== 'ranchi') {
+    result = result.replace(/ranchi,\s*jharkhand/gi, loc);
+    result = result.replace(/ranchi\s*\(\s*jharkhand\s*\)/gi, loc);
+    result = result.replace(/ranchi\s+jharkhand/gi, loc);
     result = result.replace(/ranchi/gi, loc);
   }
   return result;
