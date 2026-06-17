@@ -77,15 +77,16 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
           onMouseMove={isDesktop ? handleMouse : undefined}
           onMouseLeave={isDesktop ? () => { x.set(0.5); y.set(0.5); } : undefined}
           style={isDesktop ? { rotateX, rotateY, transformStyle: "preserve-3d" } : {}}
-          className="group relative bg-white rounded-[24px] overflow-hidden shadow-lg hover:shadow-[0_24px_48px_-12px_rgba(26,139,76,0.2)] hover:-translate-y-1.5 lg:hover:-translate-y-2 transition-all duration-500 border border-gray-100 transform-gpu will-change-transform"
+          className={`group relative bg-white rounded-[24px] overflow-hidden shadow-lg hover:shadow-[0_24px_48px_-12px_rgba(26,139,76,0.2)] hover:-translate-y-1.5 lg:hover:-translate-y-2 transition-all duration-500 border border-gray-100 ${isDesktop ? 'transform-gpu will-change-transform' : ''}`}
         >
           {/* Image Container */}
-          <div className="relative aspect-[16/10] overflow-hidden transform-gpu will-change-transform" style={{ transform: isDesktop ? "translateZ(0px)" : undefined }}>
+          <div className={`relative aspect-[16/10] overflow-hidden ${isDesktop ? 'transform-gpu will-change-transform' : ''}`} style={{ transform: isDesktop ? "translateZ(0px)" : undefined }}>
             <Image
               src={project.image}
               alt={project.title}
               fill
               quality={80}
+              loading="eager"
               className="object-cover group-hover:scale-110 transition-transform duration-700 brightness-[1.05] contrast-[1.05]"
               sizes="(max-width: 768px) 480px, (max-width: 1200px) 50vw, 33vw"
             />
@@ -225,8 +226,8 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
               }
             `}</style>
             <div
-              className="flex whitespace-nowrap py-2 transform-gpu will-change-transform animate-logo-marquee"
-              style={{ transform: 'translateZ(0)' }}
+              className={`flex whitespace-nowrap py-2 animate-logo-marquee ${isDesktop ? 'transform-gpu will-change-transform' : ''}`}
+              style={{ transform: isDesktop ? 'translateZ(0)' : undefined }}
             >
               {[...logos, ...logos].map((num, i) => (
                 <div key={`${num}-${i}`} className="mx-3 flex-shrink-0">

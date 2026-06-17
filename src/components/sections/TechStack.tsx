@@ -136,7 +136,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
               viewport={{ once: true, margin: "300px" }}
               transition={{ delay: i * 0.015, duration: 0.3 }}
               whileHover={isDesktop ? { y: -5, transition: { duration: 0.2 } } : undefined}
-              className="group flex flex-col items-center transform-gpu will-change-transform"
+              className={`group flex flex-col items-center ${isDesktop ? 'transform-gpu will-change-transform' : ''}`}
               style={{ '--tech-color': tech.color } as React.CSSProperties}
             >
               <div 
@@ -156,13 +156,13 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
                   style={{ background: `linear-gradient(to top, ${tech.color}30, transparent)` }}
                 />
                 
-                <Image 
+                <img 
                   src={tech.icon} 
                   alt={tech.name} 
                   width={56}
                   height={56}
+                  loading="eager"
                   className="w-11 h-11 md:w-12 md:h-12 object-contain filter transition-all duration-300 group-hover:scale-110 relative z-10"
-                  unoptimized={tech.icon.includes('.org')}
                 />
                 
                 {/* Unique Subtle Glow on Hover */}
