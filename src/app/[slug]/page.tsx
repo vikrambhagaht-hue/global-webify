@@ -23,6 +23,8 @@ export async function generateStaticParams() {
   return [];
 }
 
+export const revalidate = 3600;
+
 // ---------- Metadata ----------
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const rawSlug = params?.slug || '';

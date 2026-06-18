@@ -20,11 +20,42 @@ async function ensureTableExists() {
   }
 }
 
+// In-memory rate limiting map (works perfectly on persistent Node.js servers like Hostinger VPS)
+const ipRateLimit = new Map<string, { count: number, resetTime: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = ipRateLimit.get(ip);
+  if (!entry || entry.resetTime < now) {
+    ipRateLimit.set(ip, { count: 1, resetTime: now + 3600000 }); // 1 hour reset
+    return false;
+  }
+  if (entry.count >= 5) { // Max 5 submissions per hour per IP
+    return true;
+  }
+  entry.count++;
+  return false;
+}
+
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get('x-forwarded-for') || req.ip || 'unknown';
+    
+    if (checkRateLimit(ip)) {
+      return NextResponse.json({ success: false, error: 'Too many requests. Please try again later.' }, { status: 429 });
+    }
+
     const { name, email, phone, service, message } = await req.json();
     if (!name || !email || !message) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
+    }
+
+    // Spam Protection: Validate payload lengths to prevent DB overload
+    if (name.length > 100 || email.length > 100 || (phone && phone.length > 20)) {
+      return NextResponse.json({ success: false, error: 'Input exceeds maximum allowed length' }, { status: 400 });
+    }
+    if (message.length > 1500) {
+      return NextResponse.json({ success: false, error: 'Message is too long (maximum 1500 characters)' }, { status: 400 });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,7 +63,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Invalid email format' }, { status: 400 });
     }
 
+    // Spam Protection: Rate limit by email in DB (Max 3 per day)
     await ensureTableExists();
+    const existingSubmissions = await db.$queryRawUnsafe<any[]>(
+      `SELECT COUNT(*) as count FROM ContactSubmission WHERE email = ? AND createdAt > DATE_SUB(NOW(), INTERVAL 1 DAY)`,
+      email
+    );
+    const count = Number(existingSubmissions[0].count || 0);
+    if (count >= 3) {
+      return NextResponse.json({ success: false, error: 'You have submitted too many requests today. Please try again tomorrow.' }, { status: 429 });
+    }
 
     await db.$executeRawUnsafe(
       `INSERT INTO ContactSubmission (name, email, phone, service, message) VALUES (?, ?, ?, ?, ?)`,

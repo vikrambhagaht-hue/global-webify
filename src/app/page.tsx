@@ -16,7 +16,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const defaultLogo = "https://globalwebify.com/global_webify_logo.png";
 
   try {
-    const host = headers().get('host');
+    // TEMPORARILY COMMENTED OUT FOR VERCEL
+    // const host = headers().get('host');
+    const host = 'globalwebify.com';
     const location = getSubdomainLocation(host);
     
     if (location) {
@@ -108,8 +110,12 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+export const revalidate = 3600;
+
 export default async function Home() {
-  const host = headers().get('host');
+  // TEMPORARILY COMMENTED OUT FOR VERCEL
+  // const host = headers().get('host');
+  const host = 'globalwebify.com';
   const location = getSubdomainLocation(host);
   let subContent = null;
 
