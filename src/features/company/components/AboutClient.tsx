@@ -364,7 +364,7 @@ export default function AboutClient() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl border border-gray-100 bg-white"
+              className="relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl border border-gray-100 bg-transparent"
             >
               {/* Red Heart Badge */}
               <div className="absolute top-4 right-4 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg shadow-red-500/20 z-10">
@@ -373,10 +373,11 @@ export default function AboutClient() {
 
               <div className="relative aspect-[3/2] w-full overflow-hidden h-full min-h-[300px]">
                 <Image 
-                  src="/Aboutus/AbhishekKumar.avif" 
-                  alt="Abhishek Kumar - Global Webify" 
+                  src="/Aboutus/our-mission.jpeg" 
+                  alt="Global Webify Mission" 
                   fill
                   quality={85}
+                  priority
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
@@ -393,7 +394,7 @@ export default function AboutClient() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl border border-gray-100 bg-white order-first lg:order-none"
+              className="relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl border border-gray-100 bg-transparent order-first lg:order-none"
             >
               {/* Red Star Badge */}
               <div className="absolute top-4 right-4 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg shadow-red-500/20 z-10">
@@ -402,10 +403,11 @@ export default function AboutClient() {
 
               <div className="relative aspect-[3/2] w-full overflow-hidden h-full min-h-[300px]">
                 <Image 
-                  src="/Aboutus/About2.avif" 
-                  alt="Global Webify Team" 
+                  src="/Aboutus/our-vision.png" 
+                  alt="Global Webify Vision" 
                   fill
                   quality={85}
+                  priority
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
