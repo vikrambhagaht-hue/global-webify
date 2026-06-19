@@ -12,6 +12,42 @@ import { stripHtml } from '@/lib/replaceLocation';
 import { CATEGORY_CONFIG } from '../constants/categories';
 import { INDUSTRIES_LIST } from '../constants/industries';
 import { FAQItem } from '../utils/faq-parser';
+import {
+  WEBSITE_SERVICES,
+  HOSTING_SERVICES,
+  SEO_SERVICES,
+  MARKETING_SERVICES,
+  BRANDING_SERVICES,
+  CRM_SERVICES
+} from '@/constants/navigation';
+
+function getStaticMenuName(slug: string): string | null {
+  const cleanSlug = slug.startsWith('/') ? slug : `/${slug}`;
+  
+  const allServices = [
+    ...WEBSITE_SERVICES,
+    ...HOSTING_SERVICES,
+    ...BRANDING_SERVICES,
+    ...CRM_SERVICES
+  ];
+  
+  SEO_SERVICES.forEach(s => {
+    allServices.push({ name: s.name, href: s.href });
+    if (s.subLinks) {
+      s.subLinks.forEach(sub => allServices.push({ name: sub.name, href: sub.href }));
+    }
+  });
+
+  MARKETING_SERVICES.forEach(s => {
+    allServices.push({ name: s.name, href: s.href });
+    if (s.subLinks) {
+      s.subLinks.forEach(sub => allServices.push({ name: sub.name, href: sub.href }));
+    }
+  });
+
+  const match = allServices.find(s => s.href.toLowerCase() === cleanSlug.toLowerCase());
+  return match ? match.name : null;
+}
 
 interface SubMenu {
   title: string;
@@ -135,7 +171,7 @@ export function ServicePageView({ page, remainingSubMenus, faqs, locationName = 
                 const theme = CARD_THEMES[i % CARD_THEMES.length];
                 const cleanSlug = menu.slug.startsWith('/') ? menu.slug.slice(1) : menu.slug;
                 const linkHref = cityKey ? `/${cityKey}/${cleanSlug}` : `/${cleanSlug}`;
-                const displayTitle = menu.title;
+                const displayTitle = getStaticMenuName(menu.slug) || menu.title;
                 
                 const visibilityClass = isExpanded 
                   ? 'block' 

@@ -80,7 +80,6 @@ export async function getAboutSeo(cityKey: string = 'default') {
     const setting = await db.siteSetting.findUnique({ where: { key: 'homepageAboutSeo' } });
     if (setting) {
       let parsed = JSON.parse(setting.value);
-      // Migrate from paragraphs: string[] to content: string
       if (parsed && Array.isArray(parsed.paragraphs) && !parsed.content) {
         parsed.content = parsed.paragraphs.map((p: string) => `<p>${p}</p>`).join('');
         delete parsed.paragraphs;
@@ -258,16 +257,27 @@ export async function getCitySeo(cityKey: string) {
   try {
     const city = CITIES.find(c => c.key === cityKey);
     const cityName = city ? city.name : cityKey;
+
+    const defaultCityKeywords = [
+      `Web Development Company in ${cityName}`,
+      `Website Development Services in ${cityName}`,
+      `Web Development Services in ${cityName}`,
+      `Web Development Agency in ${cityName}`,
+      `Software Development Company in ${cityName}`,
+      `Professional Web Developers in ${cityName}`,
+      `CMS Website Development in ${cityName}`,
+      `WordPress Development Services in ${cityName}`,
+      `Corporate Website Development in ${cityName}`,
+      `SEO Friendly Website Development in ${cityName}`
+    ].join(', ');
+
     const defaultSeo = {
       title: `Best Web Development & Digital Marketing Services in ${cityName} | GlobalWebify`,
       description: `Explore GlobalWebify's professional web development, SEO, digital marketing, and branding services in ${cityName}. Custom solutions tailored to your local market.`,
-      keywords: `Web Development, SEO, Digital Marketing, AI Solutions, GlobalWebify, ${cityName}`
+      keywords: defaultCityKeywords
     };
-    const setting = await db.siteSetting.findUnique({ where: { key: 'citySeoSettings' } });
-    if (setting) {
-      const parsed = JSON.parse(setting.value);
-      return parsed[cityKey] || defaultSeo;
-    }
+    
+    // Completely ignore the database for City SEO because the UI for it has been removed by the user.
     return defaultSeo;
   } catch (error) {
     console.error("Failed to read city SEO", error);

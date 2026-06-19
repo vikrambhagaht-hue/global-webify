@@ -37,22 +37,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     // Check Subdomain override
     const subContent = await getSubdomainContent(raw);
     if (subContent) {
+      const keywordsSource = subContent.seoKeywords || undefined;
       return {
-        title: replaceLocation(subContent.seoTitle || page.seoTitle || page.title || '', loc),
-        description: replaceLocation(subContent.seoDescription || page.seoDescription || '', loc),
-        keywords: page.seoKeywords ? page.seoKeywords.split(',').map(k => replaceLocation(k, loc).trim()) : undefined,
+        title: subContent.seoTitle ? replaceLocation(subContent.seoTitle, loc) : undefined,
+        description: subContent.seoDescription ? replaceLocation(subContent.seoDescription, loc) : undefined,
+        keywords: keywordsSource ? keywordsSource.split(',').map(k => replaceLocation(k, loc).trim()) : undefined,
         alternates: {
           canonical: `/${cityKey}/${raw}`
         }
       };
     }
 
-    const title = replaceLocation(page.seoTitle || page.title || '', loc);
-    const desc = replaceLocation(page.seoDescription || '', loc);
+    // If no subdomain override (market area SEO) is configured, do not show global metadata (show empty)
     return {
-      title: title,
-      description: desc,
-      keywords: page.seoKeywords ? page.seoKeywords.split(',').map(k => replaceLocation(k, loc).trim()) : undefined,
+      title: undefined,
+      description: undefined,
+      keywords: undefined,
       alternates: {
         canonical: `/${cityKey}/${raw}`
       }
@@ -215,8 +215,8 @@ export default async function CityServicePage({ params }: Props) {
     let content = m.content;
 
     if (override) {
-      if (override.heroTitle || override.title) {
-        title = override.heroTitle || override.title || m.title;
+      if (override.title) {
+        title = override.title;
       }
       if (override.heroDescription || override.seoDescription || override.content) {
         heroDescription = override.heroDescription || null;

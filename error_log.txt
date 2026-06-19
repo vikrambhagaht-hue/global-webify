@@ -1,0 +1,54 @@
+
+=== ERROR REPORT ===
+Time: 2026-06-19T09:37:23.000Z
+Message: Loading chunk _app-pages-browser_src_features_admin_components_shared_ContentEditor_tsx failed.
+(error: http://localhost:3000/_next/undefined)
+Digest: undefined
+Stack Trace:
+ChunkLoadError
+    at __webpack_require__.f.j (http://localhost:3000/_next/static/chunks/webpack.js?v=1781857898559:852:29)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1781857898559:155:40
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (http://localhost:3000/_next/static/chunks/webpack.js?v=1781857898559:154:67)
+    at fn.e (http://localhost:3000/_next/static/chunks/webpack.js?v=1781857898559:391:50)
+    at Editor.loadableGenerated.modules [as loader] (webpack-internal:///(app-pages-browser)/./src/app/admin/(dashboard)/subdomains/services/[serviceSlug]/page.tsx:23:97)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/lazy-dynamic/loadable.js:40:58)
+    at lazyInitializer (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react/cjs/react.development.js:2172:20)
+    at mountLazyComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16750:19)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18464:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:74)
+    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+====================
+
+=== ERROR REPORT ===
+Time: 2026-06-19T09:37:23.003Z
+Message: Loading chunk _app-pages-browser_src_features_admin_components_shared_ContentEditor_tsx failed.
+(error: http://localhost:3000/_next/undefined)
+Digest: undefined
+Stack Trace:
+ChunkLoadError
+    at __webpack_require__.f.j (http://localhost:3000/_next/static/chunks/webpack.js?v=1781857898559:852:29)
+    at http://localhost:3000/_next/static/chunks/webpack.js?v=1781857898559:155:40
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (http://localhost:3000/_next/static/chunks/webpack.js?v=1781857898559:154:67)
+    at fn.e (http://localhost:3000/_next/static/chunks/webpack.js?v=1781857898559:391:50)
+    at Editor.loadableGenerated.modules [as loader] (webpack-internal:///(app-pages-browser)/./src/app/admin/(dashboard)/subdomains/services/[serviceSlug]/page.tsx:23:97)
+    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/lazy-dynamic/loadable.js:40:58)
+    at lazyInitializer (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react/cjs/react.development.js:2172:20)
+    at mountLazyComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16750:19)
+    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18464:16)
+    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)
+    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)
+    at workLoopSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25464:5)
+    at renderRootSync (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25419:7)
+    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:74)
+    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)
+    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)
+    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)
+====================

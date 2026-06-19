@@ -65,10 +65,12 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
       const key = s.slug.startsWith('/') ? s.slug.substring(1) : s.slug;
       let desc = s.heroDescription || "";
       
-      // Look for subdomain-specific overrides for this service
-      const override = subdomainOverrides.find(o => o.pageType === key);
-      if (override && override.heroDescription) {
-        desc = override.heroDescription;
+      // Look for subdomain-specific overrides for this service only if on a subdomain/city page
+      if (location || city || subdomainContent) {
+        const override = subdomainOverrides.find(o => o.pageType === key);
+        if (override && override.heroDescription) {
+          desc = override.heroDescription;
+        }
       }
 
       if (desc) {
@@ -133,40 +135,41 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
   // Apply Location Replacements
   const locationName = location || city || "";
 
-  if (locationName) {
-    homepageHeroTitle = replaceLocation(homepageHeroTitle, locationName);
-    homepageHeroDesc = replaceLocation(homepageHeroDesc, locationName);
-    
-    if (aboutSeoData) {
-      aboutSeoData = {
-        title: replaceLocation(aboutSeoData.title, locationName),
-        subtitle: replaceLocation(aboutSeoData.subtitle, locationName),
-        content: replaceLocation(aboutSeoData.content, locationName)
-      };
-    }
-    
-    if (aboutCard) {
-      aboutCard = {
-        ...aboutCard,
-        title: replaceLocation(aboutCard.title, locationName),
-        content: replaceLocation(aboutCard.content, locationName)
-      };
-    }
+  // Always run location replacement so that {location} tags are resolved (or cleaned up/removed if locationName is empty)
+  homepageHeroTitle = replaceLocation(homepageHeroTitle, locationName);
+  homepageHeroDesc = replaceLocation(homepageHeroDesc, locationName);
+  
+  if (aboutSeoData) {
+    aboutSeoData = {
+      title: replaceLocation(aboutSeoData.title, locationName),
+      subtitle: replaceLocation(aboutSeoData.subtitle, locationName),
+      content: replaceLocation(aboutSeoData.content, locationName)
+    };
+  }
+  
+  if (aboutCard) {
+    aboutCard = {
+      ...aboutCard,
+      title: replaceLocation(aboutCard.title, locationName),
+      content: replaceLocation(aboutCard.content, locationName)
+    };
+  }
 
-    if (sectionHeaders) {
-      for (const key of Object.keys(sectionHeaders)) {
-        if (sectionHeaders[key]) {
-          sectionHeaders[key].title = replaceLocation(sectionHeaders[key].title, locationName);
-          sectionHeaders[key].description = replaceLocation(sectionHeaders[key].description, locationName);
-        }
+  if (sectionHeaders) {
+    for (const key of Object.keys(sectionHeaders)) {
+      if (sectionHeaders[key]) {
+        sectionHeaders[key].title = replaceLocation(sectionHeaders[key].title, locationName);
+        sectionHeaders[key].description = replaceLocation(sectionHeaders[key].description, locationName);
       }
     }
+  }
 
-    // Apply location replacement to service descriptions for the services grid
-    Object.keys(serviceDescriptions).forEach(key => {
-      serviceDescriptions[key] = replaceLocation(serviceDescriptions[key], locationName);
-    });
+  // Apply location replacement to service descriptions for the services grid
+  Object.keys(serviceDescriptions).forEach(key => {
+    serviceDescriptions[key] = replaceLocation(serviceDescriptions[key], locationName);
+  });
 
+  if (locationName) {
     // Overrides from subdomain content if needed
     if (subdomainContent?.title) {
       homepageHeroTitle = replaceLocation(subdomainContent.title, locationName);

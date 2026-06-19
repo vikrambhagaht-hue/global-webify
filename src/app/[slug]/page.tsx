@@ -56,12 +56,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cityInfo = rawSlug ? CITIES_MAP[rawSlug.toLowerCase()] : null;
   if (cityInfo) {
     const locationName = cityInfo.name;
+    const defaultCityKeywords = [
+      `Web Development Company in ${locationName}`,
+      `Website Development Services in ${locationName}`,
+      `Web Development Services in ${locationName}`,
+      `Web Development Agency in ${locationName}`,
+      `Software Development Company in ${locationName}`,
+      `Professional Web Developers in ${locationName}`,
+      `CMS Website Development in ${locationName}`,
+      `WordPress Development Services in ${locationName}`,
+      `Corporate Website Development in ${locationName}`,
+      `SEO Friendly Website Development in ${locationName}`
+    ].join(', ');
+
     const subContent = await getSubdomainContent('homepage');
     if (subContent) {
+      const customKeywords = subContent.seoKeywords
+        ? subContent.seoKeywords.split(',').map(k => replaceLocation(k, locationName).trim())
+        : undefined;
       return {
-        title: replaceLocation(subContent.seoTitle || '', locationName) || `Best Web Development & Digital Marketing Services in ${locationName} | GlobalWeblify`,
-        description: replaceLocation(subContent.seoDescription || '', locationName),
-        keywords: `Web Development ${locationName}, SEO ${locationName}, Digital Marketing ${locationName}`,
+        title: subContent.seoTitle ? replaceLocation(subContent.seoTitle, locationName) : undefined,
+        description: subContent.seoDescription ? replaceLocation(subContent.seoDescription, locationName) : undefined,
+        keywords: customKeywords,
         alternates: {
           canonical: `/${cleanSlug}`
         }
@@ -71,9 +87,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     try {
       const citySeo = await getCitySeo(rawSlug.toLowerCase());
       return {
-        title: citySeo.title,
-        description: citySeo.description,
-        keywords: citySeo.keywords,
+        title: citySeo?.title || undefined,
+        description: citySeo?.description || undefined,
+        keywords: citySeo?.keywords ? citySeo.keywords.split(',').map((k: string) => k.trim()) : undefined,
         alternates: {
           canonical: `/${cleanSlug}`
         }
@@ -82,8 +98,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       if (error && error.digest === 'DYNAMIC_SERVER_USAGE') throw error;
       console.error("Failed to load city SEO metadata:", error);
       return {
-        title: `Best Web Development & Digital Marketing Services in ${locationName} | GlobalWeblify`,
-        description: `Explore GlobalWeblify's professional web development, SEO, digital marketing, and branding services in ${locationName}. Custom solutions tailored to your local market.`,
+        title: undefined,
+        description: undefined,
+        keywords: undefined,
+        alternates: {
+          canonical: `/${cleanSlug}`
+        }
       };
     }
   }
@@ -97,12 +117,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!page) return {};
 
     const locationName = "";
-    const title = replaceLocation(page.seoTitle || page.title || '', locationName);
-    const description = replaceLocation(page.seoDescription || '', locationName);
+    const title = page.seoTitle ? replaceLocation(page.seoTitle, locationName) : undefined;
+    const description = page.seoDescription ? replaceLocation(page.seoDescription, locationName) : undefined;
+    const keywords = page.seoKeywords ? page.seoKeywords.split(',').map(k => k.trim()) : undefined;
     return {
       title: title,
       description: description,
-      keywords: page.seoKeywords ? page.seoKeywords.split(',').map(k => k.trim()) : undefined,
+      keywords: keywords,
       alternates: {
         canonical: `/${cleanSlug}`
       }
