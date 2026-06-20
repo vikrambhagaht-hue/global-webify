@@ -21,11 +21,11 @@ function cleanupExpiredEntries() {
   const now = Date.now();
   if (now - lastCleanup < CLEANUP_INTERVAL_MS) return;
   lastCleanup = now;
-  for (const [ip, entry] of ipRateLimit) {
+  ipRateLimit.forEach((entry, ip) => {
     if (entry.resetTime < now) {
       ipRateLimit.delete(ip);
     }
-  }
+  });
 }
 
 function checkRateLimit(ip: string): boolean {

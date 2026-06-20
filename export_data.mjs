@@ -53,7 +53,7 @@ async function main() {
   // Tables to export
   const tables = [
     { name: 'blogpost', model: 'blogPost' },
-    { name: 'contactsubmission', model: 'contactSubmission' },
+    { name: 'ContactSubmission', model: 'contactSubmission' },
     { name: 'servicepage', model: 'servicePage' },
     { name: 'loginattempt', model: 'loginAttempt' },
     { name: 'sitesetting', model: 'siteSetting' },
@@ -62,7 +62,7 @@ async function main() {
     { name: 'jobapplication', model: 'jobApplication' },
     { name: 'redirect', model: 'redirect' },
     { name: 'review', model: 'review' },
-    { name: 'PartnershipSubmission', model: null }
+    { name: 'PartnershipSubmission', model: 'partnershipSubmission' }
   ];
 
   for (const table of tables) {

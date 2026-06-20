@@ -53,10 +53,11 @@ export async function POST(request: NextRequest) {
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
     if (imageExtensions.includes(ext)) {
       try {
-        buffer = await sharp(buffer)
+        const processedBuffer = await sharp(buffer)
           .resize({ width: 1920, withoutEnlargement: true }) // Prevent massive dimensions
           .webp({ quality: 80 }) // 80% quality retains excellent visuals but drastically reduces size
           .toBuffer();
+        buffer = Buffer.from(processedBuffer);
         finalExt = '.webp';
       } catch (err) {
         console.error('Image compression failed, falling back to original:', err);

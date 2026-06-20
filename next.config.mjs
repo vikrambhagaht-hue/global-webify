@@ -1,14 +1,4 @@
-import { exec } from 'child_process';
-
-// Automatically optimize heavy PNG files in the public directory on startup/build
-exec('node optimize.js', (err, stdout, stderr) => {
-  if (err) {
-    console.error('⚠️ Image optimization error:', err);
-    return;
-  }
-  if (stdout) console.log(stdout);
-});
-
+// Run `node optimize.js` manually in the terminal when you upload new heavy images.
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',

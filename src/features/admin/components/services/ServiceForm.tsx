@@ -52,7 +52,7 @@ export default function ServiceForm({ service }: { service?: Service }) {
   let initialContent = service?.content || '';
 
   if (initialContent) {
-    const matches = [...initialContent.matchAll(/<!-- FAQ_DATA: (.*?) -->/g)];
+    const matches = Array.from(initialContent.matchAll(/<!-- FAQ_DATA: (.*?) -->/g));
     if (matches && matches.length > 0) {
       const lastMatch = matches[matches.length - 1];
       try {

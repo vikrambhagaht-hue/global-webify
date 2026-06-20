@@ -10,7 +10,7 @@ async function scanAndOptimize(dir, state) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       await scanAndOptimize(fullPath, state);
-    } else if (entry.isFile() && entry.name.endsWith('.png')) {
+    } else if (entry.isFile() && entry.name.endsWith('.png') && !entry.name.endsWith('.tmp.png')) {
       const stats = fs.statSync(fullPath);
       
       // Optimize if larger than 200KB

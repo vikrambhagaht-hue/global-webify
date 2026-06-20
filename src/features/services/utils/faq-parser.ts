@@ -10,7 +10,7 @@ export function parseFaqs(content: string, locationName: string = ""): { faqs: F
   let cleanedContent = content ?? '';
 
   if (cleanedContent) {
-    const matches = [...cleanedContent.matchAll(/<!-- FAQ_DATA: (.*?) -->/g)];
+    const matches = Array.from(cleanedContent.matchAll(/<!-- FAQ_DATA: (.*?) -->/g));
     if (matches && matches.length > 0) {
       const lastMatch = matches[matches.length - 1];
       try {
