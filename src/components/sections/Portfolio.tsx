@@ -72,7 +72,7 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
       className="relative"
       style={{ perspective: 1000 }}
     >
-      <Link href={project.link} target="_blank" rel="noopener noreferrer" title={`${project.title} - Global Webify`}>
+      <a href={project.link} target="_blank" rel="noopener noreferrer" title={`${project.title} - Global Webify`} className="block">
         <m.div
           onMouseMove={isDesktop ? handleMouse : undefined}
           onMouseLeave={isDesktop ? () => { x.set(0.5); y.set(0.5); } : undefined}
@@ -118,7 +118,7 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
             </div>
           </div>
         </m.div>
-      </Link>
+      </a>
     </m.div>
   );
 };

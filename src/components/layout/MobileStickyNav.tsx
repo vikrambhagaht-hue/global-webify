@@ -92,7 +92,6 @@ export default function MobileStickyNav() {
   }, [isDrawerOpen]);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
-  const [viewportBottom, setViewportBottom] = useState(0);
 
   useEffect(() => {
     const handleFocus = (e: any) => {
@@ -109,6 +108,26 @@ export default function MobileStickyNav() {
     return () => {
       document.removeEventListener('focusin', handleFocus);
       document.removeEventListener('focusout', handleBlur);
+    };
+  }, []);
+
+  // Also detect software keyboard via visualViewport (keyboard causes significant height reduction)
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.visualViewport) return;
+
+    const handleVisualViewportChange = () => {
+      const vv = window.visualViewport;
+      if (!vv) return;
+      // If visual viewport is significantly smaller than window, keyboard is likely open
+      const heightDiff = window.innerHeight - vv.height;
+      if (heightDiff > 150) {
+        setIsInputFocused(true);
+      }
+    };
+
+    window.visualViewport.addEventListener('resize', handleVisualViewportChange);
+    return () => {
+      window.visualViewport?.removeEventListener('resize', handleVisualViewportChange);
     };
   }, []);
 
@@ -133,27 +152,6 @@ export default function MobileStickyNav() {
     }
   });
 
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.visualViewport) return;
-
-    const handleVisualViewportChange = () => {
-      const vv = window.visualViewport;
-      if (!vv) return;
-      // Calculate how far the bottom of the visual viewport is from the bottom of the layout viewport
-      // Round to prevent sub-pixel changes from causing re-renders
-      const offset = Math.round(window.innerHeight - vv.height - vv.offsetTop);
-      const newBottom = Math.max(0, offset);
-      setViewportBottom(prev => (prev !== newBottom ? newBottom : prev));
-    };
-
-    window.visualViewport.addEventListener('resize', handleVisualViewportChange);
-    handleVisualViewportChange();
-
-    return () => {
-      window.visualViewport?.removeEventListener('resize', handleVisualViewportChange);
-    };
-  }, []);
-
   if (isInputFocused) return null;
   if (!isHomepage) return null;
 
@@ -162,7 +160,7 @@ export default function MobileStickyNav() {
       <div 
         className="md:hidden fixed left-0 right-0 z-[100] bg-[#1a8b4c] border-t border-white/20 shadow-[0_-8px_30px_rgba(0,0,0,0.25)] flex flex-col overflow-visible"
         style={{ 
-          bottom: `${viewportBottom}px`,
+          bottom: 0,
           paddingBottom: 'env(safe-area-inset-bottom)',
           transition: 'bottom 0.1s ease-out'
         }}

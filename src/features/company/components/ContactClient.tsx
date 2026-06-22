@@ -9,17 +9,7 @@ import {
 } from 'lucide-react';
 import { SOCIAL_LINKS } from '@/constants/navigation';
 
-const MapWidget = React.memo(function MapWidget() {
-  return (
-    <iframe
-      title="Global Webify HQ Map Location"
-      src="https://maps.google.com/maps?q=23.3496601,85.3104862&t=&z=16&ie=UTF8&iwloc=&output=embed"
-      className="w-full h-full border-0 transition-transform duration-700 group-hover:scale-105"
-      allowFullScreen
-      loading="lazy"
-    ></iframe>
-  );
-});
+// Map widget removed in favor of static image
 
 const COUNTRIES = [
   { name: "India", code: "+91", iso: "IN", length: 10, placeholder: "98765 43210" },
@@ -510,35 +500,35 @@ export default function ContactClient() {
               {/* Premium Dark Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#1a8b4c]/10 to-transparent opacity-50 pointer-events-none" />
 
-              {/* Seamless Map Widget */}
-              <div className="w-full h-[280px] md:h-[350px] relative shrink-0 overflow-hidden group border-b border-slate-700/50">
-                {/* Permanent Open in Map Button (Top Right) */}
-                <a 
-                  href="https://www.google.com/maps/place/Global+Webify/@23.3495578,85.3086946,17.82z/data=!3m1!5s0x39f4e0528e2c8fa7:0xf0b8c1d5d5dbe41a!4m6!3m5!1s0x39f4e195a816671d:0xa9ebf12893abb828!8m2!3d23.3496601!4d85.3104862!16s%2Fg%2F11wbvkw_tm?entry=ttu&g_ep=EgoyMDI2MDYxMC4wIKXMDSoASAFQAw%3D%3D" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="absolute top-4 right-4 z-30 bg-white/95 backdrop-blur shadow-md hover:shadow-lg text-gray-800 hover:text-[#1a8b4c] text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 hover:scale-105"
-                  title="Open in Google Maps"
-                >
-                  <MapPin size={12} className="text-[#1a8b4c]" />
-                  Open in Map
-                </a>
+              {/* Static Map Image (Instant Load) */}
+              <a 
+                href="https://www.google.com/maps/place/Global+Webify/@23.3495578,85.3086946,17.82z/data=!3m1!5s0x39f4e0528e2c8fa7:0xf0b8c1d5d5dbe41a!4m6!3m5!1s0x39f4e195a816671d:0xa9ebf12893abb828!8m2!3d23.3496601!4d85.3104862!16s%2Fg%2F11wbvkw_tm"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Open Global Webify in Google Maps"
+                className="w-full h-[280px] md:h-[350px] relative shrink-0 overflow-hidden group border-b border-slate-700/50 block cursor-pointer"
+              >
+                {/* User's Map Screenshot */}
+                <Image
+                  src="/globalwebifymap.png"
+                  alt="Global Webify Map Location"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
 
-                {/* Clickable Overlay for entire map */}
-                <a 
-                  href="https://www.google.com/maps/place/Global+Webify/@23.3495578,85.3086946,17.82z/data=!3m1!5s0x39f4e0528e2c8fa7:0xf0b8c1d5d5dbe41a!4m6!3m5!1s0x39f4e195a816671d:0xa9ebf12893abb828!8m2!3d23.3496601!4d85.3104862!16s%2Fg%2F11wbvkw_tm?entry=ttu&g_ep=EgoyMDI2MDYxMC4wIKXMDSoASAFQAw%3D%3D" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="absolute inset-0 z-20 flex items-center justify-center bg-black/0 hover:bg-black/10 transition-all duration-300 cursor-pointer"
-                  title="Open in Google Maps"
-                >
-                </a>
+                {/* Optional dark edge blending to match original map widget style */}
+                <div className="absolute inset-0 bg-slate-900/10 pointer-events-none mix-blend-overlay" />
 
-                {/* Optional dark edge blending (kept subtle, no grayscale on map) */}
-                <div className="absolute inset-0 bg-slate-900/10 pointer-events-none z-10 mix-blend-overlay" />
-                
-                <MapWidget />
-              </div>
+                {/* Always Visible Corner Button */}
+                <div className="absolute top-4 right-4 z-20">
+                  <span className="bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl text-[11px] font-black text-gray-800 shadow-lg shadow-black/10 uppercase tracking-widest border border-green-100 flex items-center gap-2 hover:bg-[#1a8b4c] hover:text-white hover:scale-105 active:scale-95 transition-all duration-300">
+                    <MapPin size={14} className="text-[#1a8b4c] group-hover:text-white" />
+                    Open in Maps
+                    <ArrowRight size={12} className="opacity-70" />
+                  </span>
+                </div>
+              </a>
 
               {/* Contact Info Content */}
               <div className="p-6 md:p-10 flex-grow flex flex-col justify-between relative z-10">
