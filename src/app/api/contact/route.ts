@@ -95,6 +95,29 @@ export async function POST(req: NextRequest) {
       }
     });
 
+    // Send SMTP email notification in the background
+    const mailSubject = `New Contact Form Submission: ${name}`;
+    const mailContent = `
+      <h2>New Lead Submission</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Phone:</strong> ${phone || 'Not Provided'}</p>
+      <p><strong>Service Requested/Page URL:</strong> ${service || 'General Inquiry'}</p>
+      <p><strong>Message:</strong></p>
+      <div style="background: #f5f5f5; padding: 12px; border-radius: 8px; margin-top: 10px;">
+        ${msg ? msg.replace(/\n/g, '<br>') : 'No message provided.'}
+      </div>
+      <br>
+      <p>— Sent from Global Webify Lead Notifications</p>
+    `;
+    
+    // We import dynamic to avoid static build-time dependencies issues
+    const { sendMailNotification } = await import('@/lib/mail');
+    // We execute it in background so response is not delayed
+    sendMailNotification({ subject: mailSubject, htmlContent: mailContent }).catch(err => {
+      console.error('Background SMTP send failure:', err);
+    });
+
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error('Contact submission POST error:', error);
