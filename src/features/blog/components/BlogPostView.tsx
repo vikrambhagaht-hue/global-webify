@@ -257,6 +257,8 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
         /* Content Area */
         .article-detail-content {
           padding: 32px 28px 28px;
+          max-width: 100%;
+          overflow: hidden;
         }
         @media (max-width: 768px) {
           .article-detail-content {
@@ -272,6 +274,8 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
           line-height: 1.25;
           margin-bottom: 1rem;
           letter-spacing: -0.02em;
+          word-break: break-word;
+          overflow-wrap: break-word;
         }
 
         .article-detail-excerpt {
@@ -389,6 +393,8 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
             gap: 8px;
             padding: 12px 5px;
             font-size: 0.85rem;
+            white-space: normal;
+            text-align: center;
           }
           .hero-cta-mobile-row .hero-cta-action-btn i {
             font-size: 1.4rem;
@@ -408,6 +414,12 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
         /* =============================================
            ARTICLE BODY — Content from editor/Word
            ============================================= */
+        .article-detail-body {
+          word-break: break-word;
+          overflow-wrap: break-word;
+          max-width: 100%;
+        }
+
         .article-detail-body h1 {
           font-family: 'Lexend', var(--font-lexend), sans-serif !important;
           font-size: 25.712px !important;
@@ -581,6 +593,9 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
           margin: 16px 0;
           font-family: var(--font-jost), 'Jost', sans-serif;
           font-size: 14px;
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
         }
         .article-detail-body th {
           background: var(--primary-green);

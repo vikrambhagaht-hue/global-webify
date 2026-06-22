@@ -76,7 +76,7 @@ export default function BlogDirectoryView({ posts, currentPage = 1, totalPages =
                   <div className="p-5 md:p-6 flex flex-col flex-grow">
                     
                     {/* Post Title - Deep dark green by default, light green on hover */}
-                    <h3 className="text-[15px] md:text-[16px] font-bold font-lexend text-[#15703d] leading-snug mb-2.5 line-clamp-2 group-hover:text-[#22c55e] transition-colors">
+                    <h3 className="text-[15px] md:text-[16px] font-bold font-lexend text-[#15703d] leading-snug mb-2.5 line-clamp-2 group-hover:text-[#22c55e] transition-colors break-words">
                       {post.title}
                     </h3>
 
