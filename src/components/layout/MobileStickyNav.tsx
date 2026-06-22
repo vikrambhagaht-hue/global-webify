@@ -92,6 +92,7 @@ export default function MobileStickyNav() {
   }, [isDrawerOpen]);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [viewportBottom, setViewportBottom] = useState(0);
 
   useEffect(() => {
     const handleFocus = (e: any) => {
@@ -111,23 +112,29 @@ export default function MobileStickyNav() {
     };
   }, []);
 
-  // Also detect software keyboard via visualViewport (keyboard causes significant height reduction)
+  // Use VisualViewport API to stick exactly to the bottom, avoiding Chrome address bar jumps
   useEffect(() => {
     if (typeof window === 'undefined' || !window.visualViewport) return;
 
     const handleVisualViewportChange = () => {
       const vv = window.visualViewport;
       if (!vv) return;
-      // If visual viewport is significantly smaller than window, keyboard is likely open
-      const heightDiff = window.innerHeight - vv.height;
-      if (heightDiff > 150) {
-        setIsInputFocused(true);
-      }
+      // Calculate how far the bottom of the visual viewport is from the bottom of the layout viewport
+      const offset = window.innerHeight - vv.height - vv.offsetTop;
+      const newBottom = Math.max(0, Math.round(offset));
+      
+      setViewportBottom(newBottom);
     };
 
+    // We must listen to BOTH resize AND scroll on the visualViewport to stay synced during Chrome's address bar hide/show animation
     window.visualViewport.addEventListener('resize', handleVisualViewportChange);
+    window.visualViewport.addEventListener('scroll', handleVisualViewportChange);
+    
+    handleVisualViewportChange();
+
     return () => {
       window.visualViewport?.removeEventListener('resize', handleVisualViewportChange);
+      window.visualViewport?.removeEventListener('scroll', handleVisualViewportChange);
     };
   }, []);
 
@@ -160,7 +167,7 @@ export default function MobileStickyNav() {
       <div 
         className="md:hidden fixed left-0 right-0 z-[100] bg-[#1a8b4c] border-t border-white/20 shadow-[0_-8px_30px_rgba(0,0,0,0.25)] flex flex-col overflow-visible"
         style={{ 
-          bottom: 0,
+          bottom: `${viewportBottom}px`,
           paddingBottom: 'env(safe-area-inset-bottom)',
           transition: 'bottom 0.1s ease-out'
         }}

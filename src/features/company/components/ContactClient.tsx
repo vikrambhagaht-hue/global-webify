@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { m, AnimatePresence } from 'framer-motion';
 import { 
   Mail, Phone, MapPin, Send, Facebook, Twitter, 
   Instagram, Linkedin, Youtube, User, Briefcase, 
-  Building2, Handshake, Globe2, CheckCircle2, MessageSquare, ShieldAlert
+  Building2, Handshake, Globe2, CheckCircle2, MessageSquare, ShieldAlert, ArrowRight
 } from 'lucide-react';
 import { SOCIAL_LINKS } from '@/constants/navigation';
 
