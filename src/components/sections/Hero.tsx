@@ -304,7 +304,7 @@ export default function Hero({
         target="_blank"
         rel="noopener noreferrer"
         title="Chat on WhatsApp - Global Webify"
-        className="fixed bottom-[80px] md:bottom-4 right-4 z-50 bg-[#25D366] hover:bg-[#1DA851] text-white px-4 py-3 rounded-full font-bold shadow-2xl flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
+        className="fixed bottom-[100px] md:bottom-4 right-4 z-50 bg-[#25D366] hover:bg-[#1DA851] text-white px-4 py-3 rounded-full font-bold shadow-2xl flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
       >
         <MessageCircle className="w-5 h-5 fill-current" />
         <span className="hidden sm:inline text-sm">WhatsApp</span>

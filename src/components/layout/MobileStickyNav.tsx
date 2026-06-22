@@ -206,10 +206,9 @@ export default function MobileStickyNav() {
               delay: 1.0
             }
           ].map((item, i) => (
-            <m.div
+            <div
               key={item.label}
-              className={`flex-1 flex border-white/20 relative overflow-hidden ${i !== 2 ? 'border-r-[1.5px]' : ''}`}
-              whileTap={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+              className={`flex-1 flex border-white/20 relative overflow-hidden active:bg-white/10 transition-colors ${i !== 2 ? 'border-r-[1.5px]' : ''}`}
             >
               {item.type === "a" ? (
                 <a 
@@ -250,7 +249,7 @@ export default function MobileStickyNav() {
                   <span className="text-[9px] font-black uppercase tracking-[0.15em]">{item.label}</span>
                 </button>
               )}
-            </m.div>
+            </div>
           ))}
         </div>
 
