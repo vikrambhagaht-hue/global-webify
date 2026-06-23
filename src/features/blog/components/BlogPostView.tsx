@@ -128,11 +128,11 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
           background-color: var(--neutral-light);
         }
         .section-padding {
-          padding: 120px 0 60px 0;
+          padding: 40px 0 60px 0;
         }
         @media (max-width: 768px) {
           .section-padding {
-            padding: 100px 0 40px 0;
+            padding: 24px 0 40px 0;
           }
         }
 
@@ -194,14 +194,10 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
           width: 100%;
           overflow: hidden;
           background: var(--gray-100);
-          aspect-ratio: 16/9;
-          max-height: 480px;
         }
         .article-detail-img {
           width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center;
+          height: auto;
           display: block;
         }
         .article-detail-overlay {
