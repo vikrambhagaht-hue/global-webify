@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
 import { Award, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Section } from '../layout/Responsive/Section';
@@ -18,12 +18,35 @@ const certificates = [
 
 export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTitle?: string; sectionDesc?: string }) {
   const [certIndex, setCertIndex] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCertIndex((prev) => (prev + 1) % certificates.length);
     }, 4000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    if (!videoElement) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Start downloading and playing only when in view
+            videoElement.play().catch(e => console.log("Autoplay prevented:", e));
+          } else {
+            videoElement.pause();
+          }
+        });
+      },
+      { threshold: 0.1 } // trigger when 10% visible
+    );
+
+    observer.observe(videoElement);
+    return () => observer.disconnect();
   }, []);
 
   const nextCert = () => setCertIndex((prev) => (prev + 1) % certificates.length);
@@ -134,9 +157,9 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
               
               <div className="relative z-10 rounded-[40px] overflow-hidden border-8 border-white bg-black aspect-[9/16] shadow-2xl group">
                 <video 
+                  ref={videoRef}
                   className="w-full h-full object-cover"
                   controls
-                  autoPlay
                   muted
                   loop
                   playsInline
