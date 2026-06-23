@@ -81,15 +81,22 @@ const TypingHeadline = ({ phrases = [] }: { phrases?: string[] }) => {
     return () => clearTimeout(timer);
   }, [currentText, isDeleting, loopNum, mounted, typingSpeed, activePhrases]);
 
+  // Find the longest phrase to reserve space and prevent layout shift for SEO
+  const longestPhrase = activePhrases.reduce((a, b) => a.length > b.length ? a : b, "");
+
   return (
-    <div className="min-h-[160px] xs:min-h-[130px] sm:min-h-[110px] md:min-h-[115px] flex items-start justify-start w-full overflow-visible">
-      <h1 className="text-[32px] sm:text-4xl md:text-[44px] font-extrabold md:font-black text-[#171717] leading-tight tracking-tight text-left font-lexend">
+    <div className="relative flex items-start justify-start w-full transition-all duration-300">
+      <h1 className="text-[32px] sm:text-4xl md:text-[44px] font-extrabold md:font-black text-[#171717] leading-[1.35] tracking-tight text-left font-lexend">
         {/* SEO: hidden static text — Google reads this full phrase always */}
         <span className="sr-only">{activePhrases[0]}</span>
-        {/* Visual typing animation — shown to users */}
-        <span aria-hidden="true">
+        {/* Invisible longest text to reserve exact layout space & prevent CLS */}
+        <span className="invisible select-none" aria-hidden="true">
+          {longestPhrase}
+        </span>
+        {/* Visual typing animation — absolutely positioned over the invisible text */}
+        <span className="absolute top-0 left-0 w-full h-full" aria-hidden="true">
           {currentText}
-          {/* CSS cursor blink — replaces framer-motion motion.span (identical look) */}
+          {/* CSS cursor blink */}
           <span className="inline-block w-[3px] h-[1em] bg-[#1a8b4c] ml-1 align-baseline relative top-[0.1em] animate-blink" />
         </span>
       </h1>
@@ -210,8 +217,8 @@ export default function Hero({
         <div className="flex flex-col min-[900px]:flex-row items-center justify-between gap-6 md:gap-8 lg:gap-10 xl:gap-12">
 
           {/* ---- LEFT COLUMN ---- */}
-          <div className="flex-1 w-full flex flex-col items-center min-[900px]:items-start gap-3 md:gap-5 z-10 max-w-xl text-center min-[900px]:text-left">
-            <div className="hidden md:inline-flex items-center gap-2.5 bg-[#E8F5EE] border-2 border-[#BBE3CB] text-[#1a8b4c] text-[10px] md:text-[11px] font-black px-4 py-2 rounded-full uppercase tracking-widest shadow-sm">
+          <div className="flex-1 w-full flex flex-col items-center min-[900px]:items-start gap-1.5 md:gap-3 z-10 max-w-xl text-center min-[900px]:text-left">
+            <div className="hidden md:inline-flex items-center gap-2.5 bg-[#E8F5EE] border-2 border-[#BBE3CB] text-[#1a8b4c] text-[10px] md:text-[11px] font-black px-4 py-2 rounded-full uppercase tracking-widest shadow-sm mb-1">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1a8b4c] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#1a8b4c]" />
@@ -230,7 +237,7 @@ export default function Hero({
               <TypingHeadline phrases={heroTexts} />
             )}
 
-            <div className="text-[#545454] text-[18px] md:text-[20px] font-normal max-w-lg leading-relaxed text-center min-[900px]:text-left mt-3 font-jost mx-auto min-[900px]:mx-0">
+            <div className="text-[#545454] text-[18px] md:text-[20px] font-normal max-w-lg leading-relaxed text-center min-[900px]:text-left font-jost mx-auto min-[900px]:mx-0">
               {city ? (
                 <div 
                   className="block city-hero-desc"
@@ -245,7 +252,7 @@ export default function Hero({
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-row gap-4 w-full mt-1">
+            <div className="flex flex-row gap-4 w-full mt-0 md:-mt-1 md:ml-4">
               <a href="tel:+917563901100" title="Free Consultation - Global Webify" className="flex-1 md:flex-none bg-gradient-to-r from-[#1cb05b] to-[#117846] hover:from-[#21c767] hover:to-[#158e53] text-white text-[14px] md:text-[16px] font-bold px-5 md:px-8 md:py-[18px] py-3 rounded-xl transition-all shadow-xl shadow-green-900/20 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap text-center inline-block">
                 Free Consultation
               </a>

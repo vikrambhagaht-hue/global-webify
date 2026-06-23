@@ -160,11 +160,17 @@ export default function HeroSettingsPage() {
               <div className="flex-1">
                 <input
                   type="text"
-                  placeholder="Enter typing text phrase..."
+                  placeholder="Enter typing text phrase (max 65 chars)..."
                   value={text}
+                  maxLength={65}
                   onChange={(e) => updateHeroText(index, e.target.value)}
                   className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-sm font-semibold focus:outline-none focus:border-[#1a8b4c]"
                 />
+                <div className="text-right mt-1">
+                  <span className={`text-[10px] font-medium ${text.length > 55 ? 'text-red-500' : 'text-gray-400'}`}>
+                    {text.length}/65 characters (Optimal length to prevent layout gap)
+                  </span>
+                </div>
               </div>
 
               <button
