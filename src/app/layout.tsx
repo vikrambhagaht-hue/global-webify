@@ -6,6 +6,7 @@ import NextTopLoader from 'nextjs-toploader';
 import { db } from "@/lib/db";
 import PublicLayoutWrapper from "@/components/layout/PublicLayoutWrapper";
 import BreadcrumbWrapper from "@/components/ui/BreadcrumbWrapper";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 
 const poppins = Poppins({ 
@@ -147,6 +148,7 @@ export default async function RootLayout({
         <PublicLayoutWrapper breadcrumb={<BreadcrumbWrapper />} initialSettings={initialSettings}>
           {children}
         </PublicLayoutWrapper>
+        <SpeedInsights />
       </body>
     </html>
   );

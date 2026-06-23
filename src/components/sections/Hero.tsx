@@ -199,19 +199,12 @@ export default function Hero({
 
   return (
     <main className="w-full relative overflow-hidden bg-white font-jost text-left">
-      {/* Optimized Background Pattern */}
-      <div className="absolute inset-0 z-0 pointer-events-none w-full h-full translate-y-[55px] md:translate-y-0">
-        <Image
-          src="/bg-pattern-landing.avif"
-          alt="Background Pattern"
-          fill
-          priority
-          fetchPriority="high"
-          sizes="(max-width: 768px) 640px, 100vw"
-          quality={50}
-          className="object-cover object-top opacity-[0.65] md:opacity-[0.8] saturate-[1.60] contrast-[1.15]"
-        />
-      </div>
+      {/* Background Pattern - CSS background-image so it's not counted as LCP element */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none w-full h-full translate-y-[55px] md:translate-y-0 bg-cover bg-top opacity-[0.65] md:opacity-[0.8] saturate-[1.60] contrast-[1.15]"
+        style={{ backgroundImage: 'url(/bg-pattern-landing.avif)' }}
+        aria-hidden="true"
+      />
 
       <Section 
         id="hero" 
