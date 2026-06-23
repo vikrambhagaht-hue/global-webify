@@ -67,6 +67,7 @@ export default function AboutSEO({ data }: AboutSEOProps) {
         <div className="relative">
           <div 
             className={`text-gray-600 text-[15px] md:text-[16px] leading-relaxed space-y-6 text-left transition-all duration-500 overflow-hidden about-seo-content ${isExpanded ? 'max-h-[3000px]' : 'max-h-[180px]'}`}
+            role="region"
             aria-expanded={isExpanded}
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
@@ -152,7 +153,7 @@ export default function AboutSEO({ data }: AboutSEOProps) {
 
         <button 
         onClick={handleToggle}
-        className="mt-8 inline-flex items-center gap-2 px-8 py-3 rounded-full border-2 border-[#1a8b4c] text-[#1a8b4c] font-black text-[15px] hover:bg-[#1a8b4c] hover:text-white transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1a8b4c] focus:ring-offset-2"
+        className="mt-8 inline-flex items-center gap-2 px-8 py-3 rounded-full border-2 border-[#15703d] text-[#15703d] font-black text-[15px] hover:bg-[#15703d] hover:text-white transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-[#15703d] focus:ring-offset-2"
         aria-label={isExpanded ? "Show less content" : "Show more content about Global Webify services"}
         >
           {isExpanded ? (

@@ -6,7 +6,6 @@ import NextTopLoader from 'nextjs-toploader';
 import { db } from "@/lib/db";
 import PublicLayoutWrapper from "@/components/layout/PublicLayoutWrapper";
 import BreadcrumbWrapper from "@/components/ui/BreadcrumbWrapper";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 
 const poppins = Poppins({ 
@@ -132,6 +131,11 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${poppins.variable} ${lexend.variable} ${jost.variable}`}>
+      <head>
+        {/* Preload critical images to eliminate Resource Load Delay */}
+        <link rel="preload" href="/bg-pattern-landing.avif" as="image" type="image/avif" />
+        <link rel="preload" href="/global_webify_logo.png" as="image" type="image/png" />
+      </head>
       <body className={`${jost.className} font-sans bg-white text-gray-900 antialiased overflow-x-hidden`}>
         <NextTopLoader 
           color="#1a8b4c"
@@ -148,7 +152,6 @@ export default async function RootLayout({
         <PublicLayoutWrapper breadcrumb={<BreadcrumbWrapper />} initialSettings={initialSettings}>
           {children}
         </PublicLayoutWrapper>
-        <SpeedInsights />
       </body>
     </html>
   );

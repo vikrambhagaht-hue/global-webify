@@ -238,7 +238,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
                 </div>
                 <div>
                   <h5 className="font-black text-gray-950 text-[15px]">{current.author}</h5>
-                  <p className="text-gray-500 text-[11px] font-bold">{current.role}</p>
+                  <p className="text-gray-600 text-[11px] font-bold">{current.role}</p>
                 </div>
               </m.div>
 

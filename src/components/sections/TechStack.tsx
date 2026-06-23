@@ -96,7 +96,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
           <m.span 
             initial={isDesktop ? { opacity: 0, y: 10 } : { opacity: 1, y: 0 }}
             animate={isDesktop ? { opacity: 1, y: 0 } : undefined}
-            className="inline-flex items-center gap-2 bg-green-50 border border-green-100 text-[#1a8b4c] text-[11px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-4 shadow-sm"
+            className="inline-flex items-center gap-2 bg-green-50 border border-green-100 text-[#15703d] text-[11px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-4 shadow-sm"
           >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1a8b4c] opacity-75" />

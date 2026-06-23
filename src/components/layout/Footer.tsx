@@ -105,18 +105,18 @@ export default function Footer() {
                 </div>
                 <div className="pl-6 text-[12px] text-gray-500 font-medium space-y-1">
                   <p>Monday - Saturday: 11:00 AM - 07:00 PM</p>
-                  <p className="text-red-500/80 font-semibold">Sunday: Closed</p>
+                  <p className="text-red-600 font-semibold">Sunday: Closed</p>
                 </div>
               </div>
 
               {/* Trust Badges */}
               <div className="flex flex-wrap gap-2.5 pt-1">
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-100 rounded-xl shadow-xs">
-                  <span className="text-[11px] font-black text-amber-500">★ 4.7/5</span>
-                  <span className="text-[10px] font-bold text-gray-500">Google Rating</span>
+                  <span className="text-[11px] font-black text-amber-600">★ 4.7/5</span>
+                  <span className="text-[10px] font-bold text-gray-600">Google Rating</span>
                 </div>
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-100 rounded-xl shadow-xs">
-                  <span className="text-[10px] font-bold text-gray-500">ISO 9001:2015</span>
+                  <span className="text-[10px] font-bold text-gray-600">ISO 9001:2015</span>
                 </div>
               </div>
             </div>
@@ -128,7 +128,7 @@ export default function Footer() {
                <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-[#1a8b4c]">
                  <Settings size={20} className="animate-spin-slow" />
                </div>
-               <h4 className="text-[20px] font-black text-gray-950 uppercase tracking-tight">Our Services</h4>
+               <h3 className="text-[20px] font-black text-gray-950 uppercase tracking-tight">Our Services</h3>
             </div>
             
             <div className="grid grid-cols-2 gap-x-6">
@@ -176,7 +176,7 @@ export default function Footer() {
                  <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-[#1a8b4c]">
                    <Code size={20} />
                  </div>
-                 <h4 className="text-[20px] font-black text-gray-950 uppercase tracking-tight">CRM Solutions</h4>
+                 <h3 className="text-[20px] font-black text-gray-950 uppercase tracking-tight">CRM Solutions</h3>
               </div>
               
               <div className="grid grid-cols-2 gap-x-6 gap-y-3.5">
@@ -207,7 +207,7 @@ export default function Footer() {
                <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-[#1a8b4c]">
                  <Headphones size={20} />
                </div>
-               <h4 className="text-[20px] font-black text-gray-950 uppercase tracking-tight">Get In Touch</h4>
+               <h3 className="text-[20px] font-black text-gray-950 uppercase tracking-tight">Get In Touch</h3>
             </div>
             
             <div className="space-y-3">
@@ -231,7 +231,7 @@ export default function Footer() {
                       {contact.icon}
                     </div>
                     <div className="text-left">
-                      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">{contact.type}</p>
+                      <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest leading-none mb-1">{contact.type}</p>
                       <p className="text-[14px] font-bold text-gray-800 group-hover:text-[#1a8b4c] transition-colors">{contact.value}</p>
                     </div>
                   </a>
@@ -277,7 +277,7 @@ export default function Footer() {
                     <MapPin size={18} />
                   </div>
                   <div className="text-left">
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Locations</p>
+                    <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest leading-none mb-1">Locations</p>
                     <p className="text-[14px] font-bold text-gray-800 group-hover:text-[#1a8b4c] transition-colors">Our Market Areas</p>
                   </div>
                 </div>
@@ -380,7 +380,7 @@ export default function Footer() {
                    key={link} 
                    href={slugMap[link] || "#"} 
                    title={`${link} - Global Webify`}
-                   className="text-[13px] font-bold text-gray-400 hover:text-[#1a8b4c] transition-colors"
+                   className="text-[13px] font-bold text-gray-500 hover:text-[#1a8b4c] transition-colors"
                  >
                    {link}
                  </Link>

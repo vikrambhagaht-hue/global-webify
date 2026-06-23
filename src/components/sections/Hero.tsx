@@ -126,7 +126,7 @@ const AuditCardMobile = () => (
           <div className="flex justify-between items-center mb-4 bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
             <div className="text-left">
               <p className="text-[7px] font-bold text-gray-500 uppercase tracking-widest">Website Audit</p>
-              <h3 className="text-sm font-black text-gray-900 leading-tight font-heading">globalwebify.com</h3>
+              <span className="text-sm font-black text-gray-900 leading-tight font-heading">globalwebify.com</span>
             </div>
             <span className="bg-[#DCFCE7] text-[#166534] text-[9px] font-bold px-2 py-1 rounded border border-[#BBF7D0]">A+</span>
           </div>
@@ -254,7 +254,7 @@ export default function Hero({
               <a href="tel:+917563901100" title="Free Consultation - Global Webify" className="flex-1 md:flex-none bg-gradient-to-r from-[#1cb05b] to-[#117846] hover:from-[#21c767] hover:to-[#158e53] text-white text-[14px] md:text-[16px] font-bold px-5 md:px-8 md:py-[18px] py-3 rounded-xl transition-all shadow-xl shadow-green-900/20 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap text-center inline-block">
                 Free Consultation
               </a>
-              <button onClick={() => setIsAuditOpen(true)} className="flex-1 md:flex-none bg-white border-2 border-[#1a8b4c] hover:shadow-none text-[#1a8b4c] hover:bg-green-50 text-[13px] md:text-[15px] font-bold px-4 md:px-7 md:py-4 py-2.5 rounded-xl transition-all shadow-md hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
+              <button onClick={() => setIsAuditOpen(true)} className="flex-1 md:flex-none bg-white border-2 border-[#15703d] hover:shadow-none text-[#15703d] hover:bg-green-50 text-[13px] md:text-[15px] font-bold px-4 md:px-7 md:py-4 py-2.5 rounded-xl transition-all shadow-md hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
                 Get Free Audit
               </button>
             </div>

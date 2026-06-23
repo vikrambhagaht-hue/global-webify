@@ -58,7 +58,7 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
         
         {/* Header Section - Centered at the Top */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-green-50 text-[#1a8b4c] px-4 py-2 rounded-full text-[12px] font-black uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 bg-green-50 text-[#15703d] px-4 py-2 rounded-full text-[12px] font-black uppercase tracking-widest mb-4">
             <Award size={18} /> Accredited & Certified
           </div>
           {sectionTitle ? (
@@ -137,7 +137,7 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
                     key={i}
                     onClick={() => setCertIndex(i)}
                     aria-label={`Go to certificate ${i + 1}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 outline-none focus:ring-2 focus:ring-[#1a8b4c] focus:ring-offset-2 ${i === certIndex ? 'w-8 bg-[#1a8b4c]' : 'w-2 bg-gray-200'}`}
+                    className={`h-3 rounded-full transition-all duration-300 outline-none focus:ring-2 focus:ring-[#1a8b4c] focus:ring-offset-2 ${i === certIndex ? 'w-8 bg-[#1a8b4c]' : 'w-3 bg-gray-200'}`}
                   />
                 ))}
               </div>
