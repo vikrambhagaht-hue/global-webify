@@ -102,6 +102,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Home() {
   const host = headers().get('host');
+  const userAgent = headers().get('user-agent') || '';
+  const isMobile = /mobile|android|iphone|ipad|ipod/i.test(userAgent);
   const location = getSubdomainLocation(host);
   let subContent = null;
 
@@ -110,9 +112,9 @@ export default async function Home() {
   }
 
   return (
-    <>
+    <main>
+      <HomeView location={location || undefined} subdomainContent={subContent || undefined} isMobile={isMobile} />
       <CanonicalTag path="/" />
-      <HomeView location={location || undefined} subdomainContent={subContent || undefined} />
-    </>
+    </main>
   );
 }

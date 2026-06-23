@@ -179,12 +179,14 @@ export default function Hero({
   city, 
   heroTexts = [], 
   homepageHeroTitle,
-  homepageHeroDesc
+  homepageHeroDesc,
+  isMobile = false
 }: { 
   city?: string; 
   heroTexts?: string[]; 
   homepageHeroTitle?: string;
   homepageHeroDesc?: string;
+  isMobile?: boolean;
 }) {
   const [mounted, setMounted] = useState(false);
   const [isAuditOpen, setIsAuditOpen] = useState(false);
@@ -204,7 +206,7 @@ export default function Hero({
           priority
           fetchPriority="high"
           sizes="(max-width: 768px) 640px, 100vw"
-          quality={80}
+          unoptimized={true}
           className="object-cover object-top opacity-[0.65] md:opacity-[0.8] saturate-[1.60] contrast-[1.15]"
         />
       </div>
@@ -293,10 +295,12 @@ export default function Hero({
 
           {/* ---- RIGHT COLUMN ---- */}
           <div className="w-full min-[900px]:flex-1 flex justify-center min-[900px]:justify-end relative z-10">
-            {/* Desktop: lazy loaded with framer-motion 3D card */}
-            <div className="hidden md:block w-full">
-              <AuditCardDesktop />
-            </div>
+            {/* Desktop: lazy loaded with framer-motion 3D card. Skipped on mobile SSR to prevent DOM bloat. */}
+            {!isMobile && (
+              <div className="hidden md:block w-full">
+                <AuditCardDesktop />
+              </div>
+            )}
             {/* Mobile: inline component, no framer-motion */}
             <div className="block md:hidden w-full">
               <AuditCardMobile />

@@ -33,7 +33,7 @@ export const TopBar = ({ isOpen, setIsOpen, onContactClick }: TopBarProps) => {
                 priority
                 quality={85}
                 className="object-contain py-1"
-                sizes="(max-width: 768px) 120px, 150px"
+                sizes="(max-width: 768px) 90px, 120px"
               />
             </div>
           </Link>

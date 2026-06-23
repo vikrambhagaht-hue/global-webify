@@ -86,9 +86,8 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
               alt={project.title}
               fill
               quality={80}
-              loading="eager"
               className="object-cover group-hover:scale-110 transition-transform duration-700 brightness-[1.05] contrast-[1.05]"
-              sizes="(max-width: 768px) 480px, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
 
             {/* Stronger Green Tinted Bottom Shade */}
@@ -232,10 +231,11 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
               {[...logos, ...logos].map((num, i) => (
                 <div key={`${num}-${i}`} className="mx-3 flex-shrink-0">
                   <div className="bg-white rounded-xl w-[140px] md:w-[180px] h-[90px] md:h-[120px] flex items-center justify-center shadow-lg transition-transform hover:scale-105 duration-500 p-2 relative">
-                    <img
+                    <Image
                       src={num <= 4 ? `/${num}.avif` : `/${num}.webp`}
                       alt={`Partner Logo ${num}`}
-                      loading="eager"
+                      width={180}
+                      height={120}
                       className="w-full h-full object-contain p-2"
                     />
                   </div>

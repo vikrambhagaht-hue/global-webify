@@ -36,7 +36,7 @@ function replaceLocation(text: string, loc: string = ""): string {
   return result;
 }
 
-export default async function HomeView({ city, cityKey, location, subdomainContent }: { city?: string; cityKey?: string; location?: string; subdomainContent?: any } = {}) {
+export default async function HomeView({ city, cityKey, location, subdomainContent, isMobile }: { city?: string; cityKey?: string; location?: string; subdomainContent?: any; isMobile?: boolean } = {}) {
   let dbPosts: any[] = [];
   let serviceDescriptions: Record<string, string> = {};
   let reviews: any[] = [];
@@ -190,8 +190,13 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
     <div className="bg-white overflow-hidden pb-12">
 
       {/* New Hero Section Component */}
-      <Hero city={locationName} heroTexts={heroTexts} homepageHeroTitle={homepageHeroTitle} homepageHeroDesc={homepageHeroDesc} />
-
+      <Hero 
+          city={locationName} 
+          heroTexts={heroTexts} 
+          homepageHeroTitle={homepageHeroTitle}
+          homepageHeroDesc={homepageHeroDesc}
+          isMobile={isMobile}
+      />
       <div className="space-y-0">
         {/* New Services Grid Section */}
         <ServicesGrid cityKey={cityKey} dynamicDescriptions={serviceDescriptions} location={locationName} sectionTitle={sectionHeaders?.services?.title} sectionDesc={sectionHeaders?.services?.description} />
