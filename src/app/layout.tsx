@@ -34,7 +34,21 @@ const jost = Jost({
 // dynamically server-rendered on every request (no caching), which
 // overwhelms the DB connection pool and causes 500 errors in production.
 // Instead we read from NEXT_PUBLIC_SITE_URL env var — change domain anytime without code changes.
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://globalwebify.com';
+
+const getSiteUrl = () => {
+  // If NEXT_PUBLIC_SITE_URL is set and valid, use it
+  if (process.env.NEXT_PUBLIC_SITE_URL && !process.env.NEXT_PUBLIC_SITE_URL.includes('localhost')) {
+    return process.env.NEXT_PUBLIC_SITE_URL;
+  }
+  // Fallback to Vercel URL if deployed there
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  // Default fallback
+  return 'https://globalwebify.com';
+};
+
+const SITE_URL = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
