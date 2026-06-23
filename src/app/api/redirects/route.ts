@@ -14,11 +14,7 @@ export async function GET() {
       select: { source: true, destination: true },
       take: 1000
     });
-    return NextResponse.json(redirects, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
-      },
-    });
+    return NextResponse.json(redirects);
   } catch (error) {
     // If DB fails, return empty array so middleware doesn't break
     return NextResponse.json([], { status: 200 });

@@ -8,7 +8,7 @@ import { verifyJWT } from './lib/jwt';
 // so admin-added redirects still take effect within a short window.
 let cachedRedirects: { source: string; destination: string }[] | null = null;
 let cacheTimestamp = 0;
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL_MS = 0; // Set to 0 for instant updates (since traffic is low)
 let fetchInProgress: Promise<{ source: string; destination: string }[]> | null = null;
 
 async function getRedirects(origin: string): Promise<{ source: string; destination: string }[]> {
