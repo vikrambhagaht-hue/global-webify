@@ -5,6 +5,9 @@ import { FileText, Code, TrendingUp, UserCheck, CreditCard, Shield, Mail, Phone,
 export const metadata: Metadata = {
   title: 'Terms of Service | GlobalWebify',
   description: 'Please read these terms carefully before using our services. These terms govern your relationship with Global Webify.',
+  alternates: {
+    canonical: '/terms-of-service',
+  },
   robots: 'index, follow',
 };
 

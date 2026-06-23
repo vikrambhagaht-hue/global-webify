@@ -44,7 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
             images: [defaultLogo],
           },
           alternates: {
-            canonical: '/'
+            canonical: `https://${host}/`
           }
         };
       }
@@ -73,7 +73,7 @@ export async function generateMetadata(): Promise<Metadata> {
         images: [defaultLogo],
       },
       alternates: {
-        canonical: '/'
+        canonical: 'https://www.globalwebify.com/'
       }
     };
   } catch (error: any) {
@@ -102,7 +102,7 @@ export async function generateMetadata(): Promise<Metadata> {
         images: [defaultLogo],
       },
       alternates: {
-        canonical: '/'
+        canonical: 'https://www.globalwebify.com/'
       }
     };
   }

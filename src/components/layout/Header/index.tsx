@@ -183,7 +183,7 @@ export default function Header({ initialSettings }: HeaderProps) {
     <header className="fixed top-0 left-0 right-0 z-[9999] bg-white border-b border-gray-200 font-sans">
       {/* Preload the promo background image to ensure instant display on hover */}
       <div className="absolute -left-[9999px] -top-[9999px] w-1 h-1 opacity-0 pointer-events-none" aria-hidden="true">
-        <img src="/nav-promo.png" alt="Promo Background - Global Webify" title="Promo Background - Global Webify" width="1" height="1" />
+
       </div>
 
       {/* Top Bar Component */}

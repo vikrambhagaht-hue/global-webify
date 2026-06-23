@@ -170,9 +170,9 @@ const AuditCardMobile = () => (
 
 const badges = [
   { title: "Google Ad Partner", sub: "4.7 Rating", icon: <GoogleLogo /> },
-  { title: "Meta Ad Partner", sub: "4.5 Rating", icon: <Image src="/meta-icon.svg" alt="Meta" width={32} height={32} className="object-contain" /> },
-  { title: "ISO Certified", sub: "ISO 9001:2015", icon: <Image src="/iso.png" alt="ISO" width={34} height={34} className="object-contain" /> },
-  { title: "AI Powered", sub: "Intelligent Solutions", icon: <Image src="/artificial-intelligence.png" alt="AI" width={34} height={34} className="object-contain" /> },
+  { title: "Meta Ad Partner", sub: "4.5 Rating", icon: <Image src="/meta-icon.svg" alt="Meta" width={32} height={32} className="object-contain" priority={true} /> },
+  { title: "ISO Certified", sub: "ISO 9001:2015", icon: <Image src="/iso.png" alt="ISO" width={34} height={34} className="object-contain" priority={true} /> },
+  { title: "AI Powered", sub: "Intelligent Solutions", icon: <Image src="/artificial-intelligence.png" alt="AI" width={34} height={34} className="object-contain" priority={true} /> },
 ];
 
 export default function Hero({ 

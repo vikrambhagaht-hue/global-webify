@@ -24,7 +24,11 @@ async function getPolicyData() {
   return {
     title: 'Return Policy',
     content: '<p>Our standard return and service cancellation policy details will appear here soon.</p>',
-    updatedAt: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+    updatedAt: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+    keywords: ['Return Policy', 'Cancellation Policy', 'GlobalWebify Returns', 'Service Returns'],
+    alternates: {
+      canonical: '/return-policy'
+    }
   };
 }
 

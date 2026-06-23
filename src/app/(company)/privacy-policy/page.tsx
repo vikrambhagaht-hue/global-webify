@@ -4,7 +4,10 @@ import { Shield, Database, Settings, Lock, Eye, Edit, Trash, Mail, Phone, MapPin
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | GlobalWebify',
-  description: 'We respect your privacy and are committed to protecting your personal information. This policy explains how we collect, use, and safeguard your data.',
+  description: 'Learn how GlobalWebify protects and handles your data.',
+  alternates: {
+    canonical: '/privacy-policy'
+  },
   robots: 'index, follow',
 };
 

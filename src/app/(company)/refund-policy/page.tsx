@@ -8,6 +8,10 @@ export const revalidate = 60; // Cache page for 60 seconds
 export const metadata: Metadata = {
   title: 'Refund Policy | GlobalWeblify',
   description: 'Understand the terms, guidelines, and conditions for service refunds at GlobalWeblify.',
+  keywords: ['Refund Policy', 'Cancellation Policy', 'GlobalWeblify Refunds', 'Service Cancellation'],
+  alternates: {
+    canonical: '/refund-policy'
+  }
 };
 
 async function getPolicyData() {

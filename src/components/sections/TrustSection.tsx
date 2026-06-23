@@ -111,12 +111,7 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
                   </m.div>
                 </AnimatePresence>
                 
-                {/* Eager image preloader to cache all certificates immediately */}
-                <div className="hidden" aria-hidden="true">
-                  {certificates.map((cert) => (
-                    <img key={cert} src={cert} alt="" />
-                  ))}
-                </div>
+                {/* Removed eager image preloader to significantly reduce initial network payload */}
 
                 {/* Navigation Buttons */}
                 <button 
@@ -163,8 +158,7 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
                   muted
                   loop
                   playsInline
-                  preload="metadata"
-                  poster="/bg-pattern-landing.avif"
+                  preload="none"
                 >
                   <source src="/videoplayback.mp4" type="video/mp4" />
                   <track kind="captions" src="/placeholder.txt" srcLang="en" label="English" />
