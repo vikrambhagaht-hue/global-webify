@@ -36,6 +36,7 @@ const TypingHeadline = ({ phrases = [] }: { phrases?: string[] }) => {
   const [loopNum, setLoopNum] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(100);
   const [mounted, setMounted] = useState(false);
+  const [isFirstPause, setIsFirstPause] = useState(true);
 
   useEffect(() => {
     setMounted(true);
@@ -61,7 +62,8 @@ const TypingHeadline = ({ phrases = [] }: { phrases?: string[] }) => {
       if (!isDeleting) {
         if (currentText === fullText) {
           setIsDeleting(true);
-          setTypingSpeed(3000);
+          setTypingSpeed(isFirstPause ? 5000 : 3000);
+          setIsFirstPause(false);
         } else {
           setCurrentText(fullText.substring(0, currentText.length + 1));
           setTypingSpeed(60);
@@ -206,7 +208,7 @@ export default function Hero({
           priority
           fetchPriority="high"
           sizes="(max-width: 768px) 640px, 100vw"
-          unoptimized={true}
+          quality={50}
           className="object-cover object-top opacity-[0.65] md:opacity-[0.8] saturate-[1.60] contrast-[1.15]"
         />
       </div>
