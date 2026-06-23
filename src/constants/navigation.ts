@@ -1,3 +1,5 @@
+import { CITIES_LIST } from '@/features/services/constants/cities';
+
 export const SOCIAL_LINKS = [
   { 
     name: 'Facebook', 
@@ -127,6 +129,11 @@ export const COMPANY_LINKS = [
   { name: "Portfolio", href: "/portfolio" },
   { name: "Market Area", href: "/market-area" }
 ];
+
+export const MARKET_AREA_LINKS = CITIES_LIST.map(city => ({
+  name: city.name,
+  href: `/${city.slug}`
+}));
 
 export const NAV_LINKS = [
   { name: 'WEBSITE', id: 'website', hasDropdown: true },

@@ -130,6 +130,47 @@ export default function RedirectListClient({
 
         <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
 
+          {/* TOP FULL-WIDTH DIV FOR CITIES ONLY */}
+          <div className="md:col-span-12 w-full mb-1">
+            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">
+              Quick Select Market Area Destination
+            </label>
+            <div className="flex flex-wrap items-center gap-2 pb-2">
+              {/* Cities */}
+              {(() => {
+                const cityRoutes = availableRoutes.filter(r => r.label.startsWith('Market Area:'));
+                const groups: Record<string, typeof availableRoutes> = {};
+                cityRoutes.forEach(r => {
+                  const match = r.label.match(/Market Area: (.*?) (\(Homepage\)|->)/);
+                  const cityName = match ? match[1].trim() : 'Unknown City';
+                  if (!groups[cityName]) groups[cityName] = [];
+                  groups[cityName].push(r);
+                });
+                
+                return Object.entries(groups).map(([cityName, routes]) => (
+                  <select
+                    key={cityName}
+                    className="shrink-0 text-xs font-semibold text-blue-600 bg-white border border-gray-200 shadow-sm rounded-xl px-3 py-2 outline-none cursor-pointer hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 w-auto min-w-[120px] max-w-[150px] truncate transition-all"
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        setCurrentRedirect({ ...currentRedirect, destination: e.target.value });
+                        e.target.value = '';
+                      }
+                    }}
+                    defaultValue=""
+                  >
+                    <option value="" disabled>📍 {cityName}</option>
+                    {routes.map(r => {
+                      const isHome = r.label.includes('(Homepage)');
+                      const pageName = isHome ? `🏠 Homepage` : `${r.label.split('->')[1]?.trim()}`;
+                      return <option key={`city-${r.url}`} value={r.url}>{pageName}</option>;
+                    })}
+                  </select>
+                ));
+              })()}
+            </div>
+          </div>
+
           {/* Old URL */}
           <div className="md:col-span-5 space-y-1.5">
             <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">
@@ -157,20 +198,20 @@ export default function RedirectListClient({
               <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block whitespace-nowrap">
                 New URL
               </label>
-              <div className="flex flex-col sm:flex-row items-stretch gap-2 w-full xl:w-auto">
+              <div className="flex flex-wrap items-stretch gap-2 w-full xl:w-auto">
                 <select
                   className="text-xs font-semibold text-gray-700 bg-white border border-gray-200 shadow-sm rounded-xl px-3 py-2 outline-none cursor-pointer hover:bg-gray-50 hover:border-gray-300 focus:border-[#1a8b4c] focus:ring-1 focus:ring-[#1a8b4c] w-full sm:max-w-[180px] truncate transition-all"
                   onChange={(e) => {
                     if (e.target.value) {
                       setCurrentRedirect({ ...currentRedirect, destination: e.target.value });
-                      e.target.value = ''; // Reset select so it acts like a button
+                      e.target.value = '';
                     }
                   }}
                   defaultValue=""
                 >
                   <option value="" disabled>✨ Select Page...</option>
                   {availableRoutes
-                    .filter(r => !r.label.startsWith('Blog:') && !r.label.startsWith('Job:'))
+                    .filter(r => !r.label.startsWith('Blog:') && !r.label.startsWith('Job:') && !r.label.startsWith('Market Area:'))
                     .map(r => (
                       <option key={`page-${r.url}`} value={r.url}>{r.label}</option>
                     ))
@@ -182,7 +223,7 @@ export default function RedirectListClient({
                   onChange={(e) => {
                     if (e.target.value) {
                       setCurrentRedirect({ ...currentRedirect, destination: e.target.value });
-                      e.target.value = ''; // Reset select so it acts like a button
+                      e.target.value = '';
                     }
                   }}
                   defaultValue=""

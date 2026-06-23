@@ -3,6 +3,8 @@
 import { db } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { requireAdmin } from '@/lib/auth';
+import { CITIES_LIST } from '@/features/services/constants/cities';
+import { replaceLocation, getSlugTitle } from '@/lib/replaceLocation';
 
 export async function getRedirects() {
   await requireAdmin();
@@ -38,6 +40,18 @@ export async function getAvailableRoutes() {
     services.forEach(s => routes.push({ url: s.slug.startsWith('/') ? s.slug : `/${s.slug}`, label: `Service: ${s.title}` }));
     blogs.forEach(b => routes.push({ url: b.slug.startsWith('/') ? b.slug : `/blog/${b.slug.replace(/^blog\//, '')}`, label: `Blog: ${b.title}` }));
     jobs.forEach(j => routes.push({ url: j.slug.startsWith('/') ? j.slug : `/career/${j.slug.replace(/^career\//, '')}`, label: `Job: ${j.title}` }));
+
+    CITIES_LIST.forEach(city => {
+      routes.push({ url: `/${city.slug}`, label: `Market Area: ${city.name} (Homepage)` });
+      
+      // Add all service pages for this city
+      services.forEach(s => {
+        const cleanSlug = s.slug.startsWith('/') ? s.slug.substring(1) : s.slug;
+        const baseTitle = getSlugTitle(s.slug);
+        const localizedTitle = `${baseTitle} in ${city.name}`;
+        routes.push({ url: `/${city.slug}/${cleanSlug}`, label: `Market Area: ${city.name} -> ${localizedTitle}` });
+      });
+    });
 
     return routes;
   } catch (error) {
