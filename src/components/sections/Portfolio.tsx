@@ -49,6 +49,25 @@ const projects = [
 const ProjectCard = ({ project, index, isDesktop }: { project: any, index: number, isDesktop: boolean }) => {
   const x = useMotionValue(0.5);
   const y = useMotionValue(0.5);
+  const [isImageInView, setIsImageInView] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = sessionStorage.getItem('portfolioImagesLoaded');
+      if (stored === 'true') {
+        setIsImageInView(true);
+      }
+    }
+  }, []);
+
+  const handleViewportEnter = () => {
+    if (!isImageInView) {
+      setIsImageInView(true);
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('portfolioImagesLoaded', 'true');
+      }
+    }
+  };
 
   const mouseXSpring = useSpring(x, { stiffness: 150, damping: 25 });
   const mouseYSpring = useSpring(y, { stiffness: 150, damping: 25 });
@@ -67,6 +86,7 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
     <m.div
       initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
       whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
+      onViewportEnter={handleViewportEnter}
       viewport={{ once: true, margin: "300px" }}
       transition={{ delay: index * 0.02, duration: 0.3 }}
       className="relative"
@@ -81,14 +101,17 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
         >
           {/* Image Container */}
           <div className={`relative aspect-[16/10] overflow-hidden bg-[#f0fdf4] ${isDesktop ? 'transform-gpu will-change-transform' : ''}`} style={{ transform: isDesktop ? "translateZ(0px)" : undefined }}>
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              quality={80}
-              className="object-cover group-hover:scale-110 transition-transform duration-700 md:brightness-[1.05] md:contrast-[1.05]"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
+            {isImageInView && (
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                priority={true}
+                quality={80}
+                className="object-cover group-hover:scale-110 transition-transform duration-700 md:brightness-[1.05] md:contrast-[1.05]"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            )}
 
             {/* Stronger Green Tinted Bottom Shade */}
             <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-[#064e3b] via-[#064e3b]/70 to-transparent opacity-100 transition-opacity duration-500" />
