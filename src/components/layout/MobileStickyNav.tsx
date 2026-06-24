@@ -51,6 +51,8 @@ export default function MobileStickyNav() {
   const [animateCall, setAnimateCall] = useState(false);
   const [animateWhatsApp, setAnimateWhatsApp] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const touchStartY = useRef<number | null>(null);
+  const touchStartTime = useRef<number>(0);
 
   const idleInterval = useRef<NodeJS.Timeout | null>(null);
 
@@ -58,7 +60,6 @@ export default function MobileStickyNav() {
   useEffect(() => {
     let timer: NodeJS.Timeout;
     idleInterval.current = setInterval(() => {
-      // Wiggle both Call and WhatsApp at the same time
       setAnimateCall(true);
       setAnimateWhatsApp(true);
 
@@ -66,7 +67,7 @@ export default function MobileStickyNav() {
         setAnimateCall(false);
         setAnimateWhatsApp(false);
       }, 600);
-    }, 3000); // 3-second interval loop
+    }, 3000);
 
     return () => {
       if (idleInterval.current) clearInterval(idleInterval.current);
@@ -139,26 +140,30 @@ export default function MobileStickyNav() {
       window.visualViewport?.removeEventListener('scroll', handleVisualViewportChange);
       cancelAnimationFrame(rafId);
     };
-  }, []);  const getVariants = (delay: number) => ({
-    tingle: {
-      rotate: [0, -12, 12, -12, 12, 0],
-      scale: [1, 1.15, 1.15, 1.15, 1.15, 1],
-      transition: { duration: 0.5, ease: "easeInOut" }
-    },
-    idle: {
-      rotate: 0,
-      scale: 1,
-      y: [0, -2, 0],
-      transition: {
-        y: {
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: delay
-        }
-      }
+  }, []);
+
+  // Helper: was this a genuine tap (not a scroll gesture)?
+  const isTap = () => {
+    if (touchStartY.current === null) return false;
+    const elapsed = Date.now() - touchStartTime.current;
+    return elapsed < 300; // fast tap = under 300ms
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+    touchStartTime.current = Date.now();
+  };
+
+  const handleTouchEnd = (action: () => void) => (e: React.TouchEvent) => {
+    if (touchStartY.current === null) return;
+    const deltaY = Math.abs(e.changedTouches[0].clientY - touchStartY.current);
+    // If finger barely moved (<10px) and was quick, it's a tap
+    if (deltaY < 10 && isTap()) {
+      action();
+      e.preventDefault();
     }
-  });
+    touchStartY.current = null;
+  };
 
   if (isInputFocused) return null;
   if (!isHomepage) return null;
@@ -185,87 +190,71 @@ export default function MobileStickyNav() {
               href: "tel:18008905489", 
               icon: <Phone size={22} />, 
               label: "Call", 
-              type: "a",
+              type: "a" as const,
               animateState: animateCall,
-              delay: 0
             },
             { 
               href: "https://wa.me/917563901100", 
               icon: <MessageCircle size={22} />, 
               label: "WhatsApp", 
-              type: "a", 
+              type: "a" as const, 
               target: "_blank",
               animateState: animateWhatsApp,
-              delay: 0.5
             },
             { 
+              href: undefined,
               icon: <Briefcase size={22} />, 
               label: "Our Work", 
-              type: "drawer",
+              type: "drawer" as const,
               animateState: false,
-              delay: 1.0
+              target: undefined,
             }
           ].map((item, i) => (
             <div
               key={item.label}
-              className={`flex-1 flex border-white/20 relative overflow-hidden active:bg-white/10 transition-colors ${i !== 2 ? 'border-r-[1.5px]' : ''}`}
+              className={`flex-1 flex border-white/20 relative overflow-hidden active:bg-white/10 ${i !== 2 ? 'border-r-[1.5px]' : ''}`}
+              style={{ touchAction: 'manipulation' }}
             >
               {item.type === "a" ? (
                 <a 
                   href={item.href}
                   target={item.target}
                   title={`${item.label} - Global Webify`}
-                  onTouchStart={(e) => {
-                    // Instagram-style instant click! Bypasses wait for scroll to stop.
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd(() => {
                     if (item.target === "_blank") {
                       window.open(item.href, "_blank");
                     } else {
                       window.location.href = item.href || "";
                     }
-                    e.preventDefault();
-                  }}
-                  className="flex-1 flex flex-col items-center justify-center gap-1 text-white transition-colors relative z-10 overflow-hidden"
+                  })}
+                  className="flex-1 flex flex-col items-center justify-center gap-1 text-white relative z-10 overflow-hidden"
                 >
-                  <m.div
-                    animate={item.animateState ? "tingle" : "idle"}
-                    variants={getVariants(item.delay)}
-                  >
+                  <div className={item.animateState ? "animate-tingle" : "animate-idle-bob"}>
                     {item.icon}
-                  </m.div>
+                  </div>
                   <span className="text-[9px] font-black uppercase tracking-[0.15em]">{item.label}</span>
 
                   {item.animateState && (
-                    <m.div
-                      initial={{ left: "-100%" }}
-                      animate={{ left: "200%" }}
-                      transition={{ duration: 0.6, ease: "easeInOut" }}
-                      className="absolute inset-y-0 w-[60%] bg-gradient-to-r from-transparent via-white/35 to-transparent skew-x-[-25deg] pointer-events-none z-0"
-                    />
+                    <div className="absolute inset-y-0 w-[60%] bg-gradient-to-r from-transparent via-white/35 to-transparent skew-x-[-25deg] pointer-events-none z-0 animate-shimmer" />
                   )}
                 </a>
               ) : (
                 <button 
                   onClick={() => setIsDrawerOpen(true)}
-                  onTouchStart={(e) => {
-                    // Instagram-style instant click!
-                    setIsDrawerOpen(true);
-                    e.preventDefault();
-                  }}
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd(() => setIsDrawerOpen(true))}
                   title={`${item.label} - Global Webify`}
-                  className="flex-1 flex flex-col items-center justify-center gap-1 text-white transition-colors relative z-10 w-full overflow-hidden"
+                  className="flex-1 flex flex-col items-center justify-center gap-1 text-white relative z-10 w-full overflow-hidden"
                 >
-                  <m.div
-                    animate={item.animateState ? "tingle" : "idle"}
-                    variants={getVariants(item.delay)}
-                  >
+                  <div className="animate-idle-bob" style={{ animationDelay: '1s' }}>
                     {item.icon}
-                  </m.div>
+                  </div>
                   <span className="text-[9px] font-black uppercase tracking-[0.15em]">{item.label}</span>
                 </button>
               )}
             </div>
-          ))}
-        </div>
+          ))}        </div>
 
         {/* Subtle bottom glow */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-t from-white/10 to-transparent pointer-events-none" />

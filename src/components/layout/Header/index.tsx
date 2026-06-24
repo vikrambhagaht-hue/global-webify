@@ -248,10 +248,12 @@ export default function Header({ initialSettings }: HeaderProps) {
       {/* Mobile Menu Overlay */}
       <div
         className={cn(
-          "lg:hidden fixed inset-0 bg-white z-[10000] flex flex-col pt-[100px] transition-transform duration-300 ease-in-out",
+          "lg:hidden fixed inset-0 bg-white z-[10000] flex flex-col transition-transform duration-300 ease-in-out",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
+             {/* Spacer to push content below the header without showing background */}
+             <div className="shrink-0 h-[100px] bg-white" />
              <div className="p-6 flex flex-col gap-1 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-gray-50 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#1a8b4c]/50 pr-4">
                 {visibleNavLinks.map((link) => (
                   <div key={link.id} className="border-b border-gray-50">

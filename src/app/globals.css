@@ -166,4 +166,34 @@ body {
   animation: premium-dark-glow-pulse 2s infinite ease-in-out;
 }
 
+/* Mobile Sticky Nav — Tingle wiggle (replaces framer-motion) */
+@keyframes tingle {
+  0%   { transform: rotate(0deg) scale(1); }
+  15%  { transform: rotate(-12deg) scale(1.15); }
+  35%  { transform: rotate(12deg) scale(1.15); }
+  55%  { transform: rotate(-12deg) scale(1.15); }
+  75%  { transform: rotate(12deg) scale(1.15); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+.animate-tingle {
+  animation: tingle 0.5s ease-in-out;
+}
+
+/* Mobile Sticky Nav — Subtle idle float */
+@keyframes idle-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-2px); }
+}
+.animate-idle-bob {
+  animation: idle-bob 3s ease-in-out infinite;
+}
+
+/* Mobile Sticky Nav — Shimmer sweep */
+@keyframes shimmer {
+  0%   { left: -100%; }
+  100% { left: 200%; }
+}
+.animate-shimmer {
+  animation: shimmer 0.6s ease-in-out;
+}
 
