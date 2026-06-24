@@ -112,21 +112,25 @@ export default function MobileStickyNav() {
     };
   }, []);
 
-  // Use VisualViewport API to stick exactly to the bottom, avoiding Chrome address bar jumps
+  // Use VisualViewport API to stick exactly to the bottom, avoiding Chrome address bar gaps.
+  // CRITICAL: We DO NOT use 'transition: bottom' in CSS anymore because animating position during scroll drops click events!
   useEffect(() => {
     if (typeof window === 'undefined' || !window.visualViewport) return;
 
+    let rafId: number;
+
     const handleVisualViewportChange = () => {
-      const vv = window.visualViewport;
-      if (!vv) return;
-      // Calculate how far the bottom of the visual viewport is from the bottom of the layout viewport
-      const offset = window.innerHeight - vv.height - vv.offsetTop;
-      const newBottom = Math.max(0, Math.round(offset));
-      
-      setViewportBottom(newBottom);
+      // Use requestAnimationFrame to avoid blocking the main thread and making clicks unresponsive
+      rafId = requestAnimationFrame(() => {
+        const vv = window.visualViewport;
+        if (!vv) return;
+        const offset = window.innerHeight - vv.height - vv.offsetTop;
+        const newBottom = Math.max(0, Math.round(offset));
+        
+        setViewportBottom(newBottom);
+      });
     };
 
-    // We must listen to BOTH resize AND scroll on the visualViewport to stay synced during Chrome's address bar hide/show animation
     window.visualViewport.addEventListener('resize', handleVisualViewportChange);
     window.visualViewport.addEventListener('scroll', handleVisualViewportChange);
     
@@ -135,10 +139,9 @@ export default function MobileStickyNav() {
     return () => {
       window.visualViewport?.removeEventListener('resize', handleVisualViewportChange);
       window.visualViewport?.removeEventListener('scroll', handleVisualViewportChange);
+      cancelAnimationFrame(rafId);
     };
-  }, []);
-
-  const getVariants = (delay: number) => ({
+  }, []);  const getVariants = (delay: number) => ({
     tingle: {
       rotate: [0, -12, 12, -12, 12, 0],
       scale: [1, 1.15, 1.15, 1.15, 1.15, 1],
@@ -168,8 +171,8 @@ export default function MobileStickyNav() {
         className="md:hidden fixed left-0 right-0 z-[100] bg-[#1a8b4c] border-t border-white/20 shadow-[0_-8px_30px_rgba(0,0,0,0.25)] flex flex-col overflow-visible"
         style={{ 
           bottom: `${viewportBottom}px`,
-          paddingBottom: 'env(safe-area-inset-bottom)',
-          transition: 'bottom 0.1s ease-out'
+          paddingBottom: 'env(safe-area-inset-bottom)'
+          /* CRITICAL FIX: No 'transition: bottom' here. Animating position during scroll is what drops the click events! */
         }}
       >
         {/* Safety overlay to prevent dynamic browser bar bottom gaps */}

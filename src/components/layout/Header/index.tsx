@@ -246,14 +246,12 @@ export default function Header({ initialSettings }: HeaderProps) {
       </nav>
 
       {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isOpen && (
-          <m.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            className="lg:hidden fixed inset-0 bg-white z-[10000] flex flex-col pt-[100px]"
-          >
+      <div
+        className={cn(
+          "lg:hidden fixed inset-0 bg-white z-[10000] flex flex-col pt-[100px] transition-transform duration-300 ease-in-out",
+          isOpen ? "translate-x-0" : "translate-x-full"
+        )}
+      >
              <div className="p-6 flex flex-col gap-1 overflow-y-auto">
                 {visibleNavLinks.map((link) => (
                   <div key={link.id} className="border-b border-gray-50">
@@ -271,14 +269,16 @@ export default function Header({ initialSettings }: HeaderProps) {
                             {link.name}
                           </span>
                         </div>
-                        <m.div
-                          animate={{ rotate: mobileMenuOpen === link.id ? 180 : 0 }}
-                          transition={{ duration: 0.2 }}
+                        <div
+                          className={cn(
+                            "transition-transform duration-300",
+                            mobileMenuOpen === link.id ? "rotate-180" : "rotate-0"
+                          )}
                         >
                           <svg className={cn("w-4 h-4 transition-colors", mobileMenuOpen === link.id ? "text-[#1a8b4c]" : "text-gray-900")} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                           </svg>
-                        </m.div>
+                        </div>
                       </button>
                     ) : (
                       <Link 
@@ -302,14 +302,12 @@ export default function Header({ initialSettings }: HeaderProps) {
                     )}
                     
                     {/* Mobile Dropdown Content */}
-                    <AnimatePresence>
-                      {link.hasDropdown && mobileMenuOpen === link.id && (
-                        <m.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          className="overflow-hidden bg-gray-50/50 rounded-xl mb-4 px-4"
-                        >
+                    <div
+                      className={cn(
+                        "overflow-hidden bg-gray-50/50 rounded-xl px-4 transition-all duration-300 ease-in-out",
+                        link.hasDropdown && mobileMenuOpen === link.id ? "max-h-[1500px] opacity-100 mb-4" : "max-h-0 opacity-0 mb-0"
+                      )}
+                    >
                           {getSubLinks(link.id).map((item: any, idx: number) => (
                             <div key={idx} className="py-2 first:pt-4 last:pb-4 border-b border-gray-100 last:border-0">
                               <Link 
@@ -337,9 +335,8 @@ export default function Header({ initialSettings }: HeaderProps) {
                               )}
                             </div>
                           ))}
-                        </m.div>
-                      )}
-                    </AnimatePresence>
+                        </div>
+                    </div>
                   </div>
                 ))}
              </div>
@@ -368,9 +365,9 @@ export default function Header({ initialSettings }: HeaderProps) {
                   ))}
                 </div>
              </div>
-          </m.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
 
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </header>
