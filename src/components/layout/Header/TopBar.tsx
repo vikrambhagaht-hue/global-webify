@@ -43,7 +43,7 @@ export const TopBar = ({ isOpen, setIsOpen, onContactClick }: TopBarProps) => {
             <div className="animate-marquee-scroll flex gap-20 whitespace-nowrap items-center group-hover:[animation-play-state:paused] cursor-pointer">
               {[1, 2].map((i) => (
                 <span key={i} className="text-[11px] xl:text-[13.5px] font-medium text-gray-700 tracking-tight font-sans">
-                  Global Webify is the Best Digital Marketing Agency in Ranchi delivering creative, user-friendly websites for all industries with proven strategies and expert SEO services.
+                  Global Webify is a trusted Website Designer in Ranchi, Jharkhand delivering creative, user-friendly websites for all industries with proven strategies and expert SEO services.
                 </span>
               ))}
             </div>
