@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -115,29 +115,38 @@ export default function MobileStickyNav() {
 
   // Use visualViewport to fix Chrome address bar gap, but use DIRECT DOM MUTATION
   // instead of React state. This prevents re-renders, ensuring clicks are never dropped!
-  useEffect(() => {
+  // useLayoutEffect runs BEFORE browser paint — critical for iPhone first-load gap fix.
+  const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+  
+  useIsomorphicLayoutEffect(() => {
     if (typeof window === 'undefined' || !window.visualViewport) return;
 
     let rafId: number;
 
-    const handleVisualViewportChange = () => {
-      rafId = requestAnimationFrame(() => {
-        const vv = window.visualViewport;
-        if (!vv || !navRef.current) return;
-        const offset = window.innerHeight - vv.height - vv.offsetTop;
-        const newBottom = Math.max(0, Math.round(offset));
-        // Direct DOM mutation! No React re-render.
-        navRef.current.style.bottom = `${newBottom}px`;
-      });
+    const syncPosition = () => {
+      const vv = window.visualViewport;
+      if (!vv || !navRef.current) return;
+      const offset = window.innerHeight - vv.height - vv.offsetTop;
+      const newBottom = Math.max(0, Math.round(offset));
+      navRef.current.style.bottom = `${newBottom}px`;
     };
+
+    const handleVisualViewportChange = () => {
+      rafId = requestAnimationFrame(syncPosition);
+    };
+
+    // Run IMMEDIATELY on mount — fixes iPhone 13 first-load gap
+    syncPosition();
 
     window.visualViewport.addEventListener('resize', handleVisualViewportChange);
     window.visualViewport.addEventListener('scroll', handleVisualViewportChange);
-    handleVisualViewportChange();
+    // Also listen to window scroll for edge cases where visualViewport doesn't fire
+    window.addEventListener('scroll', handleVisualViewportChange, { passive: true });
 
     return () => {
       window.visualViewport?.removeEventListener('resize', handleVisualViewportChange);
       window.visualViewport?.removeEventListener('scroll', handleVisualViewportChange);
+      window.removeEventListener('scroll', handleVisualViewportChange);
       cancelAnimationFrame(rafId);
     };
   }, []);
@@ -177,8 +186,8 @@ export default function MobileStickyNav() {
           paddingBottom: 'env(safe-area-inset-bottom, 0px)'
         }}
       >
-        {/* Safety overlay to prevent dynamic browser bar bottom gaps */}
-        <div className="absolute top-full left-0 right-0 h-40 bg-[#1a8b4c] pointer-events-none" />
+        {/* Safety overlay — extends full screen height below navbar to cover ANY possible gap on ANY device */}
+        <div className="absolute top-full left-0 right-0 h-screen bg-[#1a8b4c] pointer-events-none" />
 
         {/* Background with very subtle noise or gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
