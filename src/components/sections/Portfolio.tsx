@@ -77,16 +77,16 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
           onMouseMove={isDesktop ? handleMouse : undefined}
           onMouseLeave={isDesktop ? () => { x.set(0.5); y.set(0.5); } : undefined}
           style={isDesktop ? { rotateX, rotateY, transformStyle: "preserve-3d" } : {}}
-          className={`group relative bg-white rounded-[24px] overflow-hidden shadow-lg hover:shadow-[0_24px_48px_-12px_rgba(26,139,76,0.2)] hover:-translate-y-1.5 lg:hover:-translate-y-2 transition-all duration-500 border border-gray-100 ${isDesktop ? 'transform-gpu will-change-transform' : ''}`}
+          className={`group relative bg-[#f0fdf4] rounded-[24px] overflow-hidden shadow-lg hover:shadow-[0_24px_48px_-12px_rgba(26,139,76,0.2)] hover:-translate-y-1.5 lg:hover:-translate-y-2 transition-all duration-500 border border-gray-100 ${isDesktop ? 'transform-gpu will-change-transform' : ''}`}
         >
           {/* Image Container */}
-          <div className={`relative aspect-[16/10] overflow-hidden ${isDesktop ? 'transform-gpu will-change-transform' : ''}`} style={{ transform: isDesktop ? "translateZ(0px)" : undefined }}>
+          <div className={`relative aspect-[16/10] overflow-hidden bg-[#f0fdf4] ${isDesktop ? 'transform-gpu will-change-transform' : ''}`} style={{ transform: isDesktop ? "translateZ(0px)" : undefined }}>
             <Image
               src={project.image}
               alt={project.title}
               fill
               quality={80}
-              className="object-cover group-hover:scale-110 transition-transform duration-700 brightness-[1.05] contrast-[1.05]"
+              className="object-cover group-hover:scale-110 transition-transform duration-700 md:brightness-[1.05] md:contrast-[1.05]"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
 
