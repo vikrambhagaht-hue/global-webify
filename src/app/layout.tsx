@@ -251,8 +251,8 @@ const jsonLd = {
       <body className={`${jost.className} font-sans bg-white text-gray-900 antialiased overflow-x-hidden`} suppressHydrationWarning>
         {isProduction && (
           <>
-            <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-R148XST9BP" />
-            <Script id="google-analytics" strategy="afterInteractive">
+            <Script strategy="lazyOnload" src="https://www.googletagmanager.com/gtag/js?id=G-R148XST9BP" />
+            <Script id="google-analytics" strategy="lazyOnload">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
@@ -260,7 +260,7 @@ const jsonLd = {
                 gtag('config', 'G-R148XST9BP');
               `}
             </Script>
-            <Script id="microsoft-clarity" strategy="afterInteractive">
+            <Script id="microsoft-clarity" strategy="lazyOnload">
               {`
                 (function(c,l,a,r,i,t,y){
                     c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
