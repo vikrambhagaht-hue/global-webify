@@ -11,6 +11,7 @@ export function parseFaqs(content: string, locationName: string = ""): { faqs: F
 
   if (cleanedContent) {
     const matches = Array.from(cleanedContent.matchAll(/<!-- FAQ_DATA: (.*?) -->/g));
+    console.log("parseFaqs matches:", matches.length);
     if (matches && matches.length > 0) {
       const lastMatch = matches[matches.length - 1];
       try {

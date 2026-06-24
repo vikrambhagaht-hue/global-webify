@@ -237,8 +237,6 @@ export function ServicePageView({ page, remainingSubMenus, faqs, locationName = 
         </div>
       </section>
 
-      {faqs.length > 0 && <FAQSection faqs={faqs} />}
-
       {/* Industries */}
       <section className="py-10 bg-white border-t border-gray-100 font-lexend">
         <div className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -260,6 +258,8 @@ export function ServicePageView({ page, remainingSubMenus, faqs, locationName = 
           </div>
         </div>
       </section>
+
+      {faqs.length > 0 && <FAQSection faqs={faqs} />}
     </div>
   );
 }

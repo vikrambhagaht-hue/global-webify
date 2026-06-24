@@ -37,8 +37,6 @@ export default function ServiceHero({
   // Clean up any {location} tags just in case they were passed raw
   if (city) {
     rawTitle = rawTitle.replace(/\{\s*location\s*\}/gi, city);
-    // Remove any accidental 'in ' before the city name
-    rawTitle = rawTitle.replace(new RegExp(`\\s+in\\s+${city}$`, 'i'), ` ${city}`);
     
     // Automatically append the city if it's not already in the title
     if (!rawTitle.toLowerCase().includes(city.toLowerCase())) {
