@@ -177,7 +177,7 @@ export default function MobileStickyNav() {
   if (!isHomepage) return null;
 
   return (
-    <>
+    <React.Fragment>
       <div 
         ref={navRef}
         className="md:hidden fixed bottom-0 left-0 right-0 z-[100] bg-[#1a8b4c] border-t border-white/20 shadow-[0_-8px_30px_rgba(0,0,0,0.25)] flex flex-col overflow-visible"
@@ -268,8 +268,6 @@ export default function MobileStickyNav() {
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-t from-white/10 to-transparent pointer-events-none" />
       </div>
 
-      {/* Right Sidebar Drawer for Portfolio Showcase (always rendered, toggled via CSS for max performance) */}
-      <>
         {/* Backdrop */}
         <div 
           onClick={() => setIsDrawerOpen(false)} 
@@ -349,8 +347,6 @@ export default function MobileStickyNav() {
                 </div>
               </div>
             </div>
-        </div>
-      </>
-    </>
+    </React.Fragment>
   );
 }
