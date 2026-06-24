@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Save, Sparkles, ArrowLeft, CheckCircle2, XCircle } from 'lucide-react';
+import { Save, Sparkles, ArrowLeft, CheckCircle2, XCircle, Plus, Trash2, GripVertical } from 'lucide-react';
 import Link from 'next/link';
 import { getSubdomainContent, saveSubdomainContent } from '../../actions';
 import dynamic from 'next/dynamic';
@@ -32,6 +32,8 @@ export default function SubdomainServicesSettings({ params }: { params: { servic
     setTimeout(() => setToast(null), 3000);
   };
 
+  const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>([]);
+
   // Removed global services list fetch since we use params.serviceSlug
 
   useEffect(() => {
@@ -40,6 +42,29 @@ export default function SubdomainServicesSettings({ params }: { params: { servic
     getSubdomainContent(selectedSlug)
       .then(res => {
         if (res) {
+          let parsedFaqs = [];
+          let rawContent = res.content || '';
+          
+          const matches = Array.from(rawContent.matchAll(/<!-- FAQ_DATA: (.*?) -->/g));
+          if (matches && matches.length > 0) {
+            const lastMatch = matches[matches.length - 1];
+            try {
+              parsedFaqs = JSON.parse(lastMatch[1]);
+            } catch (e) {
+              console.error("Failed to parse FAQ data", e);
+            }
+            rawContent = rawContent.replace(/<!-- FAQ_DATA: (.*?) -->/g, '');
+          }
+
+          if (parsedFaqs.length === 0) {
+            parsedFaqs = [
+              { question: '', answer: '' },
+              { question: '', answer: '' },
+              { question: '', answer: '' }
+            ];
+          }
+          setFaqs(parsedFaqs);
+
           setData({
             title: res.title || '',
             heroTitle: res.heroTitle || '',
@@ -47,11 +72,16 @@ export default function SubdomainServicesSettings({ params }: { params: { servic
             seoTitle: res.seoTitle || '',
             seoDescription: res.seoDescription || '',
             seoKeywords: res.seoKeywords || '',
-            content: res.content || '',
+            content: rawContent,
           });
         } else {
           // Reset if no template exists yet
           setData({ title: '', heroTitle: '', heroDescription: '', seoTitle: '', seoDescription: '', seoKeywords: '', content: '' });
+          setFaqs([
+              { question: '', answer: '' },
+              { question: '', answer: '' },
+              { question: '', answer: '' }
+          ]);
         }
         setLoading(false);
       })
@@ -64,7 +94,11 @@ export default function SubdomainServicesSettings({ params }: { params: { servic
   const handleSave = async () => {
     if (!selectedSlug) return;
     setSaving(true);
-    const res = await saveSubdomainContent({ pageType: selectedSlug, ...data });
+    
+    const filteredFaqs = faqs.filter(f => f.question.trim() !== '' && f.answer.trim() !== '');
+    const finalContent = data.content + (filteredFaqs.length > 0 ? `\n<!-- FAQ_DATA: ${JSON.stringify(filteredFaqs)} -->` : '');
+    
+    const res = await saveSubdomainContent({ pageType: selectedSlug, ...data, content: finalContent });
     setSaving(false);
     if (res.success) {
       showToast("Service Subdomain Template saved!");
@@ -273,6 +307,74 @@ export default function SubdomainServicesSettings({ params }: { params: { servic
                 setContent={(val) => setData({...data, content: val})} 
                 placeholder={`Start drafting your premium ${selectedSlug} template here...`}
               />
+            </div>
+          </div>
+
+          {/* FAQs Pane Card */}
+          <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-4">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+              <div>
+                <h3 className="text-xs font-black text-gray-900 uppercase tracking-widest font-poppins">
+                  Frequently Asked Questions
+                </h3>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-0.5">
+                  Manage FAQs for this market area service template. Supports <span className="text-[#1a8b4c]">{'{location}'}</span> placeholder.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setFaqs([...faqs, { question: '', answer: '' }])}
+                className="px-3 py-1.5 bg-green-50 text-[#1a8b4c] border border-green-200 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1 hover:bg-green-100 transition-colors"
+              >
+                <Plus size={14} /> Add FAQ
+              </button>
+            </div>
+            
+            <div className="space-y-4 pt-2">
+              {faqs.map((faq, index) => (
+                <div key={index} className="flex gap-4 p-4 border border-gray-100 rounded-xl bg-gray-50/50 group">
+                  <div className="pt-2 cursor-grab text-gray-300">
+                    <GripVertical size={16} />
+                  </div>
+                  <div className="flex-1 space-y-3">
+                    <input
+                      type="text"
+                      placeholder="Question... (e.g. Do you offer services in {location}?)"
+                      value={faq.question}
+                      onChange={(e) => {
+                        const newFaqs = [...faqs];
+                        newFaqs[index].question = e.target.value;
+                        setFaqs(newFaqs);
+                      }}
+                      className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm font-semibold focus:outline-none focus:border-[#1a8b4c]"
+                    />
+                    <textarea
+                      placeholder="Answer..."
+                      rows={2}
+                      value={faq.answer}
+                      onChange={(e) => {
+                        const newFaqs = [...faqs];
+                        newFaqs[index].answer = e.target.value;
+                        setFaqs(newFaqs);
+                      }}
+                      className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#1a8b4c] resize-none"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setFaqs(faqs.filter((_, i) => i !== index))}
+                    className="text-gray-400 hover:text-red-500 transition-colors p-2"
+                    title="Remove FAQ"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+              ))}
+              {faqs.length === 0 && (
+                <div className="text-center py-6 text-gray-400 text-sm border-2 border-dashed border-gray-100 rounded-xl">
+                  No FAQs added for this service template.
+                </div>
+              )}
             </div>
           </div>
 

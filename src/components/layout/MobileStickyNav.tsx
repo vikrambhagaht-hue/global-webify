@@ -91,8 +91,8 @@ export default function MobileStickyNav() {
     };
   }, [isDrawerOpen]);
 
+  const navRef = useRef<HTMLDivElement>(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
-  const [viewportBottom, setViewportBottom] = useState(0);
 
   useEffect(() => {
     const handleFocus = (e: any) => {
@@ -112,28 +112,26 @@ export default function MobileStickyNav() {
     };
   }, []);
 
-  // Use VisualViewport API to stick exactly to the bottom, avoiding Chrome address bar gaps.
-  // CRITICAL: We DO NOT use 'transition: bottom' in CSS anymore because animating position during scroll drops click events!
+  // Use visualViewport to fix Chrome address bar gap, but use DIRECT DOM MUTATION
+  // instead of React state. This prevents re-renders, ensuring clicks are never dropped!
   useEffect(() => {
     if (typeof window === 'undefined' || !window.visualViewport) return;
 
     let rafId: number;
 
     const handleVisualViewportChange = () => {
-      // Use requestAnimationFrame to avoid blocking the main thread and making clicks unresponsive
       rafId = requestAnimationFrame(() => {
         const vv = window.visualViewport;
-        if (!vv) return;
+        if (!vv || !navRef.current) return;
         const offset = window.innerHeight - vv.height - vv.offsetTop;
         const newBottom = Math.max(0, Math.round(offset));
-        
-        setViewportBottom(newBottom);
+        // Direct DOM mutation! No React re-render.
+        navRef.current.style.bottom = `${newBottom}px`;
       });
     };
 
     window.visualViewport.addEventListener('resize', handleVisualViewportChange);
     window.visualViewport.addEventListener('scroll', handleVisualViewportChange);
-    
     handleVisualViewportChange();
 
     return () => {
@@ -168,11 +166,10 @@ export default function MobileStickyNav() {
   return (
     <>
       <div 
-        className="md:hidden fixed left-0 right-0 z-[100] bg-[#1a8b4c] border-t border-white/20 shadow-[0_-8px_30px_rgba(0,0,0,0.25)] flex flex-col overflow-visible"
+        ref={navRef}
+        className="md:hidden fixed bottom-0 left-0 right-0 z-[100] bg-[#1a8b4c] border-t border-white/20 shadow-[0_-8px_30px_rgba(0,0,0,0.25)] flex flex-col overflow-visible"
         style={{ 
-          bottom: `${viewportBottom}px`,
-          paddingBottom: 'env(safe-area-inset-bottom)'
-          /* CRITICAL FIX: No 'transition: bottom' here. Animating position during scroll is what drops the click events! */
+          paddingBottom: 'env(safe-area-inset-bottom, 0px)'
         }}
       >
         {/* Safety overlay to prevent dynamic browser bar bottom gaps */}
@@ -218,6 +215,15 @@ export default function MobileStickyNav() {
                   href={item.href}
                   target={item.target}
                   title={`${item.label} - Global Webify`}
+                  onTouchStart={(e) => {
+                    // Instagram-style instant click! Bypasses wait for scroll to stop.
+                    if (item.target === "_blank") {
+                      window.open(item.href, "_blank");
+                    } else {
+                      window.location.href = item.href || "";
+                    }
+                    e.preventDefault();
+                  }}
                   className="flex-1 flex flex-col items-center justify-center gap-1 text-white transition-colors relative z-10 overflow-hidden"
                 >
                   <m.div
@@ -240,6 +246,11 @@ export default function MobileStickyNav() {
               ) : (
                 <button 
                   onClick={() => setIsDrawerOpen(true)}
+                  onTouchStart={(e) => {
+                    // Instagram-style instant click!
+                    setIsDrawerOpen(true);
+                    e.preventDefault();
+                  }}
                   title={`${item.label} - Global Webify`}
                   className="flex-1 flex flex-col items-center justify-center gap-1 text-white transition-colors relative z-10 w-full overflow-hidden"
                 >

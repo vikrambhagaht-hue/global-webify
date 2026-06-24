@@ -252,7 +252,7 @@ export default function Header({ initialSettings }: HeaderProps) {
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-             <div className="p-6 flex flex-col gap-1 overflow-y-auto">
+             <div className="p-6 flex flex-col gap-1 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-gray-50 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#1a8b4c]/50 pr-4">
                 {visibleNavLinks.map((link) => (
                   <div key={link.id} className="border-b border-gray-50">
                     {link.hasDropdown ? (
@@ -309,25 +309,30 @@ export default function Header({ initialSettings }: HeaderProps) {
                       )}
                     >
                           {getSubLinks(link.id).map((item: any, idx: number) => (
-                            <div key={idx} className="py-2 first:pt-4 last:pb-4 border-b border-gray-100 last:border-0">
+                            <div key={idx} className="py-1.5 first:pt-3 last:pb-3 border-b border-gray-100/60 last:border-0">
                               <Link 
                                 href={getPrefixedHref(item.href, link.id, currentCity)}
                                 onClick={item.subLinks ? (e) => e.preventDefault() : closeMenu}
-                                className="block text-[13px] font-medium text-gray-700 mb-1.5 px-2 hover:text-[#1a8b4c] transition-colors"
+                                className="flex items-center justify-between text-[13.5px] font-bold text-gray-800 mb-0.5 px-3 py-2.5 rounded-xl hover:bg-[#1a8b4c]/5 hover:text-[#1a8b4c] transition-all active:scale-[0.98]"
                               >
                                 {item.name}
+                                {item.subLinks && (
+                                  <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                                  </svg>
+                                )}
                               </Link>
                               
                               {item.subLinks && (
-                                <div className="ml-4 border-l-2 border-[#1a8b4c]/20 pl-2 mt-1 mb-2 flex flex-col gap-1">
+                                <div className="ml-5 border-l-2 border-[#1a8b4c]/15 pl-2 mt-0.5 mb-2 flex flex-col gap-0.5">
                                   {item.subLinks.map((sub: any, sIdx: number) => (
                                     <Link
                                       key={sIdx}
                                       href={getPrefixedHref(sub.href, link.id, currentCity)}
                                       onClick={closeMenu}
-                                      className="px-2 py-1 text-[12px] font-normal text-gray-500 hover:text-[#16a34a] rounded-md flex items-center gap-2 group/nested transition-colors"
+                                      className="px-3 py-2 text-[12.5px] font-semibold text-gray-500 hover:text-[#1a8b4c] hover:bg-[#1a8b4c]/5 rounded-xl flex items-center gap-2.5 group/nested transition-all active:scale-[0.98]"
                                     >
-                                      <div className="w-1 h-1 rounded-full bg-gray-400 group-hover/nested:bg-[#1a8b4c]" />
+                                      <div className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover/nested:w-2.5 group-hover/nested:bg-[#1a8b4c] transition-all duration-300" />
                                       {sub.name}
                                     </Link>
                                   ))}
