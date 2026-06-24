@@ -111,6 +111,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isProduction = process.env.NODE_ENV === 'production' && !SITE_URL.includes('vercel.app') && !SITE_URL.includes('localhost');
+
   let initialSettings = {
     hostingMenuEnabled: true,
     brandingMenuEnabled: true,
@@ -245,29 +247,30 @@ const jsonLd = {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* Preload critical images to eliminate Resource Load Delay */}
-        <link rel="preload" href="/bg-pattern-landing.avif" as="image" type="image/avif" />
-        <link rel="preload" href="/global_webify_logo.png" as="image" type="image/png" />
       </head>
       <body className={`${jost.className} font-sans bg-white text-gray-900 antialiased overflow-x-hidden`} suppressHydrationWarning>
-        <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-R148XST9BP" />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-R148XST9BP');
-          `}
-        </Script>
-        <Script id="microsoft-clarity" strategy="afterInteractive">
-          {`
-            (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "t7j6gx53tz");
-          `}
-        </Script>
+        {isProduction && (
+          <>
+            <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-R148XST9BP" />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-R148XST9BP');
+              `}
+            </Script>
+            <Script id="microsoft-clarity" strategy="afterInteractive">
+              {`
+                (function(c,l,a,r,i,t,y){
+                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                })(window, document, "clarity", "script", "t7j6gx53tz");
+              `}
+            </Script>
+          </>
+        )}
         <NextTopLoader 
           color="#1a8b4c"
           initialPosition={0.08}
