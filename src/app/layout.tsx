@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins, Lexend, Jost } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 // Removed unused direct imports of Header, Footer, MobileStickyNav, and BreadcrumbWrapper since they are now handled by PublicLayoutWrapper or imported further down
 import NextTopLoader from 'nextjs-toploader';
@@ -54,6 +55,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Global Webify | Web Development & Digital Marketing Agency",
   description: "Leading Web Development, SEO, and Digital Marketing Agency in India. We build AI-powered solutions for your business growth.",
+  verification: {
+    google: "hjJg2ll5Lf7k7q7hkj7dzwjiPrP-xcEWO37GUsoyYLA",
+  },
   keywords: "Web Development, SEO, Digital Marketing, AI Solutions, Global Webify",
   authors: [{ name: "Global Webify" }],
   publisher: "Global Webify",
@@ -129,14 +133,141 @@ export default async function RootLayout({
     console.error("Failed to load settings in layout:", error);
   }
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["LocalBusiness", "ProfessionalService"],
+      "name": "Global Webify - Website Development Company in Ranchi",
+      "image": "https://globalwebify.com/assets/images/uploads/global_webify_logo.png",
+      "@id": "https://globalwebify.com/",
+      "url": "https://globalwebify.com/",
+      "telephone": "+91 7563901100",
+      "priceRange": "₹₹",
+      "description": "Global Webify is a leading website development and digital marketing company in Ranchi offering SEO services, web development, CRM software solutions, and online marketing services to help businesses grow online.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "2nd Floor, Alam Complex, Ashok Nagar Road, Kadru",
+        "addressLocality": "Ranchi",
+        "addressRegion": "Jharkhand",
+        "postalCode": "834002",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "23.3482818",
+        "longitude": "85.3130765"
+      },
+      "hasMap": "https://www.google.com/maps?q=23.3482818,85.3130765",
+      "areaServed": {
+        "@type": "City",
+        "name": "Ranchi"
+      },
+      "serviceType": [
+        "Website Development",
+        "SEO Services",
+        "Digital Marketing",
+        "CRM Software Development",
+        "Social Media Marketing"
+      ],
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "opens": "10:00",
+        "closes": "19:00"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91 7563901100",
+        "contactType": "customer service"
+      },
+      "sameAs": [
+        "https://www.facebook.com/global.webify",
+        "https://www.instagram.com/global.webify/",
+        "https://www.youtube.com/@globalwebify",
+        "https://www.linkedin.com/company/global-webify/",
+        "https://x.com/globalwebify"
+      ]
+    },
+    {
+      "@type": "Organization",
+      "name": "Global Webify",
+      "alternateName": "Web Design and Development Company",
+      "url": "https://www.globalwebify.com/",
+      "logo": "https://www.globalwebify.com/_next/image?url=%2Fglobal_webify_logo.png&w=256&q=85",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91 7563901100",
+        "contactType": "technical support",
+        "contactOption": ["HearingImpairedSupported","TollFree"],
+        "areaServed": "IN",
+        "availableLanguage": ["en","Hindi"]
+      }
+    },
+    {
+      "@type": "BreadcrumbList", 
+      "itemListElement": [{
+        "@type": "ListItem", 
+        "position": 1, 
+        "name": "Website",
+        "item": "https://www.globalwebify.com/web-development"  
+      },{
+        "@type": "ListItem", 
+        "position": 2, 
+        "name": "CRM Solutions",
+        "item": "https://www.globalwebify.com/crm-software-development"  
+      },{
+        "@type": "ListItem", 
+        "position": 3, 
+        "name": "SEO Services",
+        "item": "https://www.globalwebify.com/seo-services"  
+      },{
+        "@type": "ListItem", 
+        "position": 4, 
+        "name": "Digital Marketing",
+        "item": "https://www.globalwebify.com/digital-marketing"  
+      }]
+    }
+  ]
+};
+
   return (
-    <html lang="en" className={`${poppins.variable} ${lexend.variable} ${jost.variable}`}>
+    <html lang="en" className={`${poppins.variable} ${lexend.variable} ${jost.variable}`} suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {/* Preload critical images to eliminate Resource Load Delay */}
         <link rel="preload" href="/bg-pattern-landing.avif" as="image" type="image/avif" />
         <link rel="preload" href="/global_webify_logo.png" as="image" type="image/png" />
       </head>
-      <body className={`${jost.className} font-sans bg-white text-gray-900 antialiased overflow-x-hidden`}>
+      <body className={`${jost.className} font-sans bg-white text-gray-900 antialiased overflow-x-hidden`} suppressHydrationWarning>
+        <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-R148XST9BP" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-R148XST9BP');
+          `}
+        </Script>
+        <Script id="microsoft-clarity" strategy="afterInteractive">
+          {`
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "t7j6gx53tz");
+          `}
+        </Script>
         <NextTopLoader 
           color="#1a8b4c"
           initialPosition={0.08}
