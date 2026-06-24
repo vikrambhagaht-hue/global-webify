@@ -197,11 +197,11 @@ export default function Header({ initialSettings }: HeaderProps) {
         )}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex justify-center items-stretch py-0">
+        <div className="max-w-[1800px] mx-auto px-1 lg:px-2 xl:px-12 flex justify-center items-stretch py-0">
           {visibleNavLinks.map((link, i) => (
             <div
               key={i}
-              className="flex items-center px-2 py-3 h-full cursor-pointer"
+              className="flex items-center px-0.5 xl:px-2 py-3 h-full cursor-pointer shrink"
               onMouseEnter={() => handleNavItemEnter(link)}
             >
               <Link
@@ -221,7 +221,7 @@ export default function Header({ initialSettings }: HeaderProps) {
                   }
                 }}
                 className={cn(
-                  "px-3 xl:px-4 py-2 text-[12.8px] font-semibold flex items-center gap-1.5 rounded-full font-sans transition-all duration-75",
+                  "px-1.5 lg:px-2 xl:px-4 py-2 text-[10.5px] xl:text-[12.8px] font-semibold flex items-center gap-1 xl:gap-1.5 rounded-full font-sans transition-all duration-75 whitespace-nowrap",
                   link.id === 'partnership'
                     ? "text-white border-2 border-[#1a8b4c]/50 font-bold shadow-sm animate-premium-dark-glow hover:animate-none hover:bg-[#1a8b4c] hover:border-transparent"
                     : activeMenu === link.id
