@@ -97,7 +97,7 @@ function ServiceCard({ service, index, cityKey, onOpenQuote }: { service: Servic
       <Link
         href={linkHref}
         title={`${service.title} - Global Webify`}
-        className={`relative flex-1 flex flex-col w-full bg-white rounded-[32px] border-2 ${service.borderColor} shadow-[0_8px_30px_rgba(0,0,0,0.04),inset_2px_2px_8px_rgba(255,255,255,0.9),inset_-2px_-2px_8px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),inset_2px_2px_8px_rgba(255,255,255,0.9),inset_-2px_-2px_8px_rgba(0,0,0,0.03)] hover:border-[#1a8b4c] overflow-hidden group/card`}
+        className={`relative flex-1 flex flex-col w-full bg-white rounded-[32px] border-2 ${service.borderColor} shadow-[0_8px_30px_rgba(0,0,0,0.04),inset_2px_2px_8px_rgba(255,255,255,0.9),inset_-2px_-2px_8px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),inset_2px_2px_8px_rgba(255,255,255,0.9),inset_-2px_-2px_8px_rgba(0,0,0,0.03)] hover:border-[#1a8b4c] overflow-hidden group/card md:transform-gpu md:will-change-transform`}
       >
         <div className="relative flex-1 p-6 md:p-8 flex flex-col items-center text-center z-10">
           

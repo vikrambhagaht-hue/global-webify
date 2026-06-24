@@ -29,7 +29,12 @@ export default function AuditCardDesktop() {
       className="w-full max-w-[580px] mx-auto cursor-default z-20 relative font-jost"
     >
       <m.div
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        style={{ 
+          rotateX, 
+          rotateY, 
+          transformStyle: "preserve-3d",
+          willChange: "transform"
+        }}
         whileHover={{ scale: 1.02, y: -6, boxShadow: "0px 28px 56px -12px rgba(26,139,76,0.18)" }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
         className="relative w-full"

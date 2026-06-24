@@ -150,7 +150,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
               initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true, margin: "150px" }}
-              className="bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] shadow-xl shadow-blue-900/20 rounded-[32px] p-8 flex flex-col justify-center flex-1 group hover:-translate-y-1 transition-all"
+              className="bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] shadow-xl shadow-blue-900/20 rounded-[32px] p-8 flex flex-col justify-center flex-1 group hover:-translate-y-1 transition-all md:transform-gpu md:will-change-transform"
             >
               <h4 className="text-[42px] font-black text-white mb-2">350%</h4>
               <p className="text-green-300 text-[11px] font-black uppercase tracking-[0.2em] leading-tight">
@@ -173,7 +173,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
               whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true, margin: "150px" }}
               transition={{ delay: 0.1 }}
-              className="bg-gradient-to-br from-[#1e1b4b] to-[#4c1d95] shadow-xl shadow-purple-900/20 rounded-[32px] p-8 flex flex-col justify-center flex-1 text-white group hover:-translate-y-1 transition-all"
+              className="bg-gradient-to-br from-[#1e1b4b] to-[#4c1d95] shadow-xl shadow-purple-900/20 rounded-[32px] p-8 flex flex-col justify-center flex-1 text-white group hover:-translate-y-1 transition-all md:transform-gpu md:will-change-transform"
             >
               <h4 className="text-[42px] font-black text-white mb-2">12k+</h4>
               <p className="text-green-300 text-[11px] font-black uppercase tracking-[0.2em] leading-tight">
