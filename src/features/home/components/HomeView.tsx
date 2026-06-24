@@ -82,7 +82,7 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
     console.error("Could not fetch blog posts, service descriptions, or reviews:", e);
   }
 
-  let homepageFaqs = [];
+  let homepageFaqs: any[] = [];
   let heroTexts: string[] = [];
   let homepageHeroTitle = "";
   let homepageHeroDesc = "";
@@ -163,6 +163,15 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
         sectionHeaders[key].description = replaceLocation(sectionHeaders[key].description, locationName);
       }
     }
+  }
+
+  // Apply location replacement to FAQs
+  if (homepageFaqs && homepageFaqs.length > 0) {
+    homepageFaqs = homepageFaqs.map((faq: any) => ({
+      ...faq,
+      question: replaceLocation(faq.question, locationName),
+      answer: replaceLocation(faq.answer, locationName)
+    }));
   }
 
   // Apply location replacement to service descriptions for the services grid
