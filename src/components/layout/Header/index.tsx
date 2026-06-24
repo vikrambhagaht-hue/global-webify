@@ -335,7 +335,6 @@ export default function Header({ initialSettings }: HeaderProps) {
                               )}
                             </div>
                           ))}
-                        </div>
                     </div>
                   </div>
                 ))}
@@ -364,9 +363,7 @@ export default function Header({ initialSettings }: HeaderProps) {
                     </a>
                   ))}
                 </div>
-             </div>
-          </div>
-        )}
+           </div>
       </div>
 
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
