@@ -4,7 +4,6 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { m, AnimatePresence } from 'framer-motion';
 import { Phone, MessageCircle, Briefcase, X, ArrowRight } from 'lucide-react';
 import { CITIES_MAP } from '@/features/services/constants/cities';
 
@@ -269,27 +268,22 @@ export default function MobileStickyNav() {
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-t from-white/10 to-transparent pointer-events-none" />
       </div>
 
-      {/* Right Sidebar Drawer for Portfolio Showcase */}
-      <AnimatePresence>
-        {isDrawerOpen && (
-          <>
-            {/* Backdrop */}
-            <m.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 0.5 }} 
-              exit={{ opacity: 0 }} 
-              onClick={() => setIsDrawerOpen(false)} 
-              className="fixed inset-0 bg-black z-[99998] backdrop-blur-xs" 
-            />
+      {/* Right Sidebar Drawer for Portfolio Showcase (always rendered, toggled via CSS for max performance) */}
+      <>
+        {/* Backdrop */}
+        <div 
+          onClick={() => setIsDrawerOpen(false)} 
+          className={`fixed inset-0 bg-black backdrop-blur-xs z-[99998] transition-opacity duration-300 ease-out ${
+            isDrawerOpen ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`} 
+        />
 
-            {/* Sidebar drawer */}
-            <m.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-[85%] max-w-[340px] bg-white z-[99999] shadow-2xl flex flex-col font-sans border-l border-gray-100"
-            >
+        {/* Sidebar drawer */}
+        <div
+          className={`fixed top-0 right-0 h-full w-[85%] max-w-[340px] bg-white z-[99999] shadow-2xl flex flex-col font-sans border-l border-gray-100 transition-transform duration-300 ease-out will-change-transform ${
+            isDrawerOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
               {/* Outer Scrollable Wrapper */}
               <div 
                 className="flex-grow overflow-y-auto"
@@ -354,10 +348,9 @@ export default function MobileStickyNav() {
                   </Link>
                 </div>
               </div>
-            </m.div>
-          </>
-        )}
-      </AnimatePresence>
+            </div>
+        </div>
+      </>
     </>
   );
 }
