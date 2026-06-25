@@ -46,7 +46,7 @@ const getSiteUrl = () => {
     return `https://${process.env.VERCEL_URL}`;
   }
   // Default fallback
-  return 'https://globalwebify.com';
+  return 'https://www.globalwebify.com';
 };
 
 const SITE_URL = getSiteUrl();
@@ -141,9 +141,9 @@ const jsonLd = {
     {
       "@type": ["LocalBusiness", "ProfessionalService"],
       "name": "Global Webify - Website Development Company in Ranchi",
-      "image": "https://globalwebify.com/assets/images/uploads/global_webify_logo.png",
-      "@id": "https://globalwebify.com/",
-      "url": "https://globalwebify.com/",
+      "image": `${SITE_URL}/assets/images/uploads/global_webify_logo.png`,
+      "@id": `${SITE_URL}/`,
+      "url": `${SITE_URL}/`,
       "telephone": "+91 7563901100",
       "priceRange": "₹₹",
       "description": "Global Webify is a leading website development and digital marketing company in Ranchi offering SEO services, web development, CRM software solutions, and online marketing services to help businesses grow online.",

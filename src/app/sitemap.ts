@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { db } from '@/lib/db';
 import { CITIES_MAP } from '@/features/services/constants/cities';
 
-const BASE_URL = 'https://globalwebify.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.globalwebify.com';
 
 const staticRoutes = [
   "",
@@ -63,7 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       take: 10000
     });
     blogSitemap = blogs.map(b => {
-      const cleanSlug = b.slug.startsWith('/') ? b.slug.slice(1) : b.slug;
+      const cleanSlug = b.slug.replace(/^\/?(blog\/)?/, '');
       return {
         url: `${BASE_URL}/blog/${cleanSlug}`,
         lastModified: b.updatedAt || new Date(),

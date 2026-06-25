@@ -200,7 +200,7 @@ export default async function SitemapPage() {
               {blogs.length > 0 ? (
                 <div className="space-y-3 max-h-[400px] overflow-y-auto pr-1">
                   {blogs.map((blog, idx) => {
-                    const cleanSlug = blog.slug.startsWith('/') ? blog.slug.slice(1) : blog.slug;
+                    const cleanSlug = blog.slug.replace(/^\/?(blog\/)?/, '');
                     return (
                       <Link
                         key={idx}

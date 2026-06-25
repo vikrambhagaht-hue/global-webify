@@ -14,7 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const defaultTitle = "GlobalWeblify | Web Development & Digital Marketing Agency";
   const defaultDesc = "Leading Web Development, SEO, and Digital Marketing Agency in India. We build AI-powered solutions for your business growth.";
   const defaultKeywords = "Web Development, SEO, Digital Marketing, AI Solutions, GlobalWeblify";
-  const defaultLogo = "https://globalwebify.com/global_webify_logo.png";
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.globalwebify.com';
+  const defaultLogo = `${SITE_URL}/global_webify_logo.png`;
 
   try {
     const host = headers().get('host');
@@ -58,7 +59,7 @@ export async function generateMetadata(): Promise<Metadata> {
       openGraph: {
         title,
         description,
-        url: 'https://globalwebify.com',
+        url: SITE_URL,
         siteName: 'GlobalWeblify',
         images: [{ url: defaultLogo, width: 1200, height: 630, alt: 'GlobalWeblify Logo' }],
         locale: 'en_US',
@@ -84,7 +85,7 @@ export async function generateMetadata(): Promise<Metadata> {
       openGraph: {
         title: defaultTitle,
         description: defaultDesc,
-        url: 'https://globalwebify.com',
+        url: SITE_URL,
         siteName: 'GlobalWeblify',
         images: [{ url: defaultLogo, width: 1200, height: 630, alt: 'GlobalWeblify Logo' }],
         locale: 'en_US',
