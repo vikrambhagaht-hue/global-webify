@@ -132,6 +132,9 @@ export async function saveRedirects(
       console.error('Failed to write static redirects.json file:', fsError);
     }
 
+    const { revalidateTag } = require('next/cache');
+    revalidateTag('redirects');
+
     // Clear caches so the new paths/redirects are reflected
     revalidatePath('/', 'layout');
 
@@ -161,6 +164,9 @@ export async function deleteRedirect(id: number) {
     } catch (fsError) {
       console.error('Failed to sync redirects.json after deletion:', fsError);
     }
+
+    const { revalidateTag } = require('next/cache');
+    revalidateTag('redirects');
 
     revalidatePath('/', 'layout');
     return { success: true };
@@ -199,7 +205,7 @@ export async function saveSingleRedirect(data: { id?: number; source: string; de
       });
     }
 
-    // Sync static JSON file
+    // Sync static JSON file (may fail on Vercel, but we keep it for local/fallback)
     const allRedirects = await db.redirect.findMany({ orderBy: { createdAt: 'asc' } });
     try {
       const fs = require('fs');
@@ -209,6 +215,10 @@ export async function saveSingleRedirect(data: { id?: number; source: string; de
     } catch (fsError) {
       console.error('Failed to sync redirects.json after save:', fsError);
     }
+
+    // Force Next.js Data Cache to flush the redirects instantly
+    const { revalidateTag } = require('next/cache');
+    revalidateTag('redirects');
 
     revalidatePath('/', 'layout');
     return { success: true };

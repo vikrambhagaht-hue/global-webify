@@ -36,11 +36,35 @@ export async function POST(request: Request) {
 
     let savedRecord;
     if (formData.id) {
+      const existingRecord = await db.blogPost.findUnique({
+        where: { id: formData.id },
+        select: { slug: true }
+      });
+
       // Update existing post
       savedRecord = await db.blogPost.update({
         where: { id: formData.id },
         data,
       });
+
+      // Automatically create a redirect if the slug changed
+      if (existingRecord && existingRecord.slug !== data.slug) {
+        try {
+          await db.redirect.upsert({
+            where: { source: existingRecord.slug },
+            update: { destination: data.slug },
+            create: { source: existingRecord.slug, destination: data.slug }
+          });
+          
+          const allRedirects = await db.redirect.findMany({ orderBy: { createdAt: 'asc' } });
+          const fs = require('fs');
+          const path = require('path');
+          const filePath = path.join(process.cwd(), 'public', 'redirects.json');
+          fs.writeFileSync(filePath, JSON.stringify(allRedirects, null, 2));
+        } catch (redirectError) {
+          console.error("Failed to auto-create redirect on blog slug change:", redirectError);
+        }
+      }
     } else {
       // Create new post
       savedRecord = await db.blogPost.create({

@@ -2,55 +2,22 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { verifyJWT } from './lib/jwt';
 
-// ─── In-memory redirect cache with 5-minute TTL ───
-// Instead of hitting /api/redirects (→ DB query) on every single page load,
-// we cache the result and reuse it. The cache auto-refreshes every 5 minutes
-// so admin-added redirects still take effect within a short window.
-let cachedRedirects: { source: string; destination: string }[] | null = null;
-let cacheTimestamp = 0;
-const CACHE_TTL_MS = 0; // Set to 0 for instant updates (since traffic is low)
-let fetchInProgress: Promise<{ source: string; destination: string }[]> | null = null;
-
 async function getRedirects(origin: string): Promise<{ source: string; destination: string }[]> {
-  const now = Date.now();
-
-  // Return cached data if still fresh
-  if (cachedRedirects && now - cacheTimestamp < CACHE_TTL_MS) {
-    return cachedRedirects;
-  }
-
-  // If a fetch is already in flight, wait for it (prevents duplicate requests
-  // when multiple concurrent visitors trigger a cache refresh at the same time)
-  if (fetchInProgress) {
-    return fetchInProgress;
-  }
-
-  // Fetch fresh data from the API
-  fetchInProgress = (async () => {
-    try {
-      const res = await fetch(`${origin}/api/redirects`, {
-        headers: { 'x-middleware-internal': '1' },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          cachedRedirects = data;
-          cacheTimestamp = Date.now();
-          return data;
-        }
-      }
-    } catch {
-      // Silently ignore – redirects are a nice-to-have, not critical
-    }
-    // On failure, return stale cache if available, otherwise empty array
-    return cachedRedirects ?? [];
-  })();
-
   try {
-    return await fetchInProgress;
-  } finally {
-    fetchInProgress = null;
+    const res = await fetch(`${origin}/api/redirects`, {
+      headers: { 'x-middleware-internal': '1' },
+      next: { tags: ['redirects'] }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        return data;
+      }
+    }
+  } catch {
+    // Silently ignore – redirects are a nice-to-have, not critical
   }
+  return [];
 }
 
 export async function middleware(request: NextRequest) {

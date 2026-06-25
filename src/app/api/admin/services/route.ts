@@ -35,11 +35,35 @@ export async function POST(request: Request) {
 
     let savedRecord;
     if (formData.id) {
+      const existingRecord = await db.servicePage.findUnique({
+        where: { id: formData.id },
+        select: { slug: true }
+      });
+
       // Update existing service page
       savedRecord = await db.servicePage.update({
         where: { id: formData.id },
         data,
       });
+
+      // Automatically create a redirect if the slug changed
+      if (existingRecord && existingRecord.slug !== data.slug) {
+        try {
+          await db.redirect.upsert({
+            where: { source: existingRecord.slug },
+            update: { destination: data.slug },
+            create: { source: existingRecord.slug, destination: data.slug }
+          });
+          
+          const allRedirects = await db.redirect.findMany({ orderBy: { createdAt: 'asc' } });
+          const fs = require('fs');
+          const path = require('path');
+          const filePath = path.join(process.cwd(), 'public', 'redirects.json');
+          fs.writeFileSync(filePath, JSON.stringify(allRedirects, null, 2));
+        } catch (redirectError) {
+          console.error("Failed to auto-create redirect on slug change:", redirectError);
+        }
+      }
     } else {
       // Create new service page
       savedRecord = await db.servicePage.create({
@@ -55,6 +79,8 @@ export async function POST(request: Request) {
     revalidatePath('/[slug]');
     revalidatePath('/[slug]/[serviceSlug]');
     revalidatePath('/admin/services');
+    revalidatePath(`/admin/services/${data.slug.replace(/^\//, '')}`);
+    revalidatePath('/admin/services/[slug]', 'page');
 
     return NextResponse.json({ success: true, id: savedRecord.id, slug: savedRecord.slug });
   } catch (error: any) {
