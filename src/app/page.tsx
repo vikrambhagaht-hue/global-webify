@@ -6,7 +6,6 @@ import { getHomepageSeo } from '@/app/admin/(dashboard)/homepage/actions';
 import { getSubdomainLocation } from '@/lib/subdomain';
 import { getSubdomainContent } from '@/app/admin/(dashboard)/subdomains/actions';
 import { replaceLocation } from '@/lib/replaceLocation';
-import CanonicalTag from '@/components/seo/CanonicalTag';
 
 
 
@@ -44,6 +43,9 @@ export async function generateMetadata(): Promise<Metadata> {
             title,
             description,
             images: [defaultLogo],
+          },
+          alternates: {
+            canonical: `https://${host}`,
           }
         };
       }
@@ -70,6 +72,9 @@ export async function generateMetadata(): Promise<Metadata> {
         title,
         description,
         images: [defaultLogo],
+      },
+      alternates: {
+        canonical: SITE_URL,
       }
     };
   } catch (error: any) {
@@ -96,6 +101,9 @@ export async function generateMetadata(): Promise<Metadata> {
         title: defaultTitle,
         description: defaultDesc,
         images: [defaultLogo],
+      },
+      alternates: {
+        canonical: SITE_URL,
       }
     };
   }
@@ -113,9 +121,6 @@ export default async function Home() {
   }
 
   return (
-    <main>
-      <HomeView location={location || undefined} subdomainContent={subContent || undefined} isMobile={isMobile} />
-      <CanonicalTag path="/" />
-    </main>
+    <HomeView location={location || undefined} subdomainContent={subContent || undefined} isMobile={isMobile} />
   );
 }

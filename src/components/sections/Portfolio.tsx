@@ -61,7 +61,7 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
       if (typeof window !== 'undefined') {
         sessionStorage.setItem('portfolioImagesLoaded', 'true');
       }
-    }, 2500);
+    }, 1000);
 
     if (typeof window !== 'undefined') {
       const stored = sessionStorage.getItem('portfolioImagesLoaded');

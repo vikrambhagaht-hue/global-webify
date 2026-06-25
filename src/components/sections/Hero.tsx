@@ -172,9 +172,9 @@ const AuditCardMobile = () => (
 
 const badges = [
   { title: "Google Ad Partner", sub: "4.7 Rating", icon: <GoogleLogo /> },
-  { title: "Meta Ad Partner", sub: "4.5 Rating", icon: <Image src="/meta-icon.svg" alt="Meta" width={32} height={32} className="object-contain" priority={true} /> },
-  { title: "ISO Certified", sub: "ISO 9001:2015", icon: <Image src="/iso.png" alt="ISO" width={34} height={34} className="object-contain" priority={true} /> },
-  { title: "AI Powered", sub: "Intelligent Solutions", icon: <Image src="/artificial-intelligence.png" alt="AI" width={34} height={34} className="object-contain" priority={true} /> },
+  { title: "Meta Ad Partner", sub: "4.5 Rating", icon: <Image src="/meta-icon.svg" alt="Meta" width={32} height={32} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority={true} /> },
+  { title: "ISO Certified", sub: "ISO 9001:2015", icon: <Image src="/iso.png" alt="ISO" width={34} height={34} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority={true} /> },
+  { title: "AI Powered", sub: "Intelligent Solutions", icon: <Image src="/artificial-intelligence.png" alt="AI" width={34} height={34} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority={true} /> },
 ];
 
 export default function Hero({ 
@@ -198,7 +198,7 @@ export default function Hero({
   }, []);
 
   return (
-    <main className="w-full relative overflow-hidden bg-white font-jost text-left">
+    <section className="w-full relative overflow-hidden bg-white font-jost text-left">
       {/* Background Pattern - Pure CSS background for sharpest quality on high-DPI mobiles & instant LCP */}
       <div 
         className="absolute inset-0 z-0 pointer-events-none w-full h-full translate-y-[55px] md:translate-y-0 opacity-[0.65] md:opacity-[0.8] saturate-[1.60] contrast-[1.15]"
@@ -322,6 +322,6 @@ export default function Hero({
       </a>
       
       <AuditModal isOpen={isAuditOpen} onClose={() => setIsAuditOpen(false)} />
-    </main>
+    </section>
   );
 }

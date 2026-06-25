@@ -80,6 +80,7 @@ export const MegaMenu = ({ onClose, activeMenu, currentMenuId, currentCity }: Me
             alt="Promo Background - Global Webify"
             title="Promo Background - Global Webify"
             fill
+            sizes="(max-width: 1024px) 240px, (max-width: 1280px) 290px, 340px"
             className="object-cover"
             priority
           />

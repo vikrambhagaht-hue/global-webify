@@ -253,14 +253,14 @@ export default function Header({ initialSettings }: HeaderProps) {
         )}
       >
              {/* Spacer to push content below the header without showing background */}
-             <div className="shrink-0 h-[100px] bg-white" />
-             <div className="p-6 flex flex-col gap-1 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-gray-50 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#1a8b4c]/50 pr-4">
+             <div className="shrink-0 h-[64px] bg-white" />
+             <div className="flex-1 px-5 py-2 pb-4 flex flex-col gap-0.5 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-gray-50 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#1a8b4c]/50 pr-4">
                 {visibleNavLinks.map((link) => (
                   <div key={link.id} className="border-b border-gray-50">
                     {link.hasDropdown ? (
                       <button 
                         onClick={() => toggleMobileMenu(link.id)} 
-                        className="w-full text-left py-4 flex justify-between items-center group"
+                        className="w-full text-left py-3 flex justify-between items-center group"
                       >
                         <div className="flex items-center gap-3">
                           <div className="w-1.5 h-1.5 rounded-full bg-[#1a8b4c]" />
@@ -287,8 +287,8 @@ export default function Header({ initialSettings }: HeaderProps) {
                         href={getPrefixedHref('/' + (link.id === 'partnership' ? partnershipSlug : link.id), link.id, currentCity)}
                         onClick={closeMenu}
                         className={cn(
-                          "w-full text-left py-4 flex justify-between items-center group transition-all",
-                          link.id === 'partnership' ? "my-2 px-4 py-3 rounded-2xl border border-[#1a8b4c]/40 animate-premium-dark-glow" : ""
+                          "w-full text-left py-3 flex justify-between items-center group transition-all",
+                          link.id === 'partnership' ? "my-2 px-4 py-2.5 rounded-2xl border border-[#1a8b4c]/40 animate-premium-dark-glow" : ""
                         )}
                       >
                         <div className="flex items-center gap-3">
@@ -348,8 +348,8 @@ export default function Header({ initialSettings }: HeaderProps) {
              </div>
 
              {/* Contact Info for Mobile */}
-             <div className="mt-auto p-6 bg-gray-50 flex flex-col gap-2">
-                <div className="grid grid-cols-1 gap-2">
+             <div className="mt-auto p-4 bg-gray-50 flex flex-col gap-2 border-t border-gray-100">
+                <div className="grid grid-cols-1 gap-1.5">
                   {[
                     { num: '1800-890-5489', href: 'tel:18008905489' },
                     { num: '+91 75639 01100', href: 'https://wa.me/917563901100' },
@@ -361,7 +361,7 @@ export default function Header({ initialSettings }: HeaderProps) {
                       title={item.href.includes('wa.me') ? 'WhatsApp - Global Webify' : `Call ${item.num} - Global Webify`}
                       target={item.href.includes('wa.me') ? "_blank" : undefined}
                       rel={item.href.includes('wa.me') ? "noopener noreferrer" : undefined}
-                      className="flex items-center gap-3 p-4 rounded-xl bg-white border-2 border-gray-100 shadow-sm transition-all active:scale-[0.98] active:bg-gray-50"
+                      className="flex items-center gap-3 p-3 rounded-xl bg-white border-2 border-gray-100 shadow-sm transition-all active:scale-[0.98] active:bg-gray-50"
                     >
                       <div className="w-8 h-8 rounded-full flex items-center justify-center bg-green-50 border border-green-100">
                         <Phone size={14} className="text-[#1a8b4c]" />
