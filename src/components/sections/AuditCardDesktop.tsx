@@ -73,7 +73,7 @@ export default function AuditCardDesktop() {
                 <div className="flex justify-between items-start">
                   <div className="text-left">
                     <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-[0.15em] mb-1">Website Audit Report</p>
-                    <h3 className="text-[22px] font-black text-slate-900 leading-tight font-heading">globalwebify.com</h3>
+                    <div className="text-[22px] font-black text-slate-900 leading-tight font-heading">globalwebify.com</div>
                   </div>
                   <span className="bg-white text-slate-800 text-[15px] font-black px-5 py-2 rounded-xl border-2 border-slate-200 whitespace-nowrap shadow-sm">Grade A+</span>
                 </div>

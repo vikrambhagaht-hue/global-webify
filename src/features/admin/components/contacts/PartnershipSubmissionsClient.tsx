@@ -407,6 +407,74 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
         </div>
       )}
 
+      {/* Delete Single Confirmation Modal */}
+      {deleteConfirmId && (
+        <div className="fixed inset-0 z-[10000] bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-200 p-6">
+            <div className="flex flex-col items-center text-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center mb-2">
+                <AlertCircle size={24} />
+              </div>
+              <h3 className="text-lg font-black text-gray-900">Delete Submission?</h3>
+              <p className="text-xs text-gray-500 font-semibold mb-2">
+                Are you sure you want to delete this submission? This action cannot be undone.
+              </p>
+              <div className="flex w-full gap-3 mt-4">
+                <button
+                  onClick={() => setDeleteConfirmId(null)}
+                  className="flex-1 px-4 py-2 bg-gray-50 text-gray-700 hover:bg-gray-100 font-bold rounded-xl text-xs transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    executeDelete(deleteConfirmId);
+                    setDeleteConfirmId(null);
+                  }}
+                  className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs transition-all shadow-md shadow-red-900/10"
+                >
+                  Yes, Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete All Confirmation Modal */}
+      {deleteAllConfirmOpen && (
+        <div className="fixed inset-0 z-[10000] bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-200 p-6">
+            <div className="flex flex-col items-center text-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center mb-2">
+                <AlertCircle size={24} />
+              </div>
+              <h3 className="text-lg font-black text-gray-900">Delete All Submissions?</h3>
+              <p className="text-xs text-gray-500 font-semibold mb-2">
+                Are you sure you want to delete <strong>ALL</strong> partnership submissions? This will permanently remove all data and cannot be undone.
+              </p>
+              <div className="flex w-full gap-3 mt-4">
+                <button
+                  onClick={() => setDeleteAllConfirmOpen(false)}
+                  className="flex-1 px-4 py-2 bg-gray-50 text-gray-700 hover:bg-gray-100 font-bold rounded-xl text-xs transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    executeDeleteAll();
+                    setDeleteAllConfirmOpen(false);
+                  }}
+                  className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs transition-all shadow-md shadow-red-900/10"
+                >
+                  Delete All
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
