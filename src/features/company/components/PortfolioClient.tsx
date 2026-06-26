@@ -477,6 +477,7 @@ const ProjectCard = ({ project }: { project: typeof projects[0] }) => {
             ref={imageRef}
             src={project.image} 
             alt={project.title}
+            title={project.title}
             width={600}
             height={1000}
             className="w-full h-auto block"

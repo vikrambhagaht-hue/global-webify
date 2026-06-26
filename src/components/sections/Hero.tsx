@@ -172,9 +172,9 @@ const AuditCardMobile = () => (
 
 const badges = [
   { title: "Google Ad Partner", sub: "4.7 Rating", icon: <GoogleLogo /> },
-  { title: "Meta Ad Partner", sub: "4.5 Rating", icon: <Image src="/meta-icon.svg" alt="Meta" width={32} height={32} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority={true} /> },
-  { title: "ISO Certified", sub: "ISO 9001:2015", icon: <Image src="/iso.png" alt="ISO" width={34} height={34} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority={true} /> },
-  { title: "AI Powered", sub: "Intelligent Solutions", icon: <Image src="/artificial-intelligence.png" alt="AI" width={34} height={34} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority={true} /> },
+  { title: "Meta Ad Partner", sub: "4.5 Rating", icon: <Image src="/meta-icon.svg" alt="Meta" title="Meta" width={32} height={32} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority={true} /> },
+  { title: "ISO Certified", sub: "ISO 9001:2015", icon: <Image src="/iso.png" alt="ISO" title="ISO" width={34} height={34} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority={true} /> },
+  { title: "AI Powered", sub: "Intelligent Solutions", icon: <Image src="/artificial-intelligence.png" alt="AI" title="AI" width={34} height={34} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority={true} /> },
 ];
 
 export default function Hero({ 

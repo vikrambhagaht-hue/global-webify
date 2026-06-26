@@ -159,6 +159,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
                 <img 
                   src={tech.icon} 
                   alt={tech.name} 
+                  title={tech.name}
                   width={56}
                   height={56}
                   loading="eager"

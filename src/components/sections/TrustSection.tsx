@@ -102,6 +102,7 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
                       <Image
                         src={certificates[certIndex]}
                         alt={`Global Webify Certification ${certIndex + 1}`}
+                        title={`Global Webify Certification ${certIndex + 1}`}
                         fill
                         className="object-contain"
                         sizes="(max-width: 768px) 100vw, 50vw"

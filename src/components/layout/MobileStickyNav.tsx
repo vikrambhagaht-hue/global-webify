@@ -314,6 +314,7 @@ export default function MobileStickyNav() {
                           <Image
                             src={project.image}
                             alt={project.title}
+                            title={project.title}
                             width={300}
                             height={188}
                             className="w-full h-auto block"

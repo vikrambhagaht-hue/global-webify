@@ -109,6 +109,7 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
               <Image
                 src={project.image}
                 alt={project.title}
+                title={project.title}
                 fill
                 priority={true}
                 quality={80}
@@ -261,6 +262,7 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
                     <Image
                       src={num <= 4 ? `/${num}.avif` : `/${num}.webp`}
                       alt={`Partner Logo ${num}`}
+                      title={`Partner Logo ${num}`}
                       width={180}
                       height={120}
                       className="w-full h-full object-contain p-2"
