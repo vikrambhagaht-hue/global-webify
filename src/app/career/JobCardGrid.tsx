@@ -22,24 +22,9 @@ interface Job {
 export default function JobCardGrid({ jobs }: { jobs: Job[] }) {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
 
-  // Helper to format Indian currency automatically
   function formatSalary(salary: string | null | undefined) {
     if (!salary) return 'Competitive';
-    
-    // Clean string by removing existing symbols
-    const clean = salary.replace(/[₹Rs\s]/gi, '');
-    
-    if (clean.includes('-')) {
-      const parts = clean.split('-');
-      const formattedParts = parts.map(p => {
-        const num = parseInt(p.trim(), 10);
-        return isNaN(num) ? p.trim() : '₹' + num.toLocaleString('en-IN');
-      });
-      return formattedParts.join(' - ');
-    }
-    
-    const num = parseInt(clean, 10);
-    return isNaN(num) ? salary : '₹' + num.toLocaleString('en-IN');
+    return salary.trim().replace(/^(₹|rs\.?)\s*/i, '');
   }
 
   // Get color configuration for different job categories
@@ -107,7 +92,11 @@ export default function JobCardGrid({ jobs }: { jobs: Job[] }) {
                   )}
 
                   <div className="flex items-center gap-2.5 text-xs text-gray-600 font-bold font-jost text-emerald-700">
-                    <span className="text-base font-black text-[#1a8b4c]/90 shrink-0 select-none">₹</span>
+                    {job.salary ? (
+                      <span className="text-base font-black text-[#1a8b4c]/90 shrink-0 select-none leading-none">₹</span>
+                    ) : (
+                      <DollarSign size={15} className="text-[#1a8b4c]/70 shrink-0" />
+                    )}
                     <span>{formatSalary(job.salary)}</span>
                   </div>
                 </div>

@@ -67,8 +67,8 @@ export default async function JobDetailsPage({ params }: Props) {
               )}
               {job.salary && (
                 <span className="flex items-center gap-2">
-                  <Calendar size={16} className="text-emerald-400" />
-                  {job.salary}
+                  <span className="text-emerald-400 font-bold">₹</span>
+                  {job.salary.trim().replace(/^(₹|rs\.?)\s*/i, '')}
                 </span>
               )}
             </div>
