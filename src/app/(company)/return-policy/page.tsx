@@ -6,8 +6,9 @@ import { db } from '@/lib/db';
 export const revalidate = 60; // Cache page for 60 seconds
 
 export const metadata: Metadata = {
-  title: 'Return Policy | GlobalWeblify',
-  description: 'Learn about the Return Policy and terms for services provided by GlobalWeblify.',
+  title: 'Return Policy | Global Webify - Easy & Transparent Service Terms',
+  description: 'Read the Return Policy of Global Webify to understand our terms, conditions, and guidelines for services. We ensure a transparent process and customer-focused support. Explore our policy details for a smooth experience.',
+  keywords: ['Return Policy', 'Global Webify Return Policy', 'Global Webify Policies', 'Customer Assurance'],
 };
 
 async function getPolicyData() {

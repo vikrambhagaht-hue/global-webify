@@ -24,8 +24,9 @@ import {
 export const revalidate = 3600; // Revalidate page every hour
 
 export const metadata: Metadata = {
-  title: 'Sitemap | GlobalWebify',
-  description: 'Explore the full sitemap of GlobalWebify. Find links to all our web development services, digital marketing pages, locations, and blog posts.',
+  title: 'Sitemap – Global Webify Website Structure, Services & Pages List',
+  description: 'Explore the Global Webify Sitemap to easily navigate all pages, services, and resources of our website. Find quick access to website development, digital marketing, and other solutions. Improve your browsing experience and discover everything we offer in one place. Visit now for seamless navigation!',
+  keywords: ['Global Webify Sitemap', 'Website Structure', 'Website Navigation', 'Global Webify Website Structure'],
 };
 
 const COMPANY_PAGES = [

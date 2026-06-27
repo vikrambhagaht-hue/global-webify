@@ -3,8 +3,9 @@ import { Metadata } from 'next';
 import { FileText, Code, TrendingUp, UserCheck, CreditCard, Shield, Mail, Phone, MapPin, CheckCircle2, AlertTriangle, Calendar } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | GlobalWebify',
-  description: 'Please read these terms carefully before using our services. These terms govern your relationship with Global Webify.',
+  title: 'Terms of Service | Global Webify – Website Usage & Legal Guidelines',
+  description: 'Review the Terms of Service of Global Webify to understand the rules, guidelines, and conditions for using our website and services. Stay informed about your rights and responsibilities while using our platform.',
+  keywords: ['Terms of Service of Global Webify', 'Terms of Service', 'Global Webify'],
   alternates: {
     canonical: '/terms-of-service',
   },

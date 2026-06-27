@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 import ContactClient from '@/features/company/components/ContactClient';
 
 export const metadata: Metadata = {
-  title: 'Contact Us | GlobalWebify',
-  description: 'Get in touch with GlobalWebify. Have a project in mind or just want to say hi? We\'d love to hear from you. Our team is ready to help you scale.',
-  keywords: ['Contact GlobalWebify', 'Hire Web Developers', 'Digital Marketing Agency Contact', 'Web Design Services India'],
+  title: 'Contact Us for Web Development, SEO & CRM Solutions | Global Web Designing Services',
+  description: 'Contact Global Webify for expert Web Development, Web Designing, SEO Services, and CRM Solutions. Let’s grow your business—get in touch today!',
+  keywords: ['Web Development Services', 'Web Designing Services', 'Contact Global Webify', 'Contact Us for Web Development'],
   alternates: {
     canonical: '/contact'
   }

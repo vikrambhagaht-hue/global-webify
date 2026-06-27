@@ -3,8 +3,9 @@ import { Metadata } from 'next';
 import { Info, List, Shield, BarChart, Megaphone, Settings, Table, Sliders, LayoutTemplate, Mail, Phone, MapPin, User, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy | GlobalWebify',
-  description: 'Understanding how we use cookies and similar technologies to improve your experience on our website.',
+  title: 'Cookie Policy | Global Webify – How We Use Cookies & Data Protection',
+  description: 'Learn about how Global Webify uses cookies on our website to improve user experience, analyze traffic, and enhance services. Read our Cookie Policy for full details.',
+  keywords: ['Cookie Policy', 'Global Webify Cookie Policy', 'Data Protection'],
   robots: 'index, follow',
 };
 

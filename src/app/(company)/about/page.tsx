@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 import AboutClient from '@/features/company/components/AboutClient';
 
 export const metadata: Metadata = {
-  title: 'About Us | GlobalWebify - Leading Digital Agency',
-  description: 'Learn about GlobalWebify, a team of passionate creators, developers, and strategists dedicated to redefining what\'s possible in the digital realm.',
-  keywords: ['About GlobalWebify', 'Digital Agency Team', 'Web Development Company', 'Digital Marketing Experts'],
+  title: 'Top 5 Best Web Development Company in Ranchi | About Global Webify',
+  description: 'Global Webify is recognized as a Top 5 Best Web Development Company in Ranchi, delivering innovative digital solutions. Learn more about our journey and expertise today!',
+  keywords: ['Best Web Development Company in Ranchi', 'Top 5 Web Development Company in Ranchi', 'Website Designer in Ranchi', 'About Global Webify'],
   alternates: {
     canonical: '/about'
   }

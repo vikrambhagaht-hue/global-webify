@@ -7,8 +7,9 @@ import { blogPosts as staticBlogPosts } from '@/data/posts';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'Blog | GlobalWebify',
-  description: 'Read the latest insights and strategies for web development and digital marketing.',
+  title: 'Global Webify Blog | Insights on Web Development, Web Designing, SEO Services & CRM Solutions',
+  description: 'Explore the Global Webify Blog for insights on Web Development, Web Designing, SEO Services, and CRM Solutions. Stay updated with expert tips and digital trends.',
+  keywords: ['Global Webify Blog', 'Latest Trends in Web Development', 'Insights on Web Designing', 'Digital Growth Tips'],
   alternates: {
     canonical: '/blog'
   }

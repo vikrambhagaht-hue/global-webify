@@ -9,8 +9,9 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata = {
-  title: 'Careers | GlobalWebify',
-  description: 'Join the GlobalWebify team. Explore open positions and career opportunities.',
+  title: 'Careers | Web Development & Digital Marketing Jobs at Global Webify',
+  description: 'Explore exciting career opportunities at Global Webify and become part of a dynamic digital team. Join us to grow your skills in web development, SEO, digital marketing, and innovative technology solutions. Apply now!',
+  keywords: ['Web Development Jobs in Ranchi', 'Digital Marketing Jobs in Ranchi', 'Join Global Webify Team', 'Careers at Global Webify'],
   alternates: {
     canonical: '/career'
   }

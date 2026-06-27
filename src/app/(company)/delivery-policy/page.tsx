@@ -6,8 +6,9 @@ import { db } from '@/lib/db';
 export const revalidate = 60; // Cache page for 60 seconds
 
 export const metadata: Metadata = {
-  title: 'Delivery Policy | GlobalWeblify',
-  description: 'Learn about the delivery times, project milestones, and deployment processes at GlobalWeblify.',
+  title: 'Delivery Policy | Global Webify – Terms & Delivery Information',
+  description: 'Read the Delivery Policy of Global Webify to understand our service delivery process, timelines, and guidelines. We ensure transparent and efficient delivery of digital solutions. Learn more about our policies today.',
+  keywords: ['Delivery Policy', 'Global Webify Delivery Policy', 'Global Webify Service Delivery Process'],
 };
 
 async function getPolicyData() {

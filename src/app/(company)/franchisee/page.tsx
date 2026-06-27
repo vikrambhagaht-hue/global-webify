@@ -13,14 +13,15 @@ export async function generateMetadata(): Promise<Metadata> {
       where: { key: 'partnershipHeroDesc' }
     });
     return {
-      title: titleSetting?.value || 'Partner Network | GlobalWeblify',
-      description: descSetting?.value || 'Join the GlobalWeblify Partner Network. Unlock co-marketing, referral programs, dedicated support, and grow your agency or consultancy services with us.',
-      keywords: ['GlobalWeblify Partnerships', 'Agency Partnership Program', 'Outsource Web Development', 'Referral Affiliate Program']
+      title: titleSetting?.value || 'Join Global Webify Franchisee – Web Development, Web Design, SEO & CRM Business Partner',
+      description: descSetting?.value || 'Join Global Webify franchisee program for Web Development, Web Design, SEO & CRM solutions. Start your own digital business with expert support. Enquire now and grow faster!',
+      keywords: ['Franchisee Opportunity in Web Development', 'Franchisee Opportunity in CRM', 'Global Webify Partnership', 'CRM Business Partner', 'SEO Service Business Partner']
     };
   } catch {
     return {
-      title: 'Partner Network | GlobalWeblify',
-      description: 'Join the GlobalWeblify Partner Network. Unlock co-marketing, referral programs, dedicated support, and grow your agency or consultancy services with us.'
+      title: 'Join Global Webify Franchisee – Web Development, Web Design, SEO & CRM Business Partner',
+      description: 'Join Global Webify franchisee program for Web Development, Web Design, SEO & CRM solutions. Start your own digital business with expert support. Enquire now and grow faster!',
+      keywords: ['Franchisee Opportunity in Web Development', 'Franchisee Opportunity in CRM', 'Global Webify Partnership', 'CRM Business Partner', 'SEO Service Business Partner']
     };
   }
 }

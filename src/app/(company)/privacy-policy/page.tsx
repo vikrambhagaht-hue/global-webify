@@ -3,8 +3,9 @@ import { Metadata } from 'next';
 import { Shield, Database, Settings, Lock, Eye, Edit, Trash, Mail, Phone, MapPin, User, CheckCircle, TrendingUp } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | GlobalWebify',
-  description: 'Learn how GlobalWebify protects and handles your data.',
+  title: 'Privacy Policy | Global Webify – Data Protection, Security & User Privacy Guidelines',
+  description: 'Learn how Global Webify handles, stores, and protects your personal information. Read our Privacy Policy to understand data usage, security practices, and user rights while using our services.',
+  keywords: ['Privacy Policy', 'Global Webify Privacy Policy', 'Data Protection', 'Data Security'],
   alternates: {
     canonical: '/privacy-policy'
   },
