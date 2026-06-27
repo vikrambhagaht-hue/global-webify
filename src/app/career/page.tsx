@@ -195,39 +195,14 @@ export default async function CareersPage() {
           <div className="w-16 h-1 bg-[#1a8b4c] mx-auto mt-4 rounded-full"></div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start bg-white border border-gray-100 rounded-3xl p-6 md:p-12 shadow-xl shadow-gray-100/40">
-          {/* Left Column Info / Visuals */}
-          <div className="lg:col-span-5 space-y-8">
-            <div className="space-y-4">
-              <h3 className="text-xl font-black text-gray-950 uppercase tracking-wide font-lexend">
-                Grow With Us
-              </h3>
-              <p className="text-xs text-gray-500 font-semibold leading-relaxed">
-                Thank you for your interest in joining GlobalWebify. Submit your application details, and our HR team will review your application and contact you if your profile matches our requirements.
-              </p>
-            </div>
-
-            {/* Stacked decorative content cards */}
-            <div className="p-6 bg-[#f0fdf4] border border-green-200/40 rounded-2xl space-y-3">
-              <span className="text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider bg-green-100 text-[#1a8b4c]">
-                Tip
-              </span>
-              <p className="text-xs font-black text-gray-950">Make your application stand out</p>
-              <p className="text-[11px] text-gray-600 font-semibold leading-relaxed">
-                Ensure your resume link is publicly accessible. Share your active LinkedIn profile or portfolio showing live websites or client success stories.
-              </p>
-            </div>
-          </div>
-
-          {/* Right Column Form Client */}
-          <div className="lg:col-span-7">
-            <CareersFormClient positions={[
-              { value: 'senior-web-developer', label: 'Senior Web Developer' },
-              { value: 'digital-marketing-specialist', label: 'Digital Marketing Specialist' },
-              { value: 'ui-ux-designer', label: 'UI/UX Designer' },
-              { value: 'content-writer', label: 'Content Writer' }
-            ]} />
-          </div>
+        <div className="max-w-3xl mx-auto bg-white border border-gray-100 rounded-3xl p-6 md:p-12 shadow-xl shadow-gray-100/40">
+          <CareersFormClient positions={[
+            { value: 'web-development', label: 'Web Development' },
+            { value: 'senior-web-developer', label: 'Senior Web Developer' },
+            { value: 'digital-marketing-specialist', label: 'Digital Marketing Specialist' },
+            { value: 'ui-ux-designer', label: 'UI/UX Designer' },
+            { value: 'content-writer', label: 'Content Writer' }
+          ]} />
         </div>
       </section>
     </div>

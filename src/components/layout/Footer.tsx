@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { 
@@ -64,6 +64,27 @@ export default function Footer() {
     ? segments[0].toLowerCase() 
     : null;
 
+  const [shouldLoadImages, setShouldLoadImages] = useState(false);
+  const footerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setShouldLoadImages(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '1000px' }
+    );
+
+    if (footerRef.current) {
+      observer.observe(footerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   const getDynamicLink = (href: string) => {
     if (currentCity) {
       const cleanHref = href.startsWith('/') ? href : `/${href}`;
@@ -73,7 +94,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className={`bg-[#f8fbfa] pt-12 ${isHomepage ? 'pb-[75px]' : 'pb-12'} md:pt-20 md:pb-12 font-sans border-t border-gray-100`}>
+    <footer ref={footerRef} className={`bg-[#f8fbfa] pt-12 ${isHomepage ? 'pb-[75px]' : 'pb-12'} md:pt-20 md:pb-12 font-sans border-t border-gray-100`}>
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         
         {/* Main Footer Content */}
@@ -336,23 +357,23 @@ export default function Footer() {
             <div className="flex flex-row flex-nowrap justify-center items-center gap-1.5 sm:gap-2 w-full">
                {/* Bank of Baroda */}
                <div className="w-[54px] h-[38px] sm:w-[76px] sm:h-[50px] relative bg-white border border-gray-100 rounded-lg flex items-center justify-center shadow-sm shrink-0">
-                 <Image src="/BankOfBaroda.avif" alt="Bank of Baroda" title="Bank of Baroda - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />
+                 {shouldLoadImages && <Image src="/BankOfBaroda.avif" alt="Bank of Baroda" title="Bank of Baroda - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
                </div>
                {/* Indian Overseas Bank */}
                <div className="w-[54px] h-[38px] sm:w-[76px] sm:h-[50px] relative bg-white border border-gray-100 rounded-lg flex items-center justify-center shadow-sm shrink-0">
-                 <Image src="/IndianOverseasBank.avif" alt="Indian Overseas Bank" title="Indian Overseas Bank - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />
+                 {shouldLoadImages && <Image src="/IndianOverseasBank.avif" alt="Indian Overseas Bank" title="Indian Overseas Bank - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
                </div>
                {/* PayPal */}
                <div className="w-[54px] h-[38px] sm:w-[76px] sm:h-[50px] relative bg-white border border-gray-100 rounded-lg flex items-center justify-center shadow-sm shrink-0">
-                 <Image src="/PayPal.avif" alt="PayPal" title="PayPal - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />
+                 {shouldLoadImages && <Image src="/PayPal.avif" alt="PayPal" title="PayPal - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
                </div>
                {/* Razorpay */}
                <div className="w-[54px] h-[38px] sm:w-[76px] sm:h-[50px] relative bg-white border border-gray-100 rounded-lg flex items-center justify-center shadow-sm shrink-0">
-                 <Image src="/Razorpay.avif" alt="Razorpay" title="Razorpay - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />
+                 {shouldLoadImages && <Image src="/Razorpay.avif" alt="Razorpay" title="Razorpay - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
                </div>
                {/* PhonePe */}
                <div className="w-[54px] h-[38px] sm:w-[76px] sm:h-[50px] relative bg-white border border-gray-100 rounded-lg flex items-center justify-center shadow-sm shrink-0">
-                 <Image src="/PhonePe.avif" alt="PhonePe" title="PhonePe - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />
+                 {shouldLoadImages && <Image src="/PhonePe.avif" alt="PhonePe" title="PhonePe - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
                </div>
              </div>
           </div>

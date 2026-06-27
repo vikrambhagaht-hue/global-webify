@@ -372,7 +372,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
               })()}
             </m.h1>
 
-            <p className="text-gray-600 text-sm md:text-[15px] font-semibold leading-relaxed max-w-xl">
+            <p className="text-gray-600 text-sm md:text-[15px] font-normal leading-relaxed max-w-xl">
               {heroDesc}
             </p>
 
@@ -409,7 +409,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
         {/* Expandable Overview Section */}
         {expandParagraph && (
           <div ref={expandableRef} style={{ overflowAnchor: 'none' }} className="bg-white/90 backdrop-blur-sm border border-gray-100 rounded-[32px] p-6 md:p-10 mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
-            <h2 className="text-[20px] md:text-[26px] font-black text-[#1a8b4c] tracking-tight mb-4 font-heading uppercase">
+            <h2 className="text-[20px] md:text-[26px] font-black text-[#1a8b4c] tracking-tight mb-4 font-heading uppercase text-center">
               {expandHeading}
             </h2>
             
@@ -418,7 +418,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
               transition={{ duration: 0.5, ease: [0.04, 0.62, 0.23, 0.98] }}
               className="relative overflow-hidden"
             >
-              <div className="text-gray-600 text-sm md:text-[15px] font-semibold leading-relaxed space-y-4 pr-1">
+              <div className="text-gray-600 text-sm md:text-[15px] font-normal leading-relaxed space-y-4 pr-1">
                 {expandParagraph.split('\n').map((para, idx) => (
                   para.trim() && <p key={idx}>{para}</p>
                 ))}
@@ -471,7 +471,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
               <h2 className="text-[24px] font-black text-gray-900 tracking-tight font-heading uppercase">
                 {heading}
               </h2>
-              <p className="text-gray-600 text-sm font-semibold leading-relaxed">
+              <p className="text-gray-600 text-sm font-normal leading-relaxed">
                 {desc}
               </p>
             </div>
