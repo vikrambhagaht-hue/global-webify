@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Loader2, CheckCircle2, Image as ImageIcon, ExternalLink, Star, Edit2 } from "lucide-react";
+import { Plus, Trash2, Loader2, CheckCircle2, Image as ImageIcon, ExternalLink, Star, Edit2, ArrowDownRight } from "lucide-react";
 import Image from "next/image";
 
 interface PortfolioItem {
@@ -113,6 +113,10 @@ export default function AdminHomepagePortfolioPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (editingId === null && items.length >= 6) {
+      alert("Maximum 6 homepage cards allowed! Please remove or move an existing card first.");
+      return;
+    }
     setIsSaving(true);
     try {
       const isEditing = editingId !== null;
@@ -146,6 +150,26 @@ export default function AdminHomepagePortfolioPage() {
       fetchItems();
     } catch (error) {
       console.error("Delete failed:", error);
+    }
+  };
+
+  const handleMoveToPortfolio = async (item: PortfolioItem) => {
+    if (!confirm("Move this card back to the Main Portfolio? (It will be removed from the Homepage)")) return;
+    try {
+      const res = await fetch("/api/portfolio", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...item, isFeatured: false }),
+      });
+      if (res.ok) {
+        alert("Project moved to Main Portfolio!");
+        fetchItems();
+      } else {
+        alert("Failed to move project.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error moving project.");
     }
   };
 
@@ -203,6 +227,13 @@ export default function AdminHomepagePortfolioPage() {
                   </div>
                 </div>
                 <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2">
+                  <button
+                    onClick={() => handleMoveToPortfolio(item)}
+                    className="bg-amber-500 hover:bg-amber-600 text-white p-2 rounded-lg shadow-md transition-colors"
+                    title="Remove from Homepage (Move to Main Portfolio)"
+                  >
+                    <ArrowDownRight className="w-4 h-4" />
+                  </button>
                   <button
                     onClick={() => openEditModal(item)}
                     className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md transition-colors"

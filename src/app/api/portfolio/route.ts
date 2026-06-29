@@ -43,6 +43,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Custom screenshot image is required" }, { status: 400 });
     }
 
+    if (isFeatured) {
+      const featuredCount = await db.portfolioItem.count({
+        where: { isActive: true, isFeatured: true }
+      });
+      if (featuredCount >= 6) {
+        return NextResponse.json({ error: "Maximum 6 homepage cards allowed! Please remove or unfeature an existing card first." }, { status: 400 });
+      }
+    }
+
     let finalImageUrl = "";
 
     // Upload custom image directly to Cloudinary
@@ -117,6 +126,18 @@ export async function PUT(req: Request) {
     const { id, title, category, desc, link, displayUrl, tags, isFeatured, imageBase64, order } = body;
 
     if (!id) return NextResponse.json({ error: "Missing ID" }, { status: 400 });
+
+    if (isFeatured === true) {
+      const existing = await db.portfolioItem.findUnique({ where: { id: Number(id) } });
+      if (!existing?.isFeatured) {
+        const featuredCount = await db.portfolioItem.count({
+          where: { isActive: true, isFeatured: true }
+        });
+        if (featuredCount >= 6) {
+          return NextResponse.json({ error: "Maximum 6 homepage cards allowed! Please remove or unfeature an existing card first." }, { status: 400 });
+        }
+      }
+    }
 
     let dataToUpdate: any = {
       title,

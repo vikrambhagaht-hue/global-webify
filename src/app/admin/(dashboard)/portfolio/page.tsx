@@ -45,7 +45,7 @@ export default function AdminPortfolioPage() {
 
   const fetchItems = async () => {
     try {
-      const res = await fetch("/api/portfolio");
+      const res = await fetch("/api/portfolio?featured=false");
       const data = await res.json();
       setItems(data);
     } catch (error) {
@@ -151,12 +151,32 @@ export default function AdminPortfolioPage() {
     }
   };
 
+  const handleFeatureOnHomepage = async (item: PortfolioItem) => {
+    try {
+      const res = await fetch("/api/portfolio", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...item, isFeatured: true }),
+      });
+      if (res.ok) {
+        alert("Project moved to Homepage Cards!");
+        fetchItems();
+      } else {
+        const data = await res.json();
+        alert(data.error || "Failed to feature project.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error featuring project.");
+    }
+  };
+
   return (
     <div className="p-6 md:p-10 max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Portfolio Management</h1>
-          <p className="text-gray-500 mt-1">Manage your website portfolio items.</p>
+          <h1 className="text-3xl font-bold text-gray-900">Main Portfolio Management</h1>
+          <p className="text-gray-500 mt-1">Manage projects shown on the main portfolio page (excluding homepage cards).</p>
         </div>
         <button
           onClick={() => {
@@ -207,6 +227,13 @@ export default function AdminPortfolioPage() {
                   </div>
                 </div>
                 <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2">
+                  <button
+                    onClick={() => handleFeatureOnHomepage(item)}
+                    className="bg-amber-500 hover:bg-amber-600 text-white p-2 rounded-lg shadow-md transition-colors"
+                    title="Feature on Homepage"
+                  >
+                    <Star className="w-4 h-4 fill-white" />
+                  </button>
                   <button
                     onClick={() => openEditModal(item)}
                     className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md transition-colors"

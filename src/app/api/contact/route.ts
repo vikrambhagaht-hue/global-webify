@@ -112,14 +112,16 @@ export async function POST(req: NextRequest) {
     `;
     
     // We import dynamic to avoid static build-time dependencies issues
-    const { sendMailNotification } = await import('@/lib/mail');
-    // Await the email send to ensure it finishes before the serverless function exits
-    await sendMailNotification({ subject: mailSubject, htmlContent: mailContent });
+    import('@/lib/mail').then(({ sendMailNotification }) => {
+      sendMailNotification({ subject: mailSubject, htmlContent: mailContent }).catch(err => {
+        console.error('Background SMTP send failure:', err);
+      });
+    });
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error('Contact submission POST error:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Internal server error. Please try again.' }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'Internal server error. Please try again.' }, { status: 500 });
   }
 }
 

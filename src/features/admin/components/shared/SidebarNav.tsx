@@ -196,7 +196,7 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
                 : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
             }`}
           >
-            All Projects
+            Main Portfolio
           </Link>
           <Link 
             href="/admin/homepage-portfolio" 
