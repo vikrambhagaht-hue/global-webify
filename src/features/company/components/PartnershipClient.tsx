@@ -293,7 +293,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
     <div className="relative overflow-hidden font-sans selection:bg-[#0082f0] selection:text-white min-h-screen">
 
       {/* ========== HERO SECTION — DARK PREMIUM ========== */}
-      <div className="relative bg-[#0a0a0f] pt-28 pb-24 overflow-hidden">
+      <div className="relative bg-[#0a0a0f] pt-16 md:pt-28 pb-16 md:pb-24 overflow-hidden">
         {/* Animated mesh grid */}
         <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
         {/* Glowing orbs */}
@@ -327,9 +327,9 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
       </AnimatePresence>
 
         <div className="container-custom relative z-10 px-4 max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
+          <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-center">
             {/* Left Text Block */}
-            <div className="lg:col-span-6 space-y-7 text-left">
+            <div className="lg:col-span-6 space-y-4 md:space-y-7 text-left">
               <m.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}

@@ -437,6 +437,7 @@ export async function getPartnershipSettings() {
       partnershipHeading: 'Web Design Franchise of Global Webify in your City',
       partnershipDesc: 'Whether you run an agency looking to outsource development, a consultant recommending leading web platforms, or an integration provider, we construct synergistic structures that deliver results.',
       partnershipPageImage: '/partnership/Partner1.jpg',
+      partnershipExpandHeading: 'Website Designing, Ecommerce Website Development, Digital Marketing, SEO - Franchise',
       partnershipExpandParagraph: 'Are you a digital marketing agency, freelancer, entrepreneur, or business professional looking to expand your services? Start your own website designing and digital solutions business with Global Webify without the need to hire a technical team or manage complex development processes.\n\nAs a Global Webify franchise partner, you get complete access to our expert development support, advanced tools, and technical assistance. We deliver modern, conversion-focused websites and powerful CRM solutions while handling full project execution behind the scenes—allowing you to focus entirely on client acquisition, brand growth, and unlimited earning potential.'
     };
   }
