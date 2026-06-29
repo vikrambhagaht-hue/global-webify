@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { m, AnimatePresence } from 'framer-motion';
 import { 
   Mail, Phone, MapPin, Send, CheckCircle2, Building2, 
-  Handshake, Globe2, Sparkles, Award, Users2, LineChart, ShieldCheck, ShieldAlert
+  Handshake, Globe2, Sparkles, Award, Users2, LineChart, ShieldCheck, ShieldAlert,
+  Store, MonitorSmartphone, BadgeCheck, TrendingUp
 } from 'lucide-react';
 
 interface PartnershipClientProps {
@@ -182,13 +183,11 @@ const isValidEmail = (email: string): boolean => {
 };
 
 export default function PartnershipClient({ settings }: PartnershipClientProps) {
-  const heroTitle = settings?.partnershipHeroTitle || "Become a GlobalWeblify Partner";
-  const heroDesc = settings?.partnershipHeroDesc || "We invite you to become our partner for mutually beneficial collaboration. Our company offers various partnership programs with terms tailored to businesses of all types and sizes.";
+  const heroTitle = settings?.partnershipHeroTitle || "Web Design Franchise of GlobalWeblify in your City";
+  const heroSubtitle = settings?.partnershipHeroDesc || "Website Designing, Ecommerce Website Development, Digital Marketing, SEO - Franchise";
+  const heroDescText = settings?.partnershipExpandParagraph || "Start your very own website designing company without having liability of a technical team and developing any website. So set your goals as high as you want.\n\nGlobalWeblify is an awarded best web designing company. We offer high quality websites with our innovative and modern approach for our clients, to ensure superb promotion on Google. When you join us, you'll join hundreds of happy franchisees from all over the world.\n\nOur highly skilled team develops result-oriented websites, which generate business and make big money for our clients. Throughout the past years, GlobalWeblify has been able to deliver more than 3000+ projects, from almost all industries, for clients globally.";
   const heading = settings?.partnershipHeading || "Accelerate Growth Together";
   const desc = settings?.partnershipDesc || "Whether you run an agency looking to outsource development, a consultant recommending leading web platforms, or an integration provider, we construct synergistic structures that deliver results.";
-  const pageImage = settings?.partnershipPageImage || "/partnership/Partner1.jpg";
-  const expandHeading = settings?.partnershipExpandHeading || "Detailed Partnership Program Overview & Dynamic Synergies";
-  const expandParagraph = settings?.partnershipExpandParagraph || "At GlobalWeblify, we believe that the most robust digital ecosystems are built on collaboration, mutual trust, and a shared vision for excellence. Our comprehensive Partnership Program is engineered to empower agencies, IT consultants, software developers, independent marketers, and enterprises by providing seamless access to our industry-leading technical and creative capabilities. Over the years, we have built a reputational foundation for delivering top-tier website development, custom CRM development, data-driven SEO campaigns, performance-focused digital marketing, and reliable corporate web hosting solutions. By joining our network, you are not just outsourcing development work—you are integrating a highly skilled, dedicated team of developers, designers, system administrators, and digital strategists into your own business framework, allowing you to scale without the overhead costs of in-house recruitment.\n\nOur partnership structures are categorized into three core models to align perfectly with your organizational workflow:\n1. Referral and Affiliate Network: Ideal for consultants, influencers, and boutique business advisors who encounter clients needing premium digital services. Refer projects to GlobalWeblify and earn lucrative, recurring commissions with zero project management overhead. We handle the discovery, proposal, development, deployment, and ongoing support.\n2. Agency Reseller and White-Label Services: Tailored for design agencies, PR firms, and digital marketing consultancies that want to offer high-end development and deep technical SEO to their clients under their own brand. We operate invisibly behind the scenes, respecting strict NDA guidelines and delivering projects that make your brand shine.\n3. Strategic Co-Development: For technology providers and software integrators seeking custom database engines, APIs, and specialized CMS modifications. Together, we tackle complex architectures, ensuring your clients receive state-of-the-art technological solutions.\n\nAdditionally, as a validated partner, you gain direct access to our prioritized ticketing system, co-marketing support, exclusive pricing discounts, pre-sales technical support (including assistance in pitching to high-value prospects), and advanced roadmap previews. We provide comprehensive marketing collateral, training sessions, and customizable proposal templates to ensure your sales team can position our collective services with absolute confidence. Together, we can transform complex client challenges into streamlined, high-performance web products that accelerate business growth and maximize ROI.";
 
   const [formData, setFormData] = useState({
     name: '',
@@ -350,117 +349,128 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
         <div className="grid lg:grid-cols-12 gap-12 items-center mb-12">
           {/* Left Text Block */}
           <div className="lg:col-span-6 space-y-6 text-left">
-
-
-            <m.h1 
+            <m.div 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-[36px] md:text-[52px] font-black font-heading text-gray-900 leading-[1.1]"
+              className="flex items-center gap-4"
             >
-              {(() => {
-                const words = heroTitle.split(' ');
-                if (words.length > 1) {
-                  const lastWord = words.pop();
-                  const startText = words.join(' ');
-                  return (
-                    <>
-                      {startText} <span className="text-[#0082f0]">{lastWord}</span>
-                    </>
-                  );
-                }
-                return heroTitle;
-              })()}
-            </m.h1>
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#0082f0] flex items-center justify-center shrink-0 shadow-lg border-4 border-white">
+                <Store size={32} className="text-white" />
+              </div>
+              <h1 className="text-[28px] md:text-[36px] font-black font-heading text-gray-800 leading-[1.2]">
+                {(() => {
+                  // If "GlobalWeblify" is in the title, we make it blue. Otherwise, just render the title.
+                  if (heroTitle.includes('GlobalWeblify')) {
+                    const parts = heroTitle.split('GlobalWeblify');
+                    return (
+                      <>
+                        {parts[0]}<span className="text-[#0082f0]">GlobalWeblify</span>{parts[1]}
+                      </>
+                    );
+                  }
+                  return heroTitle;
+                })()}
+              </h1>
+            </m.div>
 
-            <p className="text-gray-600 text-sm md:text-[15px] font-normal leading-relaxed max-w-xl">
-              {heroDesc}
-            </p>
+            <m.h3 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-[18px] md:text-[20px] font-bold text-[#0082f0] leading-snug"
+            >
+              {heroSubtitle}
+            </m.h3>
 
-            <div className="pt-2">
+            <m.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="space-y-4 text-gray-600 text-sm md:text-[15px] font-medium leading-relaxed"
+            >
+              {heroDescText.split('\n').map((para, idx) => (
+                para.trim() && <p key={idx}>{para}</p>
+              ))}
+            </m.div>
+            
+            <m.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="pt-2"
+            >
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-3 bg-gradient-to-r from-[#0052cc] to-[#0082f0] hover:from-[#0041a3] hover:to-[#006ec7] text-white px-8 py-4 rounded-full font-black text-xs uppercase tracking-wider transition-all shadow-md hover:translate-y-[-2px] hover:shadow-lg active:translate-y-0"
               >
                 Get in touch
-                <svg className="w-4.5 h-4.5 text-white stroke-[2.5] w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-white stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </Link>
-            </div>
+            </m.div>
           </div>
 
-          {/* Right Image Block */}
-          <div className="lg:col-span-6">
-            <m.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-gradient-to-tr from-blue-50/50 to-indigo-50/50 border border-gray-100 rounded-[32px] p-2 shadow-sm overflow-hidden flex items-center justify-center"
-            >
-              <img 
-                src={pageImage?.toLowerCase().includes('partner1.jpg') ? '/partnership/partner1.jpg' : (pageImage || '/partnership/partner1.jpg')} 
-                alt="Become a Partner"
-                className="w-full h-auto max-h-[440px] object-cover rounded-2xl drop-shadow-sm hover:scale-[1.02] transition-transform duration-500" 
-              />
-            </m.div>
+          {/* Right Cards Block */}
+          <div className="lg:col-span-6 relative">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 relative z-10 py-8">
+              {/* Card 1 */}
+              <m.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="bg-white rounded-2xl shadow-xl shadow-gray-200/60 p-8 flex flex-col items-center justify-center text-center gap-5 hover:-translate-y-2 transition-transform duration-300 border border-gray-50"
+              >
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-100 to-cyan-50 flex items-center justify-center shadow-inner">
+                  <MonitorSmartphone size={36} className="text-[#0082f0]" />
+                </div>
+                <h4 className="font-black text-gray-800 text-[16px] leading-snug">No Technical Knowledge Required</h4>
+              </m.div>
+
+              {/* Card 2 */}
+              <m.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3 }}
+                className="bg-white rounded-2xl shadow-xl shadow-gray-200/60 p-8 flex flex-col items-center justify-center text-center gap-5 hover:-translate-y-2 transition-transform duration-300 border border-gray-50 transform sm:translate-y-8"
+              >
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-100 to-cyan-50 flex items-center justify-center shadow-inner">
+                  <BadgeCheck size={36} className="text-[#0082f0]" />
+                </div>
+                <h4 className="font-black text-gray-800 text-[16px] leading-snug">No Experience Necessary</h4>
+              </m.div>
+
+              {/* Card 3 */}
+              <m.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4 }}
+                className="bg-white rounded-2xl shadow-xl shadow-gray-200/60 p-8 flex flex-col items-center justify-center text-center gap-5 hover:-translate-y-2 transition-transform duration-300 border border-gray-50"
+              >
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-100 to-cyan-50 flex items-center justify-center shadow-inner">
+                  <Store size={36} className="text-[#0082f0]" />
+                </div>
+                <h4 className="font-black text-gray-800 text-[16px] leading-snug">Sell Website Packages to Businesses</h4>
+              </m.div>
+
+              {/* Card 4 */}
+              <m.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5 }}
+                className="bg-white rounded-2xl shadow-2xl shadow-blue-900/10 p-8 flex flex-col items-center justify-center text-center gap-5 hover:-translate-y-2 transition-transform duration-300 border border-gray-50 transform sm:translate-y-8 sm:rotate-[3deg]"
+              >
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-100 to-cyan-50 flex items-center justify-center shadow-inner">
+                  <TrendingUp size={36} className="text-[#0082f0]" />
+                </div>
+                <h4 className="font-black text-gray-800 text-[16px] leading-snug">Unlimited Earning Potential</h4>
+              </m.div>
+            </div>
+            
+            {/* Background glowing blob */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-[#0082f0]/10 to-purple-500/10 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
           </div>
         </div>
-
-        {/* Expandable Overview Section */}
-        {expandParagraph && (
-          <div ref={expandableRef} style={{ overflowAnchor: 'none' }} className="bg-white/90 backdrop-blur-sm border border-gray-100 rounded-[32px] p-6 md:p-10 mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
-            <h2 className="text-[20px] md:text-[26px] font-black text-[#1a8b4c] tracking-tight mb-4 font-heading uppercase text-center">
-              {expandHeading}
-            </h2>
-            
-            <m.div 
-              animate={{ height: isExpanded ? 'auto' : '360px' }}
-              transition={{ duration: 0.5, ease: [0.04, 0.62, 0.23, 0.98] }}
-              className="relative overflow-hidden"
-            >
-              <div className="text-gray-600 text-sm md:text-[15px] font-normal leading-relaxed space-y-4 pr-1">
-                {expandParagraph.split('\n').map((para, idx) => (
-                  para.trim() && <p key={idx}>{para}</p>
-                ))}
-              </div>
-              
-              {/* Fade out effect when collapsed */}
-              {!isExpanded && (
-                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white via-white/95 to-transparent pointer-events-none z-10" />
-              )}
-            </m.div>
-            
-            <div className="flex justify-center mt-6">
-              <button
-                type="button"
-                onClick={() => {
-                  if (isExpanded && expandableRef.current) {
-                    const y = expandableRef.current.getBoundingClientRect().top + window.scrollY - 100;
-                    window.scrollTo({ top: y, behavior: 'smooth' });
-                  }
-                  setIsExpanded(!isExpanded);
-                }}
-                className="inline-flex items-center gap-2 bg-[#0082f0] hover:bg-[#006ec7] text-white px-8 py-3.5 rounded-full font-black text-xs uppercase tracking-wider transition-all shadow-md active:scale-95"
-              >
-                {isExpanded ? (
-                  <>
-                    See Less
-                    <svg className="w-4 h-4 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 15l7-7 7 7" />
-                    </svg>
-                  </>
-                ) : (
-                  <>
-                    See More
-                    <svg className="w-4 h-4 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        )}
 
         {/* 2-Column Grid */}
         <div className="grid lg:grid-cols-12 gap-12 items-start">

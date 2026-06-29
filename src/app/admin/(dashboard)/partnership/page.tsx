@@ -12,13 +12,13 @@ export default function AdminPartnershipPage() {
   const [settings, setSettings] = useState({
     partnershipPageSlug: 'partnership',
     partnershipPageTitle: 'Partner Network | GlobalWeblify',
-    partnershipHeroTitle: 'Become a GlobalWeblify Partner',
-    partnershipHeroDesc: 'We invite you to become our partner for mutually beneficial collaboration. Our company offers various partnership programs with terms tailored to businesses of all types and sizes.',
+    partnershipHeroTitle: 'Web Design Franchise of GlobalWeblify in your City',
+    partnershipHeroDesc: 'Website Designing, Ecommerce Website Development, Digital Marketing, SEO - Franchise',
     partnershipHeading: 'Accelerate Growth Together',
-    partnershipDesc: 'Whether you run an agency looking to outsource development, a consultant recommending leading web platforms, or an integration provider, we construct synergistic structures that deliver results.',
-    partnershipPageImage: '/partnership/Partner1.jpg',
-    partnershipExpandHeading: 'Detailed Partnership Program Overview & Dynamic Synergies',
-    partnershipExpandParagraph: ''
+    partnershipDesc: 'Whether you run an agency looking to outsource development...',
+    partnershipPageImage: '',
+    partnershipExpandHeading: '',
+    partnershipExpandParagraph: 'Start your very own website designing company without having liability of a technical team and developing any website. So set your goals as high as you want.\n\nGlobalWeblify is an awarded best web designing company. We offer high quality websites with our innovative and modern approach for our clients, to ensure superb promotion on Google. When you join us, you\'ll join hundreds of happy franchisees from all over the world.\n\nOur highly skilled team develops result-oriented websites, which generate business and make big money for our clients. Throughout the past years, GlobalWeblify has been able to deliver more than 3000+ projects, from almost all industries, for clients globally.'
   });
 
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
@@ -158,31 +158,31 @@ export default function AdminPartnershipPage() {
               value={settings.partnershipHeroTitle}
               onChange={(e) => setSettings({...settings, partnershipHeroTitle: e.target.value})}
               className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c]"
-              placeholder="Become a GlobalWeblify Partner"
+              placeholder="Web Design Franchise of GlobalWeblify in your City"
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Hero Subtitle / Description</label>
+            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Hero Blue Subtitle</label>
             <textarea
               required
-              rows={3}
+              rows={2}
               value={settings.partnershipHeroDesc}
               onChange={(e) => setSettings({...settings, partnershipHeroDesc: e.target.value})}
               className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c] resize-none"
-              placeholder="We invite you to become our partner..."
+              placeholder="Website Designing, Ecommerce Website Development..."
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Hero Side Image Path</label>
-            <input
-              type="text"
+            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Hero Description Paragraphs</label>
+            <textarea
               required
-              value={settings.partnershipPageImage}
-              onChange={(e) => setSettings({...settings, partnershipPageImage: e.target.value})}
+              rows={8}
+              value={settings.partnershipExpandParagraph}
+              onChange={(e) => setSettings({...settings, partnershipExpandParagraph: e.target.value})}
               className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c]"
-              placeholder="/partnership/Partner1.jpg"
+              placeholder="Write multiple paragraphs separated by new lines..."
             />
           </div>
         </div>
@@ -218,36 +218,7 @@ export default function AdminPartnershipPage() {
           </div>
         </div>
 
-        {/* Expandable Description Section Config */}
-        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 space-y-6">
-          <h2 className="text-base font-bold text-gray-900 flex items-center gap-2 font-poppins border-b border-gray-100 pb-3">
-            <Layout size={18} className="text-[#1a8b4c]" /> Expandable Content Details (Below Hero)
-          </h2>
-          
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Expandable Heading (H2)</label>
-            <input
-              type="text"
-              required
-              value={settings.partnershipExpandHeading}
-              onChange={(e) => setSettings({...settings, partnershipExpandHeading: e.target.value})}
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c]"
-              placeholder="Detailed Partnership Program Overview & Dynamic Synergies"
-            />
-          </div>
 
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Expandable Paragraph Content (See More / See Less)</label>
-            <textarea
-              required
-              rows={12}
-              value={settings.partnershipExpandParagraph}
-              onChange={(e) => setSettings({...settings, partnershipExpandParagraph: e.target.value})}
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c]"
-              placeholder="Write a long description or multiple paragraphs..."
-            />
-          </div>
-        </div>
       </form>
     </div>
   );
