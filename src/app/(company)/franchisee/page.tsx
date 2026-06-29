@@ -35,6 +35,12 @@ export default async function PartnershipPage() {
       return acc;
     }, {} as Record<string, string>);
 
+    const cleanPara = "Are you a digital marketing agency, freelancer, entrepreneur, or business professional looking to expand your services? Start your own website designing and digital solutions business with Global Webify without the need to hire a technical team or manage complex development processes.\n\nAs a Global Webify franchise partner, you get complete access to our expert development support, advanced tools, and technical assistance. We deliver modern, conversion-focused websites and powerful CRM solutions while handling full project execution behind the scenes—allowing you to focus entirely on client acquisition, brand growth, and unlimited earning potential.";
+    let expandPara = settingsMap['partnershipExpandParagraph'] || cleanPara;
+    if (expandPara.includes('3. Strategic Co-Development:')) {
+      expandPara = cleanPara;
+    }
+
     settings = {
       partnershipPageTitle: settingsMap['partnershipPageTitle'],
       partnershipPageSlug: settingsMap['partnershipPageSlug'],
@@ -44,7 +50,7 @@ export default async function PartnershipPage() {
       partnershipDesc: settingsMap['partnershipDesc'],
       partnershipPageImage: settingsMap['partnershipPageImage'],
       partnershipExpandHeading: settingsMap['partnershipExpandHeading'],
-      partnershipExpandParagraph: settingsMap['partnershipExpandParagraph']
+      partnershipExpandParagraph: expandPara
     };
   } catch (err) {
     console.error(err);

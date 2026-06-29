@@ -14,11 +14,11 @@ export default function AdminPartnershipPage() {
     partnershipPageTitle: 'Partner Network | GlobalWeblify',
     partnershipHeroTitle: 'Become a GlobalWeblify Partner',
     partnershipHeroDesc: 'We invite you to become our partner for mutually beneficial collaboration. Our company offers various partnership programs with terms tailored to businesses of all types and sizes.',
-    partnershipHeading: 'Accelerate Growth Together',
+    partnershipHeading: 'Web Design Franchise of Global Webify in your City',
     partnershipDesc: 'Whether you run an agency looking to outsource development...',
     partnershipPageImage: '/partnership/Partner1.jpg',
     partnershipExpandHeading: 'Website Designing, Ecommerce Website Development, Digital Marketing, SEO - Franchise',
-    partnershipExpandParagraph: 'Start your very own website designing company without having liability of a technical team and developing any website. So set your goals as high as you want.\n\nGlobalWeblify is an awarded best web designing company. We offer high quality websites with our innovative and modern approach for our clients, to ensure superb promotion on Google. When you join us, you\'ll join hundreds of happy franchisees from all over the world.\n\nOur highly skilled team develops result-oriented websites, which generate business and make big money for our clients. Throughout the past years, GlobalWeblify has been able to deliver more than 3000+ projects, from almost all industries, for clients globally.'
+    partnershipExpandParagraph: 'Are you a digital marketing agency, freelancer, entrepreneur, or business professional looking to expand your services? Start your own website designing and digital solutions business with Global Webify without the need to hire a technical team or manage complex development processes.\n\nAs a Global Webify franchise partner, you get complete access to our expert development support, advanced tools, and technical assistance. We deliver modern, conversion-focused websites and powerful CRM solutions while handling full project execution behind the scenes—allowing you to focus entirely on client acquisition, brand growth, and unlimited earning potential.'
   });
 
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
@@ -194,6 +194,18 @@ export default function AdminPartnershipPage() {
           </h2>
           
           <div className="flex flex-col gap-2">
+            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Main Description Title</label>
+            <input
+              type="text"
+              required
+              value={settings.partnershipHeading}
+              onChange={(e) => setSettings({...settings, partnershipHeading: e.target.value})}
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c]"
+              placeholder="Web Design Franchise of Global Webify in your City"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
             <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Blue Subtitle</label>
             <textarea
               required
@@ -206,10 +218,23 @@ export default function AdminPartnershipPage() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Description Paragraphs</label>
+            <div className="flex justify-between items-center">
+              <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Description Paragraphs</label>
+              <div className="flex items-center gap-3 text-[11px] font-bold">
+                <span className="text-gray-500">
+                  Words: <strong className="text-gray-800">{settings.partnershipExpandParagraph ? settings.partnershipExpandParagraph.trim().split(/\s+/).filter(Boolean).length : 0}</strong>
+                </span>
+                <span className={`px-2 py-0.5 rounded ${
+                  (settings.partnershipExpandParagraph?.length || 0) > 1500 ? 'bg-red-100 text-red-700' : 'bg-[#1a8b4c]/10 text-[#1a8b4c]'
+                }`}>
+                  Chars: <strong>{settings.partnershipExpandParagraph?.length || 0}</strong> / 1621 limit
+                </span>
+              </div>
+            </div>
             <textarea
               required
               rows={8}
+              maxLength={1621}
               value={settings.partnershipExpandParagraph}
               onChange={(e) => setSettings({...settings, partnershipExpandParagraph: e.target.value})}
               className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c]"
