@@ -12,12 +12,12 @@ export default function AdminPartnershipPage() {
   const [settings, setSettings] = useState({
     partnershipPageSlug: 'partnership',
     partnershipPageTitle: 'Partner Network | GlobalWeblify',
-    partnershipHeroTitle: 'Web Design Franchise of GlobalWeblify in your City',
-    partnershipHeroDesc: 'Website Designing, Ecommerce Website Development, Digital Marketing, SEO - Franchise',
+    partnershipHeroTitle: 'Become a GlobalWeblify Partner',
+    partnershipHeroDesc: 'We invite you to become our partner for mutually beneficial collaboration. Our company offers various partnership programs with terms tailored to businesses of all types and sizes.',
     partnershipHeading: 'Accelerate Growth Together',
     partnershipDesc: 'Whether you run an agency looking to outsource development...',
-    partnershipPageImage: '',
-    partnershipExpandHeading: '',
+    partnershipPageImage: '/partnership/Partner1.jpg',
+    partnershipExpandHeading: 'Website Designing, Ecommerce Website Development, Digital Marketing, SEO - Franchise',
     partnershipExpandParagraph: 'Start your very own website designing company without having liability of a technical team and developing any website. So set your goals as high as you want.\n\nGlobalWeblify is an awarded best web designing company. We offer high quality websites with our innovative and modern approach for our clients, to ensure superb promotion on Google. When you join us, you\'ll join hundreds of happy franchisees from all over the world.\n\nOur highly skilled team develops result-oriented websites, which generate business and make big money for our clients. Throughout the past years, GlobalWeblify has been able to deliver more than 3000+ projects, from almost all industries, for clients globally.'
   });
 
@@ -158,24 +158,55 @@ export default function AdminPartnershipPage() {
               value={settings.partnershipHeroTitle}
               onChange={(e) => setSettings({...settings, partnershipHeroTitle: e.target.value})}
               className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c]"
-              placeholder="Web Design Franchise of GlobalWeblify in your City"
+              placeholder="Become a GlobalWeblify Partner"
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Hero Blue Subtitle</label>
+            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Hero Subtitle / Description</label>
+            <textarea
+              required
+              rows={3}
+              value={settings.partnershipHeroDesc}
+              onChange={(e) => setSettings({...settings, partnershipHeroDesc: e.target.value})}
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c] resize-none"
+              placeholder="We invite you to become our partner..."
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Hero Side Image Path</label>
+            <input
+              type="text"
+              required
+              value={settings.partnershipPageImage}
+              onChange={(e) => setSettings({...settings, partnershipPageImage: e.target.value})}
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c]"
+              placeholder="/partnership/Partner1.jpg"
+            />
+          </div>
+        </div>
+
+        {/* 4-Card Franchise Description Config */}
+        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 space-y-6">
+          <h2 className="text-base font-bold text-gray-900 flex items-center gap-2 font-poppins border-b border-gray-100 pb-3">
+            <Layout size={18} className="text-[#1a8b4c]" /> Franchise Description Section (Below Hero)
+          </h2>
+          
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Blue Subtitle</label>
             <textarea
               required
               rows={2}
-              value={settings.partnershipHeroDesc}
-              onChange={(e) => setSettings({...settings, partnershipHeroDesc: e.target.value})}
+              value={settings.partnershipExpandHeading}
+              onChange={(e) => setSettings({...settings, partnershipExpandHeading: e.target.value})}
               className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c] resize-none"
               placeholder="Website Designing, Ecommerce Website Development..."
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Hero Description Paragraphs</label>
+            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Description Paragraphs</label>
             <textarea
               required
               rows={8}
@@ -187,36 +218,7 @@ export default function AdminPartnershipPage() {
           </div>
         </div>
 
-        {/* Body Content Config */}
-        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 space-y-6">
-          <h2 className="text-base font-bold text-gray-900 flex items-center gap-2 font-poppins border-b border-gray-100 pb-3">
-            <Layout size={18} className="text-[#1a8b4c]" /> Info Section Details
-          </h2>
-          
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Section Title</label>
-            <input
-              type="text"
-              required
-              value={settings.partnershipHeading}
-              onChange={(e) => setSettings({...settings, partnershipHeading: e.target.value})}
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c]"
-              placeholder="Accelerate Growth Together"
-            />
-          </div>
 
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Section Body Paragraph</label>
-            <textarea
-              required
-              rows={4}
-              value={settings.partnershipDesc}
-              onChange={(e) => setSettings({...settings, partnershipDesc: e.target.value})}
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c] resize-none"
-              placeholder="Brief description of mutual benefits..."
-            />
-          </div>
-        </div>
 
 
       </form>

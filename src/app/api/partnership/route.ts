@@ -104,9 +104,9 @@ export async function POST(req: NextRequest) {
     
     // We import dynamic to avoid static build-time dependencies issues
     const { sendMailNotification } = await import('@/lib/mail');
-    // We execute it in background so response is not delayed
-    sendMailNotification({ subject: mailSubject, htmlContent: mailContent }).catch(err => {
-      console.error('Background SMTP send failure:', err);
+    // Await the email send to ensure it finishes before the serverless function exits
+    await sendMailNotification({ subject: mailSubject, htmlContent: mailContent }).catch(err => {
+      console.error('SMTP send failure:', err);
     });
 
     return NextResponse.json({ success: true });

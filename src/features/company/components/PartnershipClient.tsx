@@ -183,11 +183,12 @@ const isValidEmail = (email: string): boolean => {
 };
 
 export default function PartnershipClient({ settings }: PartnershipClientProps) {
-  const heroTitle = settings?.partnershipHeroTitle || "Web Design Franchise of GlobalWeblify in your City";
-  const heroSubtitle = settings?.partnershipHeroDesc || "Website Designing, Ecommerce Website Development, Digital Marketing, SEO - Franchise";
-  const heroDescText = settings?.partnershipExpandParagraph || "Start your very own website designing company without having liability of a technical team and developing any website. So set your goals as high as you want.\n\nGlobalWeblify is an awarded best web designing company. We offer high quality websites with our innovative and modern approach for our clients, to ensure superb promotion on Google. When you join us, you'll join hundreds of happy franchisees from all over the world.\n\nOur highly skilled team develops result-oriented websites, which generate business and make big money for our clients. Throughout the past years, GlobalWeblify has been able to deliver more than 3000+ projects, from almost all industries, for clients globally.";
-  const heading = settings?.partnershipHeading || "Accelerate Growth Together";
-  const desc = settings?.partnershipDesc || "Whether you run an agency looking to outsource development, a consultant recommending leading web platforms, or an integration provider, we construct synergistic structures that deliver results.";
+  const heroTitle = settings?.partnershipHeroTitle || "Become a GlobalWeblify Partner";
+  const heroDesc = settings?.partnershipHeroDesc || "We invite you to become our partner for mutually beneficial collaboration. Our company offers various partnership programs with terms tailored to businesses of all types and sizes.";
+  const pageImage = settings?.partnershipPageImage || "/partnership/Partner1.jpg";
+  const featuresSubtitle = settings?.partnershipExpandHeading || "Website Designing, Ecommerce Website Development, Digital Marketing, SEO - Franchise";
+  const featuresDescText = settings?.partnershipExpandParagraph || "Start your very own website designing company without having liability of a technical team and developing any website. So set your goals as high as you want.\n\nGlobalWeblify is an awarded best web designing company. We offer high quality websites with our innovative and modern approach for our clients, to ensure superb promotion on Google. When you join us, you'll join hundreds of happy franchisees from all over the world.\n\nOur highly skilled team develops result-oriented websites, which generate business and make big money for our clients. Throughout the past years, GlobalWeblify has been able to deliver more than 3000+ projects, from almost all industries, for clients globally.";
+
 
   const [formData, setFormData] = useState({
     name: '',
@@ -280,36 +281,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
     }
   };
 
-  const benefits = [
-    {
-      icon: Award,
-      title: "Industry Excellence",
-      desc: "Deliver premium web development, SEO, and digital marketing services powered by vetted specialists.",
-      color: "text-purple-600",
-      bg: "bg-purple-50"
-    },
-    {
-      icon: Users2,
-      title: "Shared Growth",
-      desc: "Unlock referral commissions, co-marketing budgets, and exclusive partner pricing models.",
-      color: "text-blue-600",
-      bg: "bg-blue-50"
-    },
-    {
-      icon: LineChart,
-      title: "Business Support",
-      desc: "Get dedicated partner managers, technical support, and premium pre-sales assistance.",
-      color: "text-emerald-600",
-      bg: "bg-emerald-50"
-    },
-    {
-      icon: ShieldCheck,
-      title: "Trusted Execution",
-      desc: "Guaranteed SLA delivery, non-disclosure compliance, and professional white-label capabilities.",
-      color: "text-indigo-600",
-      bg: "bg-indigo-50"
-    }
-  ];
+
 
   return (
     <div className="pt-16 pb-16 bg-[#f4fbf7] relative overflow-hidden font-sans">
@@ -349,6 +321,67 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
         <div className="grid lg:grid-cols-12 gap-12 items-center mb-12">
           {/* Left Text Block */}
           <div className="lg:col-span-6 space-y-6 text-left">
+            <m.h1 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-[36px] md:text-[52px] font-black font-heading text-gray-900 leading-[1.1]"
+            >
+              {(() => {
+                const words = heroTitle.split(' ');
+                if (words.length > 1) {
+                  const lastWord = words.pop();
+                  const startText = words.join(' ');
+                  return (
+                    <>
+                      {startText} <span className="text-[#0082f0]">{lastWord}</span>
+                    </>
+                  );
+                }
+                return heroTitle;
+              })()}
+            </m.h1>
+
+            <p className="text-gray-600 text-sm md:text-[15px] font-normal leading-relaxed max-w-xl">
+              {heroDesc}
+            </p>
+
+            <div className="pt-2">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('partnership-form')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#0052cc] to-[#0082f0] hover:from-[#0041a3] hover:to-[#006ec7] text-white px-8 py-4 rounded-full font-black text-xs uppercase tracking-wider transition-all shadow-md hover:translate-y-[-2px] hover:shadow-lg active:translate-y-0"
+              >
+                Get in touch
+                <svg className="w-4.5 h-4.5 text-white stroke-[2.5] w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Right Image Block */}
+          <div className="lg:col-span-6">
+            <m.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-gradient-to-tr from-blue-50/50 to-indigo-50/50 border border-gray-100 rounded-[32px] p-2 shadow-sm overflow-hidden flex items-center justify-center"
+            >
+              <img 
+                src={pageImage?.toLowerCase().includes('partner1.jpg') ? '/partnership/partner1.jpg' : (pageImage || '/partnership/partner1.jpg')} 
+                alt="Become a Partner"
+                className="w-full h-auto max-h-[440px] object-cover rounded-2xl drop-shadow-sm hover:scale-[1.02] transition-transform duration-500" 
+              />
+            </m.div>
+          </div>
+        </div>
+
+        {/* 4-Card Franchise Description Block */}
+        <div className="grid lg:grid-cols-12 gap-12 items-center mb-16 bg-white rounded-3xl shadow-sm border border-gray-100 p-8 md:p-12">
+          {/* Left Text Block */}
+          <div className="lg:col-span-6 space-y-6 text-left">
             <m.div 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -357,20 +390,9 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#0082f0] flex items-center justify-center shrink-0 shadow-lg border-4 border-white">
                 <Store size={32} className="text-white" />
               </div>
-              <h1 className="text-[28px] md:text-[36px] font-black font-heading text-gray-800 leading-[1.2]">
-                {(() => {
-                  // If "GlobalWeblify" is in the title, we make it blue. Otherwise, just render the title.
-                  if (heroTitle.includes('GlobalWeblify')) {
-                    const parts = heroTitle.split('GlobalWeblify');
-                    return (
-                      <>
-                        {parts[0]}<span className="text-[#0082f0]">GlobalWeblify</span>{parts[1]}
-                      </>
-                    );
-                  }
-                  return heroTitle;
-                })()}
-              </h1>
+              <h2 className="text-[28px] md:text-[32px] font-black font-heading text-gray-800 leading-[1.2]">
+                Web Design Franchise of <br/><span className="text-[#0082f0]">GlobalWeblify</span> in your City
+              </h2>
             </m.div>
 
             <m.h3 
@@ -379,7 +401,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
               transition={{ delay: 0.1 }}
               className="text-[18px] md:text-[20px] font-bold text-[#0082f0] leading-snug"
             >
-              {heroSubtitle}
+              {featuresSubtitle}
             </m.h3>
 
             <m.div 
@@ -388,32 +410,15 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
               transition={{ delay: 0.2 }}
               className="space-y-4 text-gray-600 text-sm md:text-[15px] font-medium leading-relaxed"
             >
-              {heroDescText.split('\n').map((para, idx) => (
+              {featuresDescText.split('\n').map((para, idx) => (
                 para.trim() && <p key={idx}>{para}</p>
               ))}
-            </m.div>
-            
-            <m.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="pt-2"
-            >
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#0052cc] to-[#0082f0] hover:from-[#0041a3] hover:to-[#006ec7] text-white px-8 py-4 rounded-full font-black text-xs uppercase tracking-wider transition-all shadow-md hover:translate-y-[-2px] hover:shadow-lg active:translate-y-0"
-              >
-                Get in touch
-                <svg className="w-4 h-4 text-white stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </Link>
             </m.div>
           </div>
 
           {/* Right Cards Block */}
           <div className="lg:col-span-6 relative">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 relative z-10 py-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 relative z-10">
               {/* Card 1 */}
               <m.div 
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -472,51 +477,9 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
           </div>
         </div>
 
-        {/* 2-Column Grid */}
-        <div className="grid lg:grid-cols-12 gap-12 items-start">
-          
-          {/* LEFT COLUMN: Why Partner Info & Benefits */}
-          <div className="lg:col-span-5 space-y-8">
-            <div className="space-y-4">
-              <h2 className="text-[24px] font-black text-gray-900 tracking-tight font-heading uppercase">
-                {heading}
-              </h2>
-              <p className="text-gray-600 text-sm font-normal leading-relaxed">
-                {desc}
-              </p>
-            </div>
-
-            {/* Benefits Grid */}
-            <div className="space-y-4">
-              {benefits.map((benefit, i) => {
-                const Icon = benefit.icon;
-                return (
-                  <m.div
-                    key={i}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: i * 0.1 }}
-                    className="flex items-start gap-4 p-5 bg-white border border-gray-100 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300"
-                  >
-                    <div className={`p-3 rounded-2xl shrink-0 ${benefit.bg} ${benefit.color}`}>
-                      <Icon size={20} />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-black text-gray-900 uppercase tracking-wide mb-1">
-                        {benefit.title}
-                      </h4>
-                      <p className="text-gray-500 text-[12px] font-semibold leading-relaxed">
-                        {benefit.desc}
-                      </p>
-                    </div>
-                  </m.div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* RIGHT COLUMN: Premium Partnership Form */}
-          <div className="lg:col-span-7">
+        {/* Centered Premium Partnership Form */}
+        <div id="partnership-form" className="max-w-3xl mx-auto items-start">
+          <div className="w-full">
             <m.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -585,96 +548,73 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-wider">Mobile Number *</label>
-                    <div className="flex gap-2">
-                      {/* Premium Country Code Select */}
-                      <div className="relative w-32 shrink-0">
-                        <button
-                          type="button"
-                          onClick={() => setDropdownOpen(!dropdownOpen)}
-                          className="w-full flex items-center justify-between pl-3 pr-2.5 py-3.5 bg-gray-50/50 hover:bg-gray-50/80 focus:bg-white border border-gray-200 rounded-2xl text-[13px] font-bold text-gray-800 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-green-100 transition-all shadow-sm"
-                        >
-                          <span className="flex items-center gap-2">
-                            <FlagIcon iso={selectedCountry.iso} />
-                            {selectedCountry.code}
-                          </span>
-                          <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7"></path>
-                          </svg>
-                        </button>
-
-                        {dropdownOpen && (
-                          <>
-                            {/* Backdrop overlay to close when clicking outside */}
-                            <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
-                            
-                            {/* Dropdown Menu Options */}
-                            <div className="absolute left-0 mt-1.5 w-64 max-h-60 overflow-y-auto bg-white border border-gray-100 rounded-xl shadow-xl z-50 py-1.5 scrollbar-thin scrollbar-thumb-gray-200">
-                              {COUNTRIES.map((c, i) => (
-                                <button
-                                  key={i}
-                                  type="button"
-                                  onClick={() => {
-                                    setSelectedCountryIndex(i);
-                                    setDropdownOpen(false);
-                                    const truncatedDigits = phoneDigits.slice(0, c.length);
-                                    setPhoneDigits(truncatedDigits);
-                                    setFormData(prev => ({ ...prev, phone: truncatedDigits ? `${c.code} ${truncatedDigits}` : '' }));
-                                  }}
-                                  className={`w-full flex items-center gap-3 px-3 py-2 text-left text-xs font-semibold text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors ${i === selectedCountryIndex ? 'bg-green-50/50 text-[#1a8b4c]' : ''}`}
-                                >
-                                  <FlagIcon iso={c.iso} />
-                                  <span className="shrink-0">{c.code}</span>
-                                  <span className="text-gray-400 font-medium truncate">{c.name}</span>
-                                </button>
-                              ))}
-                            </div>
-                          </>
-                        )}
-                      </div>
-
-                      {/* Phone Input Box */}
-                      <div className="relative flex-grow">
-                        <input 
-                          type="tel" 
-                          required
-                          value={phoneDigits}
-                          maxLength={selectedCountry.length}
-                          onChange={(e) => {
-                            const val = e.target.value.replace(/\D/g, '').slice(0, selectedCountry.length);
-                            setPhoneDigits(val);
-                            setFormData(prev => ({ ...prev, phone: val ? `${selectedCountry.code} ${val}` : '' }));
-                          }}
-                          placeholder={selectedCountry.placeholder}
-                          className={`w-full px-4 py-3.5 bg-gray-50/50 hover:bg-gray-50/80 focus:bg-white border rounded-2xl text-[16px] md:text-xs font-semibold text-gray-800 focus:outline-none focus:ring-4 transition-all placeholder-gray-400 ${errors.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-100' : 'border-gray-200 focus:border-[#1a8b4c] focus:ring-green-100'}`}
-                        />
-                      </div>
-                    </div>
-                    {errors.phone && <span className="text-red-500 text-xs font-semibold mt-1">{errors.phone}</span>}
-                  </div>
-
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-wider">Partnership Model *</label>
-                    <div className="relative">
-                      <select 
-                        required
-                        value={formData.partnershipType}
-                        onChange={(e) => setFormData({...formData, partnershipType: e.target.value})}
-                        className="w-full px-4 py-3.5 bg-gray-50/50 hover:bg-gray-50/80 focus:bg-white border border-gray-200 rounded-2xl text-[16px] md:text-xs font-semibold text-gray-800 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-green-100 transition-all cursor-pointer appearance-none"
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-wider">Mobile Number *</label>
+                  <div className="flex gap-2">
+                    {/* Premium Country Code Select */}
+                    <div className="relative w-32 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => setDropdownOpen(!dropdownOpen)}
+                        className="w-full flex items-center justify-between pl-3 pr-2.5 py-3.5 bg-gray-50/50 hover:bg-gray-50/80 focus:bg-white border border-gray-200 rounded-2xl text-[13px] font-bold text-gray-800 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-green-100 transition-all shadow-sm"
                       >
-                        <option value="">Select a model...</option>
-                        <option value="agency">Agency / Outsourcing Partner</option>
-                        <option value="referral">Referral / Affiliate Partner</option>
-                        <option value="tech">Technology / Integration Partner</option>
-                        <option value="other">Other / Custom Collaboration</option>
-                      </select>
-                      <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gray-400">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                      </div>
+                        <span className="flex items-center gap-2">
+                          <FlagIcon iso={selectedCountry.iso} />
+                          {selectedCountry.code}
+                        </span>
+                        <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                      </button>
+
+                      {dropdownOpen && (
+                        <>
+                          {/* Backdrop overlay to close when clicking outside */}
+                          <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
+                          
+                          {/* Dropdown Menu Options */}
+                          <div className="absolute left-0 mt-1.5 w-64 max-h-60 overflow-y-auto bg-white border border-gray-100 rounded-xl shadow-xl z-50 py-1.5 scrollbar-thin scrollbar-thumb-gray-200">
+                            {COUNTRIES.map((c, i) => (
+                              <button
+                                key={i}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedCountryIndex(i);
+                                  setDropdownOpen(false);
+                                  const truncatedDigits = phoneDigits.slice(0, c.length);
+                                  setPhoneDigits(truncatedDigits);
+                                  setFormData(prev => ({ ...prev, phone: truncatedDigits ? `${c.code} ${truncatedDigits}` : '' }));
+                                }}
+                                className={`w-full flex items-center gap-3 px-3 py-2 text-left text-xs font-semibold text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors ${i === selectedCountryIndex ? 'bg-green-50/50 text-[#1a8b4c]' : ''}`}
+                              >
+                                <FlagIcon iso={c.iso} />
+                                <span className="shrink-0">{c.code}</span>
+                                <span className="text-gray-400 font-medium truncate">{c.name}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Phone Input Box */}
+                    <div className="relative flex-grow">
+                      <input 
+                        type="tel" 
+                        required
+                        value={phoneDigits}
+                        maxLength={selectedCountry.length}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, '').slice(0, selectedCountry.length);
+                          setPhoneDigits(val);
+                          setFormData(prev => ({ ...prev, phone: val ? `${selectedCountry.code} ${val}` : '' }));
+                        }}
+                        placeholder={selectedCountry.placeholder}
+                        className={`w-full px-4 py-3.5 bg-gray-50/50 hover:bg-gray-50/80 focus:bg-white border rounded-2xl text-[16px] md:text-xs font-semibold text-gray-800 focus:outline-none focus:ring-4 transition-all placeholder-gray-400 ${errors.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-100' : 'border-gray-200 focus:border-[#1a8b4c] focus:ring-green-100'}`}
+                      />
                     </div>
                   </div>
+                  {errors.phone && <span className="text-red-500 text-xs font-semibold mt-1">{errors.phone}</span>}
                 </div>
 
                 {/* Message / Proposal Details */}
