@@ -103,10 +103,9 @@ export async function POST(req: NextRequest) {
     `;
     
     // We import dynamic to avoid static build-time dependencies issues
-    import('@/lib/mail').then(({ sendMailNotification }) => {
-      sendMailNotification({ subject: mailSubject, htmlContent: mailContent }).catch(err => {
-        console.error('Background SMTP send failure:', err);
-      });
+    const { sendMailNotification } = await import('@/lib/mail');
+    await sendMailNotification({ subject: mailSubject, htmlContent: mailContent }).catch(err => {
+      console.error('SMTP send failure:', err);
     });
 
     return NextResponse.json({ success: true });
