@@ -40,10 +40,11 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
   let dbPosts: any[] = [];
   let serviceDescriptions: Record<string, string> = {};
   let reviews: any[] = [];
+  let featuredProjects: any[] = [];
 
   // Fix 2: Fire both DB queries in parallel instead of sequentially
   try {
-    const [rawPosts, services, dbReviews, subdomainOverrides] = await Promise.all([
+    const [rawPosts, services, dbReviews, subdomainOverrides, fetchedFeaturedProjects] = await Promise.all([
       db.blogPost.findMany({
         where: { isActive: true },
         orderBy: { createdAt: 'desc' },
@@ -57,11 +58,19 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
         orderBy: { createdAt: 'desc' },
         take: 50
       }),
-      db.subdomainContent.findMany({})
+      db.subdomainContent.findMany({}),
+      db.portfolioItem.findMany({
+        where: { isActive: true, isFeatured: true },
+        orderBy: [
+          { order: 'asc' },
+          { createdAt: 'desc' }
+        ]
+      })
     ]);
 
     dbPosts = rawPosts;
     reviews = dbReviews;
+    featuredProjects = fetchedFeaturedProjects;
     services.forEach(s => {
       const key = s.slug.startsWith('/') ? s.slug.substring(1) : s.slug;
       let desc = s.heroDescription || "";
@@ -210,7 +219,7 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
         {/* New Services Grid Section */}
         <ServicesGrid cityKey={cityKey} dynamicDescriptions={serviceDescriptions} location={locationName} sectionTitle={sectionHeaders?.services?.title} sectionDesc={sectionHeaders?.services?.description} />
 
-        <Portfolio sectionTitle={sectionHeaders?.portfolio?.title} sectionDesc={sectionHeaders?.portfolio?.description} />
+        <Portfolio projects={featuredProjects || []} sectionTitle={sectionHeaders?.portfolio?.title} sectionDesc={sectionHeaders?.portfolio?.description} />
 
         <TechStack sectionTitle={sectionHeaders?.techStack?.title} sectionDesc={sectionHeaders?.techStack?.description} />
 

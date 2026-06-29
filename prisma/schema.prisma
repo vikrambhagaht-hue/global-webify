@@ -175,3 +175,22 @@ model Review {
   @@map("review")
 }
 
+model PortfolioItem {
+  id         Int      @id @default(autoincrement())
+  title      String
+  category   String
+  image      String   // Path or Cloudinary URL
+  desc       String   @db.Text
+  link       String
+  displayUrl String
+  tags       String   // Comma-separated list of tags
+  isActive   Boolean  @default(true)
+  order      Int      @default(0) // To manage display order
+  isFeatured Boolean  @default(false) // For the "Our Website Portfolio" section
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([isActive, order])
+  @@map("portfolioitem")
+}
+

@@ -35,24 +35,21 @@ export async function sendMailNotification({
   subject: string;
   htmlContent: string;
 }) {
-  try {
-    const transporter = getTransporter();
-    if (!transporter) return false;
-
-    const toEmail = process.env.SMTP_TO || process.env.SMTP_USER;
-
-    const mailOptions = {
-      from: `"${process.env.SMTP_SENDER_NAME || 'Global Webify Notifications'}" <${process.env.SMTP_USER}>`,
-      to: toEmail,
-      subject,
-      html: htmlContent,
-    };
-
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`✉️ Email notification sent successfully: ${info.messageId}`);
-    return true;
-  } catch (error) {
-    console.error("❌ Failed to send SMTP email notification:", error);
-    return false;
+  const transporter = getTransporter();
+  if (!transporter) {
+    throw new Error("SMTP Credentials are not fully configured in the .env file.");
   }
+
+  const toEmail = process.env.SMTP_TO || process.env.SMTP_USER;
+
+  const mailOptions = {
+    from: `"${process.env.SMTP_SENDER_NAME || 'Global Webify Notifications'}" <${process.env.SMTP_USER}>`,
+    to: toEmail,
+    subject,
+    html: htmlContent,
+  };
+
+  const info = await transporter.sendMail(mailOptions);
+  console.log(`✉️ Email notification sent successfully: ${info.messageId}`);
+  return true;
 }

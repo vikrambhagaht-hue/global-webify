@@ -7,7 +7,14 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { Section } from '../layout/Responsive/Section';
 
-const projects = [
+export interface FeaturedProject {
+  title: string;
+  category: string;
+  image: string;
+  link: string;
+}
+
+const defaultProjects: FeaturedProject[] = [
   {
     title: "Firayalal Public School",
     category: "Education Portal",
@@ -106,15 +113,10 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
           {/* Image Container */}
           <div className={`relative aspect-[16/10] overflow-hidden bg-[#f0fdf4] ${isDesktop ? 'transform-gpu will-change-transform' : ''}`} style={{ transform: isDesktop ? "translateZ(0px)" : undefined }}>
             {isImageInView && (
-              <Image
+              <img
                 src={project.image}
                 alt={project.title}
-                title={project.title}
-                fill
-                priority={true}
-                quality={80}
-                className="object-cover group-hover:scale-110 transition-transform duration-700 md:brightness-[1.05] md:contrast-[1.05]"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700 md:brightness-[1.05] md:contrast-[1.05]"
               />
             )}
 
@@ -150,7 +152,8 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
   );
 };
 
-export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?: string; sectionDesc?: string }) {
+export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: { projects?: FeaturedProject[], sectionTitle?: string; sectionDesc?: string }) {
+  const displayProjects = projects.length > 0 ? projects : defaultProjects;
   const logos = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 15];
   const [isDesktop, setIsDesktop] = React.useState(false);
 
@@ -224,7 +227,7 @@ export default function Portfolio({ sectionTitle, sectionDesc }: { sectionTitle?
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8 max-w-[1400px] mx-auto px-4">
-          {projects.map((project, i) => (
+          {displayProjects.map((project, i) => (
             <ProjectCard key={i} project={project} index={i} isDesktop={isDesktop} />
           ))}
         </div>

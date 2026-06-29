@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { 
-  LayoutDashboard, Layers, Newspaper, MessageSquare, Home, Briefcase, Handshake, Shuffle, Star, FileText
+  LayoutDashboard, Layers, Newspaper, MessageSquare, Home, Briefcase, Handshake, Shuffle, Star, FileText, Image as ImageIcon, LayoutGrid
 } from 'lucide-react';
 import SidebarCategories from './SidebarCategories';
 
@@ -21,13 +21,15 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
   const isBlogs = pathname.startsWith('/admin/blogs');
   const isCareers = pathname.startsWith('/admin/careers');
   const isContacts = pathname.startsWith('/admin/contacts');
-  const isHomepage = pathname.startsWith('/admin/homepage') && !pathname.startsWith('/admin/subdomains/homepage');
+  const isHomepage = (pathname === '/admin/homepage' || pathname.startsWith('/admin/homepage/')) && !pathname.startsWith('/admin/subdomains/homepage');
   const isSubdomainHomepage = pathname.startsWith('/admin/subdomains/homepage');
   const isPartnershipPage = pathname === '/admin/partnership';
   const isPartnershipSubmissions = pathname.startsWith('/admin/partnership-submissions');
   const isRedirects = pathname.startsWith('/admin/redirects');
   const isReviews = pathname.startsWith('/admin/reviews');
   const isPolicies = pathname.startsWith('/admin/policies');
+  const isPortfolio = pathname.startsWith('/admin/portfolio');
+  const isHomepagePortfolio = pathname.startsWith('/admin/homepage-portfolio');
 
   const [openHomepage, setOpenHomepage] = React.useState(isHomepage);
   const [openSubdomainHomepage, setOpenSubdomainHomepage] = React.useState(isSubdomainHomepage);
@@ -169,6 +171,46 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
         {/* Submenu List Categories */}
         <SidebarCategories initialActiveServiceCategory={initialActiveServiceCategory} prefix="/admin/services" />
       </details>
+
+      {/* Collapsible Manage Portfolio Dropdown */}
+      <details className="group/details" open={isPortfolio || isHomepagePortfolio} onToggle={() => {}}>
+        <summary className={`flex items-center justify-between gap-2.5 px-4 py-2.5 rounded-xl transition-all duration-300 text-[11px] md:text-xs font-semibold tracking-wide cursor-pointer list-none [&::-webkit-details-marker]:hidden border group/summary ${
+          (isPortfolio || isHomepagePortfolio)
+            ? 'bg-gradient-to-r from-[#1a8b4c] to-[#0e5e3b] text-white border-[#15703d] shadow-xl shadow-[#1a8b4c]/20' 
+            : 'text-gray-400 hover:text-white hover:bg-[#132a1d]/60 border-transparent hover:border-[#132a1d] hover:shadow-lg backdrop-blur-sm'
+        }`}>
+          <div className="flex items-center gap-2.5">
+            <ImageIcon className={`stroke-[2.2] flex-shrink-0 transition-colors w-[22px] h-[22px] ${(isPortfolio || isHomepagePortfolio) ? 'text-white' : 'text-gray-500 group-hover/summary:text-white'}`} />
+            <span>Manage Portfolio</span>
+          </div>
+          <span className="text-[10px] group-open/details:rotate-90 transition-transform font-bold text-gray-500 group-hover/summary:text-white">▶</span>
+        </summary>
+        
+        {/* Portfolio Submenu */}
+        <div className="mt-2.5 mx-2.5 p-2 rounded-2xl bg-[#06100b] border border-[#132a1d] flex flex-col gap-2 text-gray-400 shadow-inner">
+          <Link 
+            href="/admin/portfolio" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border ${
+              pathname === '/admin/portfolio'
+                ? 'text-[#22c55e] bg-[#1a8b4c]/10 border-[#1a8b4c]/30 shadow-md font-bold'
+                : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
+            }`}
+          >
+            All Projects
+          </Link>
+          <Link 
+            href="/admin/homepage-portfolio" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border ${
+              pathname === '/admin/homepage-portfolio'
+                ? 'text-[#22c55e] bg-[#1a8b4c]/10 border-[#1a8b4c]/30 shadow-md font-bold'
+                : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
+            }`}
+          >
+            Homepage Cards
+          </Link>
+        </div>
+      </details>
+
 
       {/* Collapsible Subdomain/Market Areas Dropdown */}
       <details className="group/details" open={pathname.startsWith('/admin/subdomains')} onToggle={() => {}}>
