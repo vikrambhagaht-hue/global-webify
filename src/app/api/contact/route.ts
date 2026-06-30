@@ -111,11 +111,10 @@ export async function POST(req: NextRequest) {
       <p>— Sent from Global Webify Lead Notifications</p>
     `;
     
-    // Send SMTP email notification asynchronously in background for instant response
-    import('@/lib/mail').then(({ sendMailNotification }) => {
-      sendMailNotification({ subject: mailSubject, htmlContent: mailContent }).catch(err => {
-        console.error('SMTP send failure:', err);
-      });
+    // Ensure Vercel serverless waits for email delivery before terminating lambda
+    const { sendMailNotification } = await import('@/lib/mail');
+    await sendMailNotification({ subject: mailSubject, htmlContent: mailContent }).catch(err => {
+      console.error('SMTP send failure:', err);
     });
 
     return NextResponse.json({ success: true });
