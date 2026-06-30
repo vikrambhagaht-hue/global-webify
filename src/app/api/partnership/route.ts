@@ -102,10 +102,10 @@ export async function POST(req: NextRequest) {
       <p>— Sent from Global Webify Lead Notifications</p>
     `;
     
-    // We import dynamic to avoid static build-time dependencies issues
-    const { sendMailNotification } = await import('@/lib/mail');
-    await sendMailNotification({ subject: mailSubject, htmlContent: mailContent }).catch(err => {
-      console.error('SMTP send failure:', err);
+    import('@/lib/mail').then(({ sendMailNotification }) => {
+      sendMailNotification({ subject: mailSubject, htmlContent: mailContent }).catch(err => {
+        console.error('SMTP send failure:', err);
+      });
     });
 
     return NextResponse.json({ success: true });

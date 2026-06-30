@@ -21,6 +21,7 @@ interface TeamMember {
   image: string;
   bio: string;
   education: string;
+  experience?: string;
   isExEmployee: boolean;
   order?: number;
   socials: {
