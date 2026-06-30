@@ -355,7 +355,7 @@ export default function AboutClient() {
                   </div>
                   <div className="bg-blue-50 border border-blue-100 p-5 rounded-2xl text-center">
                     <p className="text-2xl sm:text-3xl font-black text-blue-700 font-lexend mb-1">
-                      <Counter value={99} suffix="%" />
+                      <Counter value={98} suffix="%" />
                     </p>
                     <p className="text-[10px] sm:text-xs font-bold text-blue-600 uppercase tracking-wider">Client Satisfaction</p>
                   </div>
