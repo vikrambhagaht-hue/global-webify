@@ -6,7 +6,7 @@ import { m, AnimatePresence } from 'framer-motion';
 import { 
   Mail, Phone, MapPin, Send, CheckCircle2, Building2, 
   Handshake, Globe2, Sparkles, Award, Users2, LineChart, ShieldCheck, ShieldAlert,
-  Store, MonitorSmartphone, BadgeCheck, TrendingUp, ArrowRight
+  Store, MonitorSmartphone, BadgeCheck, TrendingUp, ArrowRight, MessageCircle
 } from 'lucide-react';
 
 interface PartnershipClientProps {
@@ -749,6 +749,22 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
 
         </div>{/* end container */}
       </div>{/* end light section */}
+
+      {/* Floating WhatsApp Button */}
+      <a
+        href="https://wa.me/917563901100?text=Hello%20Global%20Webify%2C%20I%20am%20interested%20in%20the%20Franchisee%2FPartnership%20Program"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
+        className="fixed bottom-20 right-4 md:bottom-8 md:right-8 z-50 bg-[#25D366] hover:bg-[#1ebd59] text-white p-3.5 md:px-5 md:py-3.5 rounded-full shadow-2xl flex items-center justify-center md:gap-2.5 font-extrabold text-sm sm:text-base tracking-wide transition-all duration-300 transform hover:scale-105 active:scale-95 group border-2 border-white/20"
+      >
+        <span className="absolute -top-1.5 -right-1.5 flex h-3 w-3">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+        </span>
+        <MessageCircle size={26} className="fill-white stroke-none shrink-0" />
+        <span className="hidden md:inline">WhatsApp</span>
+      </a>
     </div>
   );
 }

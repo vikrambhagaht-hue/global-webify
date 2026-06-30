@@ -140,7 +140,7 @@ export default function AboutClient() {
                 </h3>
                 <div className="space-y-3 text-gray-700 leading-relaxed text-sm md:text-base">
                   <p>
-                    Global Webify is a full-service digital marketing, web development, and web designing company built on trust, innovation, and performance. Over the years, we have earned our reputation as one of the <span className="font-bold text-primary-dark">Top 3 Web Designing Digital Marketing Company in India</span> by consistently delivering results-focused solutions tailored to each client’s business goals.
+                    Global Webify is a full-service digital marketing, web development, and web designing company built on trust, innovation, and performance. Over the years, we have earned our reputation as one of the <span className="font-bold text-primary-dark">Top 5 Best Web Development Company in Ranchi, Jharkhand</span> by consistently delivering results-focused solutions tailored to each client’s business goals.
                   </p>
                   <p>
                     Our team consists of experienced strategists, designers, developers, and digital marketers who work collaboratively to create impactful digital experiences.
@@ -188,6 +188,12 @@ export default function AboutClient() {
                       <span className="mt-1 text-primary shrink-0"><CheckCircle2 size={18} className="fill-primary-light" /></span>
                       <p className="text-sm md:text-base text-gray-700">
                         <strong className="text-gray-900 font-semibold">Lead Generation & Performance Marketing</strong> – Turn visitors into customers
+                      </p>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="mt-1 text-primary shrink-0"><CheckCircle2 size={18} className="fill-primary-light" /></span>
+                      <p className="text-sm md:text-base text-gray-700">
+                        <strong className="text-gray-900 font-semibold">CRM Software Development</strong> – Streamline customer management, automate workflows, and improve business relationships for better efficiency and growth
                       </p>
                     </li>
                   </ul>
@@ -336,7 +342,7 @@ export default function AboutClient() {
                   Our Mission
                 </h3>
                 <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-                  Empowering businesses through digital innovation and accessible technology.
+                  Our mission is to empower businesses with innovative digital solutions that drive growth and success. We aim to deliver high-quality web designing, CRM solutions, web development, SEO, and marketing services that enhance brand visibility, improve performance, and create lasting value for clients through creativity, technology, and result-driven strategies.
                 </p>
                 
                 {/* Stats Container */}
@@ -349,7 +355,7 @@ export default function AboutClient() {
                   </div>
                   <div className="bg-blue-50 border border-blue-100 p-5 rounded-2xl text-center">
                     <p className="text-2xl sm:text-3xl font-black text-blue-700 font-lexend mb-1">
-                      <Counter value={95} suffix="%" />
+                      <Counter value={99} suffix="%" />
                     </p>
                     <p className="text-[10px] sm:text-xs font-bold text-blue-600 uppercase tracking-wider">Client Satisfaction</p>
                   </div>
@@ -431,7 +437,7 @@ export default function AboutClient() {
                   Our Vision
                 </h3>
                 <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-                  To be the leading digital agency that transforms businesses through innovative technology solutions.
+                  Global Webify, founded by Mr. Vikram Bhagat (Co-Founder and CEO) and Mr. Shakti Singh (Co-Founder & CTO), envisions empowering startups, SMEs, corporations, and non-profits to build a strong digital identity. We help businesses move beyond third-party platforms and grow through their own websites, enhancing visibility, generating quality leads, and achieving long-term digital success.
                 </p>
                 
                 {/* Stats Container */}
@@ -444,7 +450,7 @@ export default function AboutClient() {
                   </div>
                   <div className="bg-emerald-50 border border-emerald-100 p-5 rounded-2xl text-center">
                     <p className="text-2xl sm:text-3xl font-black text-emerald-700 font-lexend mb-1">
-                      <Counter value={50} suffix="+" />
+                      <Counter value={500} suffix="+" />
                     </p>
                     <p className="text-[10px] sm:text-xs font-bold text-emerald-600 uppercase tracking-wider">Happy Clients</p>
                   </div>
@@ -482,43 +488,8 @@ export default function AboutClient() {
                 viewport={{ once: true }}
                 className="lg:col-span-5 bg-gradient-to-br from-[#0e5e3b] via-[#0b432a] to-[#052516] text-white p-8 sm:p-10 rounded-3xl shadow-xl border border-emerald-800/50 relative flex flex-col justify-between h-full overflow-hidden"
               >
-                {/* Circle Type Animation in Top-Left Corner */}
-                <div className="absolute -top-6 -left-6 w-20 h-20 pointer-events-none z-0">
-                  <m.div 
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
-                    className="w-full h-full rounded-full border border-dashed border-emerald-400/20"
-                  />
-                  <m.div 
-                    animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
-                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                    className="absolute inset-4 rounded-full bg-emerald-500/10 blur-[2px]"
-                  />
-                </div>
-
-                {/* 3D Glossy Bouncing Ball with Shadow (Repositioned to bottom-right to avoid button overlap) */}
-                <div className="absolute right-8 bottom-8 w-16 h-24 pointer-events-none z-0 flex flex-col items-center justify-between">
-                  {/* Bouncing Sphere */}
-                  <m.div 
-                    animate={{ y: [0, -35, 0] }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 2.5, 
-                      ease: "easeInOut" 
-                    }}
-                    className="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-400 to-green-300 shadow-lg shadow-emerald-400/50 border border-emerald-300/30"
-                  />
-                  {/* Bouncing Shadow */}
-                  <m.div 
-                    animate={{ scale: [1, 0.5, 1], opacity: [0.6, 0.2, 0.6] }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 2.5, 
-                      ease: "easeInOut" 
-                    }}
-                    className="w-10 h-1.5 rounded-full bg-black/40 blur-[3px]"
-                  />
-                </div>
+                {/* Decorative static accent */}
+                <div className="absolute -top-6 -left-6 w-20 h-20 pointer-events-none z-0 rounded-full border border-dashed border-emerald-400/20 bg-emerald-500/5 blur-[2px]" />
 
                 <div className="relative z-10 space-y-6 flex flex-col justify-between h-full w-full">
                   <div className="space-y-4">
@@ -607,43 +578,8 @@ export default function AboutClient() {
                 viewport={{ once: true }}
                 className="lg:col-span-5 bg-gradient-to-br from-[#0f1e36] via-[#0b1629] to-[#070f1d] text-white p-8 sm:p-10 rounded-3xl shadow-xl border border-blue-900/50 relative flex flex-col justify-between h-full overflow-hidden"
               >
-                {/* Circle Type Animation in Top-Left Corner */}
-                <div className="absolute -top-6 -left-6 w-20 h-20 pointer-events-none z-0">
-                  <m.div 
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
-                    className="w-full h-full rounded-full border border-dashed border-blue-400/20"
-                  />
-                  <m.div 
-                    animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
-                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                    className="absolute inset-4 rounded-full bg-blue-500/10 blur-[2px]"
-                  />
-                </div>
-
-                {/* 3D Glossy Bouncing Ball with Shadow (Repositioned to bottom-right to avoid button overlap) */}
-                <div className="absolute right-8 bottom-8 w-16 h-24 pointer-events-none z-0 flex flex-col items-center justify-between">
-                  {/* Bouncing Sphere */}
-                  <m.div 
-                    animate={{ y: [0, -35, 0] }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 2.8, 
-                      ease: "easeInOut" 
-                    }}
-                    className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-400 to-cyan-300 shadow-lg shadow-blue-400/50 border border-blue-300/30"
-                  />
-                  {/* Bouncing Shadow */}
-                  <m.div 
-                    animate={{ scale: [1, 0.5, 1], opacity: [0.6, 0.2, 0.6] }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 2.8, 
-                      ease: "easeInOut" 
-                    }}
-                    className="w-10 h-1.5 rounded-full bg-black/40 blur-[3px]"
-                  />
-                </div>
+                {/* Decorative static accent */}
+                <div className="absolute -top-6 -left-6 w-20 h-20 pointer-events-none z-0 rounded-full border border-dashed border-blue-400/20 bg-blue-500/5 blur-[2px]" />
 
                 <div className="relative z-10 space-y-6 flex flex-col justify-between h-full w-full">
                   <div className="space-y-4">
@@ -680,43 +616,8 @@ export default function AboutClient() {
                 viewport={{ once: true }}
                 className="lg:col-span-5 bg-gradient-to-br from-[#0e5e3b] via-[#0b432a] to-[#052516] text-white p-8 sm:p-10 rounded-3xl shadow-xl border border-emerald-800/50 relative flex flex-col justify-between h-full overflow-hidden"
               >
-                {/* Circle Type Animation in Top-Left Corner */}
-                <div className="absolute -top-6 -left-6 w-20 h-20 pointer-events-none z-0">
-                  <m.div 
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
-                    className="w-full h-full rounded-full border border-dashed border-emerald-400/20"
-                  />
-                  <m.div 
-                    animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
-                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                    className="absolute inset-4 rounded-full bg-emerald-500/10 blur-[2px]"
-                  />
-                </div>
-
-                {/* 3D Glossy Bouncing Ball with Shadow (Repositioned to bottom-right to avoid button overlap) */}
-                <div className="absolute right-8 bottom-8 w-16 h-24 pointer-events-none z-0 flex flex-col items-center justify-between">
-                  {/* Bouncing Sphere */}
-                  <m.div 
-                    animate={{ y: [0, -35, 0] }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 2.6, 
-                      ease: "easeInOut" 
-                    }}
-                    className="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-400 to-green-300 shadow-lg shadow-emerald-400/50 border border-emerald-300/30"
-                  />
-                  {/* Bouncing Shadow */}
-                  <m.div 
-                    animate={{ scale: [1, 0.5, 1], opacity: [0.6, 0.2, 0.6] }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 2.6, 
-                      ease: "easeInOut" 
-                    }}
-                    className="w-10 h-1.5 rounded-full bg-black/40 blur-[3px]"
-                  />
-                </div>
+                {/* Decorative static accent */}
+                <div className="absolute -top-6 -left-6 w-20 h-20 pointer-events-none z-0 rounded-full border border-dashed border-emerald-400/20 bg-emerald-500/5 blur-[2px]" />
 
                 <div className="relative z-10 space-y-6 flex flex-col justify-between h-full w-full">
                   <div className="space-y-4">
@@ -725,10 +626,6 @@ export default function AboutClient() {
                       <h3 className="text-3xl font-extrabold font-lexend text-white">
                         Abhishek Kumar
                       </h3>
-                      {/* Ex-Employee Badge */}
-                      <span className="text-[10px] sm:text-xs font-bold text-emerald-300 bg-emerald-950/60 border border-emerald-800/50 rounded-full px-3 py-1 shadow-sm block">
-                        EX- Employee
-                      </span>
                     </div>
                     <p className="text-emerald-100/90 text-sm sm:text-base leading-relaxed">
                       Abhishek Kumar brings dedicated leadership and operational excellence to Global Webify. As Center Head, he oversees day-to-day operations, team management, and client delivery, ensuring smooth functioning across all verticals. With a strong focus on efficiency, collaboration, and service quality, Abhishek plays a key role in aligning business objectives with execution, leveraging his deep expertise from tenure at leading firms such as Accenture, Cognizant, and Wipro.
