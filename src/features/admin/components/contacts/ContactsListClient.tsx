@@ -1,12 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { 
-  Search, Trash2, Calendar, Phone, Mail, User, 
-  MessageSquare, X, ShieldAlert, AlertCircle, Copy, Check
-} from 'lucide-react';
+import { Mail, Phone, Calendar, Trash2, Search, Filter, MessageSquare, X, Copy, Check, AlertCircle } from 'lucide-react';
 
-interface Submission {
+interface ContactSubmission {
   id: number;
   name: string;
   email: string;
@@ -17,40 +14,41 @@ interface Submission {
 }
 
 interface ContactsListClientProps {
-  initialSubmissions: Submission[];
+  initialSubmissions: ContactSubmission[];
 }
 
 export default function ContactsListClient({ initialSubmissions }: ContactsListClientProps) {
-  const [submissions, setSubmissions] = useState<Submission[]>(initialSubmissions);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const [searchTerm, setSearchTerm] = useState('');
-  const [serviceFilter, setServiceFilter] = useState('all');
-  const [selectedSub, setSelectedSub] = useState<Submission | null>(null);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [submissions, setSubmissions] = useState<ContactSubmission[]>(initialSubmissions);
+  const [selectedSub, setSelectedSub] = useState<ContactSubmission | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
   const [deleteAllConfirmOpen, setDeleteAllConfirmOpen] = useState(false);
-  const [confirmText, setConfirmText] = useState('');
-  const [confirmError, setConfirmError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [serviceFilter, setServiceFilter] = useState('all');
+  const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  // Notification state
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const triggerToast = (msg: string) => {
     setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3000);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3000);
   };
 
-  const executeDelete = async (id: number) => {
+  const handleDelete = async (id: number) => {
     try {
       const response = await fetch(`/api/contact?id=${id}`, {
         method: 'DELETE',
       });
       const data = await response.json();
       if (data.success) {
-        setSubmissions(submissions.filter(sub => sub.id !== id));
+        setSubmissions(submissions.filter((sub) => sub.id !== id));
+        if (selectedSub?.id === id) setSelectedSub(null);
+        setDeleteConfirmId(null);
         triggerToast('Submission deleted successfully');
-        if (selectedSub?.id === id) {
-          setSelectedSub(null);
-        }
       } else {
         triggerToast(data.error || 'Failed to delete submission');
       }
@@ -60,7 +58,7 @@ export default function ContactsListClient({ initialSubmissions }: ContactsListC
     }
   };
 
-  const executeDeleteAll = async () => {
+  const handleDeleteAll = async () => {
     try {
       const response = await fetch('/api/contact?id=all', {
         method: 'DELETE',
@@ -69,6 +67,7 @@ export default function ContactsListClient({ initialSubmissions }: ContactsListC
       if (data.success) {
         setSubmissions([]);
         setSelectedSub(null);
+        setDeleteAllConfirmOpen(false);
         triggerToast('All submissions deleted successfully');
       } else {
         triggerToast(data.error || 'Failed to delete all submissions');
@@ -85,12 +84,50 @@ export default function ContactsListClient({ initialSubmissions }: ContactsListC
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const getDisplayService = (service: string | null | undefined) => {
-    if (!service) return 'General';
-    if (service.startsWith('http')) {
-      try { return new URL(service).pathname; } catch (e) { return service; }
+  const getFormSource = (service?: string | null) => {
+    if (!service || service.trim() === '') return '/contact';
+    let str = service.trim();
+    if (str.startsWith('http')) {
+      try {
+        const p = new URL(str).pathname;
+        str = p === '/' ? 'Contact Us Modal' : p;
+      } catch (e) {}
     }
-    return service;
+    if (str.includes('Contact Us Modal')) return 'Contact Us Modal';
+    if (str.includes(':::')) {
+      const parts = str.split(':::');
+      let src = parts[0].trim();
+      if (src.startsWith('http')) {
+        try { src = new URL(src).pathname; } catch (e) {}
+      }
+      if (src.includes('Contact Us Modal')) return 'Contact Us Modal';
+      return src === '/' ? 'Contact Us Modal' : src;
+    }
+    if (str === '/') return 'Contact Us Modal';
+    if (str === 'Booking') return '/booking';
+    if (str === 'seo' || str === 'web-dev' || str === 'marketing' || str.toLowerCase() === 'other') return '/contact';
+    return str;
+  };
+
+  const getSelectedService = (service?: string | null) => {
+    if (!service || service.trim() === '') return 'None / General Inquiry';
+    const str = service.trim();
+    if (str.includes(':::')) {
+      const parts = str.split(':::');
+      const svc = parts[1]?.trim();
+      if (!svc || svc === '' || svc === 'General Inquiry') return 'None / General Inquiry';
+      if (svc === 'web-dev') return 'Web Development';
+      if (svc === 'seo') return 'SEO Services';
+      if (svc === 'marketing') return 'Digital Marketing';
+      if (svc.toLowerCase() === 'other') return 'Other Services';
+      return svc;
+    }
+    if (str === 'seo') return 'SEO Services';
+    if (str === 'web-dev' || str === 'web') return 'Web Development';
+    if (str === 'marketing') return 'Digital Marketing';
+    if (str === 'Booking') return 'Consultation Booking';
+    if (str.toLowerCase() === 'other') return 'Other Services';
+    return 'None / General Inquiry';
   };
 
   // Filter logic
@@ -216,6 +253,7 @@ export default function ContactsListClient({ initialSubmissions }: ContactsListC
             <thead>
               <tr className="bg-gray-50/50 border-b border-gray-100 text-[10px] font-black text-gray-400 uppercase tracking-wider">
                 <th className="py-4 px-6">Sender Details</th>
+                <th className="py-4 px-6">Form Source (Page)</th>
                 <th className="py-4 px-6">Requested Service</th>
                 <th className="py-4 px-6">Submitted Date</th>
                 <th className="py-4 px-6 text-right">Actions</th>
@@ -224,7 +262,7 @@ export default function ContactsListClient({ initialSubmissions }: ContactsListC
             <tbody className="divide-y divide-gray-50">
               {filteredSubmissions.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="py-12 text-center text-gray-400 text-xs font-semibold">
+                  <td colSpan={5} className="py-12 text-center text-gray-400 text-xs font-semibold">
                     <div className="flex flex-col items-center gap-2">
                       <AlertCircle size={24} className="text-gray-300" />
                       <span>No contact submissions found.</span>
@@ -234,12 +272,14 @@ export default function ContactsListClient({ initialSubmissions }: ContactsListC
               ) : (
                 paginatedSubmissions.map((sub) => {
                   const isNew = new Date().getTime() - new Date(sub.createdAt).getTime() < 24 * 60 * 60 * 1000;
-                  const displayService = getDisplayService(sub.service);
-                  const serviceLower = displayService.toLowerCase();
-                  let badgeStyle = 'bg-gray-50 text-gray-600 border-gray-200';
+                  const formSource = getFormSource(sub.service);
+                  const selectedSvc = getSelectedService(sub.service);
+                  const serviceLower = selectedSvc.toLowerCase();
+                  let badgeStyle = 'bg-gray-50 text-gray-700 border-gray-200';
                   if (serviceLower.includes('web')) badgeStyle = 'bg-purple-50 text-purple-700 border-purple-100';
                   else if (serviceLower.includes('market')) badgeStyle = 'bg-emerald-50 text-emerald-700 border-emerald-100';
                   else if (serviceLower.includes('seo')) badgeStyle = 'bg-blue-50 text-blue-700 border-blue-100';
+                  else if (serviceLower.includes('booking')) badgeStyle = 'bg-indigo-50 text-indigo-700 border-indigo-200 font-bold';
 
                   return (
                     <tr key={sub.id} className="hover:bg-gray-50/60 transition-colors">
@@ -264,9 +304,14 @@ export default function ContactsListClient({ initialSubmissions }: ContactsListC
                           </div>
                         </div>
                       </td>
+                      <td className="py-4 px-6 whitespace-nowrap text-xs font-bold text-gray-700">
+                        <span className="px-2 py-1 bg-amber-50/80 text-amber-900 rounded-lg border border-amber-200/60 text-[11px]">
+                          {formSource}
+                        </span>
+                      </td>
                       <td className="py-4 px-6 whitespace-nowrap">
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full tracking-wider border lowercase ${badgeStyle}`}>
-                          {displayService}
+                        <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wider border ${badgeStyle}`}>
+                          {selectedSvc}
                         </span>
                       </td>
                       <td className="py-4 px-6 whitespace-nowrap text-xs text-gray-500 font-semibold">
@@ -366,20 +411,31 @@ export default function ContactsListClient({ initialSubmissions }: ContactsListC
             </div>
             <div className="p-6 space-y-6">
               <div className="bg-gray-50/50 p-4 rounded-2xl border border-gray-100 flex flex-col gap-3">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <span className="text-[9px] font-black text-gray-400 uppercase tracking-wider block">Sender Name</span>
-                    <span className="text-sm font-black text-gray-900">{selectedSub.name}</span>
+                <div className="flex flex-col gap-2">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <span className="text-[9px] font-black text-gray-400 uppercase tracking-wider block">Sender Name</span>
+                      <span className="text-sm font-black text-gray-900">{selectedSub.name}</span>
+                    </div>
+                    <div className="flex flex-col items-end gap-1">
+                      <span className="text-[9px] font-black text-gray-400 uppercase tracking-wider">Requested Service</span>
+                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${
+                        getSelectedService(selectedSub.service).toLowerCase().includes('web') 
+                          ? 'bg-purple-50 text-purple-700 border-purple-100'
+                          : getSelectedService(selectedSub.service).toLowerCase().includes('market')
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
+                          : 'bg-blue-50 text-blue-700 border-blue-100'
+                      }`}>
+                        {getSelectedService(selectedSub.service)}
+                      </span>
+                    </div>
                   </div>
-                  <span className={`text-[9px] font-black px-2 py-0.5 rounded-full tracking-wider border lowercase ${
-                    getDisplayService(selectedSub.service).toLowerCase().includes('web') 
-                      ? 'bg-purple-50 text-purple-700 border-purple-100'
-                      : getDisplayService(selectedSub.service).toLowerCase().includes('market')
-                      ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
-                      : 'bg-blue-50 text-blue-700 border-blue-100'
-                  }`}>
-                    {getDisplayService(selectedSub.service)}
-                  </span>
+                  <div className="pt-2 border-t border-gray-100/80 flex justify-between items-center">
+                    <span className="text-[9px] font-black text-gray-400 uppercase tracking-wider">Form Source Page</span>
+                    <span className="text-xs font-bold text-amber-900 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200/60">
+                      {getFormSource(selectedSub.service)}
+                    </span>
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-100/80">
                   <div>
@@ -415,86 +471,83 @@ export default function ContactsListClient({ initialSubmissions }: ContactsListC
             <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-between gap-2.5">
               <button
                 onClick={() => setDeleteConfirmId(selectedSub.id)}
-                className="px-4 py-2 text-xs font-bold text-red-600 hover:bg-red-50 rounded-xl transition-all"
+                className="px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
               >
-                Delete Message
+                <Trash2 size={14} />
+                <span>Delete Lead</span>
               </button>
-              <div className="flex gap-2">
-                <a
-                  href={`mailto:${selectedSub.email}?subject=Regarding your request for ${selectedSub.service || 'GlobalWebify services'}`}
-                  className="px-4 py-2 bg-[#1a8b4c] hover:bg-[#157a41] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-green-900/10"
-                >
-                  Reply via Email
-                </a>
+              <div className="flex items-center gap-2">
                 <button
                   onClick={() => setSelectedSub(null)}
-                  className="px-4 py-2 bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 rounded-xl text-xs font-bold transition-all"
+                  className="px-4 py-2 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl text-xs font-bold transition-colors"
                 >
                   Close
                 </button>
+                <a
+                  href={`mailto:${selectedSub.email}?subject=Regarding your request for ${selectedSub.service || 'GlobalWebify services'}`}
+                  className="px-5 py-2 bg-[#1a8b4c] hover:bg-[#15703d] text-white rounded-xl text-xs font-bold transition-all shadow-md flex items-center gap-1.5"
+                >
+                  <Mail size={14} />
+                  <span>Reply via Email</span>
+                </a>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Custom Confirmation Modal for Single Delete */}
+      {/* Delete Single Submission Confirmation Modal */}
       {deleteConfirmId !== null && (
-        <div className="fixed inset-0 z-[10000] bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl w-full max-w-sm shadow-2xl p-6 border border-gray-150 animate-in zoom-in-95 duration-200 text-center">
-            <div className="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4">
-              <Trash2 size={20} />
+        <div className="fixed inset-0 z-[99999] bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-gray-100 text-center animate-in zoom-in-95 duration-200 space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mx-auto">
+              <Trash2 size={24} />
             </div>
-            <h3 className="text-sm font-black text-gray-900 uppercase tracking-wider mb-2">Delete Submission</h3>
-            <p className="text-xs text-gray-500 font-semibold mb-6">Are you sure you want to delete this contact submission?</p>
-            <div className="flex gap-3 justify-center">
-              <button
-                onClick={() => {
-                  const id = deleteConfirmId;
-                  setDeleteConfirmId(null);
-                  executeDelete(id);
-                }}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-red-900/10"
-              >
-                Yes, Delete
-              </button>
+            <div>
+              <h3 className="text-base font-black text-gray-900">Delete Lead?</h3>
+              <p className="text-xs text-gray-500 mt-1">This action cannot be undone. Are you sure you want to delete this submission?</p>
+            </div>
+            <div className="flex items-center justify-center gap-3 pt-2">
               <button
                 onClick={() => setDeleteConfirmId(null)}
-                className="px-4 py-2 bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 rounded-xl text-xs font-bold transition-all"
+                className="flex-1 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl text-xs font-bold border border-gray-200 transition-colors"
               >
                 Cancel
+              </button>
+              <button
+                onClick={() => handleDelete(deleteConfirmId)}
+                className="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition-all shadow-md"
+              >
+                Delete
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Custom Confirmation Modal for Delete All */}
+      {/* Delete ALL Confirmation Modal */}
       {deleteAllConfirmOpen && (
-        <div className="fixed inset-0 z-[10000] bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl w-full max-w-sm shadow-2xl p-6 border border-gray-150 animate-in zoom-in-95 duration-200 text-center">
-            <div className="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4">
-              <ShieldAlert size={20} />
+        <div className="fixed inset-0 z-[99999] bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-gray-100 text-center animate-in zoom-in-95 duration-200 space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mx-auto">
+              <AlertCircle size={24} />
             </div>
-            <h3 className="text-sm font-black text-gray-900 uppercase tracking-wider mb-2 text-red-600">Delete All Submissions</h3>
-            <p className="text-xs text-gray-500 font-semibold mb-6 leading-relaxed">
-              WARNING: This will permanently delete ALL contact submissions. This action is irreversible. Are you sure you want to proceed?
-            </p>
-            <div className="flex gap-3 justify-center">
-              <button
-                onClick={() => {
-                  setDeleteAllConfirmOpen(false);
-                  executeDeleteAll();
-                }}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-red-900/10"
-              >
-                Yes, Delete All
-              </button>
+            <div>
+              <h3 className="text-base font-black text-gray-900">Delete ALL Leads?</h3>
+              <p className="text-xs text-gray-500 mt-1">Are you absolutely sure you want to permanently delete ALL contact submissions?</p>
+            </div>
+            <div className="flex items-center justify-center gap-3 pt-2">
               <button
                 onClick={() => setDeleteAllConfirmOpen(false)}
-                className="px-4 py-2 bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 rounded-xl text-xs font-bold transition-all"
+                className="flex-1 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl text-xs font-bold border border-gray-200 transition-colors"
               >
                 Cancel
+              </button>
+              <button
+                onClick={handleDeleteAll}
+                className="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition-all shadow-md"
+              >
+                Delete All
               </button>
             </div>
           </div>

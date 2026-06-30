@@ -21,8 +21,8 @@ interface TeamMember {
   image: string;
   bio: string;
   education: string;
-  experience: string;
   isExEmployee: boolean;
+  order?: number;
   socials: {
     facebook: string;
     instagram: string;
@@ -34,7 +34,7 @@ interface TeamMember {
 // Helper to resolve real social links, falling back to homepage if placeholder or empty
 const getSocialLink = (url: string) => {
   if (!url) return "/";
-  const clean = url.trim().toLowerCase().replace(/\/$/, ""); // Remove trailing slash
+  let clean = url.trim();
   
   const placeholders = [
     "https://globalwebify.com",
@@ -49,10 +49,16 @@ const getSocialLink = (url: string) => {
     "https://instagram.com"
   ];
   
-  if (placeholders.includes(clean)) {
+  if (placeholders.includes(clean.toLowerCase().replace(/\/$/, ""))) {
     return "/";
   }
-  return url;
+
+  // Ensure absolute URL so browser doesn't navigate to local 404 page
+  if (!clean.startsWith("http://") && !clean.startsWith("https://") && !clean.startsWith("/")) {
+    clean = "https://" + clean;
+  }
+
+  return clean;
 };
 
 export default function TeamClient() {
@@ -79,8 +85,11 @@ export default function TeamClient() {
     };
   }, [selectedMember]);
 
-  // Group members (Current first, Ex-Employees second)
+  // Sort members primarily by custom order sequence if defined
   const sortedMembers = [...(teamData as TeamMember[])].sort((a, b) => {
+    if (typeof a.order === 'number' && typeof b.order === 'number' && a.order !== b.order) {
+      return a.order - b.order;
+    }
     if (a.isExEmployee && !b.isExEmployee) return 1;
     if (!a.isExEmployee && b.isExEmployee) return -1;
     return a.id - b.id;

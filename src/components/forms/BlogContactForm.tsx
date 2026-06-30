@@ -163,7 +163,11 @@ const isValidEmail = (email: string): boolean => {
   return true;
 };
 
-export default function BlogContactForm() {
+interface BlogContactFormProps {
+  sourcePrefix?: string;
+}
+
+export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps = {}) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -182,7 +186,11 @@ export default function BlogContactForm() {
   useEffect(() => {
     // Capture the exact page URL when the component mounts
     if (typeof window !== 'undefined') {
-      setFormData(prev => ({ ...prev, pageSource: window.location.href }));
+      const path = window.location.pathname;
+      const formattedSource = sourcePrefix
+        ? `${sourcePrefix}:::General Inquiry`
+        : `${path === '/' ? '/ [Homepage]' : path}:::General Inquiry`;
+      setFormData(prev => ({ ...prev, pageSource: formattedSource }));
       
       // Automatically detect user's country code based on IP
       fetch('https://ipapi.co/json/')

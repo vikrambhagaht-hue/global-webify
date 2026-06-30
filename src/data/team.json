@@ -8,6 +8,7 @@
     "education": "MBA in Marketing - XISS",
     "experience": "18+ years of experience with leading brands in Marketing Strategy and Management",
     "isExEmployee": false,
+    "order": 1,
     "socials": {
       "facebook": "https://globalwebify.com/",
       "instagram": "https://globalwebify.com/",
@@ -29,7 +30,8 @@
       "instagram": "https://www.instagram.com/shaktitechie?igsh=aXh2dDNpYmNlcnVs",
       "linkedin": "https://www.linkedin.com/in/shakti-singh-b62787a8/",
       "twitter": "https://x.com/quotationstudi"
-    }
+    },
+    "order": 2
   },
   {
     "id": 18,
@@ -40,6 +42,24 @@
     "education": "M-TECH in CS",
     "experience": "15+ years of experienee in IT sector in Web Development, ERP, AI and many more.",
     "isExEmployee": false,
+    "socials": {
+      "facebook": "https://globalwebify.com/",
+      "instagram": "https://globalwebify.com/",
+      "linkedin": "https://globalwebify.com/",
+      "twitter": "https://globalwebify.com/"
+    },
+    "order": 2
+  },
+  {
+    "id": 16,
+    "name": "Aditya Singh",
+    "role": "Team Leader",
+    "image": "/assets/images/team/68ba8d8392fc2_2-2.avif",
+    "bio": "Aditya is a passionate tech innovator who leads with creativity and precision. He specializes in developing high-performing web solutions, optimizing user experiences, and mentoring teams to deliver cutting-edge digital products with excellence.",
+    "education": "BACHELOR OF ENGINEERING (INFORMATION TECHNOLOGY)",
+    "experience": "7+ Years Exp in Web Development",
+    "isExEmployee": true,
+    "order": 3,
     "socials": {
       "facebook": "https://globalwebify.com/",
       "instagram": "https://globalwebify.com/",
@@ -61,55 +81,8 @@
       "instagram": "https://www.instagram.com/ritesh.satyam.3/profilecard/?igsh=ZHY1ZTFrbGFhdDNk",
       "linkedin": "https://www.linkedin.com/in/ritesh-c-satyam-41a6a824?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
       "twitter": "https://globalwebify.com/"
-    }
-  },
-  {
-    "id": 15,
-    "name": "Jyoti Shree",
-    "role": "HR",
-    "image": "/assets/images/team/68a459d35cc6f_jyoti.jpeg",
-    "bio": "Jyoti is a people-focused professional with a strong foundation in human resource management. She excels in talent development, employee engagement, and fostering a positive work culture that drives organizational growth.",
-    "education": "MBA – RU",
-    "experience": "5+ Years in human resource management",
-    "isExEmployee": false,
-    "socials": {
-      "facebook": "https://www.facebook.com/share/1D2HhNjWXE/",
-      "instagram": "https://www.instagram.com/jyo46210?igsh=MTdxd243cmkyN2lsdA==",
-      "linkedin": "https://www.linkedin.com/in/jyoti-shree-020a78152?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-      "twitter": "https://x.com/JyotiShree68594?t=GOyRkFFYfGS38JmeKJgtcw&s=09"
-    }
-  },
-  {
-    "id": 16,
-    "name": "Aditya Singh",
-    "role": "Team Leader",
-    "image": "/assets/images/team/68ba8d8392fc2_2-2.avif",
-    "bio": "Aditya is a passionate tech innovator who leads with creativity and precision. He specializes in developing high-performing web solutions, optimizing user experiences, and mentoring teams to deliver cutting-edge digital products with excellence.",
-    "education": "BACHELOR OF ENGINEERING (INFORMATION TECHNOLOGY)",
-    "experience": "7+ Years Exp in Web Development",
-    "isExEmployee": false,
-    "socials": {
-      "facebook": "https://globalwebify.com/",
-      "instagram": "https://globalwebify.com/",
-      "linkedin": "https://globalwebify.com/",
-      "twitter": "https://globalwebify.com/"
-    }
-  },
-  {
-    "id": 22,
-    "name": "Kundan Mehta",
-    "role": "Senior Developer",
-    "image": "/assets/images/team/68a45905dbbec_9.webp",
-    "bio": "Kundan specializes in crafting robust architectures and delivering reliable digital products. He loves mentoring junior developers, promoting best practices, and ensuring every project at Global Webify is built with precision and quality.",
-    "education": "MCA",
-    "experience": "2+ years in Web Development and Product Development",
-    "isExEmployee": false,
-    "socials": {
-      "facebook": "https://www.facebook.com/rkmehta26/",
-      "instagram": "https://www.instagram.com/_rkmehta?igsh=NzFsMjd1YWE4Z3I2",
-      "linkedin": "https://www.linkedin.com/in/rkmehta26",
-      "twitter": "https://x.com/kundan8485"
-    }
+    },
+    "order": 4
   },
   {
     "id": 8,
@@ -125,71 +98,42 @@
       "instagram": "https://globalwebify.com/",
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://globalwebify.com/"
-    }
+    },
+    "order": 5
   },
   {
-    "id": 35,
-    "name": "Sapna",
-    "role": "Front Desk Manager",
-    "image": "/assets/images/team/68c117e80eb12_sapna.png",
-    "bio": "Sapna is the calm, welcoming face clients meet first. She ensures every interaction is smooth, organized, and handled with genuine care—setting the tone for a positive experience from the moment someone walks in.",
-    "education": "B. Com.",
-    "experience": "2+ Years experience in Management",
+    "id": 15,
+    "name": "Jyoti Shree",
+    "role": "HR",
+    "image": "/assets/images/team/68a459d35cc6f_jyoti.jpeg",
+    "bio": "Jyoti is a people-focused professional with a strong foundation in human resource management. She excels in talent development, employee engagement, and fostering a positive work culture that drives organizational growth.",
+    "education": "MBA – RU",
+    "experience": "5+ Years in human resource management",
     "isExEmployee": false,
     "socials": {
-      "facebook": "https://www.facebook.com/globaldigitalranchi/",
-      "instagram": "https://www.instagram.com/sapnaa642?utm_source=qr&igsh=MXUwbmZyOXllYmRobg==",
-      "linkedin": "https://www.linkedin.com/feed/",
-      "twitter": "https://globalwebify.com/"
-    }
+      "facebook": "https://www.facebook.com/share/1D2HhNjWXE/",
+      "instagram": "https://www.instagram.com/jyo46210?igsh=MTdxd243cmkyN2lsdA==",
+      "linkedin": "https://www.linkedin.com/in/jyoti-shree-020a78152?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+      "twitter": "https://x.com/JyotiShree68594?t=GOyRkFFYfGS38JmeKJgtcw&s=09"
+    },
+    "order": 6
   },
   {
-    "id": 28,
-    "name": "Vikash Mahto",
-    "role": "Web Developer",
-    "image": "/assets/images/team/68a46db99e694_IMG_20250623_121715_722.webp",
-    "bio": "Vikash combines solid coding expertise with a clear grasp of today’s web technologies. He turns concepts into smooth, high-performance digital experiences crafted with clarity, structure, and meticulous execution.",
-    "education": "BCA",
-    "experience": "1 year experience as Web Developer",
+    "id": 22,
+    "name": "Kundan Mehta",
+    "role": "Senior Developer",
+    "image": "/assets/images/team/68a45905dbbec_9.webp",
+    "bio": "Kundan specializes in crafting robust architectures and delivering reliable digital products. He loves mentoring junior developers, promoting best practices, and ensuring every project at Global Webify is built with precision and quality.",
+    "education": "MCA",
+    "experience": "2+ years in Web Development and Product Development",
     "isExEmployee": false,
     "socials": {
-      "facebook": "https://www.facebook.com/share/1JKnA3tKzu/",
-      "instagram": "https://www.instagram.com/_.mr_jack?igsh=dWl6YW5vNzZtYzhv",
-      "linkedin": "https://www.linkedin.com/in/vikash-mahto-a51b08379?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-      "twitter": "https://x.com/mantuxy45?t=GXgYppAGayrSgzCzKfpDOg&s=09"
-    }
-  },
-  {
-    "id": 44,
-    "name": "Master Manish",
-    "role": "Data Analyst Intern",
-    "image": "/assets/images/team/WhatsApp Image 2025-11-11 at 17.25.30_51344c16.jpg",
-    "bio": "Manish turns raw data into simple, meaningful insights. With a curiosity for patterns and a passion for problem-solving, he helps uncover trends that guide smarter decisions.",
-    "education": "Bachlors of computer application",
-    "experience": "6 months",
-    "isExEmployee": false,
-    "socials": {
-      "facebook": "https://globalwebify.com/",
-      "instagram": "https://globalwebify.com/",
-      "linkedin": "https://globalwebify.com/",
-      "twitter": "https://globalwebify.com/"
-    }
-  },
-  {
-    "id": 12,
-    "name": "Dibyanshu Jha",
-    "role": "Social Media Manager",
-    "image": "/assets/images/team/dd.png",
-    "bio": "Dibyanshu Jha is a results-driven Social Media Manager with over 9 years of experience in building impactful digital strategies. With a strong foundation in Computer Science, he excels at crafting engaging content, driving audience growth, and leveraging data insights to maximize brand visibility and performance across platforms.",
-    "education": "Bachelor's of Technology (Computer Science)",
-    "experience": "9+ years",
-    "isExEmployee": false,
-    "socials": {
-      "facebook": "https://globalwebify.com/",
-      "instagram": "https://globalwebify.com/",
-      "linkedin": "https://globalwebify.com/",
-      "twitter": "https://globalwebify.com/"
-    }
+      "facebook": "https://www.facebook.com/rkmehta26/",
+      "instagram": "https://www.instagram.com/_rkmehta?igsh=NzFsMjd1YWE4Z3I2",
+      "linkedin": "https://www.linkedin.com/in/rkmehta26",
+      "twitter": "https://x.com/kundan8485"
+    },
+    "order": 7
   },
   {
     "id": 13,
@@ -205,7 +149,76 @@
       "instagram": "https://globalwebify.com/",
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://globalwebify.com/"
-    }
+    },
+    "order": 8
+  },
+  {
+    "id": 35,
+    "name": "Sapna",
+    "role": "Front Desk Manager",
+    "image": "/assets/images/team/68c117e80eb12_sapna.png",
+    "bio": "Sapna is the calm, welcoming face clients meet first. She ensures every interaction is smooth, organized, and handled with genuine care—setting the tone for a positive experience from the moment someone walks in.",
+    "education": "B. Com.",
+    "experience": "2+ Years experience in Management",
+    "isExEmployee": false,
+    "socials": {
+      "facebook": "https://www.facebook.com/globaldigitalranchi/",
+      "instagram": "https://www.instagram.com/sapnaa642?utm_source=qr&igsh=MXUwbmZyOXllYmRobg==",
+      "linkedin": "https://www.linkedin.com/feed/",
+      "twitter": "https://globalwebify.com/"
+    },
+    "order": 9
+  },
+  {
+    "id": 28,
+    "name": "Vikash Mahto",
+    "role": "Web Developer",
+    "image": "/assets/images/team/68a46db99e694_IMG_20250623_121715_722.webp",
+    "bio": "Vikash combines solid coding expertise with a clear grasp of today’s web technologies. He turns concepts into smooth, high-performance digital experiences crafted with clarity, structure, and meticulous execution.",
+    "education": "BCA",
+    "experience": "1 year experience as Web Developer",
+    "isExEmployee": false,
+    "socials": {
+      "facebook": "https://www.facebook.com/share/1JKnA3tKzu/",
+      "instagram": "https://www.instagram.com/_.mr_jack?igsh=dWl6YW5vNzZtYzhv",
+      "linkedin": "https://www.linkedin.com/in/vikash-mahto-a51b08379?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+      "twitter": "https://x.com/mantuxy45?t=GXgYppAGayrSgzCzKfpDOg&s=09"
+    },
+    "order": 10
+  },
+  {
+    "id": 44,
+    "name": "Master Manish",
+    "role": "Data Analyst Intern",
+    "image": "/assets/images/team/WhatsApp Image 2025-11-11 at 17.25.30_51344c16.jpg",
+    "bio": "Manish turns raw data into simple, meaningful insights. With a curiosity for patterns and a passion for problem-solving, he helps uncover trends that guide smarter decisions.",
+    "education": "Bachlors of computer application",
+    "experience": "6 months",
+    "isExEmployee": false,
+    "socials": {
+      "facebook": "https://globalwebify.com/",
+      "instagram": "https://globalwebify.com/",
+      "linkedin": "https://globalwebify.com/",
+      "twitter": "https://globalwebify.com/"
+    },
+    "order": 11
+  },
+  {
+    "id": 12,
+    "name": "Dibyanshu Jha",
+    "role": "Social Media Manager",
+    "image": "/assets/images/team/dd.png",
+    "bio": "Dibyanshu Jha is a results-driven Social Media Manager with over 9 years of experience in building impactful digital strategies. With a strong foundation in Computer Science, he excels at crafting engaging content, driving audience growth, and leveraging data insights to maximize brand visibility and performance across platforms.",
+    "education": "Bachelor's of Technology (Computer Science)",
+    "experience": "9+ years",
+    "isExEmployee": false,
+    "socials": {
+      "facebook": "https://globalwebify.com/",
+      "instagram": "https://globalwebify.com/",
+      "linkedin": "https://globalwebify.com/",
+      "twitter": "https://globalwebify.com/"
+    },
+    "order": 12
   },
   {
     "id": 50,
@@ -221,7 +234,8 @@
       "instagram": "https://www.instagram.com/ak845721?igsh=b3A3aXZnZnptZnlk",
       "linkedin": "https://www.linkedin.com/in/amrita-kumari-2a1105273",
       "twitter": "https://x.com/"
-    }
+    },
+    "order": 13
   },
   {
     "id": 49,
@@ -237,7 +251,8 @@
       "instagram": "https://www.instagram.com/amar_jeet_1?igsh=MXkxOXRqNGRmamxlbw==",
       "linkedin": "https://www.linkedin.com/in/amarjeet-pandey-20445b272/",
       "twitter": "https://x.com/_AmarJeet_1"
-    }
+    },
+    "order": 14
   },
   {
     "id": 48,
@@ -253,7 +268,8 @@
       "instagram": "https://globalwebify.com/",
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://globalwebify.com/"
-    }
+    },
+    "order": 15
   },
   {
     "id": 17,
@@ -269,7 +285,8 @@
       "instagram": "https://www.instagram.com/prem_raj_mahto/",
       "linkedin": "https://www.linkedin.com/in/prem-raj-mahto-204956250/",
       "twitter": "https://x.com/premraj758?t=egijtUa4cj0Un_LMJ4md8g&s=09"
-    }
+    },
+    "order": 16
   },
   {
     "id": 21,
@@ -285,7 +302,8 @@
       "instagram": "https://www.instagram.com/sweetyshalu2211?igsh=c2hsdmxqM3J1dWV0",
       "linkedin": "https://www.linkedin.com/in/sweety-soni-719112215?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://x.com/SSoni2211?t=JF7pcZv2_rCKaTaTsvgHzA&s=09"
-    }
+    },
+    "order": 17
   },
   {
     "id": 23,
@@ -301,7 +319,8 @@
       "instagram": "https://www.instagram.com/aditisingh9036?igsh=amIycHF4bzRkb3Bx",
       "linkedin": "https://www.linkedin.com/in/aditi-kumari-723528239?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://x.com/singh_adit64566"
-    }
+    },
+    "order": 18
   },
   {
     "id": 26,
@@ -317,7 +336,8 @@
       "instagram": "https://www.instagram.com/kunalbose2772/?igsh=OXo5NGtiZTlpczNh#",
       "linkedin": "https://www.linkedin.com/authwall?trk=gf&trkInfo=AQGOTnZuPpN9ygAAAZjCEeNoXxY5a-xlsQLrp8rggnbTiQYMQglLlysQQSBZssM84F9YSluUSEWZ17nBjcPwpDADH5ZMcYzVTEriQMI5iOWpcN-9aO2a1R7-WDm9MNpFrz_DxL0=&original_referer=https://lavenderblush-chough-753646.hostingersite.co",
       "twitter": "https://x.com/KunalBose2772?t=LEv8D9hCoaCJkeCYSVJYOg&s=08"
-    }
+    },
+    "order": 19
   },
   {
     "id": 30,
@@ -333,7 +353,8 @@
       "instagram": "https://www.instagram.com/itz_jashim_0809?igsh=MW5jN2QzdDF5ODVlZw==",
       "linkedin": "http://www.linkedin.com/in/jashim-khan-630226245",
       "twitter": "https://x.com/MdJashimKh3270?t=q-8jWK66CS_M9U6HWGc-1Q&s=08"
-    }
+    },
+    "order": 20
   },
   {
     "id": 31,
@@ -349,7 +370,8 @@
       "instagram": "https://www.instagram.com/constant_bitrate?igsh=MXUyMTh4NnZxOG10bw==",
       "linkedin": "https://www.linkedin.com/in/kumar-anurag-819946298?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://x.com/madewithasphalt?t=oDs4UP_kNGamPBXN51eDGQ&s=09"
-    }
+    },
+    "order": 21
   },
   {
     "id": 29,
@@ -365,7 +387,8 @@
       "instagram": "https://www.instagram.com/ranchi_unseen?igsh=MWNxYnlxMGZzb3kzaw%3D%3D&utm_source=qr",
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://globalwebify.com/"
-    }
+    },
+    "order": 22
   },
   {
     "id": 33,
@@ -381,7 +404,8 @@
       "instagram": "https://www.instagram.com/kr_pappu_6384?igsh=aDNib3d2dXZ1Mmly",
       "linkedin": "https://www.linkedin.com/in/kumar-pappu-chaudhary-a4b2ab334?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://x.com/ChaudharyK71267?t=sYgHlad3Z_2IiUnbTQUEzQ&s=08"
-    }
+    },
+    "order": 23
   },
   {
     "id": 36,
@@ -397,7 +421,8 @@
       "instagram": "https://www.instagram.com/mrsuryabhushan?igsh=MTVvZDZ0cno2anhuOA==",
       "linkedin": "https://www.linkedin.com/in/surya-bhushan-nagar-705731201?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://globalwebify.com/"
-    }
+    },
+    "order": 24
   },
   {
     "id": 40,
@@ -413,7 +438,8 @@
       "instagram": "https://www.instagram.com/7083niharika/#",
       "linkedin": "https://www.linkedin.com/in/niharika-k-a06a55270/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://x.com/Niharik58195339?t=WFfGrk_A6CuO3soLq6svPw&s=09"
-    }
+    },
+    "order": 25
   },
   {
     "id": 45,
@@ -429,7 +455,8 @@
       "instagram": "https://www.instagram.com/richamishra311?igsh=MW0xeWljbTlmZm50bg==",
       "linkedin": "https://www.linkedin.com/in/richa-mishra-5110052a7/",
       "twitter": "https://globalwebify.com/"
-    }
+    },
+    "order": 26
   },
   {
     "id": 46,
@@ -445,6 +472,7 @@
       "instagram": "https://www.instagram.com/abhinav.shreshtha1",
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://x.com/abhinavthekk"
-    }
+    },
+    "order": 27
   }
 ]

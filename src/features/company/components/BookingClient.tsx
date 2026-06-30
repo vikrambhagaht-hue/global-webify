@@ -236,10 +236,14 @@ export default function BookingClient() {
 
     setSubmitting(true);
     try {
+      const payload = {
+        ...formData,
+        service: `/booking:::${formData.service || 'Consultation Booking'}`
+      };
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
       const data = await response.json();
       if (data.success) {

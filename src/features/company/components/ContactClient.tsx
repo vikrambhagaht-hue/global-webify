@@ -227,10 +227,14 @@ export default function ContactClient() {
 
     setSubmitting(true);
     try {
+      const payload = {
+        ...formData,
+        service: `/contact:::${formData.service || 'General Inquiry'}`
+      };
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
       const data = await response.json();
       if (data.success) {

@@ -194,3 +194,24 @@ model PortfolioItem {
   @@map("portfolioitem")
 }
 
+model TeamMember {
+  id           Int      @id @default(autoincrement())
+  name         String
+  role         String
+  image        String
+  bio          String   @db.Text
+  education    String?
+  experience   String?
+  isExEmployee Boolean  @default(false)
+  order        Int      @default(0)
+  facebook     String?
+  instagram    String?
+  linkedin     String?
+  twitter      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([order, id])
+  @@map("teammember")
+}
+

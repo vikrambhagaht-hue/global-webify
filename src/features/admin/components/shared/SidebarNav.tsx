@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { 
-  LayoutDashboard, Layers, Newspaper, MessageSquare, Home, Briefcase, Handshake, Shuffle, Star, FileText, Image as ImageIcon, LayoutGrid
+  LayoutDashboard, Layers, Newspaper, MessageSquare, Home, Briefcase, Handshake, Shuffle, Star, FileText, Image as ImageIcon, LayoutGrid, Users
 } from 'lucide-react';
 import SidebarCategories from './SidebarCategories';
 
@@ -19,6 +19,7 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
   const isOverview = pathname === '/admin';
   const isServices = pathname.startsWith('/admin/services');
   const isBlogs = pathname.startsWith('/admin/blogs');
+  const isTeam = pathname.startsWith('/admin/team');
   const isCareers = pathname.startsWith('/admin/careers');
   const isContacts = pathname.startsWith('/admin/contacts');
   const isHomepage = (pathname === '/admin/homepage' || pathname.startsWith('/admin/homepage/')) && !pathname.startsWith('/admin/subdomains/homepage');
@@ -353,6 +354,12 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
       <Link href="/admin/blogs" className={linkClass(isBlogs)}>
         <Newspaper className={iconClass(isBlogs)} />
         <span>Manage Blogs</span>
+      </Link>
+
+      {/* Team Button */}
+      <Link href="/admin/team" className={linkClass(isTeam)}>
+        <Users className={iconClass(isTeam)} />
+        <span>Manage Team & Sequence</span>
       </Link>
 
       {/* Submissions Button */}

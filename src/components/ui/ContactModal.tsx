@@ -69,9 +69,8 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               <X size={15} />
             </button>
 
-            {/* Modal Body: Custom container embedding the form */}
             <div className="p-1">
-              <BlogContactForm />
+              <BlogContactForm sourcePrefix="Contact Us Modal" />
             </div>
           </m.div>
         </m.div>

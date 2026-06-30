@@ -85,7 +85,7 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
   };
 
   const getDisplayType = (type: string | null | undefined) => {
-    if (!type) return 'General Partner';
+    if (!type || type.trim() === '') return '/franchisee';
     return type;
   };
 
@@ -238,9 +238,7 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
                               <Briefcase size={10} className="text-gray-400" />
                               {sub.companyName}
                             </span>
-                          ) : (
-                            <span className="text-xs font-semibold text-gray-400">Independent</span>
-                          )}
+                          ) : null}
                           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full tracking-wider border lowercase w-fit ${badgeStyle}`}>
                             {displayType}
                           </span>
