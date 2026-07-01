@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MessageCircle } from 'lucide-react';
 import { ExpandableContent } from '@/components/ui/ExpandableContent';
 import { CardIcon } from '@/components/ui/CardIcon';
 import { FAQSection } from '@/components/sections/FAQSection';
@@ -12,6 +13,8 @@ import { stripHtml } from '@/lib/replaceLocation';
 import { CATEGORY_CONFIG } from '../constants/categories';
 import { INDUSTRIES_LIST } from '../constants/industries';
 import { FAQItem } from '../utils/faq-parser';
+import { useContactInfo } from '@/lib/ContactContext';
+import { getWhatsAppUrl } from '@/lib/whatsapp';
 import {
   WEBSITE_SERVICES,
   HOSTING_SERVICES,
@@ -28,22 +31,10 @@ function getStaticMenuName(slug: string): string | null {
     ...WEBSITE_SERVICES,
     ...HOSTING_SERVICES,
     ...BRANDING_SERVICES,
-    ...CRM_SERVICES
+    ...CRM_SERVICES,
+    ...SEO_SERVICES,
+    ...MARKETING_SERVICES
   ];
-  
-  SEO_SERVICES.forEach(s => {
-    allServices.push({ name: s.name, href: s.href });
-    if (s.subLinks) {
-      s.subLinks.forEach(sub => allServices.push({ name: sub.name, href: sub.href }));
-    }
-  });
-
-  MARKETING_SERVICES.forEach(s => {
-    allServices.push({ name: s.name, href: s.href });
-    if (s.subLinks) {
-      s.subLinks.forEach(sub => allServices.push({ name: sub.name, href: sub.href }));
-    }
-  });
 
   const match = allServices.find(s => s.href.toLowerCase() === cleanSlug.toLowerCase());
   return match ? match.name : null;
@@ -67,7 +58,10 @@ interface ServicePageViewProps {
 }
 
 export function ServicePageView({ page, remainingSubMenus, faqs, locationName = "", cityKey }: ServicePageViewProps) {
+  const contactInfo = useContactInfo();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
   const mobileButtonRef = useRef<HTMLButtonElement>(null);
   const desktopButtonRef = useRef<HTMLButtonElement>(null);
   const ICONS = ['Monitor', 'Smartphone', 'ShoppingCart', 'Layout', 'Palette', 'Settings', 'Code', 'Briefcase'];
@@ -260,6 +254,25 @@ export function ServicePageView({ page, remainingSubMenus, faqs, locationName = 
       </section>
 
       {faqs.length > 0 && <FAQSection faqs={faqs} />}
+
+      {/* Floating WhatsApp Icon rendered via Portal with GPU Hardware Acceleration for zero lag */}
+      {mounted && typeof document !== 'undefined' && createPortal(
+        <a
+          href={getWhatsAppUrl(contactInfo?.whatsapp)}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Chat on WhatsApp - Global Webify"
+          aria-label="Chat on WhatsApp"
+          className="fixed bottom-[78px] md:bottom-8 right-4 md:right-8 z-[999999] bg-[#25D366] hover:bg-[#1DA851] text-white p-3.5 md:px-5 md:py-3.5 rounded-full shadow-lg shadow-[#25D366]/30 flex items-center justify-center gap-2.5 transform-gpu transition-all duration-200 hover:scale-105 active:scale-95 border-2 border-white will-change-transform group"
+        >
+          <MessageCircle className="w-6 h-6 md:w-5 md:h-5 fill-current stroke-none shrink-0 transition-transform group-hover:rotate-12" />
+          <span className="hidden md:inline font-bold text-[14px] tracking-wide whitespace-nowrap">
+            Chat with us
+          </span>
+          <span className="md:hidden sr-only">Chat on WhatsApp</span>
+        </a>,
+        document.body
+      )}
     </div>
   );
 }

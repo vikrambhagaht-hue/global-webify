@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Phone, MessageCircle, Briefcase, X, ArrowRight } from 'lucide-react';
 import { CITIES_MAP } from '@/features/services/constants/cities';
+import { useContactInfo } from '@/lib/ContactContext';
+import { getWhatsAppUrl } from '@/lib/whatsapp';
 
 const projects = [
   {
@@ -41,6 +43,7 @@ const projects = [
 ];
 
 export default function MobileStickyNav() {
+  const contactInfo = useContactInfo();
   const pathname = usePathname();
   const citySlugs = Object.keys(CITIES_MAP);
   const segments = pathname.split('/').filter(Boolean);
@@ -195,14 +198,14 @@ export default function MobileStickyNav() {
         <div className="flex items-stretch h-[64px] w-full relative z-10">
           {[
             { 
-              href: "tel:18008905489", 
+              href: `tel:${contactInfo?.phone2 || contactInfo?.phone || '+917563901100'}`, 
               icon: <Phone size={22} />, 
               label: "Call", 
               type: "a" as const,
               animateState: animateCall,
             },
             { 
-              href: "https://wa.me/917563901100", 
+              href: getWhatsAppUrl(contactInfo?.whatsapp), 
               icon: <MessageCircle size={22} />, 
               label: "WhatsApp", 
               type: "a" as const, 

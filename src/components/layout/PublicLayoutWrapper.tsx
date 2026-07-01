@@ -6,6 +6,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MobileStickyNav from "@/components/layout/MobileStickyNav";
 import { LazyMotion, domAnimation } from 'framer-motion';
+import { ContactProvider, ContactInfo } from '@/lib/ContactContext';
 
 interface PublicLayoutWrapperProps {
   children: React.ReactNode;
@@ -14,6 +15,7 @@ interface PublicLayoutWrapperProps {
     hostingMenuEnabled: boolean;
     brandingMenuEnabled: boolean;
     partnershipPageSlug: string;
+    contactInfo?: ContactInfo;
   };
 }
 
@@ -22,12 +24,14 @@ export default function PublicLayoutWrapper({ children, breadcrumb, initialSetti
   const isAdmin = pathname.startsWith('/admin');
 
   return (
-    <LazyMotion features={domAnimation}>
-      {!isAdmin && <Header initialSettings={initialSettings} />}
-      {!isAdmin && breadcrumb}
-      <main>{children}</main>
-      {!isAdmin && <Footer />}
-      {!isAdmin && <MobileStickyNav />}
-    </LazyMotion>
+    <ContactProvider info={initialSettings?.contactInfo}>
+      <LazyMotion features={domAnimation}>
+        {!isAdmin && <Header initialSettings={initialSettings} />}
+        {!isAdmin && breadcrumb}
+        <main>{children}</main>
+        {!isAdmin && <Footer />}
+        {!isAdmin && <MobileStickyNav />}
+      </LazyMotion>
+    </ContactProvider>
   );
 }

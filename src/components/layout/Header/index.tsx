@@ -18,6 +18,8 @@ import {
 } from '@/constants/navigation';
 import { TopBar } from './TopBar';
 import { MegaMenu } from './MegaMenu';
+import { useContactInfo } from '@/lib/ContactContext';
+import { getWhatsAppUrl } from '@/lib/whatsapp';
 import { CITIES_MAP } from '@/features/services/constants/cities';
 import ContactModal from '@/components/ui/ContactModal';
 
@@ -48,6 +50,7 @@ interface HeaderProps {
 }
 
 export default function Header({ initialSettings }: HeaderProps) {
+  const contactInfo = useContactInfo();
   const pathname = usePathname();
   
   const segments = pathname.split('/').filter(Boolean);
@@ -351,8 +354,8 @@ export default function Header({ initialSettings }: HeaderProps) {
              <div className="mt-auto p-4 bg-gray-50 flex flex-col gap-2 border-t border-gray-100">
                 <div className="grid grid-cols-1 gap-1.5">
                   {[
-                    { num: '1800-890-5489', href: 'tel:18008905489' },
-                    { num: '+91 75639 01100', href: 'https://wa.me/917563901100' },
+                    { num: contactInfo?.phone2 || '1800-890-5489', href: `tel:${contactInfo?.phone2 || '18008905489'}` },
+                    { num: contactInfo?.phone || '+91 75639 01100', href: getWhatsAppUrl(contactInfo?.whatsapp) },
                     { num: '+1 917 590 8135', href: 'tel:19175908135' }
                   ].map((item, i) => (
                     <a 

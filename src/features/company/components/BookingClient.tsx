@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { m, AnimatePresence } from 'framer-motion';
 import { 
   Mail, Phone, MapPin, Send, Facebook, Twitter, 
@@ -8,18 +9,7 @@ import {
   Building2, Handshake, Globe2, CheckCircle2, MessageSquare, ShieldAlert
 } from 'lucide-react';
 import { SOCIAL_LINKS } from '@/constants/navigation';
-
-const MapWidget = React.memo(function MapWidget() {
-  return (
-    <iframe
-      title="Global Webify HQ Map Location"
-      src="https://maps.google.com/maps?q=23.3496601,85.3104862&t=&z=16&ie=UTF8&iwloc=&output=embed"
-      className="w-full h-full border-0 transition-transform duration-700 group-hover:scale-105"
-      allowFullScreen
-      loading="lazy"
-    ></iframe>
-  );
-});
+import { useContactInfo, MemoizedMapWidget, getOpenInMapsUrl } from '@/lib/ContactContext';
 
 const COUNTRIES = [
   { name: "India", code: "+91", iso: "IN", length: 10, placeholder: "98765 43210" },
@@ -182,6 +172,15 @@ const isValidEmail = (email: string): boolean => {
 };
 
 export default function BookingClient() {
+  const contactInfo = useContactInfo();
+  const socialList = [
+    { name: 'Facebook', href: contactInfo?.socials?.facebook || 'https://www.facebook.com/global.webify' },
+    { name: 'Twitter', href: contactInfo?.socials?.twitter || 'https://x.com/globalwebify' },
+    { name: 'Linkedin', href: contactInfo?.socials?.linkedin || 'https://www.linkedin.com/company/global-webify/' },
+    { name: 'Instagram', href: contactInfo?.socials?.instagram || 'https://www.instagram.com/global.webify/' },
+    { name: 'Youtube', href: contactInfo?.socials?.youtube || 'https://www.youtube.com/@globalwebify' }
+  ];
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -519,7 +518,7 @@ export default function BookingClient() {
               <div className="w-full h-[280px] md:h-[350px] relative shrink-0 overflow-hidden group border-b border-slate-700/50">
                 {/* Permanent Open in Map Button (Top Right) */}
                 <a 
-                  href="https://www.google.com/maps/place/Global+Webify/@23.3495578,85.3086946,17.82z/data=!3m1!5s0x39f4e0528e2c8fa7:0xf0b8c1d5d5dbe41a!4m6!3m5!1s0x39f4e195a816671d:0xa9ebf12893abb828!8m2!3d23.3496601!4d85.3104862!16s%2Fg%2F11wbvkw_tm" 
+                  href={getOpenInMapsUrl(contactInfo?.mapQuery)} 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="absolute top-4 right-4 z-30 bg-white/95 backdrop-blur shadow-md hover:shadow-lg text-gray-800 hover:text-[#1a8b4c] text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 hover:scale-105"
@@ -531,7 +530,7 @@ export default function BookingClient() {
 
                 {/* Clickable Overlay for entire map */}
                 <a 
-                  href="https://www.google.com/maps/place/Global+Webify/@23.3495578,85.3086946,17.82z/data=!3m1!5s0x39f4e0528e2c8fa7:0xf0b8c1d5d5dbe41a!4m6!3m5!1s0x39f4e195a816671d:0xa9ebf12893abb828!8m2!3d23.3496601!4d85.3104862!16s%2Fg%2F11wbvkw_tm" 
+                  href={getOpenInMapsUrl(contactInfo?.mapQuery)} 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="absolute inset-0 z-20 flex items-center justify-center bg-black/0 hover:bg-black/10 transition-all duration-300 cursor-pointer"
@@ -539,10 +538,19 @@ export default function BookingClient() {
                 >
                 </a>
 
-                {/* Optional dark edge blending (kept subtle, no grayscale on map) */}
+                {/* Optional dark edge blending */}
                 <div className="absolute inset-0 bg-slate-900/10 pointer-events-none z-10 mix-blend-overlay" />
                 
-                <MapWidget />
+                {contactInfo?.mapScreenshotUrl ? (
+                  <Image 
+                    src={contactInfo.mapScreenshotUrl} 
+                    alt="Global Webify Office Custom Map" 
+                    fill 
+                    className="object-cover transform-gpu transition-transform duration-500 group-hover:scale-105" 
+                  />
+                ) : (
+                  <MemoizedMapWidget mapQuery={contactInfo?.mapQuery} />
+                )}
               </div>
 
               {/* Contact Info Content */}
@@ -557,50 +565,60 @@ export default function BookingClient() {
                     <div className="space-y-4 text-sm font-medium text-gray-300">
                       <div className="flex items-start gap-4">
                         <MapPin size={18} className="text-gray-500 shrink-0 mt-0.5" />
-                        <a href="https://maps.google.com/?q=2nd+Floor,+Alam+Complex,+Ashok+Kunj,+Kadru,+Ranchi,+Jharkhand+834002" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors leading-relaxed">
-                          2nd Floor, Alam Complex, Ashok Kunj,<br/> Kadru, Ranchi, Jharkhand 834002
+                        <a href={getOpenInMapsUrl(contactInfo?.mapQuery)} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors leading-relaxed">
+                          {contactInfo?.address || 'Near Kutchery Chowk, Ranchi, Jharkhand 834001, India'}
                         </a>
                       </div>
                       <div className="flex items-center gap-4">
                         <Phone size={18} className="text-gray-500" />
-                        <a href="tel:+917563901100" className="hover:text-white transition-colors">+91 75639 01100</a>
+                        <a href={`tel:${contactInfo?.phone || '+917563901100'}`} className="hover:text-white transition-colors">{contactInfo?.phone || '+91 75639 01100'}</a>
                       </div>
                       <div className="flex items-center gap-4">
                         <Mail size={18} className="text-gray-500" />
-                        <a href="mailto:help@globalwebify.com" className="hover:text-white transition-colors">help@globalwebify.com</a>
+                        <a href={`mailto:${contactInfo?.email || 'help@globalwebify.com'}`} className="hover:text-white transition-colors">{contactInfo?.email || 'help@globalwebify.com'}</a>
                       </div>
                     </div>
                   </div>
 
                   {/* Other Branches Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 pt-8 border-t border-slate-800">
-                    <div>
-                      <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-3">
-                        US Branch
-                      </h4>
-                      <p className="text-xs font-medium text-gray-400 mb-1 line-clamp-2" title="473 Mundet Place, Ste US, Hillside, New Jersey 07205">
-                        473 Mundet Place, Ste US<br/>Hillside, NJ 07205
-                      </p>
-                      <a href="tel:+19175908135" className="text-xs text-[#1a8b4c] hover:text-green-400 font-bold">+1 9175908135</a>
+                  {(contactInfo?.usOfficeAddress || contactInfo?.dubaiOfficeAddress) && (
+                    <div className={`grid grid-cols-1 gap-6 md:gap-8 pt-8 border-t border-slate-800 ${contactInfo?.usOfficeAddress && contactInfo?.dubaiOfficeAddress ? 'sm:grid-cols-2' : ''}`}>
+                      {contactInfo?.usOfficeAddress && (
+                        <div>
+                          <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-3">
+                            US Branch
+                          </h4>
+                          <p className="text-xs font-medium text-gray-400 mb-1 line-clamp-2 whitespace-pre-line" title={contactInfo.usOfficeAddress}>
+                            {contactInfo.usOfficeAddress}
+                          </p>
+                          {contactInfo.usOfficePhone && (
+                            <a href={`tel:${contactInfo.usOfficePhone.replace(/[\s-]/g, '')}`} className="text-xs text-[#1a8b4c] hover:text-green-400 font-bold">{contactInfo.usOfficePhone}</a>
+                          )}
+                        </div>
+                      )}
+                      
+                      {contactInfo?.dubaiOfficeAddress && (
+                        <div>
+                          <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-3">
+                            Dubai Partner
+                          </h4>
+                          <p className="text-xs font-medium text-gray-400 mb-1 line-clamp-2 whitespace-pre-line" title={contactInfo.dubaiOfficeAddress}>
+                            {contactInfo.dubaiOfficeAddress}
+                          </p>
+                          {contactInfo.dubaiOfficePhone && (
+                            <a href={`tel:${contactInfo.dubaiOfficePhone.replace(/[\s-]/g, '')}`} className="text-xs text-[#1a8b4c] hover:text-green-400 font-bold">{contactInfo.dubaiOfficePhone}</a>
+                          )}
+                        </div>
+                      )}
                     </div>
-                    
-                    <div>
-                      <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-3">
-                        Dubai Partner
-                      </h4>
-                      <p className="text-xs font-medium text-gray-400 mb-1 line-clamp-2" title="Office 18, 2nd Floor, Aspin Commercial Tower">
-                        Office 18, 2nd Floor<br/>Aspin Commercial Tower
-                      </p>
-                      <a href="tel:+971508461253" className="text-xs text-[#1a8b4c] hover:text-green-400 font-bold">+97 150 846 1253</a>
-                    </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Social Links Bottom Bar */}
                 <div className="pt-8 mt-8 border-t border-slate-800 flex justify-between items-center">
                   <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Connect Online</span>
                   <div className="flex gap-2.5">
-                    {SOCIAL_LINKS.map((social, i) => {
+                    {socialList.map((social, i) => {
                       const IconMap: Record<string, any> = { Facebook, Twitter, Linkedin, Instagram, Youtube };
                       const Icon = IconMap[social.name] || Facebook;
                       return (

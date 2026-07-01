@@ -13,6 +13,7 @@ import {
 import { SOCIAL_LINKS } from '@/constants/navigation';
 import { usePathname } from 'next/navigation';
 import { CITIES_MAP } from '@/features/services/constants/cities';
+import { useContactInfo, MemoizedMapWidget, getOpenInMapsUrl } from '@/lib/ContactContext';
 
 const serviceCol1 = [
   { name: "Custom Web Development", href: "/web-development", icon: Code, color: "text-teal-500 bg-teal-50" },
@@ -54,6 +55,23 @@ const contactDetails = [
 ];
 
 export default function Footer() {
+  const contactInfo = useContactInfo();
+
+  const dynamicContactDetails = [
+    { type: "Email", value: contactInfo?.email || "help@globalwebify.com", icon: <Mail size={16} />, color: "bg-blue-50 text-blue-500", href: `mailto:${contactInfo?.email || "help@globalwebify.com"}` },
+    { type: "Main", value: contactInfo?.phone || "+91 7563901100", icon: <Phone size={16} />, color: "bg-pink-50 text-pink-500", href: `tel:${contactInfo?.phone || "+917563901100"}` },
+    { type: "Toll Free", value: contactInfo?.phone2 || "1800-890-5489", icon: <Phone size={16} />, color: "bg-pink-50 text-pink-500", href: `tel:${contactInfo?.phone2 || "1800-890-5489"}` },
+    { type: "US Office", value: contactInfo?.usOfficePhone || "+1 9175908135", icon: <Phone size={16} />, color: "bg-pink-50 text-pink-500", href: `tel:${(contactInfo?.usOfficePhone || "+1 9175908135").replace(/\s+/g, '')}` },
+  ];
+
+  const socialList = [
+    { name: 'Facebook', href: contactInfo?.socials?.facebook || 'https://www.facebook.com/global.webify' },
+    { name: 'Twitter', href: contactInfo?.socials?.twitter || 'https://x.com/globalwebify' },
+    { name: 'Linkedin', href: contactInfo?.socials?.linkedin || 'https://www.linkedin.com/company/global-webify/' },
+    { name: 'Instagram', href: contactInfo?.socials?.instagram || 'https://www.instagram.com/global.webify/' },
+    { name: 'Youtube', href: contactInfo?.socials?.youtube || 'https://www.youtube.com/@globalwebify' }
+  ];
+
   const pathname = usePathname();
   const citySlugs = Object.keys(CITIES_MAP);
   const segments = pathname.split('/').filter(Boolean);
@@ -139,6 +157,33 @@ export default function Footer() {
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-100 rounded-xl shadow-xs">
                   <span className="text-[10px] font-bold text-gray-600">ISO 9001:2015</span>
                 </div>
+              </div>
+
+              {/* Map (Hidden on mobile) */}
+              <div className="hidden md:block w-full h-[180px] rounded-2xl overflow-hidden mt-8 shadow-sm border border-gray-100 relative group">
+                {contactInfo?.mapScreenshotUrl ? (
+                  <img 
+                    src={contactInfo.mapScreenshotUrl} 
+                    alt="Global Webify Office Map" 
+                    className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105" 
+                  />
+                ) : (
+                  <MemoizedMapWidget mapQuery={contactInfo?.mapQuery} />
+                )}
+                
+                {/* Clickable Overlay to open in Google Maps */}
+                <a 
+                  href={getOpenInMapsUrl(contactInfo?.mapQuery)} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="absolute inset-0 z-20 flex items-center justify-center bg-black/0 group-hover:bg-black/10 transition-all duration-300 cursor-pointer"
+                  title="Open in Google Maps"
+                >
+                  <div className="bg-white/95 backdrop-blur shadow-md hover:shadow-lg text-gray-800 hover:text-[#1a8b4c] text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">
+                    <MapPin size={12} className="text-[#1a8b4c]" />
+                    Open in Map
+                  </div>
+                </a>
               </div>
             </div>
           </div>
@@ -232,50 +277,41 @@ export default function Footer() {
             </div>
             
             <div className="space-y-3">
-              {contactDetails.map((contact, i) => {
-                const getHref = () => {
-                  if (contact.type === "Email") return `mailto:${contact.value}`;
-                  if (contact.type === "Main") return `tel:+917563901100`;
-                  if (contact.type === "Toll Free") return `tel:18008905489`;
-                  if (contact.type === "US Office") return `tel:+19175908135`;
-                  return "#";
-                };
-
-                return (
-                  <a 
-                    key={i} 
-                    href={getHref()} 
-                    title={`${contact.type === 'Email' ? 'Email' : 'Call'} ${contact.value} - Global Webify`}
-                    className="flex items-center gap-4 p-3 bg-white border border-gray-50 rounded-2xl shadow-sm hover:border-[#1a8b4c]/30 hover:shadow-md transition-all duration-300 group w-full"
-                  >
-                    <div className={`w-10 h-10 shrink-0 rounded-xl flex items-center justify-center ${contact.color} transition-transform group-hover:scale-110`}>
-                      {contact.icon}
-                    </div>
-                    <div className="text-left">
-                      <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest leading-none mb-1">{contact.type}</p>
-                      <p className="text-[14px] font-bold text-gray-800 group-hover:text-[#1a8b4c] transition-colors">{contact.value}</p>
-                    </div>
-                  </a>
-                );
-              })}
+              {dynamicContactDetails.map((contact, i) => (
+                <a 
+                  key={i} 
+                  href={contact.href} 
+                  title={`${contact.type === 'Email' ? 'Email' : 'Call'} ${contact.value} - Global Webify`}
+                  className="flex items-center gap-4 p-3 bg-white border border-gray-50 rounded-2xl shadow-sm hover:border-[#1a8b4c]/30 hover:shadow-md transition-all duration-300 group w-full"
+                >
+                  <div className={`w-10 h-10 shrink-0 rounded-xl flex items-center justify-center ${contact.color} transition-transform group-hover:scale-110`}>
+                    {contact.icon}
+                  </div>
+                  <div className="text-left">
+                    <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest leading-none mb-1">{contact.type}</p>
+                    <p className="text-[14px] font-bold text-gray-800 group-hover:text-[#1a8b4c] transition-colors">{contact.value}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
 
               <a 
-                href="https://maps.google.com/?q=2nd+Floor,+Alam+Complex,+Ashok+Nagar+Road,+Kadru,+Ranchi,+Jharkhand,+India-834002"
+                href={`https://maps.google.com/?q=${encodeURIComponent(contactInfo?.address || 'Near Kutchery Chowk, Ranchi, Jharkhand 834001, India')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                title="View Ranchi Office on Google Maps - Global Webify"
+                title="View Office on Google Maps - Global Webify"
                 className="flex items-start gap-4 p-4 bg-white border border-gray-50 rounded-2xl shadow-sm hover:border-[#1a8b4c]/30 hover:shadow-md transition-all duration-300 group text-left w-full"
               >
                 <div className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center bg-green-50 text-green-500 mt-1 transition-transform group-hover:scale-110">
                   <MapPin size={18} />
                 </div>
                 <p className="text-[13px] font-bold text-gray-700 leading-relaxed group-hover:text-[#1a8b4c] transition-colors">
-                  2nd Floor, Alam Complex, Ashok Nagar Road, Kadru, Ranchi, Jharkhand, India-834002
+                  {contactInfo?.address || 'Near Kutchery Chowk, Ranchi, Jharkhand 834001, India'}
                 </p>
               </a>
 
               <a 
-                href="https://maps.google.com/?q=36/1E/1L,+Topsia+Road,+Panchannagram,+Kolkata,+Pin+-+700039,+West+Bengal,+India."
+                href={`https://maps.google.com/?q=${encodeURIComponent(contactInfo?.address2 || '36/1E/1L, Topsia Road, Panchannagram, Kolkata, Pin - 700039, West Bengal, India.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 title="View Kolkata Office on Google Maps - Global Webify"
@@ -285,7 +321,7 @@ export default function Footer() {
                   <MapPin size={18} />
                 </div>
                 <p className="text-[13px] font-bold text-gray-700 leading-relaxed group-hover:text-[#1a8b4c] transition-colors">
-                  36/1E/1L, Topsia Road, Panchannagram, Kolkata, Pin - 700039, West Bengal, India.
+                  {contactInfo?.address2 || '36/1E/1L, Topsia Road, Panchannagram, Kolkata, Pin - 700039, West Bengal, India.'}
                 </p>
               </a>
 
@@ -306,7 +342,6 @@ export default function Footer() {
               </Link>
             </div>
           </div>
-        </div>
 
         {/* Bottom Stats Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 mb-8 lg:mb-12">
@@ -326,7 +361,7 @@ export default function Footer() {
           <div className="lg:col-span-3 bg-[#f5f3ff] border border-violet-100 rounded-2xl p-4 text-center flex flex-col items-center justify-center shadow-sm hover:border-[#7c3aed]/40 transition-all">
             <h4 className="text-[12px] font-bold text-[#6d28d9] uppercase tracking-wider mb-3">Follow Us</h4>
             <div className="flex gap-2">
-               {SOCIAL_LINKS.map((social, i) => {
+               {socialList.map((social, i) => {
                  const IconMap: Record<string, any> = {
                    Facebook: Facebook,
                    Twitter: Twitter,

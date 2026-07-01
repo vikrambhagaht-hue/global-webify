@@ -146,6 +146,16 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
           >
             Section Headers
           </Link>
+          <Link 
+            href="/admin/homepage/contact-info" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border ${
+              pathname === '/admin/homepage/contact-info'
+                ? 'text-[#22c55e] bg-[#1a8b4c]/10 border-[#1a8b4c]/30 shadow-md font-bold'
+                : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
+            }`}
+          >
+            Contact & WhatsApp Info
+          </Link>
         </div>
       </details>
 

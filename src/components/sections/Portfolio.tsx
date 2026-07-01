@@ -190,7 +190,7 @@ export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: 
               initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true }}
-              className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-[#1a8b4c] leading-tight mb-6 tracking-tight font-heading"
+              className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-[#064e3b] leading-tight mb-6 tracking-tight font-heading"
               dangerouslySetInnerHTML={{ __html: sectionTitle }}
             />
           ) : (
@@ -198,7 +198,7 @@ export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: 
               initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true }}
-              className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-[#1a8b4c] leading-tight mb-6 tracking-tight font-heading"
+              className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-[#064e3b] leading-tight mb-6 tracking-tight font-heading"
             >
               Our Work Speaks for Itself
             </m.h2>

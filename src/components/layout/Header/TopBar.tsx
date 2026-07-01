@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Phone, Mail, Menu, X } from 'lucide-react';
 import { TOP_BAR_CONTACT, SOCIAL_LINKS } from '@/constants/navigation';
 import { cn } from '@/lib/utils';
+import { useContactInfo } from '@/lib/ContactContext';
 
 interface TopBarProps {
   isOpen: boolean;
@@ -14,6 +15,16 @@ interface TopBarProps {
 }
 
 export const TopBar = ({ isOpen, setIsOpen, onContactClick }: TopBarProps) => {
+  const contactInfo = useContactInfo();
+
+  const socialList = [
+    { name: 'Facebook', href: contactInfo?.socials?.facebook || 'https://www.facebook.com/global.webify', bg: '#1877F2', icon: 'https://cdn.simpleicons.org/facebook/white' },
+    { name: 'Twitter', href: contactInfo?.socials?.twitter || 'https://x.com/globalwebify', bg: '#000000', icon: 'https://cdn.simpleicons.org/x/white' },
+    { name: 'Linkedin', href: contactInfo?.socials?.linkedin || 'https://www.linkedin.com/company/global-webify/', bg: '#0077b5', icon: 'https://img.icons8.com/ios-filled/100/ffffff/linkedin.png' },
+    { name: 'Instagram', href: contactInfo?.socials?.instagram || 'https://www.instagram.com/global.webify/', bg: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', icon: 'https://cdn.simpleicons.org/instagram/white' },
+    { name: 'Youtube', href: contactInfo?.socials?.youtube || 'https://www.youtube.com/@globalwebify', bg: '#FF0000', icon: 'https://cdn.simpleicons.org/youtube/white' }
+  ];
+
   return (
     <div className="px-2 md:px-6 bg-white relative z-[10001] border-b border-gray-100 h-[70px] md:h-[75px] flex items-center transition-all duration-300">
       <div className="max-w-[1800px] mx-auto px-2 md:px-4 flex items-center justify-between h-full w-full">
@@ -52,7 +63,7 @@ export const TopBar = ({ isOpen, setIsOpen, onContactClick }: TopBarProps) => {
 
         {/* MIDDLE: Social Icons (Mobile) */}
         <div className={cn("md:hidden absolute left-1/2 -translate-x-1/2 flex items-center gap-2 transition-opacity duration-200 ml-2.5", isOpen ? "opacity-0 pointer-events-none" : "opacity-100")}>
-          {SOCIAL_LINKS.map((social, i) => (
+          {socialList.map((social, i) => (
             <a
               key={i}
               href={social.href}
@@ -74,29 +85,29 @@ export const TopBar = ({ isOpen, setIsOpen, onContactClick }: TopBarProps) => {
         <div className="flex items-center gap-2 md:gap-4 z-10 h-full">
           {/* Desktop & Tablet Contacts */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3 xl:gap-5 text-[11px] xl:text-[12.8px] font-medium text-gray-700 tracking-tight mr-1 lg:mr-2 xl:mr-4 font-sans whitespace-nowrap shrink-0">
-            <a href={`tel:${TOP_BAR_CONTACT.phone1}`} title={`Call ${TOP_BAR_CONTACT.phone1} - Global Webify`} className="flex items-center gap-1 xl:gap-1.5 hover:text-primary transition-colors group whitespace-nowrap shrink-0">
+            <a href={`tel:${contactInfo?.phone || TOP_BAR_CONTACT.phone1}`} title={`Call ${contactInfo?.phone || TOP_BAR_CONTACT.phone1} - Global Webify`} className="flex items-center gap-1 xl:gap-1.5 hover:text-primary transition-colors group whitespace-nowrap shrink-0">
               <div className="w-5 h-5 lg:w-6 lg:h-6 xl:w-7 xl:h-7 rounded-full bg-pink-50 flex items-center justify-center text-pink-500 shadow-sm border border-pink-100 group-hover:bg-pink-100 transition-colors shrink-0">
                 <Phone size={10} className="xl:w-3 xl:h-3" fill="currentColor" />
               </div>
-              <span className="font-sans whitespace-nowrap">{TOP_BAR_CONTACT.phone1}</span>
+              <span className="font-sans whitespace-nowrap">{contactInfo?.phone || TOP_BAR_CONTACT.phone1}</span>
             </a>
-            <a href={`tel:${TOP_BAR_CONTACT.phone2}`} title={`Call ${TOP_BAR_CONTACT.phone2} - Global Webify`} className="hidden lg:flex items-center gap-1 xl:gap-1.5 hover:text-primary transition-colors group whitespace-nowrap shrink-0">
+            <a href={`tel:${contactInfo?.phone2 || TOP_BAR_CONTACT.phone2}`} title={`Call ${contactInfo?.phone2 || TOP_BAR_CONTACT.phone2} - Global Webify`} className="hidden lg:flex items-center gap-1 xl:gap-1.5 hover:text-primary transition-colors group whitespace-nowrap shrink-0">
               <div className="w-5 h-5 lg:w-6 lg:h-6 xl:w-7 xl:h-7 rounded-full bg-pink-50 flex items-center justify-center text-pink-500 shadow-sm border border-pink-100 group-hover:bg-pink-100 transition-colors shrink-0">
                 <Phone size={10} className="xl:w-3 xl:h-3" fill="currentColor" />
               </div>
-              <span className="font-sans whitespace-nowrap">{TOP_BAR_CONTACT.phone2}</span>
+              <span className="font-sans whitespace-nowrap">{contactInfo?.phone2 || TOP_BAR_CONTACT.phone2}</span>
             </a>
-            <a href={`mailto:${TOP_BAR_CONTACT.email}`} title={`Email ${TOP_BAR_CONTACT.email} - Global Webify`} className="hidden lg:flex items-center gap-1 xl:gap-1.5 hover:text-primary transition-colors group whitespace-nowrap shrink-0">
+            <a href={`mailto:${contactInfo?.email || TOP_BAR_CONTACT.email}`} title={`Email ${contactInfo?.email || TOP_BAR_CONTACT.email} - Global Webify`} className="hidden lg:flex items-center gap-1 xl:gap-1.5 hover:text-primary transition-colors group whitespace-nowrap shrink-0">
               <div className="w-5 h-5 lg:w-6 lg:h-6 xl:w-7 xl:h-7 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 shadow-sm border border-purple-100 group-hover:bg-purple-100 transition-colors shrink-0">
                 <Mail size={10} className="xl:w-3 xl:h-3" fill="currentColor" />
               </div>
-              <span className="lowercase font-sans whitespace-nowrap">{TOP_BAR_CONTACT.email}</span>
+              <span className="lowercase font-sans whitespace-nowrap">{contactInfo?.email || TOP_BAR_CONTACT.email}</span>
             </a>
           </div>
 
           {/* Tablet & Desktop Social Icons */}
           <div className="hidden md:flex items-center gap-1.5 xl:gap-2 border-l border-gray-100 pl-3 xl:pl-4 mr-1 xl:mr-2">
-            {SOCIAL_LINKS.map((social, i) => (
+            {socialList.map((social, i) => (
               <a
                 key={i}
                 href={social.href}

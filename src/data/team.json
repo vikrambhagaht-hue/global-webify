@@ -102,23 +102,6 @@
     "order": 6
   },
   {
-    "id": 16,
-    "name": "Aditya Singh",
-    "role": "Team Leader",
-    "image": "/assets/images/team/68ba8d8392fc2_2-2.avif",
-    "bio": "Aditya is a passionate tech innovator who leads with creativity and precision. He specializes in developing high-performing web solutions, optimizing user experiences, and mentoring teams to deliver cutting-edge digital products with excellence.",
-    "education": "BACHELOR OF ENGINEERING (INFORMATION TECHNOLOGY)",
-    "experience": "7+ Years Exp in Web Development",
-    "isExEmployee": true,
-    "order": 7,
-    "socials": {
-      "facebook": "https://globalwebify.com/",
-      "instagram": "https://globalwebify.com/",
-      "linkedin": "https://globalwebify.com/",
-      "twitter": "https://globalwebify.com/"
-    }
-  },
-  {
     "id": 22,
     "name": "Kundan Mehta",
     "role": "Senior Developer",
@@ -133,7 +116,24 @@
       "linkedin": "https://www.linkedin.com/in/rkmehta26",
       "twitter": "https://x.com/kundan8485"
     },
-    "order": 8
+    "order": 7
+  },
+  {
+    "id": 16,
+    "name": "Aditya Singh",
+    "role": "Team Leader",
+    "image": "/assets/images/team/68ba8d8392fc2_2-2.avif",
+    "bio": "Aditya is a passionate tech innovator who leads with creativity and precision. He specializes in developing high-performing web solutions, optimizing user experiences, and mentoring teams to deliver cutting-edge digital products with excellence.",
+    "education": "BACHELOR OF ENGINEERING (INFORMATION TECHNOLOGY)",
+    "experience": "7+ Years Exp in Web Development",
+    "isExEmployee": true,
+    "order": 8,
+    "socials": {
+      "facebook": "https://globalwebify.com/",
+      "instagram": "https://globalwebify.com/",
+      "linkedin": "https://globalwebify.com/",
+      "twitter": "https://globalwebify.com/"
+    }
   },
   {
     "id": 35,

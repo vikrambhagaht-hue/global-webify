@@ -41,7 +41,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-[28px] md:text-[36px] font-black text-gray-950 leading-tight"
+              className="text-[28px] md:text-[36px] font-black text-[#064e3b] leading-tight"
               dangerouslySetInnerHTML={{ __html: sectionTitle }}
             />
           ) : (
@@ -49,7 +49,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-[28px] md:text-[36px] font-black text-gray-950 leading-tight"
+              className="text-[28px] md:text-[36px] font-black text-[#064e3b] leading-tight"
             >
               Latest <span className="text-[#1a8b4c]">Insights & News</span>
             </m.h2>

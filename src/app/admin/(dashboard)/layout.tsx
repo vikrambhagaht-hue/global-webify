@@ -282,15 +282,6 @@ export default async function AdminDashboardLayout({
               </a>
             </div>
 
-            <div className="h-6 w-[1px] bg-gray-200 hidden md:block" />
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#1a8b4c] to-[#0e5e3b] text-white font-black text-xs flex items-center justify-center shadow-md border border-[#1a8b4c]">
-                A
-              </div>
-              <span className="text-xs font-bold text-gray-800 hidden md:block">
-                System Administrator
-              </span>
-            </div>
           </div>
         </header>
 

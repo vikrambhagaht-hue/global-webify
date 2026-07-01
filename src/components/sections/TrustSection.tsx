@@ -63,11 +63,11 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
           </div>
           {sectionTitle ? (
             <h2 
-              className="text-[28px] md:text-[36px] font-black text-gray-950 leading-tight"
+              className="text-[28px] md:text-[36px] font-black text-[#064e3b] leading-tight"
               dangerouslySetInnerHTML={{ __html: sectionTitle }}
             />
           ) : (
-            <h2 className="text-[28px] md:text-[36px] font-black text-gray-950 leading-tight">
+            <h2 className="text-[28px] md:text-[36px] font-black text-[#064e3b] leading-tight">
               Our Excellence <span className="text-[#1a8b4c]">Officially Certified</span>
             </h2>
           )}

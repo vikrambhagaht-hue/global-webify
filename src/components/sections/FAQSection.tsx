@@ -27,11 +27,11 @@ export function FAQSection({ faqs, sectionTitle, sectionDesc }: { faqs: FAQItem[
         <div className="text-center mb-12">
           {sectionTitle ? (
             <h2 
-              className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-gray-950 leading-tight tracking-tight font-heading"
+              className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-[#064e3b] leading-tight tracking-tight font-heading"
               dangerouslySetInnerHTML={{ __html: sectionTitle }}
             />
           ) : (
-            <h2 className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-gray-950 leading-tight tracking-tight font-heading">
+            <h2 className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-[#064e3b] leading-tight tracking-tight font-heading">
               Frequently Asked <span className="text-[#1a8b4c]">Questions</span>
             </h2>
           )}
