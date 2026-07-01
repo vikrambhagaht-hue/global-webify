@@ -1,20 +1,20 @@
 [
   {
     "id": 13,
-    "name": "Vikram Bhagat",
-    "role": "Managing Director",
-    "image": "/assets/images/team/vikram.webp",
-    "bio": "Vikram is driven by a vision to blend innovation with excellence in every project. He focuses on strategic growth, operational efficiency, and empowering teams to deliver exceptional results. His leadership inspires a culture of integrity, creativity, and continuous improvement across the organization.",
-    "education": "MBA in Marketing - XISS",
-    "experience": "18+ years of experience with leading brands in Marketing Strategy and Management",
+    "name": "Sandeep Kumar",
+    "role": "SEO Executive",
+    "image": "/assets/images/team/Sandeep.png",
+    "bio": "Results-oriented SEO professional specializing in data-driven strategies, technical optimization, and scalable organic growth. Experienced in handling end-to-end SEO campaigns, from keyword research and competitor analysis to content planning and performance tracking. Passionate about staying ahead of search engine algorithm updates and leveraging analytics to maximize ROI.",
+    "education": "MCA",
+    "experience": "2 years of experience in Search Engine Optimization (SEO)",
     "isExEmployee": false,
-    "order": 1,
     "socials": {
       "facebook": "https://globalwebify.com/",
       "instagram": "https://globalwebify.com/",
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://globalwebify.com/"
-    }
+    },
+    "order": 1
   },
   {
     "id": 14,
@@ -48,24 +48,7 @@
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://globalwebify.com/"
     },
-    "order": 2
-  },
-  {
-    "id": 16,
-    "name": "Aditya Singh",
-    "role": "Team Leader",
-    "image": "/assets/images/team/68ba8d8392fc2_2-2.avif",
-    "bio": "Aditya is a passionate tech innovator who leads with creativity and precision. He specializes in developing high-performing web solutions, optimizing user experiences, and mentoring teams to deliver cutting-edge digital products with excellence.",
-    "education": "BACHELOR OF ENGINEERING (INFORMATION TECHNOLOGY)",
-    "experience": "7+ Years Exp in Web Development",
-    "isExEmployee": true,
-    "order": 3,
-    "socials": {
-      "facebook": "https://globalwebify.com/",
-      "instagram": "https://globalwebify.com/",
-      "linkedin": "https://globalwebify.com/",
-      "twitter": "https://globalwebify.com/"
-    }
+    "order": 3
   },
   {
     "id": 20,
@@ -119,6 +102,23 @@
     "order": 6
   },
   {
+    "id": 16,
+    "name": "Aditya Singh",
+    "role": "Team Leader",
+    "image": "/assets/images/team/68ba8d8392fc2_2-2.avif",
+    "bio": "Aditya is a passionate tech innovator who leads with creativity and precision. He specializes in developing high-performing web solutions, optimizing user experiences, and mentoring teams to deliver cutting-edge digital products with excellence.",
+    "education": "BACHELOR OF ENGINEERING (INFORMATION TECHNOLOGY)",
+    "experience": "7+ Years Exp in Web Development",
+    "isExEmployee": true,
+    "order": 7,
+    "socials": {
+      "facebook": "https://globalwebify.com/",
+      "instagram": "https://globalwebify.com/",
+      "linkedin": "https://globalwebify.com/",
+      "twitter": "https://globalwebify.com/"
+    }
+  },
+  {
     "id": 22,
     "name": "Kundan Mehta",
     "role": "Senior Developer",
@@ -132,23 +132,6 @@
       "instagram": "https://www.instagram.com/_rkmehta?igsh=NzFsMjd1YWE4Z3I2",
       "linkedin": "https://www.linkedin.com/in/rkmehta26",
       "twitter": "https://x.com/kundan8485"
-    },
-    "order": 7
-  },
-  {
-    "id": 13,
-    "name": "Sandeep Kumar",
-    "role": "SEO Executive",
-    "image": "/assets/images/team/Sandeep.png",
-    "bio": "Results-oriented SEO professional specializing in data-driven strategies, technical optimization, and scalable organic growth. Experienced in handling end-to-end SEO campaigns, from keyword research and competitor analysis to content planning and performance tracking. Passionate about staying ahead of search engine algorithm updates and leveraging analytics to maximize ROI.",
-    "education": "MCA",
-    "experience": "2 years of experience in Search Engine Optimization (SEO)",
-    "isExEmployee": false,
-    "socials": {
-      "facebook": "https://globalwebify.com/",
-      "instagram": "https://globalwebify.com/",
-      "linkedin": "https://globalwebify.com/",
-      "twitter": "https://globalwebify.com/"
     },
     "order": 8
   },

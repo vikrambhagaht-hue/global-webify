@@ -62,7 +62,7 @@ const getSocialLink = (url: string) => {
   return clean;
 };
 
-export default function TeamClient() {
+export default function TeamClient({ initialMembers }: { initialMembers?: TeamMember[] }) {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
   // Handle Escape key to close modal
@@ -87,7 +87,8 @@ export default function TeamClient() {
   }, [selectedMember]);
 
   // Sort members primarily by custom order sequence if defined
-  const sortedMembers = [...(teamData as TeamMember[])].sort((a, b) => {
+  const sourceMembers = initialMembers && initialMembers.length > 0 ? initialMembers : (teamData as TeamMember[]);
+  const sortedMembers = [...sourceMembers].sort((a, b) => {
     if (typeof a.order === 'number' && typeof b.order === 'number' && a.order !== b.order) {
       return a.order - b.order;
     }

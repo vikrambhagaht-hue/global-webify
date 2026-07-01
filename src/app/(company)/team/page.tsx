@@ -1,5 +1,8 @@
 import { Metadata } from 'next';
 import TeamClient from '@/features/company/components/TeamClient';
+import { getLiveTeamMembers } from '@/app/admin/(dashboard)/team/actions';
+
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'Meet Our Team | Global Webify – Experts in Web & Digital Solutions',
@@ -10,6 +13,7 @@ export const metadata: Metadata = {
   }
 };
 
-export default function TeamPage() {
-  return <TeamClient />;
+export default async function TeamPage() {
+  const members = await getLiveTeamMembers();
+  return <TeamClient initialMembers={members} />;
 }
