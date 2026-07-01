@@ -393,7 +393,19 @@ export default function AdminTeamClient({ initialMembers }: Props) {
                   <input
                     type="number"
                     value={order ?? ''}
-                    onChange={(e) => setOrder(e.target.value ? Number(e.target.value) : undefined)}
+                    onChange={(e) => {
+                      if (!e.target.value) {
+                        setOrder(undefined);
+                        return;
+                      }
+                      const val = Number(e.target.value);
+                      setOrder(Math.max(0, val));
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === '-' || e.key === 'e') {
+                        e.preventDefault();
+                      }
+                    }}
                     placeholder={`Auto (${members.length + 1})`}
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#1a8b4c] outline-none text-sm font-semibold"
                   />

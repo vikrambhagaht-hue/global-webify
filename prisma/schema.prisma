@@ -215,3 +215,32 @@ model TeamMember {
   @@map("teammember")
 }
 
+model GalleryCategory {
+  id        Int           @id @default(autoincrement())
+  name      String        @unique
+  order     Int           @default(0)
+  items     GalleryItem[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@map("gallerycategory")
+}
+
+model GalleryItem {
+  id            Int              @id @default(autoincrement())
+  url           String
+  itemType      String           @default("image") // "image" or "video"
+  order         Int              @default(0) // Order for the "All" view
+  categoryOrder Int              @default(0) // Order for the category-specific view
+  isFeatured    Boolean          @default(false)
+  featureOrder  Int              @default(0)
+  categoryId    Int?
+  category      GalleryCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([categoryId])
+  @@index([order])
+  @@map("galleryitem")
+}
+

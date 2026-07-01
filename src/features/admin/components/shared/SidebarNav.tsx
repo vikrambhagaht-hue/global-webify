@@ -366,11 +366,44 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
         <span>Manage Blogs</span>
       </Link>
 
-      {/* Team Button */}
-      <Link href="/admin/team" className={linkClass(isTeam)}>
-        <Users className={iconClass(isTeam)} />
-        <span>Manage Team & Sequence</span>
-      </Link>
+      {/* Collapsible Team & Gallery Dropdown */}
+      <details className="group/details" open={isTeam || pathname.startsWith('/admin/gallery')} onToggle={() => {}}>
+        <summary className={`flex items-center justify-between gap-2.5 px-4 py-2.5 rounded-xl transition-all duration-300 text-[11px] md:text-xs font-semibold tracking-wide cursor-pointer list-none [&::-webkit-details-marker]:hidden border group/summary ${
+          (isTeam || pathname.startsWith('/admin/gallery'))
+            ? 'bg-gradient-to-r from-[#1a8b4c] to-[#0e5e3b] text-white border-[#15703d] shadow-xl shadow-[#1a8b4c]/20' 
+            : 'text-gray-400 hover:text-white hover:bg-[#132a1d]/60 border-transparent hover:border-[#132a1d] hover:shadow-lg backdrop-blur-sm'
+        }`}>
+          <div className="flex items-center gap-2.5">
+            <Users className={`stroke-[2.2] flex-shrink-0 transition-colors w-[22px] h-[22px] ${(isTeam || pathname.startsWith('/admin/gallery')) ? 'text-white' : 'text-gray-500 group-hover/summary:text-white'}`} />
+            <span>Manage Team & Gallery</span>
+          </div>
+          <span className="text-[10px] group-open/details:rotate-90 transition-transform font-bold text-gray-500 group-hover/summary:text-white">▶</span>
+        </summary>
+        
+        {/* Submenu */}
+        <div className="mt-2.5 mx-2.5 p-2 rounded-2xl bg-[#06100b] border border-[#132a1d] flex flex-col gap-2 text-gray-400 shadow-inner">
+          <Link 
+            href="/admin/team" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border ${
+              pathname === '/admin/team'
+                ? 'text-[#22c55e] bg-[#1a8b4c]/10 border-[#1a8b4c]/30 shadow-md font-bold'
+                : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
+            }`}
+          >
+            Manage Team
+          </Link>
+          <Link 
+            href="/admin/gallery" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border ${
+              pathname.startsWith('/admin/gallery')
+                ? 'text-[#22c55e] bg-[#1a8b4c]/10 border-[#1a8b4c]/30 shadow-md font-bold'
+                : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
+            }`}
+          >
+            Sequence Gallery
+          </Link>
+        </div>
+      </details>
 
       {/* Submissions Button */}
       <Link href="/admin/contacts" className={linkClass(isContacts)}>

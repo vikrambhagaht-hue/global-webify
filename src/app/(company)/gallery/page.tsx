@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import GalleryClient from '@/features/company/components/GalleryClient';
+import { db } from '@/lib/db';
 
 export const metadata: Metadata = {
   title: 'Inside Our Office | Team Gallery & Work Culture - Global Webify',
@@ -10,6 +11,22 @@ export const metadata: Metadata = {
   }
 };
 
-export default function GalleryPage() {
-  return <GalleryClient />;
+export const dynamic = 'force-dynamic';
+
+export default async function GalleryPage() {
+  const categories = await db.galleryCategory.findMany({
+    orderBy: { order: 'asc' }
+  });
+  
+  const items = await db.galleryItem.findMany({
+    orderBy: [
+      { isFeatured: 'desc' },
+      { featureOrder: 'asc' },
+      { createdAt: 'desc' }
+    ],
+    take: 24,
+    include: { category: true }
+  });
+
+  return <GalleryClient initialCategories={categories} initialItems={items} />;
 }
