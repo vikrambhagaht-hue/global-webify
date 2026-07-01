@@ -71,8 +71,8 @@ export default function AdminGalleryClient({
   const handleAddCategory = async () => {
     if (!newCatName.trim()) return;
     const res = await createCategory(newCatName.trim());
-    if (res.success) {
-      setCategories([...categories, res.category]);
+    if (res.success && res.category) {
+      setCategories([...categories, res.category as Category]);
       setNewCatName('');
       showToast('Category created successfully!');
     } else {
