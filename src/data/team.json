@@ -1,22 +1,5 @@
 [
   {
-    "id": 13,
-    "name": "Sandeep Kumar",
-    "role": "SEO Executive",
-    "image": "/assets/images/team/Sandeep.png",
-    "bio": "Results-oriented SEO professional specializing in data-driven strategies, technical optimization, and scalable organic growth. Experienced in handling end-to-end SEO campaigns, from keyword research and competitor analysis to content planning and performance tracking. Passionate about staying ahead of search engine algorithm updates and leveraging analytics to maximize ROI.",
-    "education": "MCA",
-    "experience": "2 years of experience in Search Engine Optimization (SEO)",
-    "isExEmployee": false,
-    "socials": {
-      "facebook": "https://globalwebify.com/",
-      "instagram": "https://globalwebify.com/",
-      "linkedin": "https://globalwebify.com/",
-      "twitter": "https://globalwebify.com/"
-    },
-    "order": 1
-  },
-  {
     "id": 14,
     "name": "Shakti Singh",
     "role": "Co-Founder",
@@ -31,7 +14,7 @@
       "linkedin": "https://www.linkedin.com/in/shakti-singh-b62787a8/",
       "twitter": "https://x.com/quotationstudi"
     },
-    "order": 2
+    "order": 1
   },
   {
     "id": 18,
@@ -48,7 +31,7 @@
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://globalwebify.com/"
     },
-    "order": 3
+    "order": 2
   },
   {
     "id": 20,
@@ -65,7 +48,7 @@
       "linkedin": "https://www.linkedin.com/in/ritesh-c-satyam-41a6a824?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
       "twitter": "https://globalwebify.com/"
     },
-    "order": 4
+    "order": 3
   },
   {
     "id": 8,
@@ -82,7 +65,7 @@
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://globalwebify.com/"
     },
-    "order": 5
+    "order": 4
   },
   {
     "id": 15,
@@ -98,6 +81,23 @@
       "instagram": "https://www.instagram.com/jyo46210?igsh=MTdxd243cmkyN2lsdA==",
       "linkedin": "https://www.linkedin.com/in/jyoti-shree-020a78152?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://x.com/JyotiShree68594?t=GOyRkFFYfGS38JmeKJgtcw&s=09"
+    },
+    "order": 5
+  },
+  {
+    "id": 13,
+    "name": "Sandeep Kumar",
+    "role": "SEO Executive",
+    "image": "/assets/images/team/Sandeep.png",
+    "bio": "Results-oriented SEO professional specializing in data-driven strategies, technical optimization, and scalable organic growth. Experienced in handling end-to-end SEO campaigns, from keyword research and competitor analysis to content planning and performance tracking. Passionate about staying ahead of search engine algorithm updates and leveraging analytics to maximize ROI.",
+    "education": "MCA",
+    "experience": "2 years of experience in Search Engine Optimization (SEO)",
+    "isExEmployee": false,
+    "socials": {
+      "facebook": "https://globalwebify.com/",
+      "instagram": "https://globalwebify.com/",
+      "linkedin": "https://globalwebify.com/",
+      "twitter": "https://globalwebify.com/"
     },
     "order": 6
   },
@@ -167,7 +167,7 @@
       "linkedin": "https://www.linkedin.com/in/vikash-mahto-a51b08379?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://x.com/mantuxy45?t=GXgYppAGayrSgzCzKfpDOg&s=09"
     },
-    "order": 10
+    "order": 11
   },
   {
     "id": 44,
@@ -184,7 +184,7 @@
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://globalwebify.com/"
     },
-    "order": 11
+    "order": 12
   },
   {
     "id": 12,
@@ -201,7 +201,7 @@
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://globalwebify.com/"
     },
-    "order": 12
+    "order": 13
   },
   {
     "id": 50,
@@ -218,7 +218,7 @@
       "linkedin": "https://www.linkedin.com/in/amrita-kumari-2a1105273",
       "twitter": "https://x.com/"
     },
-    "order": 13
+    "order": 14
   },
   {
     "id": 49,
@@ -235,7 +235,7 @@
       "linkedin": "https://www.linkedin.com/in/amarjeet-pandey-20445b272/",
       "twitter": "https://x.com/_AmarJeet_1"
     },
-    "order": 14
+    "order": 15
   },
   {
     "id": 48,
@@ -252,7 +252,7 @@
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://globalwebify.com/"
     },
-    "order": 15
+    "order": 16
   },
   {
     "id": 17,
@@ -269,7 +269,7 @@
       "linkedin": "https://www.linkedin.com/in/prem-raj-mahto-204956250/",
       "twitter": "https://x.com/premraj758?t=egijtUa4cj0Un_LMJ4md8g&s=09"
     },
-    "order": 16
+    "order": 17
   },
   {
     "id": 21,
@@ -286,7 +286,7 @@
       "linkedin": "https://www.linkedin.com/in/sweety-soni-719112215?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://x.com/SSoni2211?t=JF7pcZv2_rCKaTaTsvgHzA&s=09"
     },
-    "order": 17
+    "order": 18
   },
   {
     "id": 23,
@@ -303,7 +303,7 @@
       "linkedin": "https://www.linkedin.com/in/aditi-kumari-723528239?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://x.com/singh_adit64566"
     },
-    "order": 18
+    "order": 19
   },
   {
     "id": 26,
@@ -320,7 +320,7 @@
       "linkedin": "https://www.linkedin.com/authwall?trk=gf&trkInfo=AQGOTnZuPpN9ygAAAZjCEeNoXxY5a-xlsQLrp8rggnbTiQYMQglLlysQQSBZssM84F9YSluUSEWZ17nBjcPwpDADH5ZMcYzVTEriQMI5iOWpcN-9aO2a1R7-WDm9MNpFrz_DxL0=&original_referer=https://lavenderblush-chough-753646.hostingersite.co",
       "twitter": "https://x.com/KunalBose2772?t=LEv8D9hCoaCJkeCYSVJYOg&s=08"
     },
-    "order": 19
+    "order": 20
   },
   {
     "id": 30,
@@ -337,7 +337,7 @@
       "linkedin": "http://www.linkedin.com/in/jashim-khan-630226245",
       "twitter": "https://x.com/MdJashimKh3270?t=q-8jWK66CS_M9U6HWGc-1Q&s=08"
     },
-    "order": 20
+    "order": 21
   },
   {
     "id": 31,
@@ -354,7 +354,7 @@
       "linkedin": "https://www.linkedin.com/in/kumar-anurag-819946298?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://x.com/madewithasphalt?t=oDs4UP_kNGamPBXN51eDGQ&s=09"
     },
-    "order": 21
+    "order": 22
   },
   {
     "id": 29,
@@ -371,7 +371,7 @@
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://globalwebify.com/"
     },
-    "order": 22
+    "order": 23
   },
   {
     "id": 33,
@@ -388,7 +388,7 @@
       "linkedin": "https://www.linkedin.com/in/kumar-pappu-chaudhary-a4b2ab334?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://x.com/ChaudharyK71267?t=sYgHlad3Z_2IiUnbTQUEzQ&s=08"
     },
-    "order": 23
+    "order": 24
   },
   {
     "id": 36,
@@ -405,7 +405,7 @@
       "linkedin": "https://www.linkedin.com/in/surya-bhushan-nagar-705731201?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://globalwebify.com/"
     },
-    "order": 24
+    "order": 25
   },
   {
     "id": 40,
@@ -422,7 +422,7 @@
       "linkedin": "https://www.linkedin.com/in/niharika-k-a06a55270/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "twitter": "https://x.com/Niharik58195339?t=WFfGrk_A6CuO3soLq6svPw&s=09"
     },
-    "order": 25
+    "order": 26
   },
   {
     "id": 45,
@@ -439,7 +439,7 @@
       "linkedin": "https://www.linkedin.com/in/richa-mishra-5110052a7/",
       "twitter": "https://globalwebify.com/"
     },
-    "order": 26
+    "order": 27
   },
   {
     "id": 46,
@@ -456,6 +456,6 @@
       "linkedin": "https://globalwebify.com/",
       "twitter": "https://x.com/abhinavthekk"
     },
-    "order": 27
+    "order": 28
   }
 ]

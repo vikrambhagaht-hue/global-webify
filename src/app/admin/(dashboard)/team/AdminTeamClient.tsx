@@ -129,14 +129,34 @@ export default function AdminTeamClient({ initialMembers }: Props) {
       try {
         await saveTeamMember(payload);
         // Update local state
-        let updated: TeamMember[];
+        let updated = [...members];
+        
         if (id) {
-          updated = members.map((m) => (m.id === id ? { ...payload, id } : m));
+          const idx = updated.findIndex((m) => m.id === id);
+          if (idx !== -1) {
+             if (payload.order && payload.order !== updated[idx].order) {
+                updated.splice(idx, 1);
+                const targetIndex = Math.max(0, Math.min(updated.length, payload.order - 1));
+                updated.splice(targetIndex, 0, { ...payload, id });
+             } else {
+                updated[idx] = { ...payload, id };
+             }
+          }
         } else {
-          const newId = members.length > 0 ? Math.max(...members.map((m) => m.id)) + 1 : 1;
-          updated = [...members, { ...payload, id: newId }];
+          const newId = updated.length > 0 ? Math.max(...updated.map((m) => m.id)) + 1 : 1;
+          if (payload.order) {
+            const targetIndex = Math.max(0, Math.min(updated.length, payload.order - 1));
+            updated.splice(targetIndex, 0, { ...payload, id: newId });
+          } else {
+            updated.push({ ...payload, id: newId });
+          }
         }
-        updated.sort((a, b) => (a.order || 0) - (b.order || 0));
+        
+        // Reassign exact order
+        updated.forEach((m, idx) => {
+          m.order = idx + 1;
+        });
+
         setMembers(updated);
         setStatusMsg({ type: 'success', text: id ? 'Team member updated successfully!' : 'Team member added successfully!' });
         setShowModal(false);

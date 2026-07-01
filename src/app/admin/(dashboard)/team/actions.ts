@@ -110,21 +110,36 @@ export async function saveTeamMember(formData: TeamMember) {
   }
 
   const members = await getLiveTeamMembers();
+  members.sort((a, b) => (a.order || 0) - (b.order || 0));
 
   if (formData.id) {
     const idx = members.findIndex((m) => m.id === formData.id);
     if (idx !== -1) {
-      members[idx] = { ...formData };
+      if (formData.order && formData.order !== members[idx].order) {
+        members.splice(idx, 1);
+        const targetIndex = Math.max(0, Math.min(members.length, formData.order - 1));
+        members.splice(targetIndex, 0, formData);
+      } else {
+        members[idx] = { ...formData };
+      }
     } else {
       members.push(formData);
     }
   } else {
     const newId = members.length > 0 ? Math.max(...members.map((m) => m.id)) + 1 : 1;
-    const newOrder = members.length > 0 ? Math.max(...members.map((m) => m.order || 0)) + 1 : 1;
     formData.id = newId;
-    formData.order = newOrder;
-    members.push(formData);
+    if (formData.order) {
+      const targetIndex = Math.max(0, Math.min(members.length, formData.order - 1));
+      members.splice(targetIndex, 0, formData);
+    } else {
+      members.push(formData);
+    }
   }
+
+  // Reassign exact order
+  members.forEach((m, idx) => {
+    m.order = idx + 1;
+  });
 
   // Save to SiteSetting (production Vercel store)
   try {
