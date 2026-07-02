@@ -123,7 +123,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
               />
               <div className="max-w-md">
                 <p 
-                  className={`text-white/75 font-normal text-[15px] md:text-[16px] leading-relaxed transition-all duration-300 ${isExpanded ? 'max-h-[160px] md:max-h-[200px] overflow-y-auto pr-3 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/20 hover:[&::-webkit-scrollbar-thumb]:bg-white/40 [&::-webkit-scrollbar-thumb]:rounded-full' : 'line-clamp-6'}`}
+                  className={`text-white/75 font-normal text-[15px] md:text-[16px] leading-relaxed transition-all duration-500 ${isExpanded ? 'max-h-[1000px]' : 'line-clamp-6 max-h-[150px]'}`}
                   dangerouslySetInnerHTML={{ __html: (cardData?.content || 'We offer AI-powered digital marketing services to help businesses appear in Google AI, ChatGPT, and Perplexity recommendations.\n\nOur strategies are focused on sustainable, ethical, and conversion-oriented growth for brands worldwide.').replace(/\n/g, '<br />') }}
                 />
               </div>
