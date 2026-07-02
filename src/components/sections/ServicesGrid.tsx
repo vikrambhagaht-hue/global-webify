@@ -90,22 +90,22 @@ function ServiceCard({ service, index, cityKey, onOpenQuote }: { service: Servic
     <m.div
       initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "300px" }}
+      viewport={{ once: true, margin: "150px" }}
       transition={{ duration: 0.3, delay: index * 0.02 }}
       className="group relative flex flex-col w-full h-full"
     >
       <Link
         href={linkHref}
         title={`${service.title} - Global Webify`}
-        className={`relative flex-1 flex flex-col w-full bg-white rounded-[32px] border-2 ${service.borderColor} shadow-[0_8px_30px_rgba(0,0,0,0.04),inset_2px_2px_8px_rgba(255,255,255,0.9),inset_-2px_-2px_8px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),inset_2px_2px_8px_rgba(255,255,255,0.9),inset_-2px_-2px_8px_rgba(0,0,0,0.03)] hover:border-[#1a8b4c] overflow-hidden group/card md:transform-gpu md:will-change-transform`}
+        className={`relative flex-1 flex flex-col w-full bg-white rounded-[32px] border-2 ${service.borderColor} shadow-[0_8px_30px_rgba(0,0,0,0.04),inset_2px_2px_8px_rgba(255,255,255,0.9),inset_-2px_-2px_8px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),inset_2px_2px_8px_rgba(255,255,255,0.9),inset_-2px_-2px_8px_rgba(0,0,0,0.03)] hover:border-[#1a8b4c] overflow-hidden group/card`}
       >
         <div className="relative flex-1 p-6 md:p-8 flex flex-col items-center text-center z-10">
           
           {/* Icon Container */}
           <div className="relative mb-6">
             <div 
-              className="absolute inset-0 blur-[15px] opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full" 
-              style={{ backgroundColor: service.color }}
+              className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full" 
+              style={{ boxShadow: `0 0 30px ${service.color}` }}
             />
             <div 
               className="relative w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-500 group-hover:scale-110 group-hover:-translate-y-1 shadow-[0_8px_16px_rgba(0,0,0,0.08)] text-white"
@@ -149,7 +149,7 @@ function ServiceCard({ service, index, cityKey, onOpenQuote }: { service: Servic
                   onOpenQuote(service.title);
                 }
               }}
-              className="h-9 px-4 rounded-xl text-[#1a8b4c] text-[12px] font-bold font-jost flex items-center justify-center gap-1.5 transition-all duration-300 bg-[#1a8b4c]/10 border border-[#1a8b4c]/20 backdrop-blur-md hover:bg-[#1a8b4c]/20 hover:border-[#1a8b4c]/40 active:scale-[0.97] cursor-pointer shadow-sm"
+              className="h-9 px-4 rounded-xl text-[#1a8b4c] text-[12px] font-bold font-jost flex items-center justify-center gap-1.5 transition-all duration-300 bg-[#1a8b4c]/10 border border-[#1a8b4c]/20 hover:bg-[#1a8b4c]/20 hover:border-[#1a8b4c]/40 active:scale-[0.97] cursor-pointer shadow-sm"
             >
               Get Quote
             </div>

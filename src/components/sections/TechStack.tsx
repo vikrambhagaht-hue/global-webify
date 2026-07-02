@@ -86,9 +86,9 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
 
   return (
     <Section id="tech-stack" variant="dark" className="bg-gradient-to-br from-[#064e3b] to-[#022c22] relative overflow-hidden font-sans border-t border-[#064e3b]">
-      {/* Decorative liquid glass lighting */}
-      <div className="hidden lg:block absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none -mr-48 -mt-48" />
-      <div className="hidden lg:block absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#1a8b4c]/10 blur-[120px] rounded-full pointer-events-none -ml-48 -mb-48" />
+      {/* Decorative liquid glass lighting - Optimized using radial gradient instead of CSS blur */}
+      <div className="hidden lg:block absolute top-0 right-0 w-[700px] h-[700px] rounded-full pointer-events-none -mr-48 -mt-48" style={{ background: 'radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0) 70%)' }} />
+      <div className="hidden lg:block absolute bottom-0 left-0 w-[700px] h-[700px] rounded-full pointer-events-none -ml-48 -mb-48" style={{ background: 'radial-gradient(circle, rgba(26, 139, 76, 0.08) 0%, rgba(26, 139, 76, 0) 70%)' }} />
       <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
       
       <div className="relative z-10">
@@ -131,28 +131,27 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
           {techStack.map((tech, i) => (
             <m.div
               key={tech.name}
-              initial={isDesktop ? { opacity: 0, y: 15 } : { opacity: 1, y: 0 }}
-              whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-              viewport={{ once: true, margin: "300px" }}
+              initial={isDesktop ? { opacity: 0 } : { opacity: 1 }}
+              whileInView={isDesktop ? { opacity: 1 } : undefined}
+              viewport={{ once: true, margin: "150px" }}
               transition={{ delay: i * 0.015, duration: 0.3 }}
-              whileHover={isDesktop ? { y: -5, transition: { duration: 0.2 } } : undefined}
-              className={`group flex flex-col items-center ${isDesktop ? 'transform-gpu will-change-transform' : ''}`}
+              className={`group flex flex-col items-center hover:-translate-y-1.5 transition-transform duration-200`}
               style={{ '--tech-color': tech.color } as React.CSSProperties}
             >
               <div 
-                className="w-full aspect-square border border-white/30 md:border-white/20 rounded-[36px] p-3 md:p-5 flex items-center justify-center transition-all duration-500 shadow-[0_10px_25px_rgba(0,0,0,0.25)] md:shadow-[0_15px_35px_rgba(0,0,0,0.4),inset_0_0_20px_rgba(255,255,255,0.05),inset_0_2px_5px_rgba(255,255,255,0.3)] backdrop-blur-none md:backdrop-blur-2xl group-hover:-translate-y-2 relative overflow-hidden group/card"
-                style={{ backgroundColor: `${tech.color}10` }}
+                className="w-full aspect-square border border-white/20 rounded-[36px] p-3 md:p-5 flex items-center justify-center shadow-xl md:shadow-[0_15px_35px_rgba(0,0,0,0.4),inset_0_0_20px_rgba(255,255,255,0.05),inset_0_2px_5px_rgba(255,255,255,0.3)] bg-white/5 relative overflow-hidden group/card"
+                style={{ backgroundColor: `${tech.color}10`, willChange: 'transform' }}
               >
                 
                 {/* Dynamic Colored Border Overlay on Hover */}
                 <div 
-                  className="absolute inset-0 rounded-[36px] border opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none z-20"
+                  className="absolute inset-0 rounded-[36px] border opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 pointer-events-none z-20"
                   style={{ borderColor: tech.color }}
                 />
 
                 {/* Unique Water Droplet Bottom Glow */}
                 <div 
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[60%] pointer-events-none opacity-60 group-hover/card:opacity-100 transition-opacity duration-500"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[60%] pointer-events-none opacity-60 group-hover/card:opacity-100 transition-opacity duration-300"
                   style={{ background: `linear-gradient(to top, ${tech.color}30, transparent)` }}
                 />
                 
@@ -163,7 +162,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
                   width={56}
                   height={56}
                   loading="eager"
-                  className="w-11 h-11 md:w-12 md:h-12 object-contain filter transition-all duration-300 group-hover:scale-110 relative z-10"
+                  className="w-11 h-11 md:w-12 md:h-12 object-contain filter transition-transform duration-300 group-hover:scale-110 relative z-10"
                 />
                 
                 {/* Unique Subtle Glow on Hover */}
@@ -174,7 +173,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
               </div>
               
               <div className="mt-3 text-center">
-                <p className="text-[11px] md:text-[13px] font-semibold text-white/90 group-hover:text-[var(--tech-color)] transition-colors line-clamp-1">{tech.name}</p>
+                <p className="text-[11px] md:text-[13px] font-semibold text-white/90 group-hover:text-[var(--tech-color)] transition-colors duration-300 line-clamp-1">{tech.name}</p>
                 <p className="hidden md:block text-[9px] font-medium text-gray-400 uppercase tracking-widest mt-0.5">{tech.desc}</p>
               </div>
             </m.div>

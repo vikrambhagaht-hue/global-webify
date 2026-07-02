@@ -20,9 +20,9 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
   return (
     <section className="pt-8 pb-14 md:pt-12 md:pb-20 bg-gray-50/50 relative overflow-hidden font-sans border-t border-gray-100">
       
-      {/* Subtle glowing highlights */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-green-50/40 rounded-full blur-3xl pointer-events-none -ml-48 -mt-48" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#1a8b4c]/5 rounded-full blur-3xl pointer-events-none -mr-48 -mb-48" />
+      {/* Subtle glowing highlights - Optimized using radial-gradient */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none -ml-48 -mt-48" style={{ background: 'radial-gradient(circle, rgba(220, 252, 231, 0.4) 0%, rgba(220, 252, 231, 0) 70%)' }} />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none -mr-48 -mb-48" style={{ background: 'radial-gradient(circle, rgba(26, 139, 76, 0.05) 0%, rgba(26, 139, 76, 0) 70%)' }} />
  
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -93,7 +93,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
                   initial={{ opacity: 0, y: 25 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.02, duration: 0.3 }}
-                  className="bg-green-50/10 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.03)] border border-[#1a8b4c]/10 hover:border-[#1a8b4c] hover:shadow-[0_12px_40px_rgba(26,139,76,0.08)] hover:bg-green-50/20 hover:translate-y-[-4px] transition-all duration-300 group flex flex-col h-full md:transform-gpu md:will-change-transform"
+                  className="bg-green-50/10 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.03)] border border-[#1a8b4c]/10 hover:border-[#1a8b4c] hover:shadow-[0_12px_40px_rgba(26,139,76,0.08)] hover:bg-green-50/20 hover:translate-y-[-4px] transition-all duration-300 group flex flex-col h-full"
                 >
                   
                   {/* Centered & Contained Post Thumbnail - Never Crops Custom Uploads */}

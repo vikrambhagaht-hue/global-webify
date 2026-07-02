@@ -197,3 +197,14 @@ body {
   animation: shimmer 0.6s ease-in-out;
 }
 
+/* Portfolio image skeleton loader */
+@keyframes portfolio-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Smooth fade-in when lazy image loads */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Upload, Plus, Trash2, Image as ImageIcon, Film, Save, RefreshCw, Edit2, Check, X as XIcon, Star } from 'lucide-react';
-import { createCategory, deleteCategory, updateCategory, addGalleryItem, deleteGalleryItem, updateItemCategory, toggleFeatured, updateFeatureOrder } from './actions';
+import { createCategory, deleteCategory, updateCategory, addGalleryItem, deleteGalleryItem, updateItemCategory, toggleFeatured, updateFeatureOrder, fetchAdminGalleryItems } from './actions';
 import Image from 'next/image';
 
 type Category = {
@@ -39,6 +39,76 @@ export default function AdminGalleryClient({
   const [editingCatName, setEditingCatName] = useState('');
   const [activeFilterCat, setActiveFilterCat] = useState<number | null>(null);
   const [uploadCategoryId, setUploadCategoryId] = useState<number | null>(null);
+
+  // Pagination State
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(initialItems.length === 24);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
+
+  // Handle Category Change
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    let isMounted = true;
+    setItems([]); // Clear immediately
+    
+    const loadCategory = async () => {
+      const newItems = (await fetchAdminGalleryItems(0, 24, activeFilterCat)) || [];
+      if (isMounted) {
+        setItems(newItems as GalleryItem[]);
+        setPage(1);
+        setHasMore(newItems.length === 24);
+      }
+    };
+    
+    loadCategory();
+    
+    return () => { isMounted = false; };
+  }, [activeFilterCat]);
+
+  // Load More Function
+  const loadMore = async () => {
+    if (isLoadingMore || !hasMore) return;
+    setIsLoadingMore(true);
+    const newItems = await fetchAdminGalleryItems(page * 24, 24, activeFilterCat);
+    if (newItems && newItems.length > 0) {
+      setItems(prev => {
+        // Prevent duplicates
+        const existingIds = new Set(prev.map(it => it.id));
+        const filteredNew = newItems.filter(it => !existingIds.has(it.id));
+        return [...prev, ...filteredNew] as GalleryItem[];
+      });
+      setPage(p => p + 1);
+      setHasMore(newItems.length === 24);
+    } else {
+      setHasMore(false);
+    }
+    setIsLoadingMore(false);
+  };
+
+  // Intersection Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !isLoadingMore) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentLoader = loaderRef.current;
+    if (currentLoader) observer.observe(currentLoader);
+
+    return () => {
+      if (currentLoader) observer.unobserve(currentLoader);
+    };
+  }, [hasMore, isLoadingMore, page, activeFilterCat]);
   
   // Directly pull a tiny 100x100 compressed thumbnail from Cloudinary
   const getThumbnailUrl = (url: string) => {
@@ -134,7 +204,7 @@ export default function AdminGalleryClient({
           categoryId: uploadCategoryId || undefined
         });
         if (addRes.success && addRes.item) {
-          setItems([...items, addRes.item]);
+          setItems([addRes.item, ...items]);
           showToast('Media uploaded successfully!');
         } else {
           showToast('Failed to save media', 'error');
@@ -461,6 +531,20 @@ export default function AdminGalleryClient({
               {filteredItems.length === 0 && (
                 <div className="col-span-full p-8 text-center text-gray-500 border border-dashed border-gray-300 rounded-xl">
                   {activeFilterCat !== null ? "No items in this category." : "No items in gallery. Upload some media!"}
+                </div>
+              )}
+
+              {/* Infinite Scroll Loader */}
+              {hasMore && (
+                <div ref={loaderRef} className="col-span-full flex justify-center py-6">
+                  {isLoadingMore ? (
+                    <div className="flex items-center gap-2 text-gray-500 font-medium">
+                      <RefreshCw size={18} className="animate-spin text-[#1a8b4c]" />
+                      Loading more...
+                    </div>
+                  ) : (
+                    <div className="h-10" /> // Spacer for observer to trigger
+                  )}
                 </div>
               )}
             </div>

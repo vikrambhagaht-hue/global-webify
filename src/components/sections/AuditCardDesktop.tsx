@@ -1,46 +1,45 @@
 "use client";
 
 import React from "react";
-import { m, useMotionValue, useTransform, useSpring } from 'framer-motion';
 
-// --- Desktop Audit Card with framer-motion 3D hover effect ---
-// This is lazy-loaded via dynamic() in Hero.tsx — framer-motion only loads after page paint
+// --- Desktop Audit Card — 3D Tilt with Scroll-Lag Prevention ---
 export default function AuditCardDesktop() {
-  const x = useMotionValue(0.5);
-  const y = useMotionValue(0.5);
+  const cardRef = React.useRef<HTMLDivElement>(null);
 
-  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
-  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    // SCROLL LAG FIX: If the mouse didn't actually move (user is just scrolling the page 
+    // and the card moved under the static mouse), IGNORE the event.
+    if (Math.abs(e.movementX) === 0 && Math.abs(e.movementY) === 0) return;
 
-  const rotateX = useTransform(mouseYSpring, [0, 1], [8, -8]);
-  const rotateY = useTransform(mouseXSpring, [0, 1], [-8, 8]);
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    
+    cardRef.current.style.setProperty('--rx', `${-y * 16}deg`);
+    cardRef.current.style.setProperty('--ry', `${x * 16}deg`);
+  };
 
-  function handleMouse(event: React.MouseEvent<HTMLDivElement>) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    x.set((event.clientX - rect.left) / rect.width);
-    y.set((event.clientY - rect.top) / rect.height);
-  }
+  const handleMouseLeave = () => {
+    if (!cardRef.current) return;
+    cardRef.current.style.setProperty('--rx', '0deg');
+    cardRef.current.style.setProperty('--ry', '0deg');
+  };
 
   return (
-    <m.div
-      style={{ perspective: 1200 }}
-      onMouseMove={handleMouse}
-      onMouseLeave={() => { x.set(0.5); y.set(0.5); }}
-      className="w-full max-w-[580px] mx-auto cursor-default z-20 relative font-jost"
-    >
-      <m.div
-        style={{ 
-          rotateX, 
-          rotateY, 
-          transformStyle: "preserve-3d",
-          willChange: "transform"
+    <div className="w-full max-w-[580px] mx-auto cursor-default z-20 relative font-jost" style={{ perspective: '1200px' }}>
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="relative w-full hover:shadow-[0px_28px_56px_-12px_rgba(26,139,76,0.18)]"
+        style={{
+          transform: 'rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))',
+          transition: 'transform 0.15s ease-out, box-shadow 0.3s ease-out'
         }}
-        whileHover={{ scale: 1.02, y: -6, boxShadow: "0px 28px 56px -12px rgba(26,139,76,0.18)" }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="relative w-full"
       >
         {/* Outer dark bezel */}
-        <div className="bg-[#1a2332] rounded-t-[20px] shadow-2xl border border-[#2a3a4e] border-b-0 overflow-hidden">
+        <div className="bg-[#1a2332] rounded-t-[20px] shadow-2xl border border-[#2a3a4e] border-b-0 overflow-hidden relative">
 
           {/* Browser chrome - full width at top */}
           <div className="bg-[#f1f5f9] mx-[10px] mt-[10px] rounded-t-[12px] border-b border-slate-200 px-5 py-3 flex items-center gap-4">
@@ -152,7 +151,7 @@ export default function AuditCardDesktop() {
         {/* Bottom base/stand edge */}
         <div className="bg-[#1f2d3f] h-[8px] rounded-b-[20px] border border-t-0 border-[#2a3a4e]" />
         <div className="bg-[#2d3d52] h-[5px] rounded-b-[10px] mx-5 opacity-60" />
-      </m.div>
-    </m.div>
+      </div>
+    </div>
   );
 }

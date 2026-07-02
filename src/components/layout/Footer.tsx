@@ -392,23 +392,23 @@ export default function Footer() {
             <div className="flex flex-row flex-nowrap justify-center items-center gap-1.5 sm:gap-2 w-full">
                {/* Bank of Baroda */}
                <div className="w-[54px] h-[38px] sm:w-[76px] sm:h-[50px] relative bg-white border border-gray-100 rounded-lg flex items-center justify-center shadow-sm shrink-0">
-                 {shouldLoadImages && <Image src="/BankOfBaroda.avif" alt="Bank of Baroda" title="Bank of Baroda - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
+                 {shouldLoadImages && <Image src="/BankOfBaroda.avif" alt="Bank of Baroda" title="Bank of Baroda - Global Webify" fill unoptimized priority className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
                </div>
                {/* Indian Overseas Bank */}
                <div className="w-[54px] h-[38px] sm:w-[76px] sm:h-[50px] relative bg-white border border-gray-100 rounded-lg flex items-center justify-center shadow-sm shrink-0">
-                 {shouldLoadImages && <Image src="/IndianOverseasBank.avif" alt="Indian Overseas Bank" title="Indian Overseas Bank - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
+                 {shouldLoadImages && <Image src="/IndianOverseasBank.avif" alt="Indian Overseas Bank" title="Indian Overseas Bank - Global Webify" fill unoptimized priority className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
                </div>
                {/* PayPal */}
                <div className="w-[54px] h-[38px] sm:w-[76px] sm:h-[50px] relative bg-white border border-gray-100 rounded-lg flex items-center justify-center shadow-sm shrink-0">
-                 {shouldLoadImages && <Image src="/PayPal.avif" alt="PayPal" title="PayPal - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
+                 {shouldLoadImages && <Image src="/PayPal.avif" alt="PayPal" title="PayPal - Global Webify" fill unoptimized priority className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
                </div>
                {/* Razorpay */}
                <div className="w-[54px] h-[38px] sm:w-[76px] sm:h-[50px] relative bg-white border border-gray-100 rounded-lg flex items-center justify-center shadow-sm shrink-0">
-                 {shouldLoadImages && <Image src="/Razorpay.avif" alt="Razorpay" title="Razorpay - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
+                 {shouldLoadImages && <Image src="/Razorpay.avif" alt="Razorpay" title="Razorpay - Global Webify" fill unoptimized priority className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
                </div>
                {/* PhonePe */}
                <div className="w-[54px] h-[38px] sm:w-[76px] sm:h-[50px] relative bg-white border border-gray-100 rounded-lg flex items-center justify-center shadow-sm shrink-0">
-                 {shouldLoadImages && <Image src="/PhonePe.avif" alt="PhonePe" title="PhonePe - Global Webify" fill unoptimized className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
+                 {shouldLoadImages && <Image src="/PhonePe.avif" alt="PhonePe" title="PhonePe - Global Webify" fill unoptimized priority className="object-contain p-0.5" sizes="(max-width: 640px) 54px, 76px" />}
                </div>
              </div>
           </div>

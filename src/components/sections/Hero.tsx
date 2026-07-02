@@ -9,8 +9,7 @@ import dynamic from "next/dynamic";
 // Lazy load AuditModal — not needed until user clicks
 const AuditModal = dynamic(() => import("../ui/AuditModal"), { ssr: false });
 
-// Allow SSR for AuditCardDesktop so HTML paints instantly (no white box), but JS animations load lazily.
-const AuditCardDesktop = dynamic(() => import("../sections/AuditCardDesktop"));
+import AuditCardDesktop from "./AuditCardDesktop";
 
 // --- Colorful Google SVG Logo ---
 const GoogleLogo = () => (

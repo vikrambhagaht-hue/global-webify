@@ -14,10 +14,31 @@ export async function getGalleryData() {
       { featureOrder: 'asc' },
       { createdAt: 'desc' }
     ],
+    take: 24,
     include: { category: true },
   });
 
   return { categories, items };
+}
+
+export async function fetchAdminGalleryItems(skip: number, take: number, categoryId: number | null) {
+  try {
+    const items = await db.galleryItem.findMany({
+      where: categoryId ? { categoryId } : undefined,
+      orderBy: [
+        { isFeatured: 'desc' },
+        { featureOrder: 'asc' },
+        { createdAt: 'desc' }
+      ],
+      skip,
+      take,
+      include: { category: true }
+    });
+    return items;
+  } catch (error) {
+    console.error('Failed to fetch admin gallery items:', error);
+    return [];
+  }
 }
 
 export async function createCategory(name: string) {

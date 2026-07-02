@@ -138,8 +138,8 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
               </button>
             </div>
 
-            {/* Decorative background circle */}
-            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#1a8b4c]/20 blur-[100px] rounded-full -mr-32 -mt-32 pointer-events-none hidden lg:block" />
+            {/* Decorative background circle - Optimized using radial-gradient */}
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full -mr-32 -mt-32 pointer-events-none hidden lg:block" style={{ background: 'radial-gradient(circle, rgba(26, 139, 76, 0.15) 0%, rgba(26, 139, 76, 0) 70%)' }} />
           </m.div>
 
           {/* MIDDLE COLUMN: Stats */}
@@ -150,7 +150,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
               initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true, margin: "150px" }}
-              className="bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] shadow-xl shadow-blue-900/20 rounded-[32px] p-8 flex flex-col justify-center flex-1 group hover:-translate-y-1 transition-all md:transform-gpu md:will-change-transform"
+              className="bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] shadow-xl shadow-blue-900/20 rounded-[32px] p-8 flex flex-col justify-center flex-1 group hover:-translate-y-1 transition-transform"
             >
               <h4 className="text-[42px] font-black text-white mb-2">350%</h4>
               <p className="text-green-300 text-[11px] font-black uppercase tracking-[0.2em] leading-tight">
@@ -158,11 +158,12 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
               </p>
               <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
                 <m.div 
-                  initial={isDesktop ? { width: 0 } : { width: "85%" }}
-                  whileInView={isDesktop ? { width: "85%" } : undefined}
+                  initial={isDesktop ? { scaleX: 0 } : { scaleX: 1 }}
+                  whileInView={isDesktop ? { scaleX: 1 } : undefined}
                   viewport={{ once: true }}
-                  transition={{ duration: 1, delay: 0.5 }}
-                  className="h-full bg-blue-400"
+                  transition={{ duration: 1, delay: 0.1 }}
+                  style={{ transformOrigin: "left" }}
+                  className="h-full bg-blue-400 w-[85%]"
                 />
               </div>
             </m.div>
@@ -173,7 +174,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
               whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
               viewport={{ once: true, margin: "150px" }}
               transition={{ delay: 0.1 }}
-              className="bg-gradient-to-br from-[#1e1b4b] to-[#4c1d95] shadow-xl shadow-purple-900/20 rounded-[32px] p-8 flex flex-col justify-center flex-1 text-white group hover:-translate-y-1 transition-all md:transform-gpu md:will-change-transform"
+              className="bg-gradient-to-br from-[#1e1b4b] to-[#4c1d95] shadow-xl shadow-purple-900/20 rounded-[32px] p-8 flex flex-col justify-center flex-1 text-white group hover:-translate-y-1 transition-transform"
             >
               <h4 className="text-[42px] font-black text-white mb-2">12k+</h4>
               <p className="text-green-300 text-[11px] font-black uppercase tracking-[0.2em] leading-tight">
@@ -181,11 +182,12 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
               </p>
               <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
                 <m.div 
-                  initial={isDesktop ? { width: 0 } : { width: "95%" }}
-                  whileInView={isDesktop ? { width: "95%" } : undefined}
+                  initial={isDesktop ? { scaleX: 0 } : { scaleX: 1 }}
+                  whileInView={isDesktop ? { scaleX: 1 } : undefined}
                   viewport={{ once: true }}
-                  transition={{ duration: 1, delay: 0.7 }}
-                  className="h-full bg-purple-400"
+                  transition={{ duration: 1, delay: 0.2 }}
+                  style={{ transformOrigin: "left" }}
+                  className="h-full bg-purple-400 w-[95%]"
                 />
               </div>
             </m.div>

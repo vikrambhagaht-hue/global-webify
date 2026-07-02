@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { m, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { Section } from '../layout/Responsive/Section';
@@ -54,79 +54,38 @@ const defaultProjects: FeaturedProject[] = [
 ];
 
 const ProjectCard = ({ project, index, isDesktop }: { project: any, index: number, isDesktop: boolean }) => {
-  const x = useMotionValue(0.5);
-  const y = useMotionValue(0.5);
-  const [isImageInView, setIsImageInView] = React.useState(false);
-
-  React.useEffect(() => {
-    // Background Preloading Strategy:
-    // Load images 2.5 seconds after the page loads. 
-    // This keeps the initial payload strictly ZERO for PageSpeed,
-    // but ensures images are fully downloaded and locked in memory BEFORE the user scrolls down.
-    const timer = setTimeout(() => {
-      setIsImageInView(true);
-      if (typeof window !== 'undefined') {
-        sessionStorage.setItem('portfolioImagesLoaded', 'true');
-      }
-    }, 1000);
-
-    if (typeof window !== 'undefined') {
-      const stored = sessionStorage.getItem('portfolioImagesLoaded');
-      if (stored === 'true') {
-        setIsImageInView(true);
-        clearTimeout(timer);
-      }
-    }
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 25 });
-  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 25 });
-
-  const rotateX = useTransform(mouseYSpring, [0, 1], [5, -5]);
-  const rotateY = useTransform(mouseXSpring, [0, 1], [-5, 5]);
-
-  function handleMouse(event: React.MouseEvent<HTMLDivElement>) {
-    if (!isDesktop) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    x.set((event.clientX - rect.left) / rect.width);
-    y.set((event.clientY - rect.top) / rect.height);
-  }
+  const cardRef = React.useRef(null);
 
   return (
     <m.div
+      ref={cardRef}
       initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
       whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-      viewport={{ once: true, margin: "300px" }}
+      viewport={{ once: true, margin: "150px" }}
       transition={{ delay: index * 0.02, duration: 0.3 }}
       className="relative"
-      style={{ perspective: 1000 }}
     >
       <a href={project.link} target="_blank" rel="noopener noreferrer" title={`${project.title} - Global Webify`} className="block">
-        <m.div
-          onMouseMove={isDesktop ? handleMouse : undefined}
-          onMouseLeave={isDesktop ? () => { x.set(0.5); y.set(0.5); } : undefined}
-          style={isDesktop ? { rotateX, rotateY, transformStyle: "preserve-3d" } : {}}
-          className={`group relative bg-[#f0fdf4] rounded-[24px] overflow-hidden shadow-lg hover:shadow-[0_24px_48px_-12px_rgba(26,139,76,0.2)] hover:-translate-y-1.5 lg:hover:-translate-y-2 transition-all duration-500 border border-gray-100 ${isDesktop ? 'transform-gpu will-change-transform' : ''}`}
+        <div
+          className={`group relative bg-[#f0fdf4] rounded-[24px] overflow-hidden shadow-lg hover:shadow-[0_24px_48px_-12px_rgba(26,139,76,0.2)] hover:-translate-y-2 transition-[transform,box-shadow] duration-300 border border-gray-100`}
         >
           {/* Image Container */}
-          <div className={`relative aspect-[16/10] overflow-hidden bg-[#f0fdf4] ${isDesktop ? 'transform-gpu will-change-transform' : ''}`} style={{ transform: isDesktop ? "translateZ(0px)" : undefined }}>
-            {isImageInView && (
+          <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-r from-[#e2f5e9] via-[#f0fdf4] to-[#e2f5e9] bg-[length:200%_100%] animate-[portfolio-shimmer_1.5s_ease-in-out_infinite]">
               <img
                 src={project.image}
                 alt={project.title}
-                className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700 md:brightness-[1.05] md:contrast-[1.05]"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300 animate-[fadeIn_0.3s_ease-in]"
               />
-            )}
 
             {/* Stronger Green Tinted Bottom Shade */}
-            <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-[#064e3b] via-[#064e3b]/70 to-transparent opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-[#064e3b] via-[#064e3b]/70 to-transparent" />
 
             {/* Visit Link with Custom Arrow */}
-            <div className="absolute inset-0 p-6 md:p-8 pb-4 md:pb-5 flex flex-col justify-end" style={{ transform: "translateZ(40px)" }}>
-              <div className="translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full mb-3">
+            <div className="absolute inset-0 p-6 md:p-8 pb-4 md:pb-5 flex flex-col justify-end">
+              <div className="translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <div className="inline-flex items-center gap-2 bg-white/20 px-3 py-1 rounded-full mb-3 shadow-sm border border-white/20">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80]" />
                   <p className="text-white text-[11px] font-semibold uppercase tracking-widest">
                     {project.category}
@@ -137,7 +96,7 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
                   {project.title}
                 </h3>
 
-                <div className="flex items-center gap-3 text-[#4ade80] opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-[-10px] group-hover:translate-x-0">
+                <div className="flex items-center gap-3 text-[#4ade80] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <span className="text-[14px] font-bold uppercase tracking-wider">Visit Project</span>
                   <div className="w-8 h-[2px] bg-[#4ade80] relative">
                     <div className="absolute right-0 top-1/2 -translate-y-1/2 rotate-45 w-2 h-2 border-r-2 border-t-2 border-[#4ade80]" />
@@ -146,7 +105,7 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
               </div>
             </div>
           </div>
-        </m.div>
+        </div>
       </a>
     </m.div>
   );
@@ -167,11 +126,27 @@ export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: 
     return () => window.removeEventListener('resize', checkDevice);
   }, []);
 
+  // Preload portfolio images on first scroll (user intent = they'll see more content)
+  React.useEffect(() => {
+    let done = false;
+    const onFirstScroll = () => {
+      if (done) return;
+      done = true;
+      window.removeEventListener('scroll', onFirstScroll);
+      displayProjects.forEach(p => {
+        const img = new window.Image();
+        img.src = p.image;
+      });
+    };
+    window.addEventListener('scroll', onFirstScroll, { passive: true, once: true });
+    return () => window.removeEventListener('scroll', onFirstScroll);
+  }, [displayProjects]);
+
   return (
     <Section id="portfolio" variant="gray" className="bg-[#f0fdf4] font-sans relative overflow-hidden">
-      {/* Subtle Background Elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-green-200/20 blur-[120px] rounded-full -mr-64 -mt-64" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-green-200/20 blur-[120px] rounded-full -ml-64 -mb-64" />
+      {/* Subtle Background Elements - Optimized using radial gradient instead of CSS blur */}
+      <div className="hidden lg:block absolute top-0 right-0 w-[600px] h-[600px] rounded-full -mr-64 -mt-64" style={{ background: 'radial-gradient(circle, rgba(187, 247, 208, 0.15) 0%, rgba(187, 247, 208, 0) 70%)' }} />
+      <div className="hidden lg:block absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full -ml-64 -mb-64" style={{ background: 'radial-gradient(circle, rgba(187, 247, 208, 0.15) 0%, rgba(187, 247, 208, 0) 70%)' }} />
 
       <div className="relative z-10">
         <div className="text-center max-w-[1100px] mx-auto mb-10 px-4">
@@ -253,11 +228,11 @@ export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: 
               }
               .animate-logo-marquee {
                 animation: logoMarquee 60s linear infinite;
+                will-change: transform;
               }
             `}</style>
             <div
-              className={`flex whitespace-nowrap py-2 animate-logo-marquee ${isDesktop ? 'transform-gpu will-change-transform' : ''}`}
-              style={{ transform: isDesktop ? 'translateZ(0)' : undefined }}
+              className={`flex whitespace-nowrap py-2 animate-logo-marquee`}
             >
               {[...logos, ...logos].map((num, i) => (
                 <div key={`${num}-${i}`} className="mx-3 flex-shrink-0">

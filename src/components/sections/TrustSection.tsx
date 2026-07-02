@@ -42,7 +42,7 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
           }
         });
       },
-      { threshold: 0.1 } // trigger when 10% visible
+      { rootMargin: '1000px' } // trigger download and play 1000px before reaching
     );
 
     observer.observe(videoElement);
@@ -118,14 +118,14 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
                 <button 
                   onClick={prevCert}
                   aria-label="Previous Certificate"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur shadow-lg rounded-full flex items-center justify-center text-gray-900 hover:bg-[#1a8b4c] hover:text-white transition-all z-10 opacity-0 group-hover:opacity-100 focus:opacity-100 outline-none focus:ring-2 focus:ring-[#1a8b4c]"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 shadow-lg rounded-full flex items-center justify-center text-gray-900 hover:bg-[#1a8b4c] hover:text-white transition-all z-10 opacity-0 group-hover:opacity-100 focus:opacity-100 outline-none focus:ring-2 focus:ring-[#1a8b4c]"
                 >
                   <ChevronLeft size={24} aria-hidden="true" />
                 </button>
                 <button 
                   onClick={nextCert}
                   aria-label="Next Certificate"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur shadow-lg rounded-full flex items-center justify-center text-gray-900 hover:bg-[#1a8b4c] hover:text-white transition-all z-10 opacity-0 group-hover:opacity-100 focus:opacity-100 outline-none focus:ring-2 focus:ring-[#1a8b4c]"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 shadow-lg rounded-full flex items-center justify-center text-gray-900 hover:bg-[#1a8b4c] hover:text-white transition-all z-10 opacity-0 group-hover:opacity-100 focus:opacity-100 outline-none focus:ring-2 focus:ring-[#1a8b4c]"
                 >
                   <ChevronRight size={24} aria-hidden="true" />
                 </button>
@@ -148,8 +148,8 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
           {/* RIGHT: Portrait Video Player */}
           <div className="w-full lg:w-2/5 flex justify-center">
             <div className="relative w-full max-w-[320px]">
-              <div className="absolute -top-6 -left-6 w-20 h-20 bg-green-100 rounded-full blur-2xl opacity-60 z-0" />
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-yellow-100 rounded-full blur-3xl opacity-60 z-0" />
+              <div className="absolute -top-6 -left-6 w-20 h-20 rounded-full opacity-60 z-0 pointer-events-none" style={{ background: 'radial-gradient(circle, #dcfce7 0%, transparent 70%)' }} />
+              <div className="absolute -bottom-6 -right-6 w-32 h-32 rounded-full opacity-60 z-0 pointer-events-none" style={{ background: 'radial-gradient(circle, #fef9c3 0%, transparent 70%)' }} />
               
               <div className="relative z-10 rounded-[40px] overflow-hidden border-8 border-white bg-black aspect-[9/16] shadow-2xl group">
                 <video 
@@ -168,7 +168,7 @@ export default function TrustSection({ sectionTitle, sectionDesc }: { sectionTit
                 
                 {/* Play Overlay */}
                 <div className="absolute inset-0 bg-black/20 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="w-16 h-16 bg-[#1a8b4c]/80 rounded-full flex items-center justify-center text-white shadow-xl backdrop-blur-sm">
+                  <div className="w-16 h-16 bg-[#1a8b4c]/90 rounded-full flex items-center justify-center text-white shadow-xl">
                     <Play size={28} fill="currentColor" />
                   </div>
                 </div>

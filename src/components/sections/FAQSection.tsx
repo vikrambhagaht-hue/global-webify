@@ -53,7 +53,7 @@ export function FAQSection({ faqs, sectionTitle, sectionDesc }: { faqs: FAQItem[
             return (
               <div 
                 key={index}
-                className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#1a8b4c]/40 transition-all duration-200"
+                className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#1a8b4c]/40 transition-[box-shadow,border-color] duration-200"
               >
                 <button
                   onClick={() => toggle(index)}
@@ -62,7 +62,7 @@ export function FAQSection({ faqs, sectionTitle, sectionDesc }: { faqs: FAQItem[
                   <span className="font-semibold text-gray-700 text-sm md:text-base pr-4 leading-snug transition-colors group-hover:text-[#0b5e28]">
                     {faq.question}
                   </span>
-                  <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 bg-[#0b5e28] text-white border border-[#0b5e28] group-hover:bg-[#094d20] group-hover:border-[#094d20] shadow-sm">
+                  <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-200 bg-[#0b5e28] text-white border border-[#0b5e28] group-hover:bg-[#094d20] group-hover:border-[#094d20] shadow-sm">
                     {isOpen ? <Minus size={14} strokeWidth={2.5} /> : <Plus size={14} strokeWidth={2.5} />}
                   </div>
                 </button>
