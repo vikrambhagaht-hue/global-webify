@@ -43,9 +43,6 @@ export async function generateMetadata(): Promise<Metadata> {
             title,
             description,
             images: [defaultLogo],
-          },
-          alternates: {
-            canonical: `https://${host}/`,
           }
         };
       }
@@ -72,9 +69,6 @@ export async function generateMetadata(): Promise<Metadata> {
         title,
         description,
         images: [defaultLogo],
-      },
-      alternates: {
-        canonical: SITE_URL.endsWith('/') ? SITE_URL : `${SITE_URL}/`,
       }
     };
   } catch (error: any) {
@@ -101,9 +95,6 @@ export async function generateMetadata(): Promise<Metadata> {
         title: defaultTitle,
         description: defaultDesc,
         images: [defaultLogo],
-      },
-      alternates: {
-        canonical: SITE_URL.endsWith('/') ? SITE_URL : `${SITE_URL}/`,
       }
     };
   }
@@ -120,7 +111,12 @@ export default async function Home() {
     subContent = await getSubdomainContent('homepage');
   }
 
+  const canonicalUrl = location ? `https://${host}/` : "https://www.globalwebify.com/";
+
   return (
-    <HomeView location={location || undefined} subdomainContent={subContent || undefined} isMobile={isMobile} />
+    <>
+      <link rel="canonical" href={canonicalUrl} />
+      <HomeView location={location || undefined} subdomainContent={subContent || undefined} isMobile={isMobile} />
+    </>
   );
 }
