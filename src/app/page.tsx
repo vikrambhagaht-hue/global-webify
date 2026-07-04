@@ -45,7 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
             images: [defaultLogo],
           },
           alternates: {
-            canonical: `https://${host}`,
+            canonical: `https://${host}/`,
           }
         };
       }
@@ -74,7 +74,7 @@ export async function generateMetadata(): Promise<Metadata> {
         images: [defaultLogo],
       },
       alternates: {
-        canonical: SITE_URL,
+        canonical: SITE_URL.endsWith('/') ? SITE_URL : `${SITE_URL}/`,
       }
     };
   } catch (error: any) {
@@ -103,7 +103,7 @@ export async function generateMetadata(): Promise<Metadata> {
         images: [defaultLogo],
       },
       alternates: {
-        canonical: SITE_URL,
+        canonical: SITE_URL.endsWith('/') ? SITE_URL : `${SITE_URL}/`,
       }
     };
   }
