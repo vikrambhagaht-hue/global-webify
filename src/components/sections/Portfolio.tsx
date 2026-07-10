@@ -70,11 +70,11 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
   return (
     <m.div
       ref={cardRef}
-      initial={isDesktop ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
-      whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-      viewport={{ once: true, margin: "150px" }}
-      transition={{ delay: index * 0.02, duration: 0.3 }}
-      className="relative"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "100px" }}
+      transition={{ delay: isDesktop ? index * 0.05 : 0, duration: 0.4 }}
+      className={`relative ${index >= 3 ? 'hidden md:block' : ''}`}
     >
       <a href={project.link} target="_blank" rel="noopener noreferrer" title={`${project.title} - Global Webify`} className="block">
         <div

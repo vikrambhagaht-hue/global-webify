@@ -39,6 +39,12 @@ const projects = [
     category: "FOOD & BEVERAGES",
     image: "/Kaveri.webp",
     link: "https://kaveri-nextjs.vercel.app/"
+  },
+  {
+    title: "RPS Hospital",
+    category: "HEALTHCARE WEBSITE",
+    image: "/RPS_Hospital.webp",
+    link: "https://rpshospital.com/"
   }
 ];
 

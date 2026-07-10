@@ -377,7 +377,7 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
           setVisibleCount(prev => prev + 12);
         }
       },
-      { threshold: 0.1, rootMargin: "300px" } // Load before they reach the bottom for a seamless feel
+      { threshold: 0.1, rootMargin: "300px" }
     );
 
     observer.observe(target);
