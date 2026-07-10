@@ -9,6 +9,7 @@ interface PortfolioItem {
   title: string;
   category: string;
   image: string;
+  thumbnail?: string | null;
   desc: string;
   link: string;
   displayUrl: string;
@@ -26,18 +27,29 @@ export default function AdminPortfolioPage() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [isCustomCategory, setIsCustomCategory] = useState(false);
   const [customImageBase64, setCustomImageBase64] = useState("");
+  const [customThumbnailBase64, setCustomThumbnailBase64] = useState("");
   const [isCompressing, setIsCompressing] = useState(false);
   const [compressedSizeInfo, setCompressedSizeInfo] = useState<string | null>(null);
 
   // Form State
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("Web Development");
+  const [category, setCategory] = useState("Website");
   const [desc, setDesc] = useState("");
   const [link, setLink] = useState("https://");
   const [displayUrl, setDisplayUrl] = useState("");
   const [tags, setTags] = useState("");
   const [isFeatured, setIsFeatured] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
   const [order, setOrder] = useState<number>(0);
+
+  // SEO Form State
+  const [seoTargetedCountry, setSeoTargetedCountry] = useState("United Arab Emirates");
+  const [seoTotalRanked, setSeoTotalRanked] = useState("");
+  const [seoTop10, setSeoTop10] = useState("");
+  const [seoTop20, setSeoTop20] = useState("");
+  const [seoTop30, setSeoTop30] = useState("");
+
+  const [seoDisplayCategory, setSeoDisplayCategory] = useState("SEO");
 
   useEffect(() => {
     fetchItems();
@@ -45,9 +57,10 @@ export default function AdminPortfolioPage() {
 
   const fetchItems = async () => {
     try {
-      const res = await fetch("/api/portfolio?featured=false");
+      const res = await fetch("/api/portfolio");
       const data = await res.json();
-      setItems(data);
+      // Filter out Videos, they are managed in the dedicated videos page
+      setItems(data.filter((item: PortfolioItem) => item.category !== "Videos"));
     } catch (error) {
       console.error("Failed to fetch portfolio:", error);
     } finally {
@@ -55,9 +68,9 @@ export default function AdminPortfolioPage() {
     }
   };
 
-  const openEditModal = (item: PortfolioItem) => {
+  const openEditModal = (item: PortfolioItem, index: number) => {
     setEditingId(item.id);
-    const defaultCategories = ["Web Development", "E-Commerce", "Corporate", "B2B Portal", "Informative", "Hospital And Diagnostics", "Medical And Healthcare", "Food And Beverages"];
+    const defaultCategories = ["Website", "E-Commerce", "CRM", "SEO", "Logo", "Graphics", "Videos"];
     if (!defaultCategories.includes(item.category)) {
       setIsCustomCategory(true);
     } else {
@@ -71,7 +84,37 @@ export default function AdminPortfolioPage() {
     setDisplayUrl(item.displayUrl);
     setTags(item.tags);
     setIsFeatured(item.isFeatured);
-    setOrder(item.order || 0);
+    setOrder(index + 1); // Pre-populate with the exact visual sequence number!
+    
+    if (item.category === "SEO") {
+      try {
+        const seoData = JSON.parse(item.tags);
+        setSeoTargetedCountry(seoData.targetedCountry || "");
+        setSeoTotalRanked(seoData.totalRanked || "");
+        setSeoTop10(seoData.top10 || "");
+        setSeoTop20(seoData.top20 || "");
+        setSeoTop30(seoData.top30 || "");
+
+        setSeoDisplayCategory(seoData.displayCategory || "SEO");
+      } catch (e) {
+        setSeoTargetedCountry("");
+        setSeoTotalRanked("");
+        setSeoTop10("");
+        setSeoTop20("");
+        setSeoTop30("");
+
+        setSeoDisplayCategory("SEO");
+      }
+    } else {
+      setSeoTargetedCountry("United Arab Emirates");
+      setSeoTotalRanked("");
+      setSeoTop10("");
+      setSeoTop20("");
+      setSeoTop30("");
+
+      setSeoDisplayCategory("SEO");
+    }
+    
     setShowModal(true);
   };
 
@@ -116,19 +159,35 @@ export default function AdminPortfolioPage() {
     e.preventDefault();
     setIsSaving(true);
     try {
+      let finalTags = tags;
+      if (category === "SEO") {
+        finalTags = JSON.stringify({
+          targetedCountry: seoTargetedCountry,
+          totalRanked: seoTotalRanked,
+          top10: seoTop10,
+          top20: seoTop20,
+          top30: seoTop30,
+
+          displayCategory: seoDisplayCategory
+        });
+      }
+
       const isEditing = editingId !== null;
       const res = await fetch("/api/portfolio", {
         method: isEditing ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id: editingId, title, category, desc, link, displayUrl, tags, isFeatured, imageBase64: customImageBase64, order: Number(order)
+          id: editingId, title, category, desc, link, displayUrl, tags: finalTags, isFeatured, imageBase64: customImageBase64, thumbnailBase64: customThumbnailBase64, order: Number(order)
         }),
       });
 
       if (res.ok) {
         setShowModal(false);
+        setToastMessage("✅ Project saved successfully!");
+        setTimeout(() => setToastMessage(""), 3000);
         // Reset form
-        setEditingId(null); setTitle(""); setDesc(""); setLink("https://"); setDisplayUrl(""); setTags(""); setIsFeatured(false); setIsCustomCategory(false); setCategory("Web Development"); setCustomImageBase64(""); setCompressedSizeInfo(null); setOrder(0);
+        setEditingId(null); setTitle(""); setDesc(""); setLink("https://"); setDisplayUrl(""); setTags(""); setIsFeatured(false); setIsCustomCategory(false); setCategory("Website"); setCustomImageBase64(""); setCustomThumbnailBase64(""); setCompressedSizeInfo(null); setOrder(0);
+        setSeoTargetedCountry("United Arab Emirates"); setSeoTotalRanked(""); setSeoTop10(""); setSeoTop20(""); setSeoTop30(""); setSeoDisplayCategory("SEO");
         fetchItems();
       } else {
         alert("Failed to save portfolio item.");
@@ -151,19 +210,20 @@ export default function AdminPortfolioPage() {
     }
   };
 
-  const handleFeatureOnHomepage = async (item: PortfolioItem) => {
+  const handleToggleFeatured = async (item: PortfolioItem) => {
     try {
       const res = await fetch("/api/portfolio", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...item, isFeatured: true }),
+        body: JSON.stringify({ ...item, isFeatured: !item.isFeatured }),
       });
       if (res.ok) {
-        alert("Project moved to Homepage Cards!");
+        setToastMessage(`Project ${item.isFeatured ? 'removed from' : 'added to'} Homepage Cards!`);
+        setTimeout(() => setToastMessage(""), 3000);
         fetchItems();
       } else {
         const data = await res.json();
-        alert(data.error || "Failed to feature project.");
+        alert(data.error || "Failed to toggle feature status.");
       }
     } catch (error) {
       console.error(error);
@@ -181,10 +241,11 @@ export default function AdminPortfolioPage() {
         <button
           onClick={() => {
             setEditingId(null);
-            setTitle(""); setDesc(""); setLink("https://"); setDisplayUrl(""); setTags(""); setIsFeatured(false); setIsCustomCategory(false); setCategory("Web Development"); setCustomImageBase64(""); setCompressedSizeInfo(null); setOrder(0);
+            setTitle(""); setDesc(""); setLink("https://"); setDisplayUrl(""); setTags(""); setIsFeatured(false); setIsCustomCategory(false); setCategory("Website"); setCustomImageBase64(""); setCustomThumbnailBase64(""); setCompressedSizeInfo(null); setOrder(0);
+            setSeoTargetedCountry("United Arab Emirates"); setSeoTotalRanked(""); setSeoTop10(""); setSeoTop20(""); setSeoTop30("");
             setShowModal(true);
           }}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors"
+          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors shadow-md"
         >
           <Plus className="w-5 h-5" />
           Add New Project
@@ -197,12 +258,12 @@ export default function AdminPortfolioPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {items.map((item) => (
+          {items.map((item, index) => (
             <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group transform-gpu will-change-transform">
               <div className="relative aspect-[16/10] bg-gray-100 border-b border-gray-100">
-                {item.image ? (
+                {item.thumbnail || item.image ? (
                   <Image
-                    src={item.image}
+                    src={item.thumbnail || item.image}
                     alt={item.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -223,19 +284,19 @@ export default function AdminPortfolioPage() {
                     </div>
                   )}
                   <div className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-md shadow-md w-fit">
-                    Card #{item.order}
+                    Sequence #{index + 1}
                   </div>
                 </div>
                 <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2">
                   <button
-                    onClick={() => handleFeatureOnHomepage(item)}
-                    className="bg-amber-500 hover:bg-amber-600 text-white p-2 rounded-lg shadow-md transition-colors"
-                    title="Feature on Homepage"
+                    onClick={() => handleToggleFeatured(item)}
+                    className={`${item.isFeatured ? 'bg-gray-500 hover:bg-gray-600' : 'bg-amber-500 hover:bg-amber-600'} text-white p-2 rounded-lg shadow-md transition-colors`}
+                    title={item.isFeatured ? "Remove from Homepage Cards" : "Feature on Homepage Cards"}
                   >
-                    <Star className="w-4 h-4 fill-white" />
+                    <Star className={`w-4 h-4 ${item.isFeatured ? 'fill-transparent' : 'fill-white'}`} />
                   </button>
                   <button
-                    onClick={() => openEditModal(item)}
+                    onClick={() => openEditModal(item, index)}
                     className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md transition-colors"
                     title="Edit Item"
                   >
@@ -263,7 +324,7 @@ export default function AdminPortfolioPage() {
                   {item.displayUrl}
                 </a>
                 <div className="flex flex-wrap gap-2">
-                  {item.tags.split(',').map((tag, i) => (
+                  {item.category !== "SEO" && item.tags.split(',').filter(t => t.trim()).map((tag, i) => (
                     <span key={i} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-md font-medium">
                       {tag.trim()}
                     </span>
@@ -300,60 +361,61 @@ export default function AdminPortfolioPage() {
             
             <form onSubmit={handleSave} className="p-6 space-y-6">
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className={`grid grid-cols-1 ${category === "Videos" ? 'md:grid-cols-1' : 'md:grid-cols-2'} gap-6`}>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Project Title</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{category === "Videos" ? "Video Title" : "Project Title"}</label>
                   <input
                     required
                     type="text"
                     value={title}
                     onChange={e => setTitle(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all"
-                    placeholder="e.g. Health Point Ranchi"
+                    placeholder={category === "Videos" ? "e.g. Real Estate Client Video" : "e.g. Health Point Ranchi"}
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Category</label>
-                  <select
-                    value={isCustomCategory ? "Custom" : category}
-                    onChange={(e) => {
-                      if (e.target.value === "Custom") {
-                        setIsCustomCategory(true);
-                        setCategory("");
-                      } else {
-                        setIsCustomCategory(false);
-                        setCategory(e.target.value);
-                      }
-                    }}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all mb-2"
-                  >
-                    <option value="Web Development">Web Development</option>
-                    <option value="E-Commerce">E-Commerce</option>
-                    <option value="Corporate">Corporate</option>
-                    <option value="B2B Portal">B2B Portal</option>
-                    <option value="Informative">Informative</option>
-                    <option value="Hospital And Diagnostics">Hospital And Diagnostics</option>
-                    <option value="Medical And Healthcare">Medical And Healthcare</option>
-                    <option value="Food And Beverages">Food And Beverages</option>
-                    <option value="Custom">Custom...</option>
-                  </select>
-                  
-                  {isCustomCategory && (
-                    <input
-                      required
-                      type="text"
-                      value={category}
-                      onChange={e => setCategory(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all bg-gray-50"
-                      placeholder="Type custom category name..."
-                    />
-                  )}
-                </div>
+                {category !== "Videos" && (
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Category</label>
+                    <select
+                      value={isCustomCategory ? "Custom" : category}
+                      onChange={(e) => {
+                        if (e.target.value === "Custom") {
+                          setIsCustomCategory(true);
+                          setCategory("");
+                        } else {
+                          setIsCustomCategory(false);
+                          setCategory(e.target.value);
+                        }
+                      }}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all mb-2"
+                    >
+                      <option value="Website">Website</option>
+                      <option value="E-Commerce">E-Commerce</option>
+                      <option value="CRM">CRM</option>
+                      <option value="SEO">SEO</option>
+                      <option value="Logo">Logo</option>
+                      <option value="Graphics">Graphics</option>
+                      <option value="Videos">Videos</option>
+                      <option value="Custom">Custom...</option>
+                    </select>
+                    
+                    {isCustomCategory && (
+                      <input
+                        required
+                        type="text"
+                        value={category}
+                        onChange={e => setCategory(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all bg-gray-50"
+                        placeholder="Type custom category name..."
+                      />
+                    )}
+                  </div>
+                )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className={`grid grid-cols-1 ${category === "Videos" ? 'md:grid-cols-1' : 'md:grid-cols-2'} gap-6`}>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Live Website Link</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{category === "Videos" ? "Instagram Reel Link" : "Live Website Link"}</label>
                   <input
                     required
                     type="url"
@@ -362,17 +424,19 @@ export default function AdminPortfolioPage() {
                     className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Display URL (Clean text)</label>
-                  <input
-                    required
-                    type="text"
-                    value={displayUrl}
-                    onChange={e => setDisplayUrl(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all"
-                    placeholder="e.g. healthpointranchi.com"
-                  />
-                </div>
+                {category !== "Videos" && (
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Display URL (Clean text)</label>
+                    <input
+                      required
+                      type="text"
+                      value={displayUrl}
+                      onChange={e => setDisplayUrl(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all"
+                      placeholder="e.g. healthpointranchi.com"
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -380,71 +444,182 @@ export default function AdminPortfolioPage() {
                   <label className="block text-sm font-semibold text-gray-700 mb-1.5">Priority / Sort Order (Optional)</label>
                   <input
                     type="number"
-                    value={order}
-                    onChange={e => setOrder(Number(e.target.value))}
+                    min="1"
+                    value={order || ""}
+                    onChange={e => {
+                      const val = e.target.value;
+                      if (val === "") setOrder(0);
+                      else setOrder(Math.max(1, Number(val)));
+                    }}
                     className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all"
-                    placeholder="0"
+                    placeholder="Leave empty for default (goes to bottom)"
                   />
-                  <p className="text-[11px] text-gray-500 mt-1">Example: If you type 10, this becomes Card #10. The old #10 will become #11, and so on automatically!</p>
+                  <p className="text-[11px] text-gray-500 mt-1">Type 1 to make it the first card, 2 for the second card, etc. Unnumbered cards stay at the bottom.</p>
                 </div>
                 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Upload Full-Page Screenshot</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    required={!editingId}
-                    disabled={isCompressing}
-                    onChange={async (e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        try {
-                          setIsCompressing(true);
-                          setCompressedSizeInfo(null); // Reset before compressing
-                          
-                          // Store original size
-                          const originalSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-                          
-                          const compressedBase64 = await compressImage(file);
-                          setCustomImageBase64(compressedBase64);
-                          
-                          // Calculate compressed size from base64
-                          // Base64 size in bytes is roughly (length * 0.75)
-                          const bytes = Math.round(compressedBase64.length * 0.75);
-                          let sizeStr = "";
-                          if (bytes > 1024 * 1024) {
-                            sizeStr = `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-                          } else {
-                            sizeStr = `${(bytes / 1024).toFixed(0)} KB`;
+                {category !== "Videos" && (
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Upload Full-Page Screenshot (Required)</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      required={!editingId && category !== "Videos"}
+                      disabled={isCompressing}
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          try {
+                            setIsCompressing(true);
+                            setCompressedSizeInfo(null); // Reset before compressing
+                            
+                            // Store original size
+                            const originalSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                            
+                            const compressedBase64 = await compressImage(file);
+                            setCustomImageBase64(compressedBase64);
+                            
+                            // Calculate compressed size from base64
+                            // Base64 size in bytes is roughly (length * 0.75)
+                            const bytes = Math.round(compressedBase64.length * 0.75);
+                            let sizeStr = "";
+                            if (bytes > 1024 * 1024) {
+                              sizeStr = `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+                            } else {
+                              sizeStr = `${(bytes / 1024).toFixed(0)} KB`;
+                            }
+                            
+                            setCompressedSizeInfo(`Reduced from ${originalSizeMB} MB to ${sizeStr} ✅`);
+                          } catch (error) {
+                            console.error("Compression failed:", error);
+                            alert("Failed to process the image.");
+                          } finally {
+                            setIsCompressing(false);
                           }
-                          
-                          setCompressedSizeInfo(`Reduced from ${originalSizeMB} MB to ${sizeStr} ✅`);
-                        } catch (error) {
-                          console.error("Compression failed:", error);
-                          alert("Failed to process the image.");
-                        } finally {
-                          setIsCompressing(false);
+                        } else {
+                          setCompressedSizeInfo(null);
+                          setCustomImageBase64("");
                         }
-                      } else {
-                        setCompressedSizeInfo(null);
-                        setCustomImageBase64("");
-                      }
-                    }}
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 text-sm"
-                  />
-                  <p className="text-[11px] text-gray-500 mt-1">
-                    {isCompressing ? (
-                      <span className="text-blue-600 font-semibold flex items-center gap-1">
-                        <Loader2 className="w-3 h-3 animate-spin" /> Compressing image...
-                      </span>
-                    ) : compressedSizeInfo ? (
-                      <span className="text-green-600 font-semibold">{compressedSizeInfo}</span>
-                    ) : (
-                      "Auto-compressed instantly in your browser to bypass Vercel limits!"
+                      }}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 text-sm"
+                    />
+                    <p className="text-[11px] text-gray-500 mt-1 mb-4">
+                      {isCompressing ? (
+                        <span className="text-blue-600 font-semibold flex items-center gap-1">
+                          <Loader2 className="w-3 h-3 animate-spin" /> Compressing image...
+                        </span>
+                      ) : compressedSizeInfo ? (
+                        <span className="text-green-600 font-semibold">{compressedSizeInfo}</span>
+                      ) : (
+                        "Auto-compressed instantly in your browser to bypass Vercel limits!"
+                      )}
+                    </p>
+
+                    {isFeatured && (
+                      <div className="pt-2 border-t border-gray-200">
+                        <label className="block text-sm font-semibold text-gray-700 mb-1.5 text-amber-600 flex items-center gap-1">
+                          <Star className="w-3 h-3" /> Upload Homepage Thumbnail (Optional)
+                        </label>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              try {
+                                const compressedBase64 = await compressImage(file);
+                                setCustomThumbnailBase64(compressedBase64);
+                              } catch (error) {
+                                console.error("Compression failed:", error);
+                                alert("Failed to process thumbnail.");
+                              }
+                            } else {
+                              setCustomThumbnailBase64("");
+                            }
+                          }}
+                          className="w-full px-4 py-2 rounded-lg border border-amber-200 bg-amber-50 text-sm"
+                        />
+                        <p className="text-[11px] text-amber-700 mt-1">This will be the standard hero image displayed on the homepage, while the Full-Page Screenshot will be used on the main portfolio page.</p>
+                      </div>
                     )}
-                  </p>
-                </div>
+                  </div>
+                )}
               </div>
+
+              {category === "SEO" ? (
+                <div className="bg-purple-50 p-4 rounded-xl border border-purple-100 space-y-4">
+                  <h3 className="font-bold text-purple-900 mb-2">SEO Specific Metrics</h3>
+                  <div className="grid grid-cols-1 gap-4">
+                    <div>
+                      <label className="block text-[13px] font-semibold text-purple-800 mb-1">Targeted Country</label>
+                      <input type="text" value={seoTargetedCountry} onChange={e => setSeoTargetedCountry(e.target.value)} className="w-full px-3 py-2 rounded-md border border-purple-200" placeholder="e.g. United Arab Emirates" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-[13px] font-semibold text-purple-800 mb-1">Display Category Tag (What to show on standard cards)</label>
+                    <input type="text" value={seoDisplayCategory} onChange={e => setSeoDisplayCategory(e.target.value)} className="w-full px-3 py-2 rounded-md border border-purple-200" placeholder="e.g. Education Website" />
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div>
+                      <label className="block text-[13px] font-semibold text-purple-800 mb-1">Total Ranked</label>
+                      <input type="text" value={seoTotalRanked} onChange={e => setSeoTotalRanked(e.target.value)} className="w-full px-3 py-2 rounded-md border border-purple-200" placeholder="e.g. 67/80" />
+                    </div>
+                    <div>
+                      <label className="block text-[13px] font-semibold text-purple-800 mb-1">Top 10 Ranked</label>
+                      <input type="text" value={seoTop10} onChange={e => setSeoTop10(e.target.value)} className="w-full px-3 py-2 rounded-md border border-purple-200" placeholder="e.g. 27" />
+                    </div>
+                    <div>
+                      <label className="block text-[13px] font-semibold text-purple-800 mb-1">Top 20 Ranked</label>
+                      <input type="text" value={seoTop20} onChange={e => setSeoTop20(e.target.value)} className="w-full px-3 py-2 rounded-md border border-purple-200" placeholder="e.g. 6" />
+                    </div>
+                    <div>
+                      <label className="block text-[13px] font-semibold text-purple-800 mb-1">Top 30 Ranked</label>
+                      <input type="text" value={seoTop30} onChange={e => setSeoTop30(e.target.value)} className="w-full px-3 py-2 rounded-md border border-purple-200" placeholder="e.g. 34" />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between items-center mb-1.5">
+                      <label className="block text-sm font-semibold text-gray-700">Description (Text Area)</label>
+                      <span className={`text-[11px] font-bold ${desc.length >= 350 ? 'text-red-500' : 'text-purple-600'}`}>
+                        {desc.length} / 350 max characters (Limits to 5 lines)
+                      </span>
+                    </div>
+                    <textarea
+                      required
+                      value={desc}
+                      onChange={e => setDesc(e.target.value)}
+                      maxLength={350}
+                      rows={4}
+                      className="w-full px-4 py-2.5 rounded-lg border border-purple-200 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all"
+                      placeholder="Paws & Claws Pets is a trusted destination..."
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-6">
+                  {category !== "Videos" && (
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">Tags (Comma Separated)</label>
+                      <input
+                        type="text"
+                        value={tags}
+                        onChange={e => setTags(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all"
+                        placeholder="e.g. React, Next.js, Node.js"
+                      />
+                    </div>
+                  )}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Description (Optional)</label>
+                    <textarea
+                      value={desc}
+                      onChange={e => setDesc(e.target.value)}
+                      rows={3}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all"
+                      placeholder="Project description..."
+                    />
+                  </div>
+                </div>
+              )}
 
               <label className="flex items-center gap-3 p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
                 <input
@@ -493,6 +668,12 @@ export default function AdminPortfolioPage() {
               </div>
             </form>
           </div>
+        </div>
+      )}
+
+      {toastMessage && (
+        <div className="fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg font-medium animate-bounce z-50 transition-all duration-300">
+          {toastMessage}
         </div>
       )}
     </div>

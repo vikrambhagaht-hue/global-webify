@@ -3,6 +3,8 @@ import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db';
 import cloudinary from '@/lib/cloudinary';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -15,12 +17,20 @@ export async function GET(req: Request) {
       whereClause.isFeatured = false;
     }
 
-    const items = await db.portfolioItem.findMany({
+    let items = await db.portfolioItem.findMany({
       where: whereClause,
-      orderBy: [
-        { order: 'asc' },
-        { createdAt: 'desc' }
-      ]
+      orderBy: { createdAt: 'desc' }
+    });
+
+    // Custom sort: treat 0 as 9999 so default items go to the bottom
+    items.sort((a, b) => {
+      const orderA = a.order === 0 ? 9999 : a.order;
+      const orderB = b.order === 0 ? 9999 : b.order;
+      
+      if (orderA !== orderB) {
+        return orderA - orderB;
+      }
+      return 0; // If they have the same order, maintain the createdAt desc order from the DB
     });
 
     return NextResponse.json(items);
@@ -33,13 +43,13 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { title, category, desc, link, displayUrl, tags, isFeatured, imageBase64, order } = body;
+    const { title, category, desc, link, displayUrl, tags, isFeatured, imageBase64, thumbnailBase64, order } = body;
 
     if (!title || !link || !displayUrl) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    if (!imageBase64) {
+    if (!imageBase64 && category !== "Videos") {
       return NextResponse.json({ error: "Custom screenshot image is required" }, { status: 400 });
     }
 
@@ -54,15 +64,28 @@ export async function POST(req: Request) {
 
     let finalImageUrl = "";
 
-    // Upload custom image directly to Cloudinary
-    console.log(`Uploading custom image to Cloudinary...`);
-    const uploadResponse = await cloudinary.uploader.upload(imageBase64, {
-      folder: "portfolio",
-      format: "webp",
-      resource_type: "image",
-    });
-    finalImageUrl = uploadResponse.secure_url;
-    console.log(`Custom upload successful! URL: ${finalImageUrl}`);
+    // Upload custom image directly to Cloudinary if provided
+    if (imageBase64) {
+      console.log(`Uploading custom image to Cloudinary...`);
+      const uploadResponse = await cloudinary.uploader.upload(imageBase64, {
+        folder: "portfolio",
+        format: "webp",
+        resource_type: "image",
+      });
+      finalImageUrl = uploadResponse.secure_url;
+      console.log(`Custom upload successful! URL: ${finalImageUrl}`);
+    }
+
+    let finalThumbnailUrl = null;
+    if (thumbnailBase64) {
+      console.log(`Uploading thumbnail to Cloudinary...`);
+      const thumbUploadResponse = await cloudinary.uploader.upload(thumbnailBase64, {
+        folder: "portfolio-thumbnails",
+        format: "webp",
+        resource_type: "image",
+      });
+      finalThumbnailUrl = thumbUploadResponse.secure_url;
+    }
 
     // 3. Handle Auto-Shifting Sequence!
     // If user sets this card to e.g. #10, we must shift everything that is >= 10 down by 1.
@@ -75,6 +98,45 @@ export async function POST(req: Request) {
     }
 
     // 4. Save to database
+    // Global Gapless Automatic Reordering Logic
+    let finalOrder = order || 0;
+    if (finalOrder > 0) {
+      let orderedItems = await db.portfolioItem.findMany({
+        where: { isActive: true },
+        orderBy: { createdAt: 'desc' },
+        select: { id: true, order: true }
+      });
+
+      orderedItems.sort((a: any, b: any) => {
+        const orderA = a.order === 0 ? 9999 : a.order;
+        const orderB = b.order === 0 ? 9999 : b.order;
+        if (orderA !== orderB) return orderA - orderB;
+        return 0;
+      });
+
+      const targetIndex = finalOrder - 1;
+      
+      // We don't have an ID for the new item yet, so we insert a placeholder
+      orderedItems.splice(targetIndex, 0, { id: -1, order: finalOrder } as any);
+
+      const updatePromises = orderedItems.map((item: any, index: number) => {
+        const correctOrder = index + 1;
+        if (item.id === -1) {
+          finalOrder = correctOrder;
+          return null;
+        }
+        if (item.order !== correctOrder) {
+          return db.portfolioItem.update({
+            where: { id: item.id },
+            data: { order: correctOrder }
+          });
+        }
+        return null;
+      }).filter(Boolean);
+
+      await Promise.all(updatePromises);
+    }
+
     const newItem = await db.portfolioItem.create({
       data: {
         title,
@@ -85,7 +147,8 @@ export async function POST(req: Request) {
         tags: tags || "Web Design",
         isFeatured: isFeatured || false,
         image: finalImageUrl,
-        order: order || 0,
+        thumbnail: finalThumbnailUrl,
+        order: finalOrder,
       }
     });
 
@@ -123,7 +186,7 @@ export async function DELETE(req: Request) {
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
-    const { id, title, category, desc, link, displayUrl, tags, isFeatured, imageBase64, order } = body;
+    const { id, title, category, desc, link, displayUrl, tags, isFeatured, imageBase64, thumbnailBase64, order } = body;
 
     if (!id) return NextResponse.json({ error: "Missing ID" }, { status: 400 });
 
@@ -160,17 +223,57 @@ export async function PUT(req: Request) {
       dataToUpdate.image = uploadResponse.secure_url;
     }
 
-    // 3. Handle Auto-Shifting Sequence for Edit!
-    // If the user explicitly changes the order number (e.g. they type 10), we push everything else down.
-    const targetOrder = order !== undefined ? order : 0;
-    if (targetOrder > 0) {
-      await db.portfolioItem.updateMany({
-        where: {
-          order: { gte: targetOrder },
-          id: { not: Number(id) } // Don't shift the one we are currently editing
-        },
-        data: { order: { increment: 1 } }
+    if (thumbnailBase64) {
+      console.log(`Uploading new thumbnail for edit...`);
+      const thumbUploadResponse = await cloudinary.uploader.upload(thumbnailBase64, {
+        folder: "portfolio-thumbnails",
+        format: "webp",
+        resource_type: "image",
       });
+      dataToUpdate.thumbnail = thumbUploadResponse.secure_url;
+    }
+
+    // Global Gapless Automatic Reordering Logic
+    const newOrder = dataToUpdate.order;
+    if (newOrder !== undefined && newOrder > 0) {
+      // 1. Fetch ALL active items, sorted exactly as they appear on the screen
+      let orderedItems = await db.portfolioItem.findMany({
+        where: { isActive: true },
+        orderBy: { createdAt: 'desc' },
+        select: { id: true, order: true }
+      });
+
+      orderedItems.sort((a: any, b: any) => {
+        const orderA = a.order === 0 ? 9999 : a.order;
+        const orderB = b.order === 0 ? 9999 : b.order;
+        if (orderA !== orderB) return orderA - orderB;
+        return 0;
+      });
+
+      // 2. Remove the current item from the list
+      orderedItems = orderedItems.filter((item: any) => item.id !== Number(id));
+
+      // 3. Insert the current item at the requested target index
+      const targetIndex = newOrder - 1;
+      orderedItems.splice(targetIndex, 0, { id: Number(id), order: newOrder } as any);
+
+      // 4. Update the database for items that changed their absolute position
+      const updatePromises = orderedItems.map((item: any, index: number) => {
+        const correctOrder = index + 1;
+        if (item.id === Number(id)) {
+          dataToUpdate.order = correctOrder;
+          return null;
+        }
+        if (item.order !== correctOrder) {
+          return db.portfolioItem.update({
+            where: { id: item.id },
+            data: { order: correctOrder }
+          });
+        }
+        return null;
+      }).filter(Boolean);
+
+      await Promise.all(updatePromises);
     }
 
     const updatedItem = await db.portfolioItem.update({

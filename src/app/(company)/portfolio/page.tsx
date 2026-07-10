@@ -17,8 +17,7 @@ export const revalidate = 60; // Revalidate every 60 seconds
 export default async function PortfolioPage() {
   const projects = await db.portfolioItem.findMany({
     where: { 
-      isActive: true,
-      isFeatured: false 
+      isActive: true
     },
     orderBy: [
       { order: 'asc' },

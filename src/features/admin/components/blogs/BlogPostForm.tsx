@@ -100,28 +100,75 @@ export default function BlogPostForm({ post }: { post?: BlogPost }) {
     }
   };
 
+  const compressImage = (file: File): Promise<Blob | null> => {
+    return new Promise((resolve, reject) => {
+      // Don't compress SVGs or non-images
+      if (!file.type.startsWith("image/") || file.type === "image/svg+xml" || file.type === "image/gif") {
+        resolve(file);
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new window.Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            resolve(file);
+            return;
+          }
+          
+          // strictly preserve original dimensions so UI doesn't break
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0, img.width, img.height);
+
+          // Convert to WebP at 85% quality to reduce file size without altering dimensions
+          canvas.toBlob((blob) => {
+            resolve(blob);
+          }, "image/webp", 0.85);
+        };
+        img.onerror = reject;
+        img.src = event.target?.result as string;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
   // Image uploader handler
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
+    
     try {
+      const compressedBlob = await compressImage(file);
+      const fileToUpload = compressedBlob ? new File([compressedBlob], file.name.replace(/\.[^/.]+$/, "") + ".webp", { type: "image/webp" }) : file;
+      
+      const formData = new FormData();
+      formData.append('file', fileToUpload);
+
       const res = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
-      const data = await res.json();
+      
+      let data;
+      try {
+        data = await res.json();
+      } catch (parseError) {
+        throw new Error(`The file is too large for Vercel's 4.5MB limit. Please upload a smaller image.`);
+      }
+      
       if (data.success) {
         setImage(data.url);
       } else {
         alert('Upload failed: ' + data.message);
       }
     } catch (err) {
-      alert('Upload failed. Please check XAMPP database and server connection.');
+      alert(`Upload failed: ${err instanceof Error ? err.message : 'Please check connection.'}\n\nSolution: Try picking an image smaller than 4MB, or compress it before uploading.`);
     } finally {
       setUploading(false);
     }

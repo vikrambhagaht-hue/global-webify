@@ -310,20 +310,7 @@ export default function Footer() {
                 </p>
               </a>
 
-              <a 
-                href={`https://maps.google.com/?q=${encodeURIComponent(contactInfo?.address2 || '36/1E/1L, Topsia Road, Panchannagram, Kolkata, Pin - 700039, West Bengal, India.')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="View Kolkata Office on Google Maps - Global Webify"
-                className="flex items-start gap-4 p-4 bg-white border border-gray-50 rounded-2xl shadow-sm hover:border-[#1a8b4c]/30 hover:shadow-md transition-all duration-300 group text-left w-full"
-              >
-                <div className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center bg-green-50 text-green-500 mt-1 transition-transform group-hover:scale-110">
-                  <MapPin size={18} />
-                </div>
-                <p className="text-[13px] font-bold text-gray-700 leading-relaxed group-hover:text-[#1a8b4c] transition-colors">
-                  {contactInfo?.address2 || '36/1E/1L, Topsia Road, Panchannagram, Kolkata, Pin - 700039, West Bengal, India.'}
-                </p>
-              </a>
+
 
               <Link 
                 href="/market-area" 

@@ -208,3 +208,21 @@ body {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+/* Disable hover effects during scroll for performance and UX */
+body.disable-hover, body.disable-hover * {
+  pointer-events: none !important;
+}
+
+/* Portfolio card fade-slide-in animation (replaces heavy Framer Motion) */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Lazy image placeholder - prevents layout shift */
+img.lazy-custom {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: portfolio-shimmer 1.5s ease-in-out infinite;
+}

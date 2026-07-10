@@ -67,7 +67,7 @@ export default function BlogDirectoryView({ posts, currentPage = 1, totalPages =
                         fill
                         sizes="(max-width: 768px) 100vw, 25vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        unoptimized={post.image.includes('unsplash.com') || post.image.startsWith('/uploads')}
+                        unoptimized={true}
                       />
                     </div>
                   )}

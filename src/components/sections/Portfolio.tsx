@@ -11,6 +11,7 @@ export interface FeaturedProject {
   title: string;
   category: string;
   image: string;
+  thumbnail?: string | null;
   link: string;
 }
 
@@ -56,6 +57,16 @@ const defaultProjects: FeaturedProject[] = [
 const ProjectCard = ({ project, index, isDesktop }: { project: any, index: number, isDesktop: boolean }) => {
   const cardRef = React.useRef(null);
 
+  let displayCategory = project.category;
+  if (project.category === "SEO" && project.tags) {
+    try {
+      const seoData = JSON.parse(project.tags);
+      if (seoData.displayCategory) {
+        displayCategory = seoData.displayCategory;
+      }
+    } catch(e) {}
+  }
+
   return (
     <m.div
       ref={cardRef}
@@ -72,7 +83,7 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
           {/* Image Container */}
           <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-r from-[#e2f5e9] via-[#f0fdf4] to-[#e2f5e9] bg-[length:200%_100%] animate-[portfolio-shimmer_1.5s_ease-in-out_infinite]">
               <img
-                src={project.image}
+                src={project.thumbnail || project.image}
                 alt={project.title}
                 loading="lazy"
                 decoding="async"
@@ -88,7 +99,7 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
                 <div className="inline-flex items-center gap-2 bg-white/20 px-3 py-1 rounded-full mb-3 shadow-sm border border-white/20">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80]" />
                   <p className="text-white text-[11px] font-semibold uppercase tracking-widest">
-                    {project.category}
+                    {displayCategory}
                   </p>
                 </div>
 

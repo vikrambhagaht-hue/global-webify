@@ -184,14 +184,14 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
       </details>
 
       {/* Collapsible Manage Portfolio Dropdown */}
-      <details className="group/details" open={isPortfolio || isHomepagePortfolio} onToggle={() => {}}>
+      <details className="group/details" open={isPortfolio || isHomepagePortfolio || pathname === '/admin/videos'} onToggle={() => {}}>
         <summary className={`flex items-center justify-between gap-2.5 px-4 py-2.5 rounded-xl transition-all duration-300 text-[11px] md:text-xs font-semibold tracking-wide cursor-pointer list-none [&::-webkit-details-marker]:hidden border group/summary ${
-          (isPortfolio || isHomepagePortfolio)
+          (isPortfolio || isHomepagePortfolio || pathname === '/admin/videos')
             ? 'bg-gradient-to-r from-[#1a8b4c] to-[#0e5e3b] text-white border-[#15703d] shadow-xl shadow-[#1a8b4c]/20' 
             : 'text-gray-400 hover:text-white hover:bg-[#132a1d]/60 border-transparent hover:border-[#132a1d] hover:shadow-lg backdrop-blur-sm'
         }`}>
           <div className="flex items-center gap-2.5">
-            <ImageIcon className={`stroke-[2.2] flex-shrink-0 transition-colors w-[22px] h-[22px] ${(isPortfolio || isHomepagePortfolio) ? 'text-white' : 'text-gray-500 group-hover/summary:text-white'}`} />
+            <ImageIcon className={`stroke-[2.2] flex-shrink-0 transition-colors w-[22px] h-[22px] ${(isPortfolio || isHomepagePortfolio || pathname === '/admin/videos') ? 'text-white' : 'text-gray-500 group-hover/summary:text-white'}`} />
             <span>Manage Portfolio</span>
           </div>
           <span className="text-[10px] group-open/details:rotate-90 transition-transform font-bold text-gray-500 group-hover/summary:text-white">▶</span>
@@ -218,6 +218,28 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
             }`}
           >
             Homepage Cards
+          </Link>
+          <Link 
+            href="/admin/videos" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border ${
+              pathname === '/admin/videos'
+                ? 'text-white bg-pink-500 border-pink-600 shadow-md font-bold'
+                : 'text-[#E1306C] bg-pink-500/10 border-pink-500/30 hover:bg-pink-500/20 hover:text-white shadow-sm'
+            }`}
+          >
+            Manage Videos
+          </Link>
+          <Link 
+            href="/admin/portfolio" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white`}
+          >
+            Manage Logos
+          </Link>
+          <Link 
+            href="/admin/portfolio" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white`}
+          >
+            Manage Graphics
           </Link>
         </div>
       </details>

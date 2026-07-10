@@ -180,6 +180,7 @@ model PortfolioItem {
   title      String
   category   String
   image      String   // Path or Cloudinary URL
+  thumbnail  String?  // Thumbnail for homepage hero
   desc       String   @db.Text
   link       String
   displayUrl String
