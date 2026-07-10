@@ -268,41 +268,42 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
       {/* Video Thumbnail / Iframe Area */}
       <div className={`relative w-full ${project.tags === "square" ? "aspect-square" : "aspect-[4/5] sm:aspect-[3/4]"} overflow-hidden bg-gray-50 p-2 sm:p-3 flex items-center justify-center group/img transition-all duration-300 border-b border-gray-100`}>
         <div className="w-full h-full relative rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200 bg-white">
-          {isPlaying && (
-            <iframe 
-               src={getInstagramEmbedUrl(project.link)}
-               className="absolute inset-0 w-full h-full border-0 bg-white z-0"
-               allowFullScreen
-               scrolling="no"
-               loading="lazy"
-               onLoad={() => setIframeLoaded(true)}
-            />
-          )}
-
-          {(!isPlaying || (isPlaying && hasImage && !iframeLoaded)) && (
+          {isPlaying ? (
+            <>
+              {/* Loading Spinner Overlay */}
+              {!iframeLoaded && (
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-50/80 backdrop-blur-sm">
+                  <div className="w-8 h-8 border-4 border-green-200 border-t-[#2CA65A] rounded-full animate-spin"></div>
+                </div>
+              )}
+              <iframe 
+                 src={getInstagramEmbedUrl(project.link)}
+                 className="absolute inset-0 w-full h-full border-0 bg-white z-0"
+                 allowFullScreen
+                 scrolling="no"
+                 loading="lazy"
+                 onLoad={() => setIframeLoaded(true)}
+              />
+            </>
+          ) : (
             <div className="absolute inset-0 z-10 bg-white">
               <img 
                 src={getOptimizedUrl(project.image)} 
                 alt={project.title}
-                className={`w-full h-full object-cover transition-opacity duration-300 ${isPlaying ? 'opacity-50' : 'opacity-80 group-hover/img:opacity-100 cursor-pointer'}`}
+                className="w-full h-full object-cover opacity-80 group-hover/img:opacity-100 transition-opacity duration-300 cursor-pointer"
                 loading={index < 6 ? "eager" : "lazy"}
                 decoding="async"
-                onClick={() => !isPlaying && setIsPlaying(true)}
+                onClick={() => setIsPlaying(true)}
               />
-              {!isPlaying ? (
-                <div 
-                  className="absolute inset-0 flex items-center justify-center cursor-pointer"
-                  onClick={() => setIsPlaying(true)}
-                >
-                  <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center group-hover/img:scale-110 group-hover/img:bg-white/40 transition-all duration-300 shadow-2xl border border-white/40">
-                     <div className="w-0 h-0 border-t-8 border-t-transparent border-l-[14px] border-l-white border-b-8 border-b-transparent ml-1"></div>
-                  </div>
+              {/* Play Button Overlay */}
+              <div 
+                className="absolute inset-0 flex items-center justify-center cursor-pointer"
+                onClick={() => setIsPlaying(true)}
+              >
+                <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center group-hover/img:scale-110 group-hover/img:bg-white/40 transition-all duration-300 shadow-2xl border border-white/40">
+                   <div className="w-0 h-0 border-t-8 border-t-transparent border-l-[14px] border-l-white border-b-8 border-b-transparent ml-1"></div>
                 </div>
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="w-10 h-10 border-4 border-white/30 border-t-white rounded-full animate-spin shadow-lg"></div>
-                </div>
-              )}
+              </div>
             </div>
           )}
         </div>
@@ -358,6 +359,30 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
 
 export default function PortfolioClient({ projects }: { projects: ProjectItem[] }) {
   const [activeCategory, setActiveCategory] = useState("Website");
+  const [visibleCount, setVisibleCount] = useState(12);
+  const observerTarget = React.useRef<HTMLDivElement>(null);
+
+  const handleCategoryChange = (cat: string) => {
+    setActiveCategory(cat);
+    setVisibleCount(12);
+  };
+
+  React.useEffect(() => {
+    const target = observerTarget.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          setVisibleCount(prev => prev + 12);
+        }
+      },
+      { threshold: 0.1, rootMargin: "300px" } // Load before they reach the bottom for a seamless feel
+    );
+
+    observer.observe(target);
+    return () => observer.unobserve(target);
+  }, [visibleCount, activeCategory]);
 
   // Disable hover effects while user is actively scrolling
   useEffect(() => {
@@ -432,7 +457,7 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
             {dynamicCategories.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => handleCategoryChange(cat)}
                 className={`flex-shrink-0 whitespace-nowrap px-4 py-2 rounded-full text-[12px] sm:text-[13px] font-bold font-lexend transition-colors duration-200 ${
                   activeCategory === cat 
                   ? "bg-[#2CA65A] text-white border border-[#2CA65A] shadow-lg shadow-green-900/10" 
@@ -446,12 +471,12 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
 
         {/* Grid layout */}
         <div 
-          className={`mx-auto ${activeCategory === "SEO" ? "flex flex-col gap-4 sm:gap-6 max-w-[1000px]" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-[1400px]"}`}
+          className={`mx-auto ${activeCategory === "SEO" ? "flex flex-col gap-4 sm:gap-6 max-w-[1000px]" : activeCategory === "Videos" ? "columns-1 md:columns-2 lg:columns-3 gap-4 sm:gap-6 max-w-[1400px]" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-[1400px]"}`}
         >
-          {filteredProjects.map((project, index) => {
+          {filteredProjects.slice(0, visibleCount).map((project, index) => {
             const isSEO = activeCategory === "SEO" && project.category === "SEO";
             return (
-              <div key={project.id} className={!isSEO ? "h-full" : ""}>
+              <div key={project.id} className={isSEO ? "" : activeCategory === "Videos" ? "break-inside-avoid mb-4 sm:mb-6" : "h-full"}>
                 {isSEO ? (
                   <SeoCard project={project} index={index} />
                 ) : project.category === "Videos" ? (
@@ -463,6 +488,13 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
             );
           })}
         </div>
+
+        {/* Infinite Scroll Trigger */}
+        {visibleCount < filteredProjects.length && (
+          <div ref={observerTarget} className="mt-12 sm:mt-16 w-full h-16 flex items-center justify-center">
+             <div className="w-8 h-8 border-4 border-green-200 border-t-[#2CA65A] rounded-full animate-spin"></div>
+          </div>
+        )}
       </div>
     </div>
   );
