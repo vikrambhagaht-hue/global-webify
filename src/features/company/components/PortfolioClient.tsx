@@ -125,6 +125,111 @@ const ProjectCard = ({ project, index }: { project: ProjectItem; index: number }
   );
 };
 
+const GraphicCard = ({ project, index }: { project: ProjectItem; index: number }) => {
+  const isVideoUrl = (url: string) => {
+    if (!url) return false;
+    return url.match(/\.(mp4|webm|ogg)$/i) || (url.includes('cloudinary') && url.includes('/video/upload/'));
+  };
+
+  const getInstagramEmbedUrl = (url: string) => {
+    if (!url) return '';
+    try {
+      const urlObj = new URL(url);
+      if (urlObj.hostname.includes('instagram.com')) {
+        urlObj.search = '';
+        let pathname = urlObj.pathname;
+        if (!pathname.endsWith('/')) pathname += '/';
+        return `${urlObj.origin}${pathname}embed?hidecaption=true`;
+      }
+    } catch (e) {}
+    return url;
+  };
+
+  const isInsta = project.link?.includes('instagram.com');
+  const isVid = isVideoUrl(project.image || project.link);
+
+  return (
+    <div
+      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(26,139,76,0.12)] border border-gray-100 transition-shadow duration-500"
+      style={{ animation: `fadeSlideIn 0.3s ease-out both ${index * 0.03}s` }}
+    >
+      {/* Simple Image/Video Area - Natural Height */}
+      <div className="relative w-full overflow-hidden bg-gray-50 group/img">
+        {isInsta ? (
+          <div className="w-full relative" style={{ paddingTop: '120%' /* roughly 4:5 aspect for insta */ }}>
+             <div className="absolute inset-0 z-10 pointer-events-none"></div>
+             <iframe src={getInstagramEmbedUrl(project.link)} className="absolute inset-0 w-full h-full border-0" />
+          </div>
+        ) : isVid ? (
+          <video 
+            src={project.image || project.link} 
+            className="w-full h-auto block" 
+            controls 
+            playsInline
+          />
+        ) : (
+          <a 
+            href={project.image}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full cursor-pointer block"
+          >
+            <img 
+              src={getOptimizedUrl(project.image)} 
+              alt={project.title}
+              title={project.title}
+              className="w-full h-auto block transition-transform duration-500 group-hover/img:scale-105"
+              loading={index < 6 ? "eager" : "lazy"}
+              decoding="async"
+            />
+          </a>
+        )}
+      </div>
+
+      {/* Project Details */}
+      <div className="p-5 flex flex-col flex-1 bg-white justify-between">
+        <div>
+          <div className="mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#1a8b4c] bg-green-50 px-2.5 py-1 rounded-full">
+              {project.category}
+            </span>
+          </div>
+          {project.title && (
+            <h3 className="text-[19px] md:text-[20px] font-bold text-gray-900 mb-3 leading-tight group-hover:text-[#1a8b4c] transition-colors duration-300">
+              {project.title}
+            </h3>
+          )}
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
+          {isInsta || isVid ? (
+            <a 
+              href={project.link || project.image}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 bg-[#1a8b4c] hover:bg-[#15803d] text-white text-center py-2.5 px-4 rounded-xl text-[14px] font-bold transition-colors flex items-center justify-center gap-2 shadow-sm shadow-green-900/10"
+            >
+              <span>View Original {isInsta ? "Post" : "Video"}</span>
+              <ExternalLink size={14} />
+            </a>
+          ) : (
+            <a 
+              href={project.image}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 bg-[#1a8b4c] hover:bg-[#15803d] text-white text-center py-2.5 px-4 rounded-xl text-[14px] font-bold transition-colors flex items-center justify-center gap-2 shadow-sm shadow-green-900/10"
+            >
+              <span>View Full Image</span>
+              <ExternalLink size={14} />
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const SeoCard = ({ project, index }: { project: ProjectItem; index: number }) => {
   const contactInfo = useContactInfo();
   const phone = contactInfo?.phone || TOP_BAR_CONTACT.phone1;
@@ -488,6 +593,14 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
                 ))}
               </div>
             )}
+          </div>
+        ) : activeCategory === "Graphics" || activeCategory === "Logo" ? (
+          <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 sm:gap-4 lg:gap-6 max-w-[1600px] mx-auto px-2">
+            {filteredProjects.slice(0, visibleCount).map((project, index) => (
+              <div key={project.id} className="break-inside-avoid mb-3 sm:mb-4 lg:mb-6">
+                <GraphicCard project={project} index={index} />
+              </div>
+            ))}
           </div>
         ) : (
           <div 

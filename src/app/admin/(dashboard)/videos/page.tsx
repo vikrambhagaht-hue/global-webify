@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Loader2, CheckCircle2, Edit2, PlayCircle } from "lucide-react";
+import { Plus, Trash2, Loader2, CheckCircle2, Edit2, PlayCircle, Video as VideoIcon } from "lucide-react";
 
 interface PortfolioItem {
   id: number;
@@ -27,11 +27,15 @@ export default function AdminVideosPage() {
 
   // Form State
   const [title, setTitle] = useState("");
-  const [link, setLink] = useState("https://");
+  const [link, setLink] = useState("");
   const [desc, setDesc] = useState("");
   const [order, setOrder] = useState<number>(0);
   const [tags, setTags] = useState("");
   const [toastMessage, setToastMessage] = useState("");
+  
+  const [uploadType, setUploadType] = useState<"instagram" | "file">("instagram");
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     fetchItems();
@@ -71,6 +75,14 @@ export default function AdminVideosPage() {
     setDesc(item.desc || "");
     setOrder(item.order);
     setTags(item.tags || "");
+    setMediaFile(null);
+    
+    if (item.link && item.link.includes('instagram.com')) {
+      setUploadType("instagram");
+    } else {
+      setUploadType("file");
+    }
+    
     setShowModal(true);
   };
 
@@ -79,20 +91,55 @@ export default function AdminVideosPage() {
     setIsSaving(true);
     try {
       const isEditing = editingId !== null;
-      
-      const payload = {
+      let finalLink = link;
+      let finalImage = "";
+
+      if (uploadType === "file") {
+        if (mediaFile) {
+          setIsUploading(true);
+          const formData = new FormData();
+          formData.append("file", mediaFile);
+          
+          const uploadRes = await fetch("/api/upload-media", {
+            method: "POST",
+            body: formData
+          });
+          
+          if (!uploadRes.ok) throw new Error("Failed to upload video");
+          const uploadData = await uploadRes.json();
+          finalLink = uploadData.url;
+          finalImage = uploadData.url; 
+          setIsUploading(false);
+        } else if (!isEditing) {
+          alert("Please select a video to upload.");
+          setIsSaving(false);
+          return;
+        }
+      } else {
+        if (!finalLink) {
+          alert("Please enter an Instagram link.");
+          setIsSaving(false);
+          return;
+        }
+      }
+
+      const payload: any = {
         id: editingId,
-        title: title.trim() || "Instagram Reel",
+        title: title.trim() || "Portfolio Video",
         category: "Videos",
         desc,
-        link,
-        displayUrl: "instagram.com", // Required by API
+        link: finalLink,
+        displayUrl: "video", 
         tags,
         isFeatured: false,
-        imageBase64: "", // Not needed for videos
-        thumbnailBase64: "",
         order: Number(order)
       };
+
+      if (uploadType === "file" && mediaFile) {
+        payload.uploadedImageUrl = finalImage;
+      } else if (uploadType === "instagram") {
+        payload.uploadedImageUrl = ""; 
+      }
 
       const res = await fetch("/api/portfolio", {
         method: isEditing ? "PUT" : "POST",
@@ -104,7 +151,7 @@ export default function AdminVideosPage() {
         setShowModal(false);
         setToastMessage("✅ Video saved successfully!");
         setTimeout(() => setToastMessage(""), 3000);
-        setEditingId(null); setTitle(""); setDesc(""); setLink("https://"); setOrder(0); setTags("");
+        setEditingId(null); setTitle(""); setDesc(""); setLink(""); setOrder(0); setTags(""); setMediaFile(null);
         fetchItems();
       } else {
         const data = await res.json();
@@ -138,13 +185,13 @@ export default function AdminVideosPage() {
         <button
           onClick={() => {
             setEditingId(null);
-            setTitle(""); setDesc(""); setLink(""); setOrder(0); setTags("");
+            setTitle(""); setDesc(""); setLink(""); setOrder(0); setTags(""); setMediaFile(null); setUploadType("instagram");
             setShowModal(true);
           }}
           className="flex items-center gap-2 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F56040] hover:opacity-90 text-white px-5 py-2.5 rounded-lg font-medium transition-opacity shadow-md"
         >
           <Plus className="w-5 h-5" />
-          Add Instagram Reel
+          Add Video / Reel
         </button>
       </div>
 
@@ -262,21 +309,56 @@ export default function AdminVideosPage() {
                   value={title}
                   onChange={e => setTitle(e.target.value)}
                   className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all"
-                  placeholder="e.g. Real Estate Client Video (Defaults to 'Instagram Reel')"
+                  placeholder="e.g. AI Product Demo"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Instagram Reel Link</label>
-                <input
-                  required
-                  type="url"
-                  value={link}
-                  onChange={e => setLink(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all"
-                  placeholder="https://www.instagram.com/reel/..."
-                />
+              <div className="pt-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-3">Media Source</label>
+                <div className="flex gap-4">
+                  <label className={`flex-1 flex items-center justify-center gap-2 p-3 border rounded-xl cursor-pointer transition-colors ${uploadType === 'instagram' ? 'bg-pink-50 border-pink-500 text-pink-700' : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'}`}>
+                    <input type="radio" checked={uploadType === 'instagram'} onChange={() => setUploadType('instagram')} className="hidden" />
+                    <PlayCircle className="w-4 h-4" /> Instagram Link
+                  </label>
+                  <label className={`flex-1 flex items-center justify-center gap-2 p-3 border rounded-xl cursor-pointer transition-colors ${uploadType === 'file' ? 'bg-purple-50 border-purple-500 text-purple-700' : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'}`}>
+                    <input type="radio" checked={uploadType === 'file'} onChange={() => setUploadType('file')} className="hidden" />
+                    <VideoIcon className="w-4 h-4" /> Upload Video
+                  </label>
+                </div>
               </div>
+
+              {uploadType === "instagram" && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Instagram Reel URL</label>
+                  <input
+                    required={uploadType === "instagram"}
+                    type="url"
+                    value={link}
+                    onChange={e => setLink(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all"
+                    placeholder="https://www.instagram.com/reel/..."
+                  />
+                </div>
+              )}
+
+              {uploadType === "file" && (
+                <div className="p-4 border border-gray-200 rounded-xl bg-gray-50">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Upload Video (MP4 / WebM)</label>
+                  <input 
+                    type="file" 
+                    accept="video/mp4,video/webm"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        setMediaFile(e.target.files[0]);
+                      }
+                    }}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200 cursor-pointer" 
+                  />
+                  {editingId && !mediaFile && (
+                    <p className="text-xs text-gray-500 mt-2 italic">Leave empty to keep the existing uploaded file.</p>
+                  )}
+                </div>
+              )}
 
               <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
                 <label className="flex items-center gap-3 cursor-pointer">

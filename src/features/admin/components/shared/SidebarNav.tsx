@@ -241,17 +241,27 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
                 : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
             }`}
           >
-            Main Portfolio
+            Websites & SEO
           </Link>
           <Link 
-            href="/admin/homepage-portfolio" 
+            href="/admin/media-portfolio?type=Logo" 
             className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border ${
-              pathname === '/admin/homepage-portfolio'
+              (pathname === '/admin/media-portfolio' && searchParams?.get('type') === 'Logo')
                 ? 'text-[#22c55e] bg-[#1a8b4c]/10 border-[#1a8b4c]/30 shadow-md font-bold'
                 : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
             }`}
           >
-            Homepage Cards
+            Manage Logos
+          </Link>
+          <Link 
+            href="/admin/media-portfolio?type=Graphics" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border ${
+              (pathname === '/admin/media-portfolio' && searchParams?.get('type') === 'Graphics')
+                ? 'text-[#22c55e] bg-[#1a8b4c]/10 border-[#1a8b4c]/30 shadow-md font-bold'
+                : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
+            }`}
+          >
+            Manage Graphics
           </Link>
           <Link 
             href="/admin/videos" 
@@ -261,19 +271,17 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
                 : 'text-[#E1306C] bg-pink-500/10 border-pink-500/30 hover:bg-pink-500/20 hover:text-white shadow-sm'
             }`}
           >
-            Manage Videos
+            Instagram Reels & Videos
           </Link>
           <Link 
-            href="/admin/portfolio" 
-            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white`}
+            href="/admin/homepage-portfolio" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border ${
+              pathname === '/admin/homepage-portfolio'
+                ? 'text-[#22c55e] bg-[#1a8b4c]/10 border-[#1a8b4c]/30 shadow-md font-bold'
+                : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
+            }`}
           >
-            Manage Logos
-          </Link>
-          <Link 
-            href="/admin/portfolio" 
-            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white`}
-          >
-            Manage Graphics
+            Homepage Featured Cards
           </Link>
         </div>
       </details>

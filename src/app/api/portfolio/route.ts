@@ -43,13 +43,13 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { title, category, desc, link, displayUrl, tags, isFeatured, imageBase64, thumbnailBase64, order } = body;
+    const { title, category, desc, link, displayUrl, tags, isFeatured, imageBase64, thumbnailBase64, order, uploadedImageUrl } = body;
 
-    if (!title || !link || !displayUrl) {
+    if (title === undefined || !link || !displayUrl) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    if (!imageBase64 && category !== "Videos") {
+    if (!imageBase64 && !uploadedImageUrl && category !== "Videos" && category !== "Graphics" && category !== "Logo") {
       return NextResponse.json({ error: "Custom screenshot image is required" }, { status: 400 });
     }
 
@@ -64,8 +64,9 @@ export async function POST(req: Request) {
 
     let finalImageUrl = "";
 
-    // Upload custom image directly to Cloudinary if provided
-    if (imageBase64) {
+    if (uploadedImageUrl) {
+      finalImageUrl = uploadedImageUrl;
+    } else if (imageBase64) {
       console.log(`Uploading custom image to Cloudinary...`);
       const uploadResponse = await cloudinary.uploader.upload(imageBase64, {
         folder: "portfolio",
@@ -107,7 +108,7 @@ export async function POST(req: Request) {
 
     const newItem = await db.portfolioItem.create({
       data: {
-        title,
+        title: title || "",
         category: category || "Web Development",
         desc: desc || "",
         link,
@@ -154,7 +155,7 @@ export async function DELETE(req: Request) {
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
-    const { id, title, category, desc, link, displayUrl, tags, isFeatured, imageBase64, thumbnailBase64, order } = body;
+    const { id, title, category, desc, link, displayUrl, tags, isFeatured, imageBase64, thumbnailBase64, order, uploadedImageUrl } = body;
 
     if (!id) return NextResponse.json({ error: "Missing ID" }, { status: 400 });
 
@@ -181,7 +182,9 @@ export async function PUT(req: Request) {
       order: order !== undefined ? order : 0
     };
 
-    if (imageBase64) {
+    if (uploadedImageUrl) {
+      dataToUpdate.image = uploadedImageUrl;
+    } else if (imageBase64) {
       console.log(`Uploading new custom image for edit...`);
       const uploadResponse = await cloudinary.uploader.upload(imageBase64, {
         folder: "portfolio",
