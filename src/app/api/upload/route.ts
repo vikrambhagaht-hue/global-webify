@@ -80,13 +80,25 @@ export async function POST(request: NextRequest) {
     // VERCEL DEPLOYMENT: Fallback to Cloudinary because Vercel doesn't allow local file saving
     const result: any = await new Promise((resolve, reject) => {
       const baseName = originalName.replace(`.${ext}`, '').replace(/\s+/g, '-');
+      const isVideo = ['.mp4', '.webm', '.ogg'].includes(ext);
+      
+      const uploadOptions: any = { 
+        folder: 'global-weblify/uploads',
+        resource_type: 'auto',
+        public_id: `${baseName}-${Date.now()}`
+      };
+
+      // Force Cloudinary to aggressively compress the file permanently to save storage quota
+      if (!isVideo) {
+        uploadOptions.format = 'webp';
+        uploadOptions.transformation = [
+          { width: 1920, crop: "limit" },
+          { quality: "auto" }
+        ];
+      }
+
       const uploadStream = cloudinary.uploader.upload_stream(
-        { 
-          folder: 'global-weblify/uploads',
-          resource_type: 'auto',
-          public_id: `${baseName}-${Date.now()}`,
-          format: ext.replace('.', '')
-        },
+        uploadOptions,
         (error, result) => {
           if (error) reject(error);
           else resolve(result);

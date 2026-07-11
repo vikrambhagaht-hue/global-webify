@@ -26,6 +26,16 @@ const getOptimizedUrl = (url: string) => {
   return url;
 };
 
+const getOptimizedVideoUrl = (url: string) => {
+  if (url && url.includes('res.cloudinary.com') && url.includes('/upload/')) {
+    if (!url.includes('q_auto')) {
+      // w_720 ensures the video is scaled down to 720p max width, q_auto forces high compression, f_auto ensures webm/mp4 delivery
+      return url.replace('/upload/', '/upload/w_720,q_auto,f_auto/');
+    }
+  }
+  return url;
+};
+
 const ProjectCard = ({ project, index }: { project: ProjectItem; index: number }) => {
   const [scrollDuration, setScrollDuration] = useState("4s");
   const imgRef = React.useRef<HTMLImageElement>(null);
@@ -57,8 +67,7 @@ const ProjectCard = ({ project, index }: { project: ProjectItem; index: number }
 
   return (
     <div
-      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(26,139,76,0.12)] border border-gray-100 transition-shadow duration-500"
-      style={{ animation: `fadeSlideIn 0.3s ease-out both ${index * 0.03}s` }}
+      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(26,139,76,0.12)] border border-gray-100 transition-shadow duration-500 animate-fadeIn"
     >
       {/* Browser Header Mockup */}
       <div className="bg-gray-50/80 border-b border-gray-100 px-4 py-3 flex items-center gap-2 rounded-t-3xl">
@@ -88,8 +97,7 @@ const ProjectCard = ({ project, index }: { project: ProjectItem; index: number }
           className="w-full h-full object-cover object-top transition-[object-position] duration-[0.5s] group-hover/img:[transition-duration:var(--scroll-duration)] ease-linear group-hover/img:object-bottom"
           style={{ '--scroll-duration': scrollDuration } as React.CSSProperties}
           onLoad={(e) => calculateDuration(e.currentTarget.naturalHeight, e.currentTarget.naturalWidth)}
-          loading={index < 6 ? "eager" : "lazy"}
-
+          loading="eager"
           decoding="async"
         />
       </a>
@@ -150,8 +158,7 @@ const GraphicCard = ({ project, index }: { project: ProjectItem; index: number }
 
   return (
     <div
-      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(26,139,76,0.12)] border border-gray-100 transition-shadow duration-500"
-      style={{ animation: `fadeSlideIn 0.3s ease-out both ${index * 0.03}s` }}
+      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(26,139,76,0.12)] border border-gray-100 transition-shadow duration-500 animate-fadeIn"
     >
       {/* Simple Image/Video Area - Natural Height */}
       <div className="relative w-full overflow-hidden bg-gray-50 group/img">
@@ -161,12 +168,13 @@ const GraphicCard = ({ project, index }: { project: ProjectItem; index: number }
              <iframe 
                 src={getInstagramEmbedUrl(project.link)} 
                 className="absolute inset-0 w-full h-full border-0" 
-                scrolling="no" 
+                scrolling="no"
+                loading="lazy"
              />
           </div>
         ) : isVid ? (
           <video 
-            src={project.image || project.link} 
+            src={getOptimizedVideoUrl(project.image || project.link)} 
             className="w-full h-auto block" 
             autoPlay
             loop
@@ -185,7 +193,7 @@ const GraphicCard = ({ project, index }: { project: ProjectItem; index: number }
               alt={project.title}
               title={project.title}
               className="w-full h-auto block transition-transform duration-500 group-hover/img:scale-105"
-              loading={index < 6 ? "eager" : "lazy"}
+              loading="eager"
               decoding="async"
             />
           </a>
@@ -259,8 +267,7 @@ export const SeoCard = ({ project, index }: { project: ProjectItem; index: numbe
 
   return (
     <div
-      className="group flex flex-col md:flex-row bg-[#0B0626] rounded-3xl overflow-hidden shadow-xl w-full border border-gray-800 transition-shadow duration-500 max-w-[1000px] mx-auto"
-      style={{ animation: `fadeSlideIn 0.3s ease-out both ${index * 0.03}s` }}
+      className="group flex flex-col md:flex-row bg-[#0B0626] rounded-3xl overflow-hidden shadow-xl w-full border border-gray-800 transition-shadow duration-500 max-w-[1000px] mx-auto animate-fadeIn"
     >
       {/* LEFT: Image */}
       <div className="w-full md:w-[40%] lg:w-[35%] bg-white/5 relative p-4 md:p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-white/10">
@@ -389,8 +396,7 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
 
   return (
     <div
-      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 transition-shadow duration-500"
-      style={{ animation: `fadeSlideIn 0.3s ease-out both ${index * 0.03}s` }}
+      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 transition-shadow duration-500 animate-fadeIn"
     >
       {/* Video Thumbnail / Iframe Area */}
       <div className={`relative w-full ${project.tags?.toLowerCase().includes("square") ? "aspect-square" : "aspect-[4/5] sm:aspect-[3/4]"} overflow-hidden bg-gray-50 flex items-center justify-center group/img transition-all duration-300 border-b border-gray-100`}>
@@ -415,7 +421,7 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
                 </>
               ) : (
                 <video 
-                  src={project.link || project.image}
+                  src={getOptimizedVideoUrl(project.link || project.image)}
                   className="absolute inset-0 w-full h-full object-cover bg-black"
                   controls
                   autoPlay
@@ -430,7 +436,7 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
                   src={getOptimizedUrl(project.image)} 
                   alt={project.title || "Video"}
                   className="w-full h-full object-cover opacity-90 group-hover/img:opacity-100 transition-opacity duration-300 cursor-pointer"
-                  loading={index < 6 ? "eager" : "lazy"}
+                  loading="eager"
                   decoding="async"
                   onClick={() => setIsPlaying(true)}
                 />
@@ -527,18 +533,10 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
 
   // Removed disable-hover logic as it caused flickering on the top navbar when scrolling
 
-  // Silently prefetch remaining images one-by-one into browser cache (staggered to avoid bandwidth flood)
+  // Removed background prefetch queue to prevent network clogging and late rendering of visible items
   useEffect(() => {
-    const remaining = projects.slice(6); // first 6 are already eager-loaded
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    remaining.forEach((p, i) => {
-      timers.push(setTimeout(() => {
-        const img = new window.Image();
-        img.src = getOptimizedUrl(p.image);
-      }, 800 + i * 200)); // start after 800ms, then one every 200ms
-    });
-    return () => timers.forEach(clearTimeout);
-  }, [projects]);
+    // We rely purely on native browser lazy loading now
+  }, []);
 
   const baseCategories = ["Website", "CRM", "SEO", "Logo", "Graphics", "Videos"];
   const hiddenCategories = ["E-Commerce", "Web Development", "Corporate", "B2B Portal", "Informative", "Hospital And Diagnostics", "Medical And Healthcare", "Food And Beverages", "Restaurant Website", "Healthcare Website", "Education Portal"];
