@@ -161,7 +161,7 @@ export default function AdminVideosPage() {
           <p className="text-gray-500 max-w-md mx-auto">You haven't added any Instagram Reels yet. Click the button above to add your first video.</p>
         </div>
       ) : (
-        <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-start">
           {items.map((item, index) => {
             const isSquare = item.tags === "square";
             return (

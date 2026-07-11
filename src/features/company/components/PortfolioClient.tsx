@@ -14,6 +14,7 @@ export interface ProjectItem {
   link: string;
   displayUrl: string;
   tags: string;
+  order: number;
 }
 
 const getOptimizedUrl = (url: string) => {
@@ -266,11 +267,11 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
 
   return (
     <div
-      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(225,48,108,0.2)] border border-gray-100 transition-shadow duration-500"
+      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 transition-shadow duration-500"
       style={{ animation: `fadeSlideIn 0.3s ease-out both ${index * 0.03}s` }}
     >
       {/* Video Thumbnail / Iframe Area */}
-      <div className={`relative w-full ${project.tags === "square" ? "aspect-square" : "aspect-[4/5] sm:aspect-[3/4]"} overflow-hidden bg-gray-50 p-2 sm:p-3 flex items-center justify-center group/img transition-all duration-300 border-b border-gray-100`}>
+      <div className={`relative w-full ${project.tags?.toLowerCase().includes("square") ? "aspect-square" : "aspect-[4/5] sm:aspect-[3/4]"} overflow-hidden bg-gray-50 p-2 sm:p-3 flex items-center justify-center group/img transition-all duration-300 border-b border-gray-100`}>
         <div className="w-full h-full relative rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200 bg-white">
           {isPlaying ? (
             <>
@@ -388,17 +389,7 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
     return () => observer.unobserve(target);
   }, [visibleCount, activeCategory]);
 
-  // Disable hover effects while user is actively scrolling
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    const onScroll = () => {
-      document.body.classList.add('disable-hover');
-      clearTimeout(timer);
-      timer = setTimeout(() => document.body.classList.remove('disable-hover'), 150);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => { window.removeEventListener('scroll', onScroll); clearTimeout(timer); document.body.classList.remove('disable-hover'); };
-  }, []);
+  // Removed disable-hover logic as it caused flickering on the top navbar when scrolling
 
   // Silently prefetch remaining images one-by-one into browser cache (staggered to avoid bandwidth flood)
   useEffect(() => {
@@ -424,7 +415,8 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
   const filteredProjects = projects.filter(p => {
     const isGlobalWebify = p.title.toLowerCase().includes("global webify") || p.title.toLowerCase().includes("globalwebify");
     
-    if (isGlobalWebify && activeCategory !== "SEO") {
+    // Hide Global Webify items from all tabs except SEO and Videos
+    if (isGlobalWebify && activeCategory !== "SEO" && activeCategory !== "Videos") {
       return false;
     }
 
@@ -473,25 +465,48 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
             ))}
           </div>
 
-        {/* Grid layout */}
-        <div 
-          className={`mx-auto ${activeCategory === "SEO" ? "flex flex-col gap-4 sm:gap-6 max-w-[1000px]" : activeCategory === "Videos" ? "columns-1 md:columns-2 lg:columns-3 gap-4 sm:gap-6 max-w-[1400px]" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-[1400px]"}`}
-        >
-          {filteredProjects.slice(0, visibleCount).map((project, index) => {
-            const isSEO = activeCategory === "SEO" && project.category === "SEO";
-            return (
-              <div key={project.id} className={isSEO ? "" : activeCategory === "Videos" ? "break-inside-avoid mb-4 sm:mb-6" : "h-full"}>
-                {isSEO ? (
-                  <SeoCard project={project} index={index} />
-                ) : project.category === "Videos" ? (
-                  <VideoCard project={project} index={index} />
-                ) : (
-                  <ProjectCard project={project} index={index} />
-                )}
+        {activeCategory === "Videos" ? (
+          <div className="flex flex-col gap-8 sm:gap-10 w-full max-w-[1400px] mx-auto">
+            {/* Priority Videos (Left-to-Right Grid - Top 3 spots) */}
+            {filteredProjects.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-start">
+                {filteredProjects.slice(0, Math.min(3, visibleCount)).map((project, index) => (
+                  <div key={project.id} className="h-full break-inside-avoid">
+                    <VideoCard project={project} index={index} />
+                  </div>
+                ))}
               </div>
-            );
-          })}
-        </div>
+            )}
+            
+            {/* Standard Videos (Pinterest / Masonry - Everything after top 3) */}
+            {filteredProjects.length > 3 && (
+              <div className="columns-1 md:columns-2 lg:columns-3 gap-4 sm:gap-6">
+                {filteredProjects.slice(3, Math.max(3, visibleCount)).map((project, index) => (
+                  <div key={project.id} className="break-inside-avoid mb-4 sm:mb-6">
+                    <VideoCard project={project} index={3 + index} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div 
+            className={`mx-auto ${activeCategory === "SEO" ? "flex flex-col gap-4 sm:gap-6 max-w-[1000px]" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-[1400px]"}`}
+          >
+            {filteredProjects.slice(0, visibleCount).map((project, index) => {
+              const isSEO = activeCategory === "SEO" && project.category === "SEO";
+              return (
+                <div key={project.id} className={isSEO ? "" : "h-full"}>
+                  {isSEO ? (
+                    <SeoCard project={project} index={index} />
+                  ) : (
+                    <ProjectCard project={project} index={index} />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* Infinite Scroll Trigger */}
         {visibleCount < filteredProjects.length && (

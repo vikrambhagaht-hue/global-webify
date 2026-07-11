@@ -12,17 +12,22 @@ export const metadata: Metadata = {
   }
 };
 
-export const revalidate = 60; // Revalidate every 60 seconds
+export const dynamic = 'force-dynamic';
 
 export default async function PortfolioPage() {
-  const projects = await db.portfolioItem.findMany({
+  let projects = await db.portfolioItem.findMany({
     where: { 
       isActive: true
     },
-    orderBy: [
-      { order: 'asc' },
-      { createdAt: 'desc' }
-    ]
+    orderBy: { createdAt: 'desc' }
+  });
+
+  // Custom sort: treat 0 as 9999 so default items go to the bottom
+  projects.sort((a, b) => {
+    const orderA = a.order === 0 ? 9999 : a.order;
+    const orderB = b.order === 0 ? 9999 : b.order;
+    if (orderA !== orderB) return orderA - orderB;
+    return 0; // If they have the same order, maintain the createdAt desc order from the DB
   });
 
   return <PortfolioClient projects={projects} />;

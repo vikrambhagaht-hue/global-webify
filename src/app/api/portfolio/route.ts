@@ -88,53 +88,21 @@ export async function POST(req: Request) {
     }
 
     // 3. Handle Auto-Shifting Sequence!
-    // If user sets this card to e.g. #10, we must shift everything that is >= 10 down by 1.
-    const targetOrder = order || 0;
-    if (targetOrder > 0) {
-      await db.portfolioItem.updateMany({
-        where: { order: { gte: targetOrder } },
-        data: { order: { increment: 1 } }
-      });
-    }
+    // 3. Handle Auto-Shifting Sequence! (Removed redundant updateMany, handled below)
 
     // 4. Save to database
-    // Global Gapless Automatic Reordering Logic
     let finalOrder = order || 0;
     if (finalOrder > 0) {
-      let orderedItems = await db.portfolioItem.findMany({
-        where: { isActive: true },
-        orderBy: { createdAt: 'desc' },
-        select: { id: true, order: true }
+      const isVideo = category === "Videos";
+      const scopeWhere = isVideo 
+        ? { category: "Videos" } 
+        : { category: { not: "Videos" }, isFeatured: !!isFeatured };
+
+      // Simple shifting logic: push down items that collide
+      await db.portfolioItem.updateMany({
+        where: { isActive: true, order: { gte: finalOrder }, ...scopeWhere },
+        data: { order: { increment: 1 } }
       });
-
-      orderedItems.sort((a: any, b: any) => {
-        const orderA = a.order === 0 ? 9999 : a.order;
-        const orderB = b.order === 0 ? 9999 : b.order;
-        if (orderA !== orderB) return orderA - orderB;
-        return 0;
-      });
-
-      const targetIndex = finalOrder - 1;
-      
-      // We don't have an ID for the new item yet, so we insert a placeholder
-      orderedItems.splice(targetIndex, 0, { id: -1, order: finalOrder } as any);
-
-      const updatePromises = orderedItems.map((item: any, index: number) => {
-        const correctOrder = index + 1;
-        if (item.id === -1) {
-          finalOrder = correctOrder;
-          return null;
-        }
-        if (item.order !== correctOrder) {
-          return db.portfolioItem.update({
-            where: { id: item.id },
-            data: { order: correctOrder }
-          });
-        }
-        return null;
-      }).filter(Boolean);
-
-      await Promise.all(updatePromises);
     }
 
     const newItem = await db.portfolioItem.create({
@@ -233,47 +201,24 @@ export async function PUT(req: Request) {
       dataToUpdate.thumbnail = thumbUploadResponse.secure_url;
     }
 
-    // Global Gapless Automatic Reordering Logic
+    // Simple Automatic Shifting Logic
     const newOrder = dataToUpdate.order;
     if (newOrder !== undefined && newOrder > 0) {
-      // 1. Fetch ALL active items, sorted exactly as they appear on the screen
-      let orderedItems = await db.portfolioItem.findMany({
-        where: { isActive: true },
-        orderBy: { createdAt: 'desc' },
-        select: { id: true, order: true }
+      const isVideo = dataToUpdate.category === "Videos";
+      const scopeWhere = isVideo 
+        ? { category: "Videos" } 
+        : { category: { not: "Videos" }, isFeatured: !!dataToUpdate.isFeatured };
+
+      // Only shift items if they are currently occupying the requested spot or higher
+      await db.portfolioItem.updateMany({
+        where: { 
+          isActive: true, 
+          order: { gte: newOrder }, 
+          id: { not: Number(id) }, // Don't shift the item we are currently editing
+          ...scopeWhere 
+        },
+        data: { order: { increment: 1 } }
       });
-
-      orderedItems.sort((a: any, b: any) => {
-        const orderA = a.order === 0 ? 9999 : a.order;
-        const orderB = b.order === 0 ? 9999 : b.order;
-        if (orderA !== orderB) return orderA - orderB;
-        return 0;
-      });
-
-      // 2. Remove the current item from the list
-      orderedItems = orderedItems.filter((item: any) => item.id !== Number(id));
-
-      // 3. Insert the current item at the requested target index
-      const targetIndex = newOrder - 1;
-      orderedItems.splice(targetIndex, 0, { id: Number(id), order: newOrder } as any);
-
-      // 4. Update the database for items that changed their absolute position
-      const updatePromises = orderedItems.map((item: any, index: number) => {
-        const correctOrder = index + 1;
-        if (item.id === Number(id)) {
-          dataToUpdate.order = correctOrder;
-          return null;
-        }
-        if (item.order !== correctOrder) {
-          return db.portfolioItem.update({
-            where: { id: item.id },
-            data: { order: correctOrder }
-          });
-        }
-        return null;
-      }).filter(Boolean);
-
-      await Promise.all(updatePromises);
     }
 
     const updatedItem = await db.portfolioItem.update({
