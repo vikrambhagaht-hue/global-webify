@@ -304,11 +304,12 @@ function MediaPortfolioContent() {
                   <input
                     required
                     type="number"
+                    min="0"
                     value={order}
                     onChange={e => setOrder(parseInt(e.target.value) || 0)}
                     className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1a8b4c] focus:border-[#1a8b4c] transition-all"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Higher numbers appear first.</p>
+                  <p className="text-xs text-gray-500 mt-1">Position in the list (1 = 1st, 2 = 2nd). 0 means default order.</p>
                 </div>
 
                 <div className="pt-2">

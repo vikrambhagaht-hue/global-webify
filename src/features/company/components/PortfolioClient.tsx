@@ -156,15 +156,21 @@ const GraphicCard = ({ project, index }: { project: ProjectItem; index: number }
       {/* Simple Image/Video Area - Natural Height */}
       <div className="relative w-full overflow-hidden bg-gray-50 group/img">
         {isInsta ? (
-          <div className="w-full relative bg-white" style={{ paddingTop: '140%' /* Accommodates 4:5 video + insta header/footer */ }}>
+          <div className="w-full relative bg-white overflow-hidden" style={{ paddingTop: '125%' /* Fits 4:5 video exactly */ }}>
              <div className="absolute inset-0 z-10 pointer-events-none"></div>
-             <iframe src={getInstagramEmbedUrl(project.link)} className="absolute inset-0 w-full h-full border-0" scrolling="no" />
+             <iframe 
+                src={getInstagramEmbedUrl(project.link)} 
+                className="absolute inset-0 w-full h-full border-0" 
+                scrolling="no" 
+             />
           </div>
         ) : isVid ? (
           <video 
             src={project.image || project.link} 
             className="w-full h-auto block" 
-            controls 
+            autoPlay
+            loop
+            muted
             playsInline
           />
         ) : (
@@ -365,7 +371,21 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
     return url;
   };
 
+  const getPinterestEmbedUrl = (url: string) => {
+    if (!url) return '';
+    try {
+      if (url.includes('pinterest.com/pin/')) {
+        const match = url.match(/pin\/(\d+)/);
+        if (match && match[1]) {
+          return `https://assets.pinterest.com/ext/embed.html?id=${match[1]}`;
+        }
+      }
+    } catch (e) {}
+    return '';
+  };
+
   const isInsta = project.link?.includes("instagram.com");
+  const isPinterest = project.link?.includes("pinterest.com");
 
   return (
     <div
@@ -377,7 +397,7 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
         <div className="w-full h-full relative bg-white">
           {isPlaying ? (
             <>
-              {isInsta ? (
+              {isInsta || isPinterest ? (
                 <>
                   {!iframeLoaded && (
                     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-50/80 backdrop-blur-sm">
@@ -385,7 +405,7 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
                     </div>
                   )}
                   <iframe 
-                    src={getInstagramEmbedUrl(project.link)}
+                    src={isPinterest ? getPinterestEmbedUrl(project.link) : getInstagramEmbedUrl(project.link)}
                     className="absolute inset-0 w-full h-full border-0 bg-white"
                     allowFullScreen
                     scrolling="no"
@@ -435,44 +455,40 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
       </div>
 
       {/* Project Details */}
-      <div className="p-4 sm:p-5 flex flex-col bg-white border-t border-gray-100">
-        <div>
-          <div className="mb-3 flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#E1306C] bg-pink-50 px-2.5 py-1 rounded-full border border-pink-100">
-              {project.link?.includes("instagram") ? "Instagram Reel" : "Video"}
-            </span>
+      <div className={`flex flex-col bg-white border-t border-gray-100 ${project.title && project.title !== "Instagram Reel" ? "p-4 sm:p-5" : "p-3"}`}>
+        {(project.title || project.desc) && project.title !== "Instagram Reel" && (
+          <div className="mb-3">
+            {project.title && project.title !== "Instagram Reel" && (
+              <h3 className="text-[18px] md:text-[20px] font-bold text-gray-900 mb-2 leading-tight group-hover:text-[#E1306C] transition-colors duration-300 line-clamp-2">
+                {project.title}
+              </h3>
+            )}
+            
+            {project.desc && (
+              <p className="text-gray-500 text-[13px] line-clamp-2 leading-relaxed">
+                {project.desc}
+              </p>
+            )}
           </div>
-
-          {project.title && project.title !== "Instagram Reel" && (
-            <h3 className="text-[18px] md:text-[20px] font-bold text-gray-900 mb-3 leading-tight group-hover:text-[#E1306C] transition-colors duration-300 line-clamp-2">
-              {project.title}
-            </h3>
-          )}
-          
-          {project.desc && (
-            <p className="text-gray-500 text-[13px] line-clamp-2 mb-4 leading-relaxed">
-              {project.desc}
-            </p>
-          )}
-        </div>
+        )}
 
         {/* Action buttons */}
-        <div className="flex items-center gap-3 pt-4">
+        <div className="flex items-center gap-3">
           {!isPlaying ? (
             <button 
               onClick={() => setIsPlaying(true)}
               className="flex-1 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F56040] hover:opacity-90 text-white text-center py-2.5 px-4 rounded-xl text-[14px] font-bold transition-opacity flex items-center justify-center gap-2 shadow-sm shadow-pink-900/20"
             >
-              <span>Play Video Here</span>
+              <span>{isPinterest ? "Load Pinterest Pin" : "Play Video Here"}</span>
             </button>
           ) : (
             <a 
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 text-center py-2.5 px-4 rounded-xl text-[14px] font-bold transition-colors flex items-center justify-center gap-2"
+              className="flex-1 bg-gray-50 hover:bg-gray-100 text-gray-700 text-center py-2.5 px-4 rounded-xl text-[14px] font-bold transition-colors flex items-center justify-center gap-2 border border-gray-200"
             >
-              <span>Open in Instagram</span>
+              <span>{isPinterest ? "Open in Pinterest" : isInsta ? "Open in Instagram" : "Open Link"}</span>
               <ExternalLink size={14} />
             </a>
           )}
