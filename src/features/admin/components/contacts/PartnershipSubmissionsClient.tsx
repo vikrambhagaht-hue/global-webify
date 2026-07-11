@@ -15,6 +15,8 @@ interface PartnershipSubmission {
   websiteUrl?: string | null;
   partnershipType?: string | null;
   message: string;
+  preferredDate?: string | null;
+  preferredTime?: string | null;
   createdAt: string;
 }
 
@@ -180,6 +182,7 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
               <tr className="bg-gray-50/50 border-b border-gray-100 text-[10px] font-black text-gray-400 uppercase tracking-wider">
                 <th className="py-4 px-6">Partner Details</th>
                 <th className="py-4 px-6">Company / Type</th>
+                <th className="py-4 px-6">Scheduled Call</th>
                 <th className="py-4 px-6">Submitted Date</th>
                 <th className="py-4 px-6 text-right">Actions</th>
               </tr>
@@ -187,7 +190,7 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
             <tbody className="divide-y divide-gray-50">
               {filteredSubmissions.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="py-12 text-center text-gray-400 text-xs font-semibold">
+                  <td colSpan={5} className="py-12 text-center text-gray-400 text-xs font-semibold">
                     <div className="flex flex-col items-center gap-2">
                       <AlertCircle size={24} className="text-gray-300" />
                       <span>No partnership submissions found.</span>
@@ -243,6 +246,26 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
                             {displayType}
                           </span>
                         </div>
+                      </td>
+
+                      {/* Scheduled Call Column */}
+                      <td className="py-4 px-6 whitespace-nowrap">
+                        {(sub).preferredDate || (sub).preferredTime ? (
+                          <div className="flex flex-col gap-1">
+                            {(sub).preferredDate && (
+                              <span className="text-xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100 w-fit flex items-center gap-1">
+                                📅 {(sub).preferredDate}
+                              </span>
+                            )}
+                            {(sub).preferredTime && (
+                              <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 w-fit flex items-center gap-1">
+                                🕐 {(sub).preferredTime}
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-[10px] text-gray-400 font-semibold">Not scheduled</span>
+                        )}
                       </td>
 
                       {/* Submitted Date Column */}
@@ -357,6 +380,26 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
                   </div>
                 </div>
               </div>
+
+              {/* Scheduled Call Info */}
+              {((selectedSub).preferredDate || (selectedSub).preferredTime) && (
+                <div className="bg-blue-50/50 p-4 rounded-2xl border border-blue-100 flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 text-lg">
+                    📞
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-[9px] font-black text-blue-500 uppercase tracking-wider block">Scheduled Call</span>
+                    <div className="flex items-center gap-3 mt-1">
+                      {(selectedSub).preferredDate && (
+                        <span className="text-sm font-black text-blue-800">📅 {(selectedSub).preferredDate}</span>
+                      )}
+                      {(selectedSub).preferredTime && (
+                        <span className="text-sm font-black text-emerald-700">🕐 {(selectedSub).preferredTime}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Message Content */}
               <div>

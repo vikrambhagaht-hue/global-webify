@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { 
-  LayoutDashboard, Layers, Newspaper, MessageSquare, Home, Briefcase, Handshake, Shuffle, Star, FileText, Image as ImageIcon, LayoutGrid, Users
+  LayoutDashboard, Layers, Newspaper, MessageSquare, Home, Briefcase, Handshake, Shuffle, Star, FileText, Image as ImageIcon, LayoutGrid, Users, Calendar
 } from 'lucide-react';
 import SidebarCategories from './SidebarCategories';
 
@@ -25,6 +25,7 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
   const isHomepage = (pathname === '/admin/homepage' || pathname.startsWith('/admin/homepage/')) && !pathname.startsWith('/admin/subdomains/homepage');
   const isSubdomainHomepage = pathname.startsWith('/admin/subdomains/homepage');
   const isPartnershipPage = pathname === '/admin/partnership';
+  const isPartnershipAvailability = pathname === '/admin/partnership-availability';
   const isPartnershipSubmissions = pathname.startsWith('/admin/partnership-submissions');
   const isRedirects = pathname.startsWith('/admin/redirects');
   const isReviews = pathname.startsWith('/admin/reviews');
@@ -159,11 +160,44 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
         </div>
       </details>
 
-      {/* Partnership Settings Button */}
-      <Link href="/admin/partnership" className={linkClass(isPartnershipPage)}>
-        <Handshake className={iconClass(isPartnershipPage)} />
-        <span>Franchise Settings</span>
-      </Link>
+      {/* Collapsible Franchise Settings Dropdown */}
+      <details className="group/details" open={isPartnershipPage || isPartnershipAvailability} onToggle={() => {}}>
+        <summary className={`flex items-center justify-between gap-2.5 px-4 py-2.5 rounded-xl transition-all duration-300 text-[11px] md:text-xs font-semibold tracking-wide cursor-pointer list-none [&::-webkit-details-marker]:hidden border group/summary ${
+          (isPartnershipPage || isPartnershipAvailability)
+            ? 'bg-gradient-to-r from-[#1a8b4c] to-[#0e5e3b] text-white border-[#15703d] shadow-xl shadow-[#1a8b4c]/20' 
+            : 'text-gray-400 hover:text-white hover:bg-[#132a1d]/60 border-transparent hover:border-[#132a1d] hover:shadow-lg backdrop-blur-sm'
+        }`}>
+          <div className="flex items-center gap-2.5">
+            <Handshake className={`stroke-[2.2] flex-shrink-0 transition-colors w-[22px] h-[22px] ${(isPartnershipPage || isPartnershipAvailability) ? 'text-white' : 'text-gray-500 group-hover/summary:text-white'}`} />
+            <span>Franchise Settings</span>
+          </div>
+          <span className="text-[10px] group-open/details:rotate-90 transition-transform font-bold text-gray-500 group-hover/summary:text-white">▶</span>
+        </summary>
+        
+        {/* Franchise Submenu */}
+        <div className="mt-2.5 mx-2.5 p-2 rounded-2xl bg-[#06100b] border border-[#132a1d] flex flex-col gap-2 text-gray-400 shadow-inner">
+          <Link 
+            href="/admin/partnership" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border ${
+              isPartnershipPage
+                ? 'text-[#22c55e] bg-[#1a8b4c]/10 border-[#1a8b4c]/30 shadow-md font-bold'
+                : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
+            }`}
+          >
+            Page Structure
+          </Link>
+          <Link 
+            href="/admin/partnership-availability" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border ${
+              isPartnershipAvailability
+                ? 'text-[#22c55e] bg-[#1a8b4c]/10 border-[#1a8b4c]/30 shadow-md font-bold'
+                : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
+            }`}
+          >
+            Availability Setup
+          </Link>
+        </div>
+      </details>
 
       {/* Collapsible Manage Services Dropdown */}
       <details className="group/details" open={openServices} onToggle={(e: any) => setOpenServices(e.currentTarget.open)}>

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { m, AnimatePresence } from 'framer-motion';
 import { 
   Mail, Phone, MapPin, Send, CheckCircle2, Building2, 
   Handshake, Globe2, Sparkles, Award, Users2, LineChart, ShieldCheck, ShieldAlert,
-  Store, MonitorSmartphone, BadgeCheck, TrendingUp, ArrowRight, MessageCircle
+  Store, MonitorSmartphone, BadgeCheck, TrendingUp, ArrowRight, MessageCircle, ChevronLeft, ChevronRight
 } from 'lucide-react';
 
 interface PartnershipClientProps {
@@ -203,7 +203,9 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
     companyName: '',
     websiteUrl: '',
     partnershipType: '',
-    message: ''
+    message: '',
+    preferredDate: '',
+    preferredTime: ''
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [selectedCountryIndex, setSelectedCountryIndex] = useState(0);
@@ -216,7 +218,46 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
   });
   const [submitting, setSubmitting] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [bookedSlots, setBookedSlots] = useState<{preferredDate: string, preferredTime: string}[]>([]);
+  const [availability, setAvailability] = useState({ daysToShow: 10, blockedDates: [] as string[], blockedTimes: [] as string[] });
+
+  useEffect(() => {
+    fetch('/api/partnership/slots')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.bookedSlots) {
+          setBookedSlots(data.bookedSlots);
+        }
+      })
+      .catch(console.error);
+
+    fetch('/api/partnership/availability')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.settings) {
+          setAvailability(data.settings);
+        }
+      })
+      .catch(console.error);
+  }, []);
   const expandableRef = useRef<HTMLDivElement>(null);
+  const dateScrollRef = useRef<HTMLDivElement>(null);
+  const timeScrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollDates = (direction: 'left' | 'right') => {
+    if (dateScrollRef.current) {
+      const scrollAmount = 200;
+      dateScrollRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  const scrollTimes = (direction: 'left' | 'right') => {
+    if (timeScrollRef.current) {
+      const scrollAmount = 200;
+      timeScrollRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+    }
+  };
+
   const selectedCountry = COUNTRIES[selectedCountryIndex];
 
   const triggerToast = (message: string, type: 'success' | 'error' = 'success') => {
@@ -246,9 +287,20 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
       hasError = true;
     }
 
+    if (!formData.preferredDate) {
+      newErrors.preferredDate = "Please select a preferred date.";
+      hasError = true;
+    }
+
+    if (!formData.preferredTime) {
+      newErrors.preferredTime = "Please select a preferred time.";
+      hasError = true;
+    }
+
     if (hasError) {
       setErrors(newErrors);
-      triggerToast('Please fix the validation errors in the form.', 'error');
+      const firstError = Object.values(newErrors)[0];
+      triggerToast(firstError, 'error');
       return;
     }
 
@@ -261,7 +313,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
       });
       const data = await response.json();
       if (data.success) {
-        triggerToast('Thank you! Our Partnership Team will contact you shortly.', 'success');
+        triggerToast('Your call has been scheduled! Our team will contact you at your selected time.', 'success');
         setFormData({
           name: '',
           email: '',
@@ -269,7 +321,9 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
           companyName: '',
           websiteUrl: '',
           partnershipType: '',
-          message: ''
+          message: '',
+          preferredDate: '',
+          preferredTime: ''
         });
         setPhoneDigits('');
         setSelectedCountryIndex(0);
@@ -578,13 +632,13 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
             >
               <div className="text-center mb-10">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 font-bold text-[10px] uppercase tracking-[0.15em] mb-5">
-                  <Sparkles size={12} /> Apply Today
+                  <Sparkles size={12} /> Schedule a Call
                 </div>
                 <h2 className="text-[26px] md:text-[36px] font-black text-slate-900 tracking-tight font-heading leading-tight">
-                  Partner With Us
+                  Schedule a Call With Us
                 </h2>
                 <p className="text-slate-500 text-[14px] md:text-[15px] font-medium mt-3 max-w-lg mx-auto leading-relaxed">
-                  Submit details about your business and goals. We'll review your application and get in touch within 2 business days.
+                  Pick your preferred date & time, and our partnership team will call you.
                 </p>
               </div>
 
@@ -709,16 +763,170 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                   {errors.phone && <span className="text-red-500 text-[11px] font-bold mt-0.5 ml-1">{errors.phone}</span>}
                 </div>
 
-                {/* Message */}
-                <div className="flex flex-col gap-1.5 relative group">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">How can we work together? <span className="text-slate-300 font-semibold lowercase tracking-normal">(optional)</span></label>
-                  <textarea 
-                    rows={4}
-                    value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    className="w-full px-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all placeholder-slate-300 resize-none leading-relaxed"
-                    placeholder="Briefly describe your objectives, target audience, and how you see GlobalWeblify helping..."
-                  ></textarea>
+                {/* ========== DATE & TIME PICKER ========== */}
+                <div className="space-y-4 pt-2">
+                  {/* Preferred Date */}
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] ml-1">📅 Preferred Date *</label>
+                    <div className="flex items-center gap-2 group/scroll w-full">
+                      <button 
+                        type="button" 
+                        onClick={() => scrollDates('left')} 
+                        className="flex-shrink-0 p-1.5 bg-white shadow-sm border border-slate-200 rounded-full text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all hidden sm:flex"
+                      >
+                        <ChevronLeft size={18} />
+                      </button>
+                      
+                      <div 
+                        ref={dateScrollRef} 
+                        className="flex gap-2 overflow-x-auto snap-x py-2 scroll-smooth w-full flex-grow"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                      >
+                        {/* Hide scrollbar for webkit using standard CSS if tailwind plugin not present, or inline */}
+                        <style>{`
+                          div::-webkit-scrollbar { display: none; }
+                        `}</style>
+                        {(() => {
+                          const today = new Date();
+                          today.setHours(0, 0, 0, 0);
+                          const dayOfMonth = today.getDate();
+                          // Calculate the start of current block
+                          const blockSize = availability.daysToShow || 10;
+                          const blockStart = Math.floor((dayOfMonth - 1) / blockSize) * blockSize + 1;
+                          const startDate = new Date(today.getFullYear(), today.getMonth(), blockStart);
+                          // If block start is in the past, use today
+                          if (startDate < today) startDate.setTime(today.getTime());
+                          const blockEnd = new Date(today.getFullYear(), today.getMonth(), blockStart + blockSize - 1);
+                          const dates: Date[] = [];
+                          const curr = new Date(startDate);
+                          while (curr <= blockEnd) {
+                            dates.push(new Date(curr));
+                            curr.setDate(curr.getDate() + 1);
+                          }
+                          return dates.map((d) => {
+                            const dateStr = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                            const dayName = d.toLocaleDateString('en-IN', { weekday: 'short' });
+                            const isSelected = formData.preferredDate === dateStr;
+                            const isSunday = d.getDay() === 0;
+                            const isBlocked = availability.blockedDates.includes(dateStr) || isSunday;
+                            return (
+                              <button
+                                key={dateStr}
+                                type="button"
+                                disabled={isBlocked}
+                                onClick={() => setFormData(prev => ({ ...prev, preferredDate: dateStr }))}
+                                className={`flex-shrink-0 snap-start flex flex-col items-center px-3 py-2.5 rounded-xl text-center border-2 transition-all duration-200 min-w-[72px] ${
+                                  isBlocked
+                                    ? 'bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed opacity-50'
+                                    : isSelected
+                                      ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/25 scale-[1.02]'
+                                      : 'bg-white text-slate-700 border-slate-200 hover:border-blue-400 hover:bg-blue-50'
+                                }`}
+                              >
+                                <span className={`text-[9px] font-bold uppercase tracking-wider ${isSelected ? 'text-blue-100' : 'text-slate-400'}`}>{dayName}</span>
+                                <span className="text-[15px] font-black leading-tight">{d.getDate()}</span>
+                                <span className={`text-[9px] font-semibold ${isSelected ? 'text-blue-200' : 'text-slate-400'}`}>{d.toLocaleDateString('en-IN', { month: 'short' })}</span>
+                              </button>
+                            );
+                          });
+                        })()}
+                      </div>
+
+                      <button 
+                        type="button" 
+                        onClick={() => scrollDates('right')} 
+                        className="flex-shrink-0 p-1.5 bg-white shadow-sm border border-slate-200 rounded-full text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all hidden sm:flex"
+                      >
+                        <ChevronRight size={18} />
+                      </button>
+                    </div>
+                    {errors.preferredDate && <span className="text-red-500 text-[11px] font-bold mt-0.5 ml-1">{errors.preferredDate}</span>}
+                  </div>
+
+                  {/* Preferred Time */}
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] ml-1">🕐 Preferred Time *</label>
+                    <div className="flex items-center gap-2 group/scroll w-full">
+                      <button 
+                        type="button" 
+                        onClick={() => scrollTimes('left')} 
+                        className="flex-shrink-0 p-1.5 bg-white shadow-sm border border-slate-200 rounded-full text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all hidden sm:flex"
+                      >
+                        <ChevronLeft size={18} />
+                      </button>
+
+                      <div 
+                        ref={timeScrollRef}
+                        className="flex gap-1.5 overflow-x-auto snap-x py-2 scroll-smooth w-full flex-grow"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                      >
+                        {(() => {
+                          const slots: { timeStr: string, h: number, m: number }[] = [];
+                          for (let h = 11; h <= 18; h++) {
+                            for (let m = 0; m < 60; m += 30) {
+                              if (h === 18 && m > 30) break; // Stop at 6:30 PM
+                              const hour12 = h > 12 ? h - 12 : h;
+                              const ampm = h >= 12 ? 'PM' : 'AM';
+                              const timeStr = `${hour12}:${m.toString().padStart(2, '0')} ${ampm}`;
+                              slots.push({ timeStr, h, m });
+                            }
+                          }
+                          
+                          const now = new Date();
+                          const currentH = now.getHours();
+                          const currentM = now.getMinutes();
+                          const isToday = formData.preferredDate === now.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+                          return slots.map(({ timeStr: time, h, m }) => {
+                            const isSelected = formData.preferredTime === time;
+                            const isBlockedGlobally = availability.blockedTimes.includes(time);
+                            const isAlreadyBooked = formData.preferredDate 
+                              ? bookedSlots.some(slot => slot.preferredDate === formData.preferredDate && slot.preferredTime === time)
+                              : false;
+                            
+                            const isPastTime = isToday && (h < currentH || (h === currentH && m <= currentM));
+                            
+                            const isBooked = isBlockedGlobally || isAlreadyBooked || isPastTime;
+                            const blockedLabel = isBlockedGlobally ? 'Unavailable' : isPastTime ? '' : 'Booked';
+                              
+                            return (
+                              <button
+                                key={time}
+                                type="button"
+                                disabled={isBooked}
+                                onClick={() => setFormData(prev => ({ ...prev, preferredTime: time }))}
+                                className={`flex-shrink-0 snap-start px-3 py-1.5 rounded-lg text-[12px] font-bold border transition-all duration-200 min-w-[70px] flex flex-col items-center justify-center ${
+                                  isBooked 
+                                    ? 'bg-red-50/50 border-red-100 cursor-not-allowed'
+                                    : isSelected
+                                      ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20 py-2'
+                                      : 'bg-white text-slate-600 border-slate-200 hover:border-blue-400 hover:bg-blue-50 py-2'
+                                }`}
+                              >
+                                {isBooked ? (
+                                  <>
+                                    <span className={`text-slate-400 line-through text-[11px] font-medium leading-none ${blockedLabel ? 'mb-1' : ''}`}>{time}</span>
+                                    {blockedLabel && <span className="text-red-500 text-[8px] font-black uppercase tracking-wider leading-none">{blockedLabel}</span>}
+                                  </>
+                                ) : (
+                                  time
+                                )}
+                              </button>
+                            );
+                          });
+                        })()}
+                      </div>
+
+                      <button 
+                        type="button" 
+                        onClick={() => scrollTimes('right')} 
+                        className="flex-shrink-0 p-1.5 bg-white shadow-sm border border-slate-200 rounded-full text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all hidden sm:flex"
+                      >
+                        <ChevronRight size={18} />
+                      </button>
+                    </div>
+                    {errors.preferredTime && <span className="text-red-500 text-[11px] font-bold mt-0.5 ml-1">{errors.preferredTime}</span>}
+                  </div>
                 </div>
 
                 {errors.submit && (
@@ -737,7 +945,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                     className="group relative w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white py-4 rounded-xl font-black text-[12px] uppercase tracking-[0.15em] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                    <span className="relative z-10">{submitting ? 'Submitting Application...' : 'Submit Partner Request'}</span>
+                    <span className="relative z-10">{submitting ? 'Scheduling Call...' : 'Schedule a Call'}</span>
                     <Send size={14} className="relative z-10 stroke-[2.5] group-hover:translate-x-1 transition-transform duration-300" />
                   </m.button>
                 </div>

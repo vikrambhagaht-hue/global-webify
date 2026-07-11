@@ -47,6 +47,8 @@ model PartnershipSubmission {
   websiteUrl      String?
   partnershipType String?
   message         String   @db.Text
+  preferredDate   String?
+  preferredTime   String?
   createdAt       DateTime @default(now())
 
   @@index([createdAt(sort: Desc)])

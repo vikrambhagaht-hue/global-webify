@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Too many requests. Please try again later.' }, { status: 429 });
     }
 
-    const { name, email, phone, companyName, websiteUrl, partnershipType, message } = await req.json();
+    const { name, email, phone, companyName, websiteUrl, partnershipType, message, preferredDate, preferredTime } = await req.json();
     if (!name || !email || !phone) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
@@ -80,21 +80,25 @@ export async function POST(req: NextRequest) {
         companyName: companyName || null,
         websiteUrl: websiteUrl || null,
         partnershipType: partnershipType || null,
-        message: msg
+        message: msg,
+        preferredDate: preferredDate || null,
+        preferredTime: preferredTime || null
       }
     });
 
     // Send SMTP email notification in the background
-    const mailSubject = `New Partnership Request: ${name}`;
+    const mailSubject = `New Call Scheduled: ${name}`;
     const mailContent = `
-      <h2>New Partnership Proposal</h2>
+      <h2>New Call Scheduled — Franchisee Request</h2>
       <p><strong>Name:</strong> ${name}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Phone:</strong> ${phone || 'Not Provided'}</p>
       <p><strong>Company:</strong> ${companyName || 'Not Provided'}</p>
       <p><strong>Website:</strong> ${websiteUrl || 'Not Provided'}</p>
       <p><strong>Partnership Type:</strong> ${partnershipType || 'General Partner'}</p>
-      <p><strong>Proposal Message:</strong></p>
+      ${preferredDate ? `<p><strong>📅 Preferred Date:</strong> ${preferredDate}</p>` : ''}
+      ${preferredTime ? `<p><strong>🕐 Preferred Time:</strong> ${preferredTime}</p>` : ''}
+      <p><strong>Message:</strong></p>
       <div style="background: #f5f5f5; padding: 12px; border-radius: 8px; margin-top: 10px;">
         ${msg ? msg.replace(/\n/g, '<br>') : 'No message provided.'}
       </div>
