@@ -156,9 +156,9 @@ const GraphicCard = ({ project, index }: { project: ProjectItem; index: number }
       {/* Simple Image/Video Area - Natural Height */}
       <div className="relative w-full overflow-hidden bg-gray-50 group/img">
         {isInsta ? (
-          <div className="w-full relative" style={{ paddingTop: '120%' /* roughly 4:5 aspect for insta */ }}>
+          <div className="w-full relative bg-white" style={{ paddingTop: '140%' /* Accommodates 4:5 video + insta header/footer */ }}>
              <div className="absolute inset-0 z-10 pointer-events-none"></div>
-             <iframe src={getInstagramEmbedUrl(project.link)} className="absolute inset-0 w-full h-full border-0" />
+             <iframe src={getInstagramEmbedUrl(project.link)} className="absolute inset-0 w-full h-full border-0" scrolling="no" />
           </div>
         ) : isVid ? (
           <video 
@@ -189,11 +189,6 @@ const GraphicCard = ({ project, index }: { project: ProjectItem; index: number }
       {/* Project Details */}
       <div className="p-5 flex flex-col flex-1 bg-white justify-between">
         <div>
-          <div className="mb-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#1a8b4c] bg-green-50 px-2.5 py-1 rounded-full">
-              {project.category}
-            </span>
-          </div>
           {project.title && (
             <h3 className="text-[19px] md:text-[20px] font-bold text-gray-900 mb-3 leading-tight group-hover:text-[#1a8b4c] transition-colors duration-300">
               {project.title}
@@ -370,41 +365,61 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
     return url;
   };
 
+  const isInsta = project.link?.includes("instagram.com");
+
   return (
     <div
       className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 transition-shadow duration-500"
       style={{ animation: `fadeSlideIn 0.3s ease-out both ${index * 0.03}s` }}
     >
       {/* Video Thumbnail / Iframe Area */}
-      <div className={`relative w-full ${project.tags?.toLowerCase().includes("square") ? "aspect-square" : "aspect-[4/5] sm:aspect-[3/4]"} overflow-hidden bg-gray-50 p-2 sm:p-3 flex items-center justify-center group/img transition-all duration-300 border-b border-gray-100`}>
-        <div className="w-full h-full relative rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200 bg-white">
+      <div className={`relative w-full ${project.tags?.toLowerCase().includes("square") ? "aspect-square" : "aspect-[4/5] sm:aspect-[3/4]"} overflow-hidden bg-gray-50 flex items-center justify-center group/img transition-all duration-300 border-b border-gray-100`}>
+        <div className="w-full h-full relative bg-white">
           {isPlaying ? (
             <>
-              {/* Loading Spinner Overlay */}
-              {!iframeLoaded && (
-                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-50/80 backdrop-blur-sm">
-                  <div className="w-8 h-8 border-4 border-green-200 border-t-[#2CA65A] rounded-full animate-spin"></div>
-                </div>
+              {isInsta ? (
+                <>
+                  {!iframeLoaded && (
+                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-50/80 backdrop-blur-sm">
+                      <div className="w-8 h-8 border-4 border-green-200 border-t-[#2CA65A] rounded-full animate-spin"></div>
+                    </div>
+                  )}
+                  <iframe 
+                    src={getInstagramEmbedUrl(project.link)}
+                    className="absolute inset-0 w-full h-full border-0 bg-white"
+                    allowFullScreen
+                    scrolling="no"
+                    loading="lazy"
+                    onLoad={() => setIframeLoaded(true)}
+                  />
+                </>
+              ) : (
+                <video 
+                  src={project.link || project.image}
+                  className="absolute inset-0 w-full h-full object-cover bg-black"
+                  controls
+                  autoPlay
+                  playsInline
+                />
               )}
-              <iframe 
-                 src={getInstagramEmbedUrl(project.link)}
-                 className="absolute inset-0 w-full h-full border-0 bg-white z-0"
-                 allowFullScreen
-                 scrolling="no"
-                 loading="lazy"
-                 onLoad={() => setIframeLoaded(true)}
-              />
             </>
           ) : (
-            <div className="absolute inset-0 z-10 bg-white">
-              <img 
-                src={getOptimizedUrl(project.image)} 
-                alt={project.title}
-                className="w-full h-full object-cover opacity-80 group-hover/img:opacity-100 transition-opacity duration-300 cursor-pointer"
-                loading={index < 6 ? "eager" : "lazy"}
-                decoding="async"
-                onClick={() => setIsPlaying(true)}
-              />
+            <div className="absolute inset-0 z-10 bg-black/5 flex items-center justify-center overflow-hidden">
+              {hasImage ? (
+                <img 
+                  src={getOptimizedUrl(project.image)} 
+                  alt={project.title || "Video"}
+                  className="w-full h-full object-cover opacity-90 group-hover/img:opacity-100 transition-opacity duration-300 cursor-pointer"
+                  loading={index < 6 ? "eager" : "lazy"}
+                  decoding="async"
+                  onClick={() => setIsPlaying(true)}
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-800 flex flex-col items-center justify-center text-white cursor-pointer" onClick={() => setIsPlaying(true)}>
+                  <span className="text-gray-400 font-bold">Play Video</span>
+                </div>
+              )}
+              
               {/* Play Button Overlay */}
               <div 
                 className="absolute inset-0 flex items-center justify-center cursor-pointer"
@@ -420,15 +435,15 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
       </div>
 
       {/* Project Details */}
-      <div className="p-5 flex flex-col flex-1 bg-white justify-between">
+      <div className="p-4 sm:p-5 flex flex-col bg-white border-t border-gray-100">
         <div>
-          <div className="mb-2">
+          <div className="mb-3 flex items-center justify-between">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#E1306C] bg-pink-50 px-2.5 py-1 rounded-full border border-pink-100">
-              Instagram Reel
+              {project.link?.includes("instagram") ? "Instagram Reel" : "Video"}
             </span>
           </div>
 
-          {project.title !== "Instagram Reel" && (
+          {project.title && project.title !== "Instagram Reel" && (
             <h3 className="text-[18px] md:text-[20px] font-bold text-gray-900 mb-3 leading-tight group-hover:text-[#E1306C] transition-colors duration-300 line-clamp-2">
               {project.title}
             </h3>
@@ -442,7 +457,7 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
         </div>
 
         {/* Action buttons */}
-        <div className="flex items-center gap-3 pt-3 border-t border-gray-100 mt-auto">
+        <div className="flex items-center gap-3 pt-4">
           {!isPlaying ? (
             <button 
               onClick={() => setIsPlaying(true)}
@@ -585,9 +600,9 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
             
             {/* Standard Videos (Pinterest / Masonry - Everything after top 3) */}
             {filteredProjects.length > 3 && (
-              <div className="columns-1 md:columns-2 lg:columns-3 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-start">
                 {filteredProjects.slice(3, Math.max(3, visibleCount)).map((project, index) => (
-                  <div key={project.id} className="break-inside-avoid mb-4 sm:mb-6">
+                  <div key={project.id} className="w-full">
                     <VideoCard project={project} index={3 + index} />
                   </div>
                 ))}
@@ -595,9 +610,9 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
             )}
           </div>
         ) : activeCategory === "Graphics" || activeCategory === "Logo" ? (
-          <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 sm:gap-4 lg:gap-6 max-w-[1600px] mx-auto px-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 items-start max-w-[1400px] mx-auto px-4">
             {filteredProjects.slice(0, visibleCount).map((project, index) => (
-              <div key={project.id} className="break-inside-avoid mb-3 sm:mb-4 lg:mb-6">
+              <div key={project.id} className="w-full">
                 <GraphicCard project={project} index={index} />
               </div>
             ))}

@@ -125,7 +125,7 @@ export default function AdminVideosPage() {
 
       const payload: any = {
         id: editingId,
-        title: title.trim() || "Portfolio Video",
+        title: title.trim() || "",
         category: "Videos",
         desc,
         link: finalLink,
@@ -247,8 +247,8 @@ export default function AdminVideosPage() {
               </div>
               <div className="p-4">
                 <div className="flex items-start justify-between mb-2">
-                  {item.title !== "Instagram Reel" && (
-                    <h3 className="font-bold text-gray-900 line-clamp-1 flex-1 pr-2">{item.title}</h3>
+                  {item.title && item.title !== "Instagram Reel" && (
+                    <h3 className="text-[18px] md:text-[20px] font-bold text-gray-900 mb-3 leading-tight group-hover:text-[#E1306C] transition-colors duration-300 line-clamp-2">{item.title}</h3>
                   )}
                 </div>
                 {item.desc && (
