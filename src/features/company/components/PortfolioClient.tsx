@@ -145,7 +145,7 @@ export const SeoCard = ({ project, index }: { project: ProjectItem; index: numbe
     }
   }, [calculateDuration, project.image]);
 
-  let seoData = { targetedCountry: "", totalRanked: "", top10: "", top20: "", top30: "", sinceYear: "" };
+  let seoData = { targetedCountry: "", targetedLocationLabel: "", showTargetedLocation: true, totalRanked: "", top10: "", top20: "", top30: "", sinceYear: "" };
   try {
     seoData = JSON.parse(project.tags);
   } catch(e) {}
@@ -191,7 +191,11 @@ export const SeoCard = ({ project, index }: { project: ProjectItem; index: numbe
                <h3 className="text-3xl lg:text-4xl font-extrabold text-white mb-2 leading-tight">
                  {project.title}
                </h3>
-               <p className="text-gray-400 text-sm">Targeted Country : <span className="text-white font-medium">{seoData.targetedCountry}</span></p>
+               {seoData.showTargetedLocation !== false && (
+                 <p className="text-gray-400 text-sm">
+                   {seoData.targetedLocationLabel || 'Targeted Country'} : <span className="text-white font-medium">{seoData.targetedCountry || ''}</span>
+                 </p>
+               )}
             </div>
             
             <a 

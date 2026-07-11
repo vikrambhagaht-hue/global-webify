@@ -44,6 +44,8 @@ export default function AdminHomepagePortfolioPage() {
 
   // SEO Form State
   const [seoTargetedCountry, setSeoTargetedCountry] = useState("United Arab Emirates");
+  const [seoTargetedLocationLabel, setSeoTargetedLocationLabel] = useState("Targeted Country");
+  const [seoShowTargetedLocation, setSeoShowTargetedLocation] = useState(true);
   const [seoTotalRanked, setSeoTotalRanked] = useState("");
   const [seoTop10, setSeoTop10] = useState("");
   const [seoTop20, setSeoTop20] = useState("");
@@ -87,16 +89,20 @@ export default function AdminHomepagePortfolioPage() {
     
     if (item.category === "SEO") {
       try {
-        const parsed = JSON.parse(item.tags);
-        setSeoTargetedCountry(parsed.targetedCountry || "");
-        setSeoTotalRanked(parsed.totalRanked || "");
-        setSeoTop10(parsed.top10 || "");
-        setSeoTop20(parsed.top20 || "");
-        setSeoTop30(parsed.top30 || "");
+        const seoData = JSON.parse(item.tags);
+        setSeoTargetedCountry(seoData.targetedCountry || "");
+        setSeoTargetedLocationLabel(seoData.targetedLocationLabel || "Targeted Country");
+        setSeoShowTargetedLocation(seoData.showTargetedLocation !== false);
+        setSeoTotalRanked(seoData.totalRanked || "");
+        setSeoTop10(seoData.top10 || "");
+        setSeoTop20(seoData.top20 || "");
+        setSeoTop30(seoData.top30 || "");
 
-        setSeoDisplayCategory(parsed.displayCategory || "SEO");
+        setSeoDisplayCategory(seoData.displayCategory || "SEO");
       } catch (e) {
         setSeoTargetedCountry("");
+        setSeoTargetedLocationLabel("Targeted Country");
+        setSeoShowTargetedLocation(true);
         setSeoTotalRanked("");
         setSeoTop10("");
         setSeoTop20("");
@@ -106,6 +112,8 @@ export default function AdminHomepagePortfolioPage() {
       }
     } else {
       setSeoTargetedCountry("United Arab Emirates");
+      setSeoTargetedLocationLabel("Targeted Country");
+      setSeoShowTargetedLocation(true);
       setSeoTotalRanked("");
       setSeoTop10("");
       setSeoTop20("");
@@ -165,6 +173,8 @@ export default function AdminHomepagePortfolioPage() {
       if (category === "SEO") {
         finalTags = JSON.stringify({
           targetedCountry: seoTargetedCountry,
+          targetedLocationLabel: seoTargetedLocationLabel,
+          showTargetedLocation: seoShowTargetedLocation,
           totalRanked: seoTotalRanked,
           top10: seoTop10,
           top20: seoTop20,
@@ -189,7 +199,7 @@ export default function AdminHomepagePortfolioPage() {
         setTimeout(() => setToastMessage(""), 3000);
         // Reset form
         setEditingId(null); setTitle(""); setDesc(""); setLink("https://"); setDisplayUrl(""); setTags(""); setIsFeatured(true); setIsCustomCategory(false); setCategory("Website"); setCustomImageBase64(""); setCustomThumbnailBase64(""); setCompressedSizeInfo(null); setOrder(0);
-        setSeoTargetedCountry("United Arab Emirates"); setSeoTotalRanked(""); setSeoTop10(""); setSeoTop20(""); setSeoTop30(""); setSeoDisplayCategory("SEO");
+        setSeoTargetedCountry("United Arab Emirates"); setSeoTargetedLocationLabel("Targeted Country"); setSeoShowTargetedLocation(true); setSeoTotalRanked(""); setSeoTop10(""); setSeoTop20(""); setSeoTop30(""); setSeoDisplayCategory("SEO");
         fetchItems();
       } else {
         alert("Failed to save portfolio item.");
@@ -246,7 +256,7 @@ export default function AdminHomepagePortfolioPage() {
           onClick={() => {
             setEditingId(null);
             setTitle(""); setDesc(""); setLink("https://"); setDisplayUrl(""); setTags(""); setIsFeatured(true); setIsCustomCategory(false); setCategory("Website"); setCustomImageBase64(""); setCustomThumbnailBase64(""); setCompressedSizeInfo(null); setOrder(0);
-            setSeoTargetedCountry("United Arab Emirates"); setSeoTotalRanked(""); setSeoTop10(""); setSeoTop20(""); setSeoTop30("");
+            setSeoTargetedCountry("United Arab Emirates"); setSeoTargetedLocationLabel("Targeted Country"); setSeoShowTargetedLocation(true); setSeoTotalRanked(""); setSeoTop10(""); setSeoTop20(""); setSeoTop30("");
             setShowModal(true);
           }}
           className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors"
@@ -533,10 +543,20 @@ export default function AdminHomepagePortfolioPage() {
               {category === "SEO" ? (
                 <div className="bg-purple-50 p-4 rounded-xl border border-purple-100 space-y-4">
                   <h3 className="font-bold text-purple-900 mb-2">SEO Specific Metrics</h3>
-                  <div className="grid grid-cols-1 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[13px] font-semibold text-purple-800 mb-1">Targeted Country</label>
-                      <input type="text" value={seoTargetedCountry} onChange={e => setSeoTargetedCountry(e.target.value)} className="w-full px-3 py-2 rounded-md border border-purple-200" placeholder="e.g. United Arab Emirates" />
+                      <label className="block text-[13px] font-semibold text-purple-800 mb-1">Targeted Location Label</label>
+                      <input type="text" value={seoTargetedLocationLabel} onChange={e => setSeoTargetedLocationLabel(e.target.value)} className="w-full px-3 py-2 rounded-md border border-purple-200" placeholder="e.g. Targeted Country or Targeted City" />
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-[13px] font-semibold text-purple-800">Location Value</label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <span className="text-[11px] font-bold text-gray-500">Active</span>
+                          <input type="checkbox" checked={seoShowTargetedLocation} onChange={e => setSeoShowTargetedLocation(e.target.checked)} className="rounded border-gray-300 text-purple-600 focus:ring-purple-600" />
+                        </label>
+                      </div>
+                      <input type="text" disabled={!seoShowTargetedLocation} value={seoTargetedCountry} onChange={e => setSeoTargetedCountry(e.target.value)} className={`w-full px-3 py-2 rounded-md border border-purple-200 ${!seoShowTargetedLocation ? 'opacity-50 bg-gray-100' : ''}`} placeholder="e.g. United Arab Emirates or Dubai" />
                     </div>
                   </div>
                   <div>
@@ -564,15 +584,15 @@ export default function AdminHomepagePortfolioPage() {
                   <div>
                     <div className="flex justify-between items-center mb-1.5">
                       <label className="block text-sm font-semibold text-gray-700">Description (Text Area)</label>
-                      <span className={`text-[11px] font-bold ${desc.length >= 350 ? 'text-red-500' : 'text-purple-600'}`}>
-                        {desc.length} / 350 max characters (Limits to 5 lines)
+                      <span className={`text-[11px] font-bold ${desc.length >= 500 ? 'text-red-500' : 'text-purple-600'}`}>
+                        {desc.length} / 500 max characters (Limits to 5 lines)
                       </span>
                     </div>
                     <textarea
                       required
                       value={desc}
                       onChange={e => setDesc(e.target.value)}
-                      maxLength={350}
+                      maxLength={500}
                       rows={4}
                       className="w-full px-4 py-2.5 rounded-lg border border-purple-200 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all"
                       placeholder="Paws & Claws Pets is a trusted destination..."

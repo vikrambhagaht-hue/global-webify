@@ -638,7 +638,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                   Schedule a Call With Us
                 </h2>
                 <p className="text-slate-500 text-[14px] md:text-[15px] font-medium mt-3 max-w-lg mx-auto leading-relaxed">
-                  Pick your preferred date & time, and our partnership team will call you.
+                  Pick your preferred date & time, and our franchisee team will call you.
                 </p>
               </div>
 
