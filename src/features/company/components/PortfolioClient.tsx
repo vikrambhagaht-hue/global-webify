@@ -498,7 +498,7 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
             )}
             
             <a 
-              href={`https://wa.me/?text=${encodeURIComponent(`${getOptimizedVideoUrl(project.link || project.image)}\n\n🎬 *Global Webify — Check Out Our Latest Work!*\n${project.title ? `*${project.title}*\n\n` : ''}📅 *Book a FREE Consultation Slot:*\n👉 https://www.globalwebify.com/franchisee`)}`}
+              href={`https://wa.me/?text=${encodeURIComponent(`🎬 *Global Webify — Premium Digital Solutions!*\n${project.title ? `*${project.title}*\n\n` : ''}👉 https://www.globalwebify.com/v/${project.id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 flex-shrink-0 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-xl flex items-center justify-center transition-colors shadow-sm"
