@@ -356,7 +356,7 @@ export const SeoCard = ({ project, index }: { project: ProjectItem; index: numbe
   );
 };
 
-const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) => {
+const VideoCard = ({ project, index, shareOrigin = 'https://www.globalwebify.com' }: { project: ProjectItem; index: number; shareOrigin?: string }) => {
   const hasImage = project.image && project.image.trim() !== "";
   const [isPlaying, setIsPlaying] = useState(!hasImage);
   const [iframeLoaded, setIframeLoaded] = useState(false);
@@ -498,7 +498,7 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
             )}
             
             <a 
-              href={`https://wa.me/?text=${encodeURIComponent(`🎬 *Global Webify — Premium Digital Solutions!*\n${project.title ? `*${project.title}*\n\n` : ''}👉 https://www.globalwebify.com/v/${project.id}`)}`}
+              href={`https://wa.me/?text=${encodeURIComponent(`🎬 *Global Webify — Premium Digital Solutions!*\n${project.title ? `*${project.title}*\n\n` : ''}👉 ${shareOrigin}/v/${project.id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 flex-shrink-0 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-xl flex items-center justify-center transition-colors shadow-sm"
@@ -525,6 +525,13 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
   const [activeCategory, setActiveCategory] = useState("Website");
   const [visibleCount, setVisibleCount] = useState(12);
   const observerTarget = React.useRef<HTMLDivElement>(null);
+  
+  const [shareOrigin, setShareOrigin] = useState('https://www.globalwebify.com');
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setShareOrigin(window.location.origin);
+    }
+  }, []);
 
   const handleCategoryChange = (cat: string) => {
     setActiveCategory(cat);
@@ -623,7 +630,7 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-start">
                 {filteredProjects.slice(0, Math.min(3, visibleCount)).map((project, index) => (
                   <div key={project.id} className="h-full break-inside-avoid">
-                    <VideoCard project={project} index={index} />
+                    <VideoCard project={project} index={index} shareOrigin={shareOrigin} />
                   </div>
                 ))}
               </div>
@@ -634,7 +641,7 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-start">
                 {filteredProjects.slice(3, Math.max(3, visibleCount)).map((project, index) => (
                   <div key={project.id} className="w-full">
-                    <VideoCard project={project} index={3 + index} />
+                    <VideoCard project={project} index={3 + index} shareOrigin={shareOrigin} />
                   </div>
                 ))}
               </div>
