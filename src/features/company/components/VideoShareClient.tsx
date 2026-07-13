@@ -20,6 +20,11 @@ interface ProjectItem {
 export default function VideoShareClient({ project }: { project: ProjectItem }) {
   const [iframeLoaded, setIframeLoaded] = useState(false);
 
+  const handleVideoEnded = () => {
+    // Redirect to franchisee page with a query parameter to trigger auto-scroll
+    window.location.href = '/franchisee?scrollToForm=true';
+  };
+
   const getInstagramEmbedUrl = (url: string | null) => {
     if (!url) return '';
     try {
@@ -97,7 +102,9 @@ export default function VideoShareClient({ project }: { project: ProjectItem }) 
               className="w-full h-full object-cover"
               controls
               autoPlay
+              muted
               playsInline
+              onEnded={handleVideoEnded}
             />
           )}
         </div>

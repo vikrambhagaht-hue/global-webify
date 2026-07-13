@@ -239,6 +239,16 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
         }
       })
       .catch(console.error);
+
+    // Auto-scroll to form if coming from video redirect
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('scrollToForm') === 'true') {
+        setTimeout(() => {
+          document.getElementById('partnership-form')?.scrollIntoView({ behavior: 'smooth' });
+        }, 500); // Small delay to ensure the page has rendered
+      }
+    }
   }, []);
   const expandableRef = useRef<HTMLDivElement>(null);
   const dateScrollRef = useRef<HTMLDivElement>(null);
