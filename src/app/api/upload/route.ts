@@ -64,8 +64,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // HOSTINGER DEPLOYMENT: If we are using local storage
-    if (process.env.STORAGE_PROVIDER === 'local') {
+    // HOSTINGER DEPLOYMENT: If we are using local storage (never on Vercel — its filesystem is read-only)
+    if (process.env.STORAGE_PROVIDER === 'local' && !process.env.VERCEL) {
       const filename = `${Date.now()}-${baseFilename}${finalExt}`;
       const uploadDir = path.join(process.cwd(), 'public', 'uploads');
       
@@ -79,7 +79,13 @@ export async function POST(request: NextRequest) {
 
     // VERCEL DEPLOYMENT: Fallback to Cloudinary because Vercel doesn't allow local file saving
     const result: any = await new Promise((resolve, reject) => {
-      const baseName = originalName.replace(`.${ext}`, '').replace(/\s+/g, '-');
+      // Strip extension properly (ext already includes the dot, e.g. '.webp')
+      const baseName = originalName
+        .replace(new RegExp(`\\${ext}$`, 'i'), '')  // Remove file extension
+        .replace(/\s+/g, '-')                       // Spaces → dashes
+        .replace(/[^a-zA-Z0-9\-_]/g, '')            // Remove commas, dots, and all special chars (commas break Cloudinary URLs!)
+        .replace(/-+/g, '-')                         // Collapse multiple dashes
+        .replace(/^-|-$/g, '');                      // Trim leading/trailing dashes
       const isVideo = ['.mp4', '.webm', '.ogg'].includes(ext);
       
       const uploadOptions: any = { 
