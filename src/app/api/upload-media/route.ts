@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(arrayBuffer);
 
     const uploadResponse = await new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
+      const uploadStream = cloudinary.uploader.upload_chunked_stream(
         { resource_type: "auto", folder: "portfolio-media" },
         (error, result) => {
           if (error) reject(error);

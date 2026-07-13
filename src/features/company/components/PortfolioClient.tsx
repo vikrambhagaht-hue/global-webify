@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, Globe } from 'lucide-react';
+import { ExternalLink, Globe, Calendar, Clock, X, Share2, CheckCircle2 } from 'lucide-react';
 import { useContactInfo } from '@/lib/ContactContext';
 import { TOP_BAR_CONTACT } from '@/constants/navigation';
 
@@ -27,12 +27,9 @@ const getOptimizedUrl = (url: string) => {
 };
 
 const getOptimizedVideoUrl = (url: string) => {
-  if (url && url.includes('res.cloudinary.com') && url.includes('/upload/')) {
-    if (!url.includes('q_auto')) {
-      // w_720 ensures the video is scaled down to 720p max width, q_auto forces high compression, f_auto ensures webm/mp4 delivery
-      return url.replace('/upload/', '/upload/w_720,q_auto,f_auto/');
-    }
-  }
+  // We do not add w_720,q_auto,f_auto to videos here because Cloudinary will 
+  // attempt to synchronously transcode the video on-the-fly. For large videos 
+  // (like 100MB), this causes a timeout/error and the video breaks.
   return url;
 };
 
@@ -479,25 +476,45 @@ const VideoCard = ({ project, index }: { project: ProjectItem; index: number }) 
         )}
 
         {/* Action buttons */}
-        <div className="flex items-center gap-3">
-          {!isPlaying ? (
-            <button 
-              onClick={() => setIsPlaying(true)}
-              className="flex-1 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F56040] hover:opacity-90 text-white text-center py-2.5 px-4 rounded-xl text-[14px] font-bold transition-opacity flex items-center justify-center gap-2 shadow-sm shadow-pink-900/20"
-            >
-              <span>{isPinterest ? "Load Pinterest Pin" : "Play Video Here"}</span>
-            </button>
-          ) : (
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            {!isPlaying ? (
+              <button 
+                onClick={() => setIsPlaying(true)}
+                className="flex-1 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F56040] hover:opacity-90 text-white text-center py-2.5 px-4 rounded-xl text-[13px] font-bold transition-opacity flex items-center justify-center gap-2 shadow-sm shadow-pink-900/20"
+              >
+                <span>{isPinterest ? "Load Pin" : "Play Video"}</span>
+              </button>
+            ) : (
+              <a 
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 bg-gray-50 hover:bg-gray-100 text-gray-700 text-center py-2.5 px-4 rounded-xl text-[13px] font-bold transition-colors flex items-center justify-center gap-2 border border-gray-200"
+              >
+                <span>{isPinterest ? "Pinterest" : isInsta ? "Instagram" : "Open Link"}</span>
+                <ExternalLink size={14} />
+              </a>
+            )}
+            
             <a 
-              href={project.link}
+              href={`https://wa.me/?text=${encodeURIComponent(`${getOptimizedVideoUrl(project.link || project.image)}\n\n🎬 *Global Webify — Check Out Our Latest Work!*\n${project.title ? `*${project.title}*\n\n` : ''}📅 *Book a FREE Consultation Slot:*\n👉 https://www.globalwebify.com/franchisee`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-gray-50 hover:bg-gray-100 text-gray-700 text-center py-2.5 px-4 rounded-xl text-[14px] font-bold transition-colors flex items-center justify-center gap-2 border border-gray-200"
+              className="w-10 h-10 flex-shrink-0 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-xl flex items-center justify-center transition-colors shadow-sm"
+              title="Share on WhatsApp"
             >
-              <span>{isPinterest ? "Open in Pinterest" : isInsta ? "Open in Instagram" : "Open Link"}</span>
-              <ExternalLink size={14} />
+              <Share2 size={16} />
             </a>
-          )}
+          </div>
+
+          <a
+            href="/franchisee"
+            className="w-full bg-[#1a8b4c] hover:bg-[#15703d] text-white py-2.5 px-4 rounded-xl text-[13px] font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
+          >
+            <Calendar size={14} />
+            <span>Book a Free Slot</span>
+          </a>
         </div>
       </div>
     </div>
