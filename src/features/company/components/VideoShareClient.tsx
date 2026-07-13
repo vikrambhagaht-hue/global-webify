@@ -115,7 +115,7 @@ export default function VideoShareClient({ project }: { project: ProjectItem }) 
           <p className="text-gray-400 text-[13px] leading-relaxed">Schedule a free 1-on-1 consultation with our experts to discuss your requirements and grow your business.</p>
           
           <a
-            href="/franchisee"
+            href="/franchisee?scrollToForm=true"
             className="w-full bg-[#2CA65A] hover:bg-[#238b4a] text-white py-4 px-6 rounded-2xl text-[15px] font-bold transition-all shadow-lg shadow-green-900/20 flex items-center justify-center gap-3 mt-2"
           >
             <Calendar size={18} />

@@ -13,7 +13,7 @@ export default function CampaignPage() {
     category: 'Campaign',
     image: '',
     desc: 'Special offer campaign video',
-    link: '/ad-video.mp4',
+    link: '/partnership/ad-video.mp4.mp4',
     displayUrl: '',
     tags: '',
     order: 0
