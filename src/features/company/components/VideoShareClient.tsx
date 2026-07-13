@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Calendar, ChevronLeft } from 'lucide-react';
 
 // Define a minimal ProjectItem type locally so we don't need circular imports
@@ -18,11 +19,12 @@ interface ProjectItem {
 }
 
 export default function VideoShareClient({ project }: { project: ProjectItem }) {
+  const router = useRouter();
   const [iframeLoaded, setIframeLoaded] = useState(false);
 
   const handleVideoEnded = () => {
     // Redirect to franchisee page with a query parameter to trigger auto-scroll
-    window.location.href = '/franchisee?scrollToForm=true';
+    router.push('/franchisee?scrollToForm=true');
   };
 
   const getInstagramEmbedUrl = (url: string | null) => {
@@ -57,16 +59,13 @@ export default function VideoShareClient({ project }: { project: ProjectItem }) 
   const isIframe = isInsta || isPinterest;
 
   return (
-    <div className="min-h-screen bg-[#0a0f16] flex flex-col items-center py-6 px-4 font-sans text-white">
+    <div className="min-h-screen bg-[#0a0f16] flex flex-col items-center py-6 px-4 pb-28 md:pb-12 font-sans text-white">
       {/* Header */}
-      <div className="w-full max-w-md flex items-center justify-between mb-8">
-        <Link href="/portfolio" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
-          <ChevronLeft size={20} />
-          <span className="text-sm font-medium">Back</span>
+      <div className="w-full max-w-md flex items-center mb-6">
+        <Link href="/portfolio" className="text-gray-400 hover:text-white transition-colors flex items-center gap-1.5">
+          <ChevronLeft size={18} />
+          <span className="text-[13px] font-medium">Back</span>
         </Link>
-        <div className="text-lg font-bold text-white tracking-wide">
-          Global <span className="text-[#2CA65A]">Webify</span>
-        </div>
       </div>
 
       {/* Main Content */}
@@ -74,13 +73,30 @@ export default function VideoShareClient({ project }: { project: ProjectItem }) 
         
         {/* Title */}
         {project.title && (
-          <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-100 leading-tight">
-            {project.title}
+          <h1 className="text-[16px] sm:text-[18px] font-bold text-center text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">
+            {project.title.split(/(Global Webify)/i).map((part, i) => 
+              part.toLowerCase() === 'global webify' ? (
+                <span key={i} className="text-[#2CA65A]">{part}</span>
+              ) : (
+                <span key={i}>{part}</span>
+              )
+            )}
           </h1>
         )}
 
         {/* Video Player */}
-        <div className="w-full bg-black rounded-3xl overflow-hidden shadow-2xl border border-gray-800 aspect-[4/5] relative flex items-center justify-center">
+        <div className="w-full max-w-[280px] mx-auto bg-black rounded-3xl overflow-hidden shadow-2xl border border-gray-800 relative flex items-center justify-center aspect-[9/16] group">
+          
+          {/* TOP-LEFT OVERLAY BUTTON (Desktop Only) */}
+          <div className="absolute top-3 left-3 z-20 hidden md:block">
+            <Link
+              href="/franchisee?scrollToForm=true"
+              className="pointer-events-auto bg-red-600/90 hover:bg-red-700 backdrop-blur-md text-white py-1.5 px-3 rounded-full text-[10px] sm:text-[11px] font-extrabold tracking-wide transition-all shadow-[0_0_10px_rgba(220,38,38,0.5)] flex items-center gap-1 border border-white/30 hover:scale-105"
+            >
+              <Calendar size={11} />
+              <span>Book a Free Slot</span>
+            </Link>
+          </div>
           {isIframe ? (
             <>
               {!iframeLoaded && (
@@ -99,7 +115,7 @@ export default function VideoShareClient({ project }: { project: ProjectItem }) 
           ) : (
             <video 
               src={project.link || project.image || ''}
-              className="w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
               controls
               autoPlay
               muted
@@ -109,21 +125,30 @@ export default function VideoShareClient({ project }: { project: ProjectItem }) 
           )}
         </div>
 
-        {/* CTA Section */}
-        <div className="bg-gray-900/50 p-6 rounded-3xl border border-gray-800 flex flex-col items-center text-center gap-4 mt-2">
-          <h3 className="text-xl font-bold text-gray-100">Ready to build yours?</h3>
-          <p className="text-gray-400 text-[13px] leading-relaxed">Schedule a free 1-on-1 consultation with our experts to discuss your requirements and grow your business.</p>
-          
-          <a
+        {/* DESKTOP ONLY CTA: Green button below the video */}
+        <div className="hidden md:flex justify-center mt-2">
+          <Link
             href="/franchisee?scrollToForm=true"
-            className="w-full bg-[#2CA65A] hover:bg-[#238b4a] text-white py-4 px-6 rounded-2xl text-[15px] font-bold transition-all shadow-lg shadow-green-900/20 flex items-center justify-center gap-3 mt-2"
+            className="w-full max-w-[280px] bg-[#2CA65A] hover:bg-[#238b4a] text-white py-3.5 px-6 rounded-xl text-[15px] font-bold transition-all shadow-lg shadow-green-900/20 flex items-center justify-center gap-2 hover:-translate-y-0.5"
           >
             <Calendar size={18} />
             <span>Book a Free Slot</span>
-          </a>
+          </Link>
         </div>
 
       </div>
+
+      {/* Enterprise Sticky CTA: ONLY ON MOBILE */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-[#0a0f16]/90 backdrop-blur-xl border-t border-gray-800 z-50 flex justify-center shadow-[0_-10px_40px_rgba(0,0,0,0.6)] md:hidden">
+        <Link
+          href="/franchisee?scrollToForm=true"
+          className="w-full max-w-[280px] bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white py-3 px-6 rounded-xl text-[14px] font-black tracking-wide transition-all shadow-[0_5px_20px_rgba(225,29,72,0.3)] flex items-center justify-center gap-2 hover:-translate-y-1"
+        >
+          <Calendar size={16} />
+          <span>Book a Free Slot</span>
+        </Link>
+      </div>
+
     </div>
   );
 }

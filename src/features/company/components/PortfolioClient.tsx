@@ -357,8 +357,8 @@ export const SeoCard = ({ project, index }: { project: ProjectItem; index: numbe
 };
 
 const VideoCard = ({ project, index, shareOrigin = 'https://www.globalwebify.com' }: { project: ProjectItem; index: number; shareOrigin?: string }) => {
-  const hasImage = project.image && project.image.trim() !== "";
-  const [isPlaying, setIsPlaying] = useState(!hasImage);
+  const hasImage = project.image && project.image.trim() !== "" && !project.image.match(/\.(mp4|webm|ogg)$/i);
+  const [isPlaying, setIsPlaying] = useState(!hasImage && !project.link?.match(/\.(mp4|webm|ogg)$/i));
   const [iframeLoaded, setIframeLoaded] = useState(false);
 
   const getInstagramEmbedUrl = (url: string) => {
@@ -438,9 +438,14 @@ const VideoCard = ({ project, index, shareOrigin = 'https://www.globalwebify.com
                   onClick={() => setIsPlaying(true)}
                 />
               ) : (
-                <div className="w-full h-full bg-gray-800 flex flex-col items-center justify-center text-white cursor-pointer" onClick={() => setIsPlaying(true)}>
-                  <span className="text-gray-400 font-bold">Play Video</span>
-                </div>
+                <video 
+                  src={getOptimizedVideoUrl(project.link || project.image)}
+                  className="w-full h-full object-cover opacity-90 cursor-pointer"
+                  preload="metadata"
+                  muted
+                  playsInline
+                  onClick={() => setIsPlaying(true)}
+                />
               )}
               
               {/* Play Button Overlay */}
@@ -496,25 +501,7 @@ const VideoCard = ({ project, index, shareOrigin = 'https://www.globalwebify.com
                 <ExternalLink size={14} />
               </a>
             )}
-            
-            <a 
-              href={`https://wa.me/?text=${encodeURIComponent(`🎬 *Global Webify — Premium Digital Solutions!*\n${project.title ? `*${project.title}*\n\n` : ''}👉 ${shareOrigin}/v/${project.id}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 flex-shrink-0 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-xl flex items-center justify-center transition-colors shadow-sm"
-              title="Share on WhatsApp"
-            >
-              <Share2 size={16} />
-            </a>
           </div>
-
-          <a
-            href="/franchisee"
-            className="w-full bg-[#1a8b4c] hover:bg-[#15703d] text-white py-2.5 px-4 rounded-xl text-[13px] font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
-          >
-            <Calendar size={14} />
-            <span>Book a Free Slot</span>
-          </a>
         </div>
       </div>
     </div>
