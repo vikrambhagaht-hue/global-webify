@@ -7,20 +7,20 @@ import { Calendar, ChevronLeft } from 'lucide-react';
 // Define a minimal ProjectItem type locally so we don't need circular imports
 interface ProjectItem {
   id: number;
-  title: string;
+  title: string | null;
   category: string;
-  image: string;
-  desc: string;
-  link: string;
-  displayUrl: string;
-  tags: string;
+  image: string | null;
+  desc: string | null;
+  link: string | null;
+  displayUrl: string | null;
+  tags: string | null;
   order: number;
 }
 
 export default function VideoShareClient({ project }: { project: ProjectItem }) {
   const [iframeLoaded, setIframeLoaded] = useState(false);
 
-  const getInstagramEmbedUrl = (url: string) => {
+  const getInstagramEmbedUrl = (url: string | null) => {
     if (!url) return '';
     try {
       const urlObj = new URL(url);
@@ -34,7 +34,7 @@ export default function VideoShareClient({ project }: { project: ProjectItem }) 
     return url;
   };
 
-  const getPinterestEmbedUrl = (url: string) => {
+  const getPinterestEmbedUrl = (url: string | null) => {
     if (!url) return '';
     try {
       if (url.includes('pinterest.com/pin/')) {
@@ -93,7 +93,7 @@ export default function VideoShareClient({ project }: { project: ProjectItem }) 
             </>
           ) : (
             <video 
-              src={project.link || project.image}
+              src={project.link || project.image || ''}
               className="w-full h-full object-cover"
               controls
               autoPlay
