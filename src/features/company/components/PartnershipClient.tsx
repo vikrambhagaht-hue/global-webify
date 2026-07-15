@@ -657,7 +657,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                 {/* Contact Name & Email */}
                 <div className="grid md:grid-cols-2 gap-5">
                   <div className="flex flex-col gap-1.5 relative group">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Contact Name *</label>
+                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Contact Name *</label>
                     <input 
                       type="text" 
                       required
@@ -669,7 +669,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                   </div>
 
                    <div className="flex flex-col gap-1.5 relative group">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Business Email *</label>
+                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Business Email *</label>
                     <input 
                       type="email" 
                       required
@@ -685,7 +685,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                 {/* Company Name & Website URL */}
                 <div className="grid md:grid-cols-2 gap-5">
                   <div className="flex flex-col gap-1.5 relative group">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Company Name <span className="text-slate-300 font-semibold lowercase tracking-normal">(optional)</span></label>
+                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Company Name <span className="text-slate-300 font-semibold lowercase tracking-normal">(optional)</span></label>
                     <input 
                       type="text" 
                       value={formData.companyName}
@@ -696,7 +696,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                   </div>
 
                   <div className="flex flex-col gap-1.5 relative group">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Website URL <span className="text-slate-300 font-semibold lowercase tracking-normal">(optional)</span></label>
+                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Website URL <span className="text-slate-300 font-semibold lowercase tracking-normal">(optional)</span></label>
                     <input 
                       type="url" 
                       value={formData.websiteUrl}
@@ -708,7 +708,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                 </div>
 
                 <div className="flex flex-col gap-1.5 relative group">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Mobile Number *</label>
+                  <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Mobile Number *</label>
                   <div className="flex gap-3 relative">
                     {/* Country Code Select */}
                     <div className="relative w-[125px] shrink-0">
@@ -777,7 +777,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                 <div className="space-y-4 pt-2">
                   {/* Preferred Date */}
                   <div className="flex flex-col gap-2.5">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] ml-1">📅 Preferred Date *</label>
+                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1">📅 Preferred Date *</label>
                     <div className="flex items-center gap-2 group/scroll w-full">
                       <button 
                         type="button" 
@@ -800,7 +800,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                           today.setHours(0, 0, 0, 0);
                           const blockSize = availability.daysToShow || 10;
                           const dates: Date[] = [];
-                          for (let i = 0; i < blockSize; i++) {
+                          for (let i = 1; i <= blockSize; i++) {
                             const d = new Date(today);
                             d.setDate(today.getDate() + i);
                             dates.push(d);
@@ -809,7 +809,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                             const dateStr = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
                             const dayName = d.toLocaleDateString('en-IN', { weekday: 'short' });
                             const isSelected = formData.preferredDate === dateStr;
-                            const isToday = idx === 0;
+                            const isTomorrow = idx === 0;
                             const isSunday = d.getDay() === 0;
                             const isBlocked = availability.blockedDates.includes(dateStr) || isSunday;
                             
@@ -860,12 +860,12 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                                     </div>
                                   </div>
                                 </button>
-                                {/* Today badge outside the button scaling to stay aligned */}
-                                {isToday && (
+                                {/* Tomorrow badge outside the button scaling to stay aligned */}
+                                {isTomorrow && (
                                    <span className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 px-1.5 py-[1px] text-white text-[7px] font-black uppercase tracking-widest rounded-full shadow-md whitespace-nowrap z-20 ${
-                                     isBlocked ? 'bg-red-800' : isSelected ? 'bg-slate-900' : 'bg-blue-600'
+                                     isBlocked ? 'bg-red-800' : isSelected ? 'bg-slate-900' : 'bg-violet-600'
                                    }`}>
-                                     Today
+                                     Tomorrow
                                    </span>
                                 )}
                               </div>
@@ -887,7 +887,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
 
                   {/* Preferred Time */}
                   <div className="flex flex-col gap-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] ml-1">🕐 Preferred Time *</label>
+                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1">🕐 Preferred Time *</label>
                     <div className="flex items-center gap-2 group/scroll w-full">
                       <button 
                         type="button" 
