@@ -96,20 +96,34 @@ export default function AdminVideosPage() {
 
       if (uploadType === "file") {
         if (mediaFile) {
+          const isVideo = mediaFile.type.startsWith("video/");
+          
+          if (isVideo && mediaFile.size > 50 * 1024 * 1024) { // 50MB max for videos
+            setToastMessage("❌ Video file size exceeds 50MB. Please compress it before uploading.");
+            setTimeout(() => setToastMessage(""), 5000);
+            setIsSaving(false);
+            return;
+          }
+
           setIsUploading(true);
           const formData = new FormData();
           formData.append("file", mediaFile);
           
-          const uploadRes = await fetch("/api/upload-media", {
-            method: "POST",
-            body: formData
-          });
-          
-          if (!uploadRes.ok) throw new Error("Failed to upload video");
-          const uploadData = await uploadRes.json();
-          finalLink = uploadData.url;
-          finalImage = uploadData.url; 
-          setIsUploading(false);
+          try {
+            const uploadRes = await fetch("/api/upload-media", {
+              method: "POST",
+              body: formData
+            });
+            
+            if (!uploadRes.ok) throw new Error("Failed to upload video");
+            const uploadData = await uploadRes.json();
+            finalLink = uploadData.url;
+            finalImage = uploadData.url;
+          } catch (error) {
+            throw new Error("Failed to upload video");
+          } finally {
+            setIsUploading(false);
+          }
         } else if (!isEditing) {
           alert("Please select a video to upload.");
           setIsSaving(false);
@@ -149,9 +163,9 @@ export default function AdminVideosPage() {
 
       if (res.ok) {
         setShowModal(false);
-        setToastMessage("✅ Video saved successfully!");
+        setToastMessage(prev => prev ? prev : "✅ Video saved successfully!");
         setTimeout(() => setToastMessage(""), 3000);
-        setEditingId(null); setTitle(""); setDesc(""); setLink(""); setOrder(0); setTags(""); setMediaFile(null);
+        setEditingId(null); setTitle(""); setLink(""); setDesc(""); setOrder(0); setTags(""); setMediaFile(null);
         fetchItems();
       } else {
         const data = await res.json();
@@ -343,7 +357,7 @@ export default function AdminVideosPage() {
 
               {uploadType === "file" && (
                 <div className="p-4 border border-gray-200 rounded-xl bg-gray-50">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Upload Video (MP4 / WebM)</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Upload Video (MP4/WebM)</label>
                   <input 
                     type="file" 
                     accept="video/mp4,video/webm"
@@ -352,10 +366,20 @@ export default function AdminVideosPage() {
                         setMediaFile(e.target.files[0]);
                       }
                     }}
-                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200 cursor-pointer" 
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer file:cursor-pointer" 
                   />
+                  
+                  {mediaFile && (
+                    <div className="mt-3 bg-blue-50/50 px-3 py-2 rounded-lg border border-blue-100 flex items-center gap-2">
+                      <PlayCircle className="w-4 h-4 text-blue-500" />
+                      <span className="text-[11px] font-semibold text-blue-800">
+                        Video will be automatically transcoded to 1080p by the server after upload.
+                      </span>
+                    </div>
+                  )}
+
                   {editingId && !mediaFile && (
-                    <p className="text-xs text-gray-500 mt-2 italic">Leave empty to keep the existing uploaded file.</p>
+                    <p className="text-xs text-gray-500 mt-2 italic">Leave empty to keep the existing uploaded video.</p>
                   )}
                 </div>
               )}

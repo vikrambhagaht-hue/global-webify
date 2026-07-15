@@ -789,7 +789,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                       
                       <div 
                         ref={dateScrollRef} 
-                        className="flex gap-3 overflow-x-auto snap-x snap-mandatory py-4 w-full flex-grow px-1"
+                        className="flex gap-3 overflow-x-auto snap-x snap-proximity py-4 w-full flex-grow px-1"
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                       >
                         <style>{`
@@ -906,7 +906,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
 
                       <div 
                         ref={timeScrollRef}
-                        className="flex gap-1.5 overflow-x-auto snap-x snap-mandatory py-2 w-full flex-grow"
+                        className="flex gap-1.5 overflow-x-auto snap-x snap-proximity py-2 w-full flex-grow"
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                       >
                         {(() => {

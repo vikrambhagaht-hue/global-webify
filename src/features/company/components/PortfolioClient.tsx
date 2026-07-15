@@ -143,7 +143,7 @@ const MotionGraphicVideo = ({ src, className }: { src: string; className?: strin
       <img 
         src={thumbnailUrl}
         alt="Motion Graphic"
-        className={`${className || "w-full h-auto block"} ${isPlaying ? 'invisible' : ''}`}
+        className={`${className || "w-full h-auto block"}`}
         loading="lazy"
         decoding="async"
       />
@@ -492,9 +492,9 @@ export const SeoCard = ({ project, index }: { project: ProjectItem; index: numbe
   );
 };
 
-const VideoCard = ({ project, index, shareOrigin = 'https://www.globalwebify.com' }: { project: ProjectItem; index: number; shareOrigin?: string }) => {
-  const hasImage = project.image && project.image.trim() !== "" && !project.image.match(/\.(mp4|webm|ogg)$/i);
-  const [isPlaying, setIsPlaying] = useState(!hasImage && !project.link?.match(/\.(mp4|webm|ogg)$/i));
+const VideoCard = React.memo(({ project, index, shareOrigin = 'https://www.globalwebify.com' }: { project: ProjectItem; index: number; shareOrigin?: string }) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
   const [iframeLoaded, setIframeLoaded] = useState(false);
 
   const getInstagramEmbedUrl = (url: string) => {
@@ -526,74 +526,66 @@ const VideoCard = ({ project, index, shareOrigin = 'https://www.globalwebify.com
 
   const isInsta = project.link?.includes("instagram.com");
   const isPinterest = project.link?.includes("pinterest.com");
+  const isEmbed = isInsta || isPinterest;
+
+  // Auto-play raw videos on scroll
+  React.useEffect(() => {
+    if (isEmbed) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const vid = videoRef.current;
+        if (!vid) return;
+        
+        if (entry.isIntersecting) {
+          vid.play().catch(() => {});
+        } else {
+          vid.pause();
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isEmbed]);
 
   return (
     <div
       className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100"
     >
       {/* Video Thumbnail / Iframe Area */}
-      <div className={`relative w-full ${project.tags?.toLowerCase().includes("square") ? "aspect-square" : "aspect-[4/5] sm:aspect-[3/4]"} overflow-hidden bg-gray-50 flex items-center justify-center group/img transition-all duration-300 border-b border-gray-100`}>
-        <div className="w-full h-full relative bg-white">
-          {isPlaying ? (
+      <div 
+        ref={containerRef}
+        className="relative w-full aspect-[4/5] overflow-hidden bg-gray-50 flex items-center justify-center group/img transition-all duration-300 border-b border-gray-100"
+      >
+        <div className="w-full h-full relative bg-black">
+          {isEmbed ? (
             <>
-              {isInsta || isPinterest ? (
-                <>
-                  {!iframeLoaded && (
-                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-50/80 backdrop-blur-sm">
-                      <div className="w-8 h-8 border-4 border-green-200 border-t-[#2CA65A] rounded-full animate-spin"></div>
-                    </div>
-                  )}
-                  <iframe 
-                    src={isPinterest ? getPinterestEmbedUrl(project.link) : getInstagramEmbedUrl(project.link)}
-                    className="absolute inset-0 w-full h-full border-0 bg-white"
-                    allowFullScreen
-                    scrolling="no"
-                    loading="lazy"
-                    onLoad={() => setIframeLoaded(true)}
-                  />
-                </>
-              ) : (
-                <video 
-                  src={getOptimizedVideoUrl(project.link || project.image)}
-                  className="absolute inset-0 w-full h-full object-cover bg-black"
-                  controls
-                  autoPlay
-                  playsInline
-                />
+              {!iframeLoaded && (
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-50/80 backdrop-blur-sm">
+                  <div className="w-8 h-8 border-4 border-green-200 border-t-[#2CA65A] rounded-full animate-spin"></div>
+                </div>
               )}
+              <iframe 
+                src={isPinterest ? getPinterestEmbedUrl(project.link) : getInstagramEmbedUrl(project.link)}
+                className="absolute inset-0 w-full h-full border-0 bg-black"
+                allowFullScreen
+                scrolling="no"
+                loading={index < 4 ? "eager" : "lazy"}
+                onLoad={() => setIframeLoaded(true)}
+              />
             </>
           ) : (
-            <div className="absolute inset-0 z-10 bg-black/5 flex items-center justify-center overflow-hidden">
-              {hasImage ? (
-                <img 
-                  src={getOptimizedUrl(project.image)} 
-                  alt={project.title || "Video"}
-                  className="w-full h-full object-cover opacity-90 group-hover/img:opacity-100 transition-opacity duration-300 cursor-pointer"
-                  loading={index < 3 ? "eager" : "lazy"}
-                  decoding="async"
-                  onClick={() => setIsPlaying(true)}
-                />
-              ) : (
-                <video 
-                  src={getOptimizedVideoUrl(project.link || project.image)}
-                  className="w-full h-full object-cover opacity-90 cursor-pointer"
-                  preload="metadata"
-                  muted
-                  playsInline
-                  onClick={() => setIsPlaying(true)}
-                />
-              )}
-              
-              {/* Play Button Overlay */}
-              <div 
-                className="absolute inset-0 flex items-center justify-center cursor-pointer"
-                onClick={() => setIsPlaying(true)}
-              >
-                <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center group-hover/img:scale-110 group-hover/img:bg-white/40 transition-all duration-300 shadow-2xl border border-white/40">
-                   <div className="w-0 h-0 border-t-8 border-t-transparent border-l-[14px] border-l-white border-b-8 border-b-transparent ml-1"></div>
-                </div>
-              </div>
-            </div>
+            <video 
+              ref={videoRef}
+              src={getOptimizedVideoUrl(project.link || project.image)}
+              className="absolute inset-0 w-full h-full object-cover"
+              loop
+              muted
+              playsInline
+              preload="metadata"
+            />
           )}
         </div>
       </div>
@@ -619,35 +611,26 @@ const VideoCard = ({ project, index, shareOrigin = 'https://www.globalwebify.com
         {/* Action buttons */}
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            {!isPlaying ? (
-              <button 
-                onClick={() => setIsPlaying(true)}
-                className="flex-1 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F56040] hover:opacity-90 text-white text-center py-2.5 px-4 rounded-xl text-[13px] font-bold transition-opacity flex items-center justify-center gap-2 shadow-sm shadow-pink-900/20"
-              >
-                <span>{isPinterest ? "Load Pin" : "Play Video"}</span>
-              </button>
-            ) : (
-              <a 
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 bg-gray-50 hover:bg-gray-100 text-gray-700 text-center py-2.5 px-4 rounded-xl text-[13px] font-bold transition-colors flex items-center justify-center gap-2 border border-gray-200"
-              >
-                <span>{isPinterest ? "Pinterest" : isInsta ? "Instagram" : "Open Link"}</span>
-                <ExternalLink size={14} />
-              </a>
-            )}
+            <a 
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 bg-gray-50 hover:bg-gray-100 text-gray-700 text-center py-2.5 px-4 rounded-xl text-[13px] font-bold transition-colors flex items-center justify-center gap-2 border border-gray-200"
+            >
+              <span>{isPinterest ? "View on Pinterest" : isInsta ? "View on Instagram" : "Open Original Video"}</span>
+              <ExternalLink size={14} />
+            </a>
           </div>
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default function PortfolioClient({ projects }: { projects: ProjectItem[] }) {
   const [activeCategory, setActiveCategory] = useState("Website");
-  const [visibleCount, setVisibleCount] = useState(12);
-  const observerTarget = React.useRef<HTMLDivElement>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = activeCategory === "Videos" ? 16 : 30;
   
   const [shareOrigin, setShareOrigin] = useState('https://www.globalwebify.com');
   useEffect(() => {
@@ -658,25 +641,13 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
 
   const handleCategoryChange = (cat: string) => {
     setActiveCategory(cat);
-    setVisibleCount(12);
+    setCurrentPage(1);
   };
 
-  React.useEffect(() => {
-    const target = observerTarget.current;
-    if (!target) return;
-
-    const observer = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting) {
-          setVisibleCount(prev => prev + 12);
-        }
-      },
-      { threshold: 0.1, rootMargin: "300px" }
-    );
-
-    observer.observe(target);
-    return () => observer.unobserve(target);
-  }, [visibleCount, activeCategory]);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Removed disable-hover logic as it caused flickering on the top navbar when scrolling
 
@@ -709,6 +680,9 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
     }
     return p.category === activeCategory;
   });
+
+  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
+  const paginatedProjects = filteredProjects.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   return (
     <div className="pt-0 sm:pt-1 pb-16 sm:pb-24 bg-[#f8fafc] font-sans relative min-h-screen overflow-x-hidden">
@@ -748,10 +722,10 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
 
         {activeCategory === "Videos" ? (
           <div className="flex flex-col gap-8 sm:gap-10 w-full max-w-[1400px] mx-auto">
-            {/* Priority Videos (Left-to-Right Grid - Top 3 spots) */}
-            {filteredProjects.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-start">
-                {filteredProjects.slice(0, Math.min(3, visibleCount)).map((project, index) => (
+            {/* Priority Videos (Left-to-Right Grid - Top 4 spots) */}
+            {paginatedProjects.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 items-start">
+                {paginatedProjects.slice(0, 4).map((project, index) => (
                   <div key={project.id} className="h-full break-inside-avoid">
                     <VideoCard project={project} index={index} shareOrigin={shareOrigin} />
                   </div>
@@ -759,12 +733,12 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
               </div>
             )}
             
-            {/* Standard Videos (Pinterest / Masonry - Everything after top 3) */}
-            {filteredProjects.length > 3 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-start">
-                {filteredProjects.slice(3, Math.max(3, visibleCount)).map((project, index) => (
+            {/* Standard Videos (Pinterest / Masonry - Everything after top 4) */}
+            {paginatedProjects.length > 4 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 items-start">
+                {paginatedProjects.slice(4).map((project, index) => (
                   <div key={project.id} className="w-full">
-                    <VideoCard project={project} index={3 + index} shareOrigin={shareOrigin} />
+                    <VideoCard project={project} index={4 + index} shareOrigin={shareOrigin} />
                   </div>
                 ))}
               </div>
@@ -772,8 +746,8 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
           </div>
         ) : activeCategory === "Graphics" || activeCategory === "Logo" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 items-start max-w-[1400px] mx-auto px-4">
-            {filteredProjects.slice(0, visibleCount).map((project, index) => (
-              <div key={project.id} className="w-full" style={index > 3 ? { contentVisibility: 'auto', containIntrinsicSize: 'auto 500px' } as React.CSSProperties : undefined}>
+            {paginatedProjects.map((project, index) => (
+              <div key={project.id} className="w-full">
                 <GraphicCard project={project} index={index} />
               </div>
             ))}
@@ -782,7 +756,7 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
           <div 
             className={`mx-auto ${activeCategory === "SEO" ? "flex flex-col gap-4 sm:gap-6 max-w-[1000px]" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-[1400px]"}`}
           >
-            {filteredProjects.slice(0, visibleCount).map((project, index) => {
+            {paginatedProjects.map((project, index) => {
               const isSEO = activeCategory === "SEO" && project.category === "SEO";
               return (
                 <div key={project.id} className={isSEO ? "" : "h-full"}>
@@ -797,10 +771,40 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
           </div>
         )}
 
-        {/* Infinite Scroll Trigger */}
-        {visibleCount < filteredProjects.length && (
-          <div ref={observerTarget} className="mt-12 sm:mt-16 w-full h-16 flex items-center justify-center">
-             <div className="w-8 h-8 border-4 border-green-200 border-t-[#2CA65A] rounded-full animate-spin"></div>
+        {/* Premium Pagination UI */}
+        {totalPages > 1 && (
+          <div className="mt-16 w-full flex items-center justify-center gap-2 pb-10">
+            <button 
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-sm"
+            >
+              Previous
+            </button>
+            
+            <div className="flex items-center gap-1.5 hidden sm:flex">
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => handlePageChange(i + 1)}
+                  className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold transition-all duration-300 ${
+                    currentPage === i + 1 
+                      ? 'bg-[#2CA65A] text-white shadow-lg shadow-green-900/20 scale-110' 
+                      : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-[#2CA65A] hover:text-[#2CA65A]'
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+            
+            <button 
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-[#2CA65A] text-white shadow-sm hover:bg-[#238a4b] shadow-green-900/10"
+            >
+              Next
+            </button>
           </div>
         )}
       </div>

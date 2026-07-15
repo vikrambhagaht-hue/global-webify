@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { Plus, Trash2, Loader2, CheckCircle2, Edit2, PlayCircle, Image as ImageIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import imageCompression from 'browser-image-compression';
 
 interface PortfolioItem {
   id: number;
@@ -32,9 +33,16 @@ function MediaPortfolioContent() {
   const [order, setOrder] = useState<number>(0);
   const [uploadType, setUploadType] = useState<"file" | "instagram">("file");
   const [mediaFile, setMediaFile] = useState<File | null>(null);
+  const [compressedFile, setCompressedFile] = useState<File | null>(null);
+  const [compressionStats, setCompressionStats] = useState<{originalSize: string, finalSize: string, isCompressing: boolean} | null>(null);
   const [instagramLink, setInstagramLink] = useState("");
   const [toastMessage, setToastMessage] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+
+  const formatBytes = (bytes: number) => {
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+  };
 
   useEffect(() => {
     fetchItems();
@@ -72,6 +80,8 @@ function MediaPortfolioContent() {
     setTitle(item.title);
     setOrder(item.order);
     setMediaFile(null);
+    setCompressedFile(null);
+    setCompressionStats(null);
     if (item.link && item.link.includes('instagram.com')) {
       setUploadType("instagram");
       setInstagramLink(item.link);
@@ -92,20 +102,55 @@ function MediaPortfolioContent() {
 
       if (uploadType === "file") {
         if (mediaFile) {
+          const isVideo = mediaFile.type.startsWith("video/");
+          
+          if (isVideo) {
+            if (mediaFile.size > 50 * 1024 * 1024) { // 50MB max for videos
+              setToastMessage("❌ Video file size exceeds 50MB. Please compress it before uploading.");
+              setTimeout(() => setToastMessage(""), 5000);
+              setIsSaving(false);
+              return;
+            }
+          } else if (mediaFile.type.startsWith("image/")) {
+            if (mediaFile.size > 20 * 1024 * 1024) { // 20MB max for images
+              setToastMessage("❌ Image file size exceeds 20MB. Please use a smaller image.");
+              setTimeout(() => setToastMessage(""), 5000);
+              setIsSaving(false);
+              return;
+            }
+          }
+
           setIsUploading(true);
           const formData = new FormData();
-          formData.append("file", mediaFile);
+          // Use compressed file if available, otherwise original
+          formData.append("file", compressedFile || mediaFile);
           
-          const uploadRes = await fetch("/api/upload-media", {
-            method: "POST",
-            body: formData
-          });
-          
-          if (!uploadRes.ok) throw new Error("Failed to upload media");
-          const uploadData = await uploadRes.json();
-          finalLink = uploadData.url;
-          finalImage = uploadData.url;
-          setIsUploading(false);
+          try {
+            const uploadRes = await fetch("/api/upload-media", {
+              method: "POST",
+              body: formData
+            });
+            
+            if (!uploadRes.ok) throw new Error("Failed to upload media");
+            const uploadData = await uploadRes.json();
+            
+            finalLink = uploadData.url;
+            finalImage = uploadData.url;
+
+            // Calculate space saved!
+            const originalMB = (mediaFile.size / (1024 * 1024)).toFixed(2);
+            const finalMB = ((uploadData.bytes || (compressedFile || mediaFile).size) / (1024 * 1024)).toFixed(2);
+            
+            if (originalMB !== finalMB) {
+              setToastMessage(`🚀 Compressed from ${originalMB}MB to ${finalMB}MB!`);
+              setTimeout(() => setToastMessage(""), 5000);
+            }
+          } catch (error) {
+            throw new Error("Failed to upload media");
+          } finally {
+            setIsUploading(false);
+          }
+
         } else if (!isEditing) {
           alert("Please select a file to upload.");
           setIsSaving(false);
@@ -118,15 +163,6 @@ function MediaPortfolioContent() {
           return;
         }
       }
-
-      // If editing and didn't upload a new file, we retain existing values in backend if we don't send them.
-      // But /api/portfolio POST/PUT needs imageBase64 for Images if we aren't sending a new one, wait...
-      // The API expects `imageBase64` if creating a new non-video. Since we upload to Cloudinary directly,
-      // we can trick the API by sending a dummy base64 and then just updating the DB manually, OR
-      // we can update the API to accept `uploadedUrl` directly!
-      // To avoid modifying the API, we can just send the Cloudinary URL in `displayUrl` or wait...
-      // Actually, if we just use the existing API, it requires `imageBase64` for Graphics.
-      // Let's modify the API /api/portfolio to accept `existingImageUrl`!
       
       const payload: any = {
         id: editingId,
@@ -156,7 +192,7 @@ function MediaPortfolioContent() {
         setShowModal(false);
         setToastMessage(`✅ ${defaultType} saved successfully!`);
         setTimeout(() => setToastMessage(""), 3000);
-        setEditingId(null); setTitle(""); setOrder(0); setMediaFile(null); setInstagramLink("");
+        setEditingId(null); setTitle(""); setOrder(0); setMediaFile(null); setCompressedFile(null); setCompressionStats(null); setInstagramLink("");
         fetchItems();
       } else {
         const data = await res.json();
@@ -332,13 +368,71 @@ function MediaPortfolioContent() {
                     <input 
                       type="file" 
                       accept="image/*,video/mp4,video/webm"
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         if (e.target.files && e.target.files[0]) {
-                          setMediaFile(e.target.files[0]);
+                          const file = e.target.files[0];
+                          setMediaFile(file);
+                          setCompressedFile(null);
+                          setCompressionStats(null);
+                          
+                          if (file.type.startsWith("image/")) {
+                            setCompressionStats({ originalSize: "0 KB", finalSize: "0 KB", isCompressing: true });
+                            try {
+                              const options = {
+                                maxSizeMB: 0.5,
+                                maxWidthOrHeight: 1920,
+                                useWebWorker: true,
+                                fileType: "image/webp" as string
+                              };
+                              const compressed = await imageCompression(file, options);
+                              setCompressedFile(compressed);
+                              setCompressionStats({
+                                originalSize: formatBytes(file.size),
+                                finalSize: formatBytes(compressed.size),
+                                isCompressing: false
+                              });
+                            } catch (error) {
+                              setCompressionStats(null);
+                            }
+                          }
                         }
                       }}
-                      className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-100 file:text-green-700 hover:file:bg-green-200 cursor-pointer" 
+                      className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-100 file:text-green-700 hover:file:bg-green-200 cursor-pointer file:cursor-pointer" 
                     />
+                    
+                    {/* Real-time Compression Bar for Images */}
+                    {compressionStats && (
+                      <div className="mt-3 overflow-hidden rounded-lg border border-green-200">
+                        {compressionStats.isCompressing ? (
+                          <div className="bg-green-50 px-3 py-2 flex items-center gap-2">
+                            <Loader2 className="w-3.5 h-3.5 animate-spin text-green-600" />
+                            <span className="text-xs font-semibold text-green-700">Compressing Image & Converting to WebP...</span>
+                          </div>
+                        ) : (
+                          <div className="bg-green-50/50 px-3 py-2 flex items-center justify-between">
+                            <div className="flex items-center gap-1.5 text-xs font-semibold text-green-700">
+                              <CheckCircle2 className="w-3.5 h-3.5" />
+                              Optimized
+                            </div>
+                            <div className="text-[11px] font-bold text-gray-600 bg-white px-2 py-0.5 rounded shadow-sm border border-gray-100">
+                              <span className="line-through text-red-400 mr-1.5">{compressionStats.originalSize}</span>
+                              <span className="text-green-600">➔ {compressionStats.finalSize}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Video Info Bar */}
+                    {mediaFile?.type.startsWith("video/") && (
+                      <div className="mt-3 bg-blue-50/50 px-3 py-2 rounded-lg border border-blue-100 flex items-center gap-2">
+                        <PlayCircle className="w-4 h-4 text-blue-500" />
+                        <span className="text-[11px] font-semibold text-blue-800">
+                          Video will be automatically transcoded to 1080p by the server after upload.
+                        </span>
+                      </div>
+                    )}
+
                     {editingId && !mediaFile && (
                       <p className="text-xs text-gray-500 mt-2 italic">Leave empty to keep the existing uploaded file.</p>
                     )}
