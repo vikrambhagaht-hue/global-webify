@@ -256,14 +256,14 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
 
   const scrollDates = (direction: 'left' | 'right') => {
     if (dateScrollRef.current) {
-      const scrollAmount = 200;
+      const scrollAmount = 216; // 3 items (60px width + 12px gap)
       dateScrollRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
     }
   };
 
   const scrollTimes = (direction: 'left' | 'right') => {
     if (timeScrollRef.current) {
-      const scrollAmount = 200;
+      const scrollAmount = 228; // 3 items (70px width + 6px gap)
       timeScrollRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
     }
   };
@@ -472,7 +472,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.2, type: 'spring' }}
-                className="relative z-10 rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40 group"
+                className="relative z-10 rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40 group bg-[#0a0a0f]"
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/70 via-transparent to-transparent z-10 pointer-events-none"></div>
                 <img 
@@ -789,7 +789,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                       
                       <div 
                         ref={dateScrollRef} 
-                        className="flex gap-3 overflow-x-auto snap-x py-4 scroll-smooth w-full flex-grow px-1"
+                        className="flex gap-3 overflow-x-auto snap-x snap-mandatory py-4 w-full flex-grow px-1"
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                       >
                         <style>{`
@@ -899,7 +899,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
 
                       <div 
                         ref={timeScrollRef}
-                        className="flex gap-1.5 overflow-x-auto snap-x py-2 scroll-smooth w-full flex-grow"
+                        className="flex gap-1.5 overflow-x-auto snap-x snap-mandatory py-2 w-full flex-grow"
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                       >
                         {(() => {
