@@ -776,7 +776,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                 {/* ========== DATE & TIME PICKER ========== */}
                 <div className="space-y-4 pt-2">
                   {/* Preferred Date */}
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2.5">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em] ml-1">📅 Preferred Date *</label>
                     <div className="flex items-center gap-2 group/scroll w-full">
                       <button 
@@ -789,10 +789,9 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                       
                       <div 
                         ref={dateScrollRef} 
-                        className="flex gap-2 overflow-x-auto snap-x py-2 scroll-smooth w-full flex-grow"
+                        className="flex gap-3 overflow-x-auto snap-x py-4 scroll-smooth w-full flex-grow px-1"
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                       >
-                        {/* Hide scrollbar for webkit using standard CSS if tailwind plugin not present, or inline */}
                         <style>{`
                           div::-webkit-scrollbar { display: none; }
                         `}</style>
@@ -806,30 +805,70 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                             d.setDate(today.getDate() + i);
                             dates.push(d);
                           }
-                          return dates.map((d) => {
+                          return dates.map((d, idx) => {
                             const dateStr = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
                             const dayName = d.toLocaleDateString('en-IN', { weekday: 'short' });
                             const isSelected = formData.preferredDate === dateStr;
+                            const isToday = idx === 0;
                             const isSunday = d.getDay() === 0;
                             const isBlocked = availability.blockedDates.includes(dateStr) || isSunday;
+                            
                             return (
-                              <button
-                                key={dateStr}
-                                type="button"
-                                disabled={isBlocked}
-                                onClick={() => setFormData(prev => ({ ...prev, preferredDate: dateStr }))}
-                                className={`flex-shrink-0 snap-start flex flex-col items-center px-3 py-2.5 rounded-xl text-center border-2 transition-all duration-200 min-w-[72px] ${
-                                  isBlocked
-                                    ? 'bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed opacity-50'
-                                    : isSelected
-                                      ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/25 scale-[1.02]'
-                                      : 'bg-white text-slate-700 border-slate-200 hover:border-blue-400 hover:bg-blue-50'
-                                }`}
-                              >
-                                <span className={`text-[9px] font-bold uppercase tracking-wider ${isSelected ? 'text-blue-100' : 'text-slate-400'}`}>{dayName}</span>
-                                <span className="text-[15px] font-black leading-tight">{d.getDate()}</span>
-                                <span className={`text-[9px] font-semibold ${isSelected ? 'text-blue-200' : 'text-slate-400'}`}>{d.toLocaleDateString('en-IN', { month: 'short' })}</span>
-                              </button>
+                              <div key={dateStr} className="relative flex-shrink-0 snap-start pt-2 pb-3">
+                                <button
+                                  type="button"
+                                  disabled={isBlocked}
+                                  onClick={() => setFormData(prev => ({ ...prev, preferredDate: dateStr }))}
+                                  className={`relative flex flex-col items-center w-[60px] h-[70px] rounded-[12px] transition-all duration-300 ${
+                                    isBlocked
+                                      ? 'opacity-70 cursor-not-allowed'
+                                      : isSelected
+                                        ? 'scale-[1.08] z-10'
+                                        : 'hover:-translate-y-1 hover:shadow-lg cursor-pointer'
+                                  }`}
+                                >
+                                  {/* Ring holes / Binders */}
+                                  <div className="absolute -top-1.5 left-2.5 w-1 h-3 bg-gradient-to-b from-slate-200 to-slate-400 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.6)] z-20"></div>
+                                  <div className="absolute -top-1.5 right-2.5 w-1 h-3 bg-gradient-to-b from-slate-200 to-slate-400 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.6)] z-20"></div>
+
+                                  <div className={`w-full h-full flex flex-col rounded-[12px] border-2 shadow-sm overflow-hidden ${
+                                     isBlocked ? 'border-red-200 bg-red-50/30' : isSelected ? 'border-slate-900 shadow-slate-500/30 shadow-lg bg-white' : 'border-slate-200 hover:border-blue-400 bg-white'
+                                  }`}>
+                                    {/* Calendar Top Header (Month) */}
+                                    <div className={`w-full py-1 flex items-center justify-center border-b ${
+                                      isBlocked ? 'bg-red-500 border-red-600 text-white' : isSelected ? 'bg-slate-900 border-slate-950 text-white' : 'bg-blue-600 border-blue-700 text-white'
+                                    }`}>
+                                      <span className="text-[9px] font-black uppercase tracking-widest leading-none mt-0.5">
+                                        {d.toLocaleDateString('en-IN', { month: 'short' })}
+                                      </span>
+                                    </div>
+                                    
+                                    {/* Calendar Body (Date & Day) */}
+                                    <div className={`w-full flex-grow flex flex-col items-center justify-center gap-[1px] ${
+                                      isBlocked ? 'bg-red-50/50' : isSelected ? 'bg-slate-50' : 'bg-white'
+                                    }`}>
+                                      <span className={`text-[20px] font-black leading-none mt-0.5 ${
+                                        isBlocked ? 'text-red-300 line-through decoration-red-300/50' : isSelected ? 'text-slate-900' : 'text-blue-700'
+                                      }`}>
+                                        {d.getDate()}
+                                      </span>
+                                      <span className={`text-[9px] font-bold uppercase tracking-wider ${
+                                        isBlocked ? 'text-red-400' : isSelected ? 'text-slate-500' : 'text-blue-500'
+                                      }`}>
+                                        {dayName}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </button>
+                                {/* Today badge outside the button scaling to stay aligned */}
+                                {isToday && (
+                                   <span className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 px-1.5 py-[1px] text-white text-[7px] font-black uppercase tracking-widest rounded-full shadow-md whitespace-nowrap z-20 ${
+                                     isBlocked ? 'bg-red-800' : isSelected ? 'bg-slate-900' : 'bg-blue-600'
+                                   }`}>
+                                     Today
+                                   </span>
+                                )}
+                              </div>
                             );
                           });
                         })()}
