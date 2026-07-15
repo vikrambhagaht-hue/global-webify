@@ -800,18 +800,25 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                           today.setHours(0, 0, 0, 0);
                           const blockSize = availability.daysToShow || 10;
                           const dates: Date[] = [];
-                          for (let i = 1; i <= blockSize; i++) {
+                          let offset = 1;
+                          while (dates.length < blockSize) {
                             const d = new Date(today);
-                            d.setDate(today.getDate() + i);
-                            dates.push(d);
+                            d.setDate(today.getDate() + offset);
+                            if (d.getDay() !== 0) { // Skip Sundays completely
+                              dates.push(d);
+                            }
+                            offset++;
                           }
+                          
+                          const actualTomorrow = new Date(today);
+                          actualTomorrow.setDate(today.getDate() + 1);
+
                           return dates.map((d, idx) => {
                             const dateStr = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
                             const dayName = d.toLocaleDateString('en-IN', { weekday: 'short' });
                             const isSelected = formData.preferredDate === dateStr;
-                            const isTomorrow = idx === 0;
-                            const isSunday = d.getDay() === 0;
-                            const isBlocked = availability.blockedDates.includes(dateStr) || isSunday;
+                            const isTomorrow = d.getTime() === actualTomorrow.getTime();
+                            const isBlocked = availability.blockedDates.includes(dateStr);
                             
                             return (
                               <div key={dateStr} className="relative flex-shrink-0 snap-start pt-2 pb-3">
