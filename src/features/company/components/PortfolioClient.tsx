@@ -17,10 +17,10 @@ export interface ProjectItem {
   order: number;
 }
 
-const getOptimizedUrl = (url: string) => {
+const getOptimizedUrl = (url: string, width: number = 800) => {
   if (url && url.includes('res.cloudinary.com') && url.includes('/upload/')) {
     if (!url.includes('q_auto')) {
-      return url.replace('/upload/', '/upload/w_800,q_auto,f_auto/');
+      return url.replace('/upload/', `/upload/w_${width},q_auto,f_auto/`);
     }
   }
   return url;
@@ -31,6 +31,142 @@ const getOptimizedVideoUrl = (url: string) => {
   // attempt to synchronously transcode the video on-the-fly. For large videos 
   // (like 100MB), this causes a timeout/error and the video breaks.
   return url;
+};
+
+const LazyVideo = ({ src, className }: { src: string; className?: string }) => {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  if (!shouldLoad) {
+    return (
+      <div ref={ref} className="w-full bg-gray-100 flex items-center justify-center rounded-lg" style={{ minHeight: '300px' }}>
+        <div className="w-8 h-8 border-4 border-green-200 border-t-[#2CA65A] rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <video 
+      src={src}
+      className={className || "w-full h-auto block"}
+      autoPlay
+      loop
+      muted
+      playsInline
+    />
+  );
+};
+
+const getVideoThumbnailUrl = (url: string): string => {
+  if (!url) return '';
+  // For Cloudinary videos, generate a poster from the first frame
+  if (url.includes('res.cloudinary.com') && url.includes('/video/upload/')) {
+    return url
+      .replace('/video/upload/', '/video/upload/w_400,q_auto,f_jpg,so_auto/')
+      .replace(/\.(mp4|webm|ogg)$/i, '.jpg');
+  }
+  return '';
+};
+
+const MotionGraphicVideo = ({ src, className }: { src: string; className?: string }) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const thumbnailUrl = getVideoThumbnailUrl(src);
+
+  const play = React.useCallback(() => {
+    const vid = videoRef.current;
+    if (!vid) return;
+    if (!vid.src) vid.src = src;
+    vid.play().catch(() => {});
+    setIsPlaying(true);
+  }, [src]);
+
+  const pause = React.useCallback(() => {
+    const vid = videoRef.current;
+    if (vid) {
+      vid.pause();
+      vid.currentTime = 0;
+    }
+    setIsPlaying(false);
+  }, []);
+
+  // Auto-pause when scrolled out of view (handles mobile)
+  React.useEffect(() => {
+    const el = containerRef.current;
+    if (!el || !isPlaying) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          const vid = videoRef.current;
+          if (vid) { vid.pause(); vid.currentTime = 0; }
+          setIsPlaying(false);
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isPlaying]);
+
+  // Fallback for non-Cloudinary videos
+  if (!thumbnailUrl) {
+    return <LazyVideo src={src} className={className} />;
+  }
+
+  return (
+    <div 
+      ref={containerRef}
+      className="relative w-full"
+      onMouseEnter={play}
+      onMouseLeave={pause}
+      onClick={() => { if (!isPlaying) play(); else pause(); }}
+    >
+      {/* Static thumbnail (first frame ~5KB) — determines container size */}
+      <img 
+        src={thumbnailUrl}
+        alt="Motion Graphic"
+        className={`${className || "w-full h-auto block"} ${isPlaying ? 'invisible' : ''}`}
+        loading="lazy"
+        decoding="async"
+      />
+      
+      {/* Video layer — only loads src on first interaction */}
+      <video
+        ref={videoRef}
+        className={`absolute inset-0 w-full h-full object-cover ${isPlaying ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        loop
+        muted
+        playsInline
+        preload="none"
+      />
+      
+      {/* Play icon overlay */}
+      {!isPlaying && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-11 h-11 bg-black/25 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20">
+            <div className="w-0 h-0 border-t-[6px] border-t-transparent border-l-[10px] border-l-white border-b-[6px] border-b-transparent ml-0.5" />
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 const ProjectCard = ({ project, index }: { project: ProjectItem; index: number }) => {
@@ -64,7 +200,7 @@ const ProjectCard = ({ project, index }: { project: ProjectItem; index: number }
 
   return (
     <div
-      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(26,139,76,0.12)] border border-gray-100 transition-shadow duration-500 animate-fadeIn"
+      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(26,139,76,0.12)] border border-gray-100"
     >
       {/* Browser Header Mockup */}
       <div className="bg-gray-50/80 border-b border-gray-100 px-4 py-3 flex items-center gap-2 rounded-t-3xl">
@@ -94,7 +230,7 @@ const ProjectCard = ({ project, index }: { project: ProjectItem; index: number }
           className="w-full h-full object-cover object-top transition-[object-position] duration-[0.5s] group-hover/img:[transition-duration:var(--scroll-duration)] ease-linear group-hover/img:object-bottom"
           style={{ '--scroll-duration': scrollDuration } as React.CSSProperties}
           onLoad={(e) => calculateDuration(e.currentTarget.naturalHeight, e.currentTarget.naturalWidth)}
-          loading="eager"
+          loading={index < 6 ? "eager" : "lazy"}
           decoding="async"
         />
       </a>
@@ -155,7 +291,7 @@ const GraphicCard = ({ project, index }: { project: ProjectItem; index: number }
 
   return (
     <div
-      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(26,139,76,0.12)] border border-gray-100 transition-shadow duration-500 animate-fadeIn"
+      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(26,139,76,0.12)] border border-gray-100"
     >
       {/* Simple Image/Video Area - Natural Height */}
       <div className="relative w-full overflow-hidden bg-gray-50 group/img">
@@ -170,13 +306,9 @@ const GraphicCard = ({ project, index }: { project: ProjectItem; index: number }
              />
           </div>
         ) : isVid ? (
-          <video 
-            src={getOptimizedVideoUrl(project.image || project.link)} 
-            className="w-full h-auto block" 
-            autoPlay
-            loop
-            muted
-            playsInline
+          <MotionGraphicVideo 
+            src={getOptimizedVideoUrl(project.image || project.link)}
+            className="w-full h-auto block"
           />
         ) : (
           <a 
@@ -186,11 +318,11 @@ const GraphicCard = ({ project, index }: { project: ProjectItem; index: number }
             className="w-full cursor-pointer block"
           >
             <img 
-              src={getOptimizedUrl(project.image)} 
+              src={getOptimizedUrl(project.image, 400)} 
               alt={project.title}
               title={project.title}
-              className="w-full h-auto block transition-transform duration-500 group-hover/img:scale-105"
-              loading="eager"
+              className="w-full h-auto block transition-transform duration-500 group-hover/img:scale-105 will-change-transform"
+              loading="lazy"
               decoding="async"
             />
           </a>
@@ -264,7 +396,7 @@ export const SeoCard = ({ project, index }: { project: ProjectItem; index: numbe
 
   return (
     <div
-      className="group flex flex-col md:flex-row bg-[#0B0626] rounded-3xl overflow-hidden shadow-xl w-full border border-gray-800 transition-shadow duration-500 max-w-[1000px] mx-auto animate-fadeIn"
+      className="group flex flex-col md:flex-row bg-[#0B0626] rounded-3xl overflow-hidden shadow-xl w-full border border-gray-800 max-w-[1000px] mx-auto"
     >
       {/* LEFT: Image */}
       <div className="w-full md:w-[40%] lg:w-[35%] bg-white/5 relative p-4 md:p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-white/10">
@@ -393,7 +525,7 @@ const VideoCard = ({ project, index, shareOrigin = 'https://www.globalwebify.com
 
   return (
     <div
-      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 transition-shadow duration-500 animate-fadeIn"
+      className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100"
     >
       {/* Video Thumbnail / Iframe Area */}
       <div className={`relative w-full ${project.tags?.toLowerCase().includes("square") ? "aspect-square" : "aspect-[4/5] sm:aspect-[3/4]"} overflow-hidden bg-gray-50 flex items-center justify-center group/img transition-all duration-300 border-b border-gray-100`}>
@@ -433,7 +565,7 @@ const VideoCard = ({ project, index, shareOrigin = 'https://www.globalwebify.com
                   src={getOptimizedUrl(project.image)} 
                   alt={project.title || "Video"}
                   className="w-full h-full object-cover opacity-90 group-hover/img:opacity-100 transition-opacity duration-300 cursor-pointer"
-                  loading="eager"
+                  loading={index < 3 ? "eager" : "lazy"}
                   decoding="async"
                   onClick={() => setIsPlaying(true)}
                 />
@@ -637,7 +769,7 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
         ) : activeCategory === "Graphics" || activeCategory === "Logo" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 items-start max-w-[1400px] mx-auto px-4">
             {filteredProjects.slice(0, visibleCount).map((project, index) => (
-              <div key={project.id} className="w-full">
+              <div key={project.id} className="w-full" style={index > 3 ? { contentVisibility: 'auto', containIntrinsicSize: 'auto 500px' } as React.CSSProperties : undefined}>
                 <GraphicCard project={project} index={index} />
               </div>
             ))}

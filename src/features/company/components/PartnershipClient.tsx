@@ -799,19 +799,12 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
                         {(() => {
                           const today = new Date();
                           today.setHours(0, 0, 0, 0);
-                          const dayOfMonth = today.getDate();
-                          // Calculate the start of current block
                           const blockSize = availability.daysToShow || 10;
-                          const blockStart = Math.floor((dayOfMonth - 1) / blockSize) * blockSize + 1;
-                          const startDate = new Date(today.getFullYear(), today.getMonth(), blockStart);
-                          // If block start is in the past, use today
-                          if (startDate < today) startDate.setTime(today.getTime());
-                          const blockEnd = new Date(today.getFullYear(), today.getMonth(), blockStart + blockSize - 1);
                           const dates: Date[] = [];
-                          const curr = new Date(startDate);
-                          while (curr <= blockEnd) {
-                            dates.push(new Date(curr));
-                            curr.setDate(curr.getDate() + 1);
+                          for (let i = 0; i < blockSize; i++) {
+                            const d = new Date(today);
+                            d.setDate(today.getDate() + i);
+                            dates.push(d);
                           }
                           return dates.map((d) => {
                             const dateStr = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });

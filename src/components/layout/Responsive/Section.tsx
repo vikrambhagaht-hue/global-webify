@@ -12,14 +12,14 @@ interface SectionProps {
   style?: React.CSSProperties;
 }
 
-export const Section = ({ 
+export const Section = React.forwardRef<HTMLElement, SectionProps>(({ 
   children, 
   className, 
   id, 
   variant = 'white',
   spacing = 'md',
   style
-}: SectionProps) => {
+}, ref) => {
   
   const variantStyles = {
     white: 'bg-white',
@@ -38,6 +38,7 @@ export const Section = ({
 
   return (
     <section 
+      ref={ref}
       id={id}
       style={style}
       className={cn(
@@ -52,4 +53,6 @@ export const Section = ({
       </div>
     </section>
   );
-};
+});
+
+Section.displayName = 'Section';

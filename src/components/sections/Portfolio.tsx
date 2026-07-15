@@ -56,6 +56,7 @@ const defaultProjects: FeaturedProject[] = [
 
 const ProjectCard = ({ project, index, isDesktop }: { project: any, index: number, isDesktop: boolean }) => {
   const cardRef = React.useRef(null);
+  const [imgLoaded, setImgLoaded] = React.useState(false);
 
   let displayCategory = project.category;
   if (project.category === "SEO" && project.tags) {
@@ -87,7 +88,9 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
                 alt={project.title}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300 animate-[fadeIn_0.3s_ease-in]"
+                onLoad={() => setImgLoaded(true)}
+                style={{ opacity: imgLoaded ? 1 : 0, transition: 'opacity 0.3s ease-in' }}
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
               />
 
             {/* Stronger Green Tinted Bottom Shade */}
@@ -137,24 +140,31 @@ export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: 
     return () => window.removeEventListener('resize', checkDevice);
   }, []);
 
-  // Preload portfolio images on first scroll (user intent = they'll see more content)
+  // Preload portfolio images when section is ~600px from viewport
+  // Uses IntersectionObserver with rootMargin so images start fetching well
+  // before the section scrolls into view, but NOT on initial page load (zero payload impact)
+  const sectionRef = React.useRef<HTMLElement>(null);
   React.useEffect(() => {
-    let done = false;
-    const onFirstScroll = () => {
-      if (done) return;
-      done = true;
-      window.removeEventListener('scroll', onFirstScroll);
-      displayProjects.forEach(p => {
-        const img = new window.Image();
-        img.src = p.image;
-      });
-    };
-    window.addEventListener('scroll', onFirstScroll, { passive: true, once: true });
-    return () => window.removeEventListener('scroll', onFirstScroll);
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          observer.disconnect();
+          displayProjects.forEach(p => {
+            const img = new window.Image();
+            img.src = p.thumbnail || p.image;
+          });
+        }
+      },
+      { rootMargin: '600px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, [displayProjects]);
 
   return (
-    <Section id="portfolio" variant="gray" className="bg-[#f0fdf4] font-sans relative overflow-hidden">
+    <Section ref={sectionRef} id="portfolio" variant="gray" className="bg-[#f0fdf4] font-sans relative overflow-hidden">
       {/* Subtle Background Elements - Optimized using radial gradient instead of CSS blur */}
       <div className="hidden lg:block absolute top-0 right-0 w-[600px] h-[600px] rounded-full -mr-64 -mt-64" style={{ background: 'radial-gradient(circle, rgba(187, 247, 208, 0.15) 0%, rgba(187, 247, 208, 0) 70%)' }} />
       <div className="hidden lg:block absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full -ml-64 -mb-64" style={{ background: 'radial-gradient(circle, rgba(187, 247, 208, 0.15) 0%, rgba(187, 247, 208, 0) 70%)' }} />
