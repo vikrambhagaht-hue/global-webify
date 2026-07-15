@@ -223,19 +223,18 @@ const ProjectCard = ({ project, index }: { project: ProjectItem; index: number }
         rel="noopener noreferrer"
         className="relative w-full aspect-[4/3] overflow-hidden bg-gray-50 cursor-pointer block group/img"
       >
-        <Image 
-          src={getOptimizedUrl(project.image)} 
+        <img 
+          src={getOptimizedUrl(project.image || project.link)} 
           alt={project.title}
           title={project.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover object-top transition-[object-position] duration-[0.5s] group-hover/img:[transition-duration:var(--scroll-duration)] ease-linear group-hover/img:object-bottom"
+          className="absolute inset-0 w-full h-full object-cover object-top transition-[object-position] duration-[0.5s] group-hover/img:[transition-duration:var(--scroll-duration)] ease-linear group-hover/img:object-bottom"
           style={{ '--scroll-duration': scrollDuration } as React.CSSProperties}
           onLoad={(e) => {
             const target = e.target as HTMLImageElement;
             calculateDuration(target.naturalHeight, target.naturalWidth);
           }}
-          priority={index < 6}
+          loading={index < 6 ? "eager" : "lazy"}
+          decoding="async"
         />
       </a>
 
@@ -316,13 +315,13 @@ const GraphicCard = ({ project, index }: { project: ProjectItem; index: number }
           />
         ) : (
           <a 
-            href={project.image}
+            href={project.image || project.link}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full cursor-pointer block"
           >
             <img 
-              src={getOptimizedUrl(project.image, 400)} 
+              src={getOptimizedUrl(project.image || project.link, 400)} 
               alt={project.title}
               title={project.title}
               className="w-full h-auto block transition-transform duration-500 group-hover/img:scale-105 will-change-transform"
@@ -673,7 +672,7 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
     }
 
     if (activeCategory === "All") {
-      return p.category !== "Videos";
+      return p.category !== "Videos" && p.category !== "Graphics" && p.category !== "Logo";
     }
     if (activeCategory === "Website") {
       return p.category === "Website" || p.category === "SEO" || hiddenCategories.includes(p.category);
@@ -757,14 +756,24 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
             className={`mx-auto ${activeCategory === "SEO" ? "flex flex-col gap-4 sm:gap-6 max-w-[1000px]" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-[1400px]"}`}
           >
             {paginatedProjects.map((project, index) => {
-              const isSEO = activeCategory === "SEO" && project.category === "SEO";
-              return (
-                <div key={project.id} className={isSEO ? "" : "h-full"}>
-                  {isSEO ? (
+              const cat = project.category;
+              if (activeCategory === "SEO" && cat === "SEO") {
+                return (
+                  <div key={project.id}>
                     <SeoCard project={project} index={index} />
-                  ) : (
-                    <ProjectCard project={project} index={index} />
-                  )}
+                  </div>
+                );
+              }
+              if (cat === "Graphics" || cat === "Logo") {
+                return (
+                  <div key={project.id} className="w-full h-full">
+                    <GraphicCard project={project} index={index} />
+                  </div>
+                );
+              }
+              return (
+                <div key={project.id} className="h-full">
+                  <ProjectCard project={project} index={index} />
                 </div>
               );
             })}
