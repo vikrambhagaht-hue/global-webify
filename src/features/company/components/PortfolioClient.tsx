@@ -718,8 +718,17 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
               </button>
             ))}
           </div>
-
-        {activeCategory === "Videos" ? (
+        {paginatedProjects.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-20 sm:py-32 px-4 text-center">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 mb-6 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shadow-inner">
+              <Globe size={36} className="text-gray-400 opacity-70" />
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3">No Projects Found</h3>
+            <p className="text-gray-500 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
+              We are currently updating our portfolio. Check back soon for our latest {activeCategory !== "All" ? activeCategory.toLowerCase() : "amazing"} projects.
+            </p>
+          </div>
+        ) : activeCategory === "Videos" ? (
           <div className="flex flex-col gap-8 sm:gap-10 w-full max-w-[1400px] mx-auto">
             {/* Priority Videos (Left-to-Right Grid - Top 4 spots) */}
             {paginatedProjects.length > 0 && (
