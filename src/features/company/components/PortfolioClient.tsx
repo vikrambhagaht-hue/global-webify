@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { ExternalLink, Globe, Calendar, Clock, X, Share2, CheckCircle2 } from 'lucide-react';
 import { useContactInfo } from '@/lib/ContactContext';
 import { TOP_BAR_CONTACT } from '@/constants/navigation';
@@ -222,16 +223,19 @@ const ProjectCard = ({ project, index }: { project: ProjectItem; index: number }
         rel="noopener noreferrer"
         className="relative w-full aspect-[4/3] overflow-hidden bg-gray-50 cursor-pointer block group/img"
       >
-        <img 
-          ref={imgRef}
+        <Image 
           src={getOptimizedUrl(project.image)} 
           alt={project.title}
           title={project.title}
-          className="w-full h-full object-cover object-top transition-[object-position] duration-[0.5s] group-hover/img:[transition-duration:var(--scroll-duration)] ease-linear group-hover/img:object-bottom"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover object-top transition-[object-position] duration-[0.5s] group-hover/img:[transition-duration:var(--scroll-duration)] ease-linear group-hover/img:object-bottom"
           style={{ '--scroll-duration': scrollDuration } as React.CSSProperties}
-          onLoad={(e) => calculateDuration(e.currentTarget.naturalHeight, e.currentTarget.naturalWidth)}
-          loading={index < 6 ? "eager" : "lazy"}
-          decoding="async"
+          onLoad={(e) => {
+            const target = e.target as HTMLImageElement;
+            calculateDuration(target.naturalHeight, target.naturalWidth);
+          }}
+          priority={index < 6}
         />
       </a>
 
