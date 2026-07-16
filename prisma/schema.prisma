@@ -9,11 +9,11 @@ datasource db {
 
 model BlogPost {
   id             Int      @id @default(autoincrement())
-  slug           String   @unique(map: "BlogPost_slug_key")
-  title          String
+  slug           String   @unique(map: "BlogPost_slug_key") @db.VarChar(500)
+  title          String   @db.VarChar(500)
   summary        String   @db.VarChar(500)
   content        String   @db.Text
-  image          String?
+  image          String?  @db.Text
   isActive       Boolean  @default(true)
   seoTitle       String?  @db.VarChar(255)
   seoDescription String?  @db.VarChar(500)

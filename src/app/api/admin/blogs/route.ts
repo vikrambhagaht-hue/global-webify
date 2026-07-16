@@ -75,7 +75,8 @@ export async function POST(request: Request) {
     // Revalidate lists and post detail paths
     revalidatePath('/blog');
     revalidatePath(formattedSlug);
-    revalidatePath('/blog/[slug]');
+    revalidatePath('/blog/[slug]', 'page');
+    revalidatePath('/');
     revalidatePath('/sitemap.ts');
 
     return NextResponse.json({ success: true, id: savedRecord.id, slug: savedRecord.slug });

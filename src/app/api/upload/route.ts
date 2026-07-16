@@ -80,27 +80,30 @@ export async function POST(request: NextRequest) {
     // VERCEL DEPLOYMENT: Fallback to Cloudinary because Vercel doesn't allow local file saving
     const result: any = await new Promise((resolve, reject) => {
       // Strip extension properly (ext already includes the dot, e.g. '.webp')
-      const baseName = originalName
+      let baseName = originalName
         .replace(new RegExp(`\\${ext}$`, 'i'), '')  // Remove file extension
         .replace(/\s+/g, '-')                       // Spaces → dashes
         .replace(/[^a-zA-Z0-9\-_]/g, '')            // Remove commas, dots, and all special chars (commas break Cloudinary URLs!)
         .replace(/-+/g, '-')                         // Collapse multiple dashes
         .replace(/^-|-$/g, '');                      // Trim leading/trailing dashes
+      
+      // CRITICAL: Truncate filename to 30 chars max!
+      // The Cloudinary URL prefix is ~80 chars, timestamp adds ~13, folder adds ~25.
+      // MySQL VARCHAR(191) silently chops anything longer, breaking the image URL!
+      baseName = baseName.substring(0, 30).replace(/-$/, '');
+      
       const isVideo = ['.mp4', '.webm', '.ogg'].includes(ext);
       
       const uploadOptions: any = { 
         folder: 'global-weblify/uploads',
-        resource_type: 'auto',
-        public_id: `${baseName}-${Date.now()}`
+        resource_type: 'image',
+        public_id: `${baseName}-${Date.now()}.webp`
       };
 
-      // Force Cloudinary to aggressively compress the file permanently to save storage quota
       if (!isVideo) {
-        uploadOptions.format = 'webp';
-        uploadOptions.transformation = [
-          { width: 1920, crop: "limit" },
-          { quality: "auto" }
-        ];
+        // We DO NOT set uploadOptions.format or transformations here! 
+        // Setting them forces Cloudinary into asynchronous processing on free tiers, 
+        // which returns a URL before the image actually exists (causing the 404 broken image).
       }
 
       const uploadStream = cloudinary.uploader.upload_stream(

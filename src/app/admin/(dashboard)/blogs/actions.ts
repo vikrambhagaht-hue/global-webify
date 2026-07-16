@@ -58,7 +58,7 @@ export async function saveBlogPost(formData: {
   revalidatePath('/');
   revalidatePath('/blog');
   revalidatePath(formattedSlug);
-  revalidatePath('/blog/[slug]');
+  revalidatePath('/blog/[slug]', 'page');
   revalidatePath('/sitemap.ts');
   revalidateTag('breadcrumb-dynamic-pages');
 

@@ -52,17 +52,22 @@ export default function BlogPostForm({ post }: { post?: BlogPost }) {
 
   // Helper to extract H2 and H3 headings from content HTML string for TOC preview
   const extractHeadings = (html: string): { text: string; level: number }[] => {
-    if (typeof window === 'undefined') return [];
-    try {
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-      const headings = doc.querySelectorAll('h2, h3');
-      return Array.from(headings).map(h => ({
-        text: h.textContent || '',
-        level: parseInt(h.tagName.substring(1))
-      })).filter(h => h.text.trim() !== '');
-    } catch (e) {
-      return [];
+    if (!html) return [];
+    
+    const headingRegex = /<h([23])[^>]*>(.*?)<\/h\1>/gi;
+    const headings: { text: string; level: number }[] = [];
+    let match;
+    
+    while ((match = headingRegex.exec(html)) !== null) {
+      const cleanText = match[2].replace(/<[^>]+>/g, '').trim();
+      if (cleanText) {
+        headings.push({
+          text: cleanText,
+          level: parseInt(match[1], 10)
+        });
+      }
     }
+    return headings;
   };
 
   const getProcessedPreviewHtml = (html: string) => {

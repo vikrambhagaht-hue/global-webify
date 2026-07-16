@@ -413,6 +413,7 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
         .article-detail-body {
           word-break: break-word;
           overflow-wrap: break-word;
+          white-space: pre-wrap; /* Preserves manually typed spaces */
           max-width: 100%;
         }
 
@@ -507,6 +508,14 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
           font-size: var(--font-base);
           line-height: 1.625;
           margin-bottom: 0.5rem !important;
+        }
+        /* Fix TipTap's <p> inside <li> by removing the heavy paragraph margins.
+           Force inline display so the text never drops to a new line below the bullet. */
+        .article-detail-body li p {
+          display: inline;
+          margin: 0 !important;
+          padding: 0 !important;
+          white-space: pre-wrap !important;
         }
         .article-detail-body li::marker {
           color: #374151 !important;

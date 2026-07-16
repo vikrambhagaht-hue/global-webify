@@ -74,9 +74,12 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, 'text/html');
 
-          // Sticky Notes / Notepad fix: split brs
+          // Sticky Notes / Notepad fix: split brs (but NOT inside list items!)
           const brs = Array.from(doc.querySelectorAll('br'));
           brs.forEach(br => {
+            // Skip brs inside list items — splitting them breaks bullet points
+            if (br.closest('li, ul, ol')) return;
+            
             const parent = br.closest('p, div');
             if (parent && parent.parentNode) {
               const newEl = doc.createElement(parent.nodeName);
@@ -142,6 +145,8 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
           const paragraphs = doc.querySelectorAll('p, li');
           paragraphs.forEach(el => {
             if (!el.parentNode) return;
+            // Skip li elements that are already inside a proper list — don't convert them to headings!
+            if (el.nodeName === 'LI' && el.closest('ul, ol')) return;
             const text = el.textContent?.trim() || '';
             
             // Function to replace element with heading and handle unwrapping if it's an li
@@ -392,6 +397,33 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
             }
           });
 
+          // Fix: Unwrap <p> tags inside <li> — TipTap and Google Docs wrap li text in <p> 
+          // which causes broken rendering (each <p> gets its own line break)
+          doc.querySelectorAll('li > p').forEach(p => {
+            const li = p.parentElement;
+            if (!li) return;
+            // If this is the only child, just unwrap the p
+            if (li.children.length === 1) {
+              li.innerHTML = p.innerHTML;
+            } else {
+              // Multiple p inside one li — join them with a space
+              const texts = Array.from(li.querySelectorAll('p')).map(pp => pp.innerHTML);
+              li.innerHTML = texts.join(' ');
+            }
+          });
+
+          // Fix: Merge adjacent <ul><ul> or <ol><ol> into a single list
+          // (happens when content is pasted from multiple sources)
+          doc.querySelectorAll('ul + ul, ol + ol').forEach(secondList => {
+            const firstList = secondList.previousElementSibling;
+            if (firstList && firstList.tagName === secondList.tagName) {
+              while (secondList.firstChild) {
+                firstList.appendChild(secondList.firstChild);
+              }
+              secondList.remove();
+            }
+          });
+
           return doc.body.innerHTML;
         } catch (e) {
           console.error('Word paste transform error:', e);
@@ -422,12 +454,55 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
         e.preventDefault();
         e.stopPropagation();
 
-        // Convert plain text into basic HTML paragraphs
-        const basicHtml = text
-          .split(/\r?\n\r?\n/) // split by double newlines into blocks
-          .filter(b => b.trim().length > 0)
-          .map(b => `<p>${b.replace(/\r?\n/g, '<br>')}</p>`)
-          .join('');
+        // Convert plain text (including ChatGPT/Gemini markdown) into HTML
+        const lines = text.split(/\r?\n/);
+        let basicHtml = '';
+        let inList: 'ul' | 'ol' | null = null;
+
+        const flushList = () => {
+          if (inList) { basicHtml += `</${inList}>`; inList = null; }
+        };
+
+        lines.forEach(line => {
+          const trimmed = line.trim();
+          if (!trimmed) { flushList(); return; }
+
+          // ChatGPT/Gemini markdown headings: ## Heading
+          const headingMatch = trimmed.match(/^(#{1,4})\s+(.+)$/);
+          if (headingMatch) {
+            flushList();
+            const level = Math.max(2, headingMatch[1].length); // min H2
+            basicHtml += `<h${level}>${headingMatch[2]}</h${level}>`;
+            return;
+          }
+
+          // Bullet points: - item, * item, • item
+          const bulletMatch = trimmed.match(/^[-*•]\s+(.+)$/);
+          if (bulletMatch) {
+            if (inList !== 'ul') { flushList(); basicHtml += '<ul>'; inList = 'ul'; }
+            basicHtml += `<li>${bulletMatch[1]}</li>`;
+            return;
+          }
+
+          // Numbered list: 1. item, 2) item
+          const numMatch = trimmed.match(/^\d+[.)]\s+(.+)$/);
+          if (numMatch) {
+            if (inList !== 'ol') { flushList(); basicHtml += '<ol>'; inList = 'ol'; }
+            basicHtml += `<li>${numMatch[1]}</li>`;
+            return;
+          }
+
+          // Regular paragraph
+          flushList();
+          basicHtml += `<p>${trimmed}</p>`;
+        });
+        flushList();
+
+        // Convert **bold** and *italic* markdown syntax to HTML tags
+        basicHtml = basicHtml
+          .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*(.+?)\*/g, '<em>$1</em>')
+          .replace(/`(.+?)`/g, '<code>$1</code>');
 
         // Route it through our universal HTML transformer to guarantee 100% consistency
         // with rich text pastes (same line-by-line bullet detection, styling, etc.)
