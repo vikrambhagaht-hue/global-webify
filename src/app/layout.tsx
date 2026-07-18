@@ -37,15 +37,11 @@ const jost = Jost({
 // Instead we read from NEXT_PUBLIC_SITE_URL env var — change domain anytime without code changes.
 
 const getSiteUrl = () => {
-  // If NEXT_PUBLIC_SITE_URL is set and valid, use it
-  if (process.env.NEXT_PUBLIC_SITE_URL && !process.env.NEXT_PUBLIC_SITE_URL.includes('localhost')) {
-    return process.env.NEXT_PUBLIC_SITE_URL;
+  // Always enforce the primary production domain for SEO canonicals 
+  // to prevent Googlebot from indexing Vercel domains or scraped versions
+  if (process.env.NODE_ENV === 'development') {
+    return 'http://localhost:3000';
   }
-  // Fallback to Vercel URL if deployed there
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-  // Default fallback
   return 'https://www.globalwebify.com';
 };
 

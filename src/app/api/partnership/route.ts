@@ -87,20 +87,30 @@ export async function POST(req: NextRequest) {
     });
 
     // Send SMTP email notification in the background
-    const mailSubject = `New Call Scheduled: ${name}`;
+    const escapeHtml = (unsafe: string) => {
+      if (!unsafe) return '';
+      return String(unsafe)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    };
+
+    const mailSubject = `New Call Scheduled: ${escapeHtml(name)}`;
     const mailContent = `
       <h2>New Call Scheduled — Franchisee Request</h2>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone || 'Not Provided'}</p>
-      <p><strong>Company:</strong> ${companyName || 'Not Provided'}</p>
-      <p><strong>Website:</strong> ${websiteUrl || 'Not Provided'}</p>
-      <p><strong>Partnership Type:</strong> ${partnershipType || 'General Partner'}</p>
-      ${preferredDate ? `<p><strong>📅 Preferred Date:</strong> ${preferredDate}</p>` : ''}
-      ${preferredTime ? `<p><strong>🕐 Preferred Time:</strong> ${preferredTime}</p>` : ''}
+      <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+      <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+      <p><strong>Phone:</strong> ${escapeHtml(phone || 'Not Provided')}</p>
+      <p><strong>Company:</strong> ${escapeHtml(companyName || 'Not Provided')}</p>
+      <p><strong>Website:</strong> ${escapeHtml(websiteUrl || 'Not Provided')}</p>
+      <p><strong>Partnership Type:</strong> ${escapeHtml(partnershipType || 'General Partner')}</p>
+      ${preferredDate ? `<p><strong>📅 Preferred Date:</strong> ${escapeHtml(preferredDate)}</p>` : ''}
+      ${preferredTime ? `<p><strong>🕐 Preferred Time:</strong> ${escapeHtml(preferredTime)}</p>` : ''}
       <p><strong>Message:</strong></p>
       <div style="background: #f5f5f5; padding: 12px; border-radius: 8px; margin-top: 10px;">
-        ${msg ? msg.replace(/\n/g, '<br>') : 'No message provided.'}
+        ${msg ? escapeHtml(msg).replace(/\n/g, '<br>') : 'No message provided.'}
       </div>
       <br>
       <p>— Sent from Global Webify Lead Notifications</p>

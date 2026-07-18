@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db';
 import cloudinary from '@/lib/cloudinary';
+import { requireAdmin } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,6 +43,13 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
+    // Authentication: Only admins can create portfolio items
+    try {
+      await requireAdmin();
+    } catch (authError) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await req.json();
     const { title, category, desc, link, displayUrl, tags, isFeatured, imageBase64, thumbnailBase64, order, uploadedImageUrl } = body;
 
@@ -134,6 +142,13 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
   try {
+    // Authentication: Only admins can delete portfolio items
+    try {
+      await requireAdmin();
+    } catch (authError) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
     if (!id) return NextResponse.json({ error: "Missing ID" }, { status: 400 });
@@ -154,6 +169,13 @@ export async function DELETE(req: Request) {
 
 export async function PUT(req: Request) {
   try {
+    // Authentication: Only admins can edit portfolio items
+    try {
+      await requireAdmin();
+    } catch (authError) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await req.json();
     const { id, title, category, desc, link, displayUrl, tags, isFeatured, imageBase64, thumbnailBase64, order, uploadedImageUrl } = body;
 

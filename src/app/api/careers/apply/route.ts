@@ -1,8 +1,51 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
+// In-memory rate limiting (same pattern as contact route)
+const ipRateLimit = new Map<string, { count: number, resetTime: number }>();
+const RATE_LIMIT_WINDOW_MS = 3600000; // 1 hour
+const RATE_LIMIT_MAX = 5;             // Max 5 applications per hour per IP
+const MAX_MAP_SIZE = 10000;           // Safety cap — prevents unbounded growth
+let lastCleanup = Date.now();
+const CLEANUP_INTERVAL_MS = 10 * 60 * 1000; // Purge expired entries every 10 minutes
+
+function cleanupExpiredEntries() {
+  const now = Date.now();
+  if (now - lastCleanup < CLEANUP_INTERVAL_MS) return;
+  lastCleanup = now;
+  ipRateLimit.forEach((entry, ip) => {
+    if (entry.resetTime < now) {
+      ipRateLimit.delete(ip);
+    }
+  });
+}
+
+function checkRateLimit(ip: string): boolean {
+  cleanupExpiredEntries();
+  const now = Date.now();
+  const entry = ipRateLimit.get(ip);
+  if (!entry || entry.resetTime < now) {
+    if (ipRateLimit.size >= MAX_MAP_SIZE && !entry) {
+      return true;
+    }
+    ipRateLimit.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+  if (entry.count >= RATE_LIMIT_MAX) {
+    return true;
+  }
+  entry.count++;
+  return false;
+}
+
 export async function POST(req: NextRequest) {
   try {
+    // Rate limiting: prevent spam bots from flooding with fake applications
+    const ip = req.headers.get('x-forwarded-for') || req.ip || 'unknown';
+    if (checkRateLimit(ip)) {
+      return NextResponse.json({ success: false, error: 'Too many requests. Please try again later.' }, { status: 429 });
+    }
+
     const { name, email, phone, jobTitle, experience, resumeUrl, coverLetter, linkedin, portfolio } = await req.json();
 
     if (!name || !email || !phone || !jobTitle || !resumeUrl || !experience) {

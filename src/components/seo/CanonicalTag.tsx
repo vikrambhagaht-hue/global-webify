@@ -2,11 +2,8 @@ import React from 'react';
 
 export default function CanonicalTag({ path }: { path: string }) {
   const getSiteUrl = () => {
-    if (process.env.NEXT_PUBLIC_SITE_URL && !process.env.NEXT_PUBLIC_SITE_URL.includes('localhost')) {
-      return process.env.NEXT_PUBLIC_SITE_URL;
-    }
-    if (process.env.VERCEL_URL) {
-      return `https://${process.env.VERCEL_URL}`;
+    if (process.env.NODE_ENV === 'development') {
+      return 'http://localhost:3000';
     }
     return 'https://www.globalwebify.com';
   };
