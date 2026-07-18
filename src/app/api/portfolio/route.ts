@@ -45,7 +45,7 @@ export async function POST(req: Request) {
   try {
     // Authentication: Only admins can create portfolio items
     try {
-      await requireAdmin();
+      await requireAdmin(true);
     } catch (authError) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -144,7 +144,7 @@ export async function DELETE(req: Request) {
   try {
     // Authentication: Only admins can delete portfolio items
     try {
-      await requireAdmin();
+      await requireAdmin(true);
     } catch (authError) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -171,7 +171,7 @@ export async function PUT(req: Request) {
   try {
     // Authentication: Only admins can edit portfolio items
     try {
-      await requireAdmin();
+      await requireAdmin(true);
     } catch (authError) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

@@ -30,7 +30,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     try {
-      await requireAdmin();
+      await requireAdmin(true);
     } catch (authError) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }

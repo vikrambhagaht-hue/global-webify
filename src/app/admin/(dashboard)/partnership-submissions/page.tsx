@@ -6,9 +6,7 @@ export const revalidate = 0;
 
 async function fetchSubmissions() {
   try {
-    const data = await db.$queryRawUnsafe<any[]>(
-      `SELECT * FROM PartnershipSubmission ORDER BY createdAt DESC`
-    );
+    const data = await db.$queryRaw<any[]>`SELECT * FROM PartnershipSubmission ORDER BY createdAt DESC`;
     return data.map(sub => ({
       ...sub,
       createdAt: sub.createdAt ? new Date(sub.createdAt).toISOString() : new Date().toISOString()

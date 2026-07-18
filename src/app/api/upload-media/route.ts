@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   try {
     // Authentication: Only admins can upload media
     try {
-      await requireAdmin();
+      await requireAdmin(true);
     } catch (authError) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -21,6 +21,18 @@ export async function POST(req: NextRequest) {
     const file = formData.get("file") as File | null;
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
+    }
+
+    // Security: File type validation
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
+    if (!allowedTypes.includes(file.type)) {
+      return NextResponse.json({ error: 'File type not allowed' }, { status: 400 });
+    }
+
+    // Security: File size validation (50MB max for videos, 10MB for images)
+    const maxSize = file.type.startsWith('video/') ? 50 * 1024 * 1024 : 10 * 1024 * 1024;
+    if (file.size > maxSize) {
+      return NextResponse.json({ error: `File size exceeds ${file.type.startsWith('video/') ? '50MB' : '10MB'} limit` }, { status: 400 });
     }
 
     const arrayBuffer = await file.arrayBuffer();

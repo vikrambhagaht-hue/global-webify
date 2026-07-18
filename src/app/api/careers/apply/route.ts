@@ -41,7 +41,8 @@ function checkRateLimit(ip: string): boolean {
 export async function POST(req: NextRequest) {
   try {
     // Rate limiting: prevent spam bots from flooding with fake applications
-    const ip = req.headers.get('x-forwarded-for') || req.ip || 'unknown';
+    const forwardedFor = req.headers.get('x-forwarded-for');
+    const ip = req.headers.get('x-real-ip') || (forwardedFor ? forwardedFor.split(',')[0].trim() : req.ip) || 'unknown';
     if (checkRateLimit(ip)) {
       return NextResponse.json({ success: false, error: 'Too many requests. Please try again later.' }, { status: 429 });
     }

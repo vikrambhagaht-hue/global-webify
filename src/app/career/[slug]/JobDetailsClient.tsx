@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { X, MapPin, Clock, Calendar, CheckSquare, MessageSquare } from 'lucide-react';
+import { sanitizeHtml } from '@/lib/sanitize';
 import CareersFormClient from '../CareersFormClient';
 
 interface Job {
@@ -29,8 +30,8 @@ export default function JobDetailsClient({ job, reqList }: { job: Job; reqList: 
             Position Description
           </h2>
           <div
-            className="text-sm text-gray-600 leading-relaxed font-semibold space-y-4 prose prose-green max-w-none"
-            dangerouslySetInnerHTML={{ __html: job.description }}
+            className="text-gray-600 text-sm md:text-base leading-relaxed space-y-4 font-medium"
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(job.description) }}
           />
         </div>
 

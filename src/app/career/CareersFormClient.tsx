@@ -35,7 +35,7 @@ export default function CareersFormClient({ positions, defaultPosition }: { posi
     formData.append('file', file);
 
     try {
-      const res = await fetch('/api/upload', {
+      const res = await fetch('/api/upload-public', {
         method: 'POST',
         body: formData,
       });

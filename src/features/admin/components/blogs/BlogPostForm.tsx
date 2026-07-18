@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { saveBlogPost } from '@/app/admin/(dashboard)/blogs/actions';
 import { Upload, ArrowLeft, Sparkles, CheckCircle2, XCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { adminFetch } from '@/lib/adminFetch';
 import ContentEditor from '@/features/admin/components/shared/ContentEditor';
 
 interface BlogPost {
@@ -155,7 +156,7 @@ export default function BlogPostForm({ post }: { post?: BlogPost }) {
       const formData = new FormData();
       formData.append('file', fileToUpload);
 
-      const res = await fetch('/api/upload', {
+      const res = await adminFetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -188,7 +189,7 @@ export default function BlogPostForm({ post }: { post?: BlogPost }) {
 
     setSaving(true);
     try {
-      const response = await fetch('/api/admin/blogs', {
+      const response = await adminFetch('/api/admin/blogs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

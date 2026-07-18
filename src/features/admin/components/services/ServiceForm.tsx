@@ -6,7 +6,7 @@ import { saveService } from '@/app/admin/(dashboard)/services/actions';
 import { Upload, ArrowLeft, Sparkles, CheckCircle2, XCircle, Plus, Trash2, GripVertical } from 'lucide-react';
 import Link from 'next/link';
 import ContentEditor from '@/features/admin/components/shared/ContentEditor';
-
+import { adminFetch } from '@/lib/adminFetch';
 import { useSearchParams, useRouter } from 'next/navigation';
 
 interface Service {
@@ -109,7 +109,7 @@ export default function ServiceForm({ service }: { service?: Service }) {
     formData.append('file', file);
 
     try {
-      const res = await fetch('/api/upload', {
+      const res = await adminFetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -137,7 +137,7 @@ export default function ServiceForm({ service }: { service?: Service }) {
     formData.append('file', file);
 
     try {
-      const res = await fetch('/api/upload', {
+      const res = await adminFetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -166,7 +166,7 @@ export default function ServiceForm({ service }: { service?: Service }) {
     try {
       const filteredFaqs = faqs.filter(f => f.question.trim() !== '' && f.answer.trim() !== '');
 
-      const response = await fetch('/api/admin/services', {
+      const response = await adminFetch('/api/admin/services', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -227,7 +227,7 @@ export default function ServiceForm({ service }: { service?: Service }) {
     }
     setSaving(true);
     try {
-      const response = await fetch('/api/admin/services/background', {
+      const response = await adminFetch('/api/admin/services/background', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

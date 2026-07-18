@@ -5,6 +5,7 @@ import {
   Search, Trash2, Calendar, Phone, Mail, 
   MessageSquare, X, AlertCircle, Copy, Check, Briefcase
 } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 interface PartnershipSubmission {
   id: number;
@@ -42,7 +43,7 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
 
   const executeDelete = async (id: number) => {
     try {
-      const response = await fetch(`/api/partnership?id=${id}`, {
+      const response = await adminFetch(`/api/partnership?id=${id}`, {
         method: 'DELETE',
       });
       const data = await response.json();
@@ -63,7 +64,7 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
 
   const executeDeleteAll = async () => {
     try {
-      const response = await fetch('/api/partnership?id=all', {
+      const response = await adminFetch('/api/partnership?id=all', {
         method: 'DELETE',
       });
       const data = await response.json();

@@ -119,18 +119,7 @@ export async function saveRedirects(
       }
     });
 
-    // Fetch all redirects to save them statically to public/redirects.json
-    const allRedirects = await db.redirect.findMany({
-      orderBy: { createdAt: 'asc' }
-    });
-    try {
-      const fs = require('fs');
-      const path = require('path');
-      const filePath = path.join(process.cwd(), 'public', 'redirects.json');
-      fs.writeFileSync(filePath, JSON.stringify(allRedirects, null, 2));
-    } catch (fsError) {
-      console.error('Failed to write static redirects.json file:', fsError);
-    }
+
 
     const { revalidateTag } = require('next/cache');
     revalidateTag('redirects');
@@ -152,18 +141,7 @@ export async function deleteRedirect(id: number) {
       where: { id },
     });
 
-    // Sync static JSON file
-    const allRedirects = await db.redirect.findMany({
-      orderBy: { createdAt: 'asc' }
-    });
-    try {
-      const fs = require('fs');
-      const path = require('path');
-      const filePath = path.join(process.cwd(), 'public', 'redirects.json');
-      fs.writeFileSync(filePath, JSON.stringify(allRedirects, null, 2));
-    } catch (fsError) {
-      console.error('Failed to sync redirects.json after deletion:', fsError);
-    }
+
 
     const { revalidateTag } = require('next/cache');
     revalidateTag('redirects');
@@ -205,16 +183,7 @@ export async function saveSingleRedirect(data: { id?: number; source: string; de
       });
     }
 
-    // Sync static JSON file (may fail on Vercel, but we keep it for local/fallback)
-    const allRedirects = await db.redirect.findMany({ orderBy: { createdAt: 'asc' } });
-    try {
-      const fs = require('fs');
-      const path = require('path');
-      const filePath = path.join(process.cwd(), 'public', 'redirects.json');
-      fs.writeFileSync(filePath, JSON.stringify(allRedirects, null, 2));
-    } catch (fsError) {
-      console.error('Failed to sync redirects.json after save:', fsError);
-    }
+
 
     // Force Next.js Data Cache to flush the redirects instantly
     const { revalidateTag } = require('next/cache');

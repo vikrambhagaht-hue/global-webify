@@ -6,7 +6,7 @@ import { requireAdmin } from '@/lib/auth';
 export async function POST(request: Request) {
   try {
     try {
-      await requireAdmin();
+      await requireAdmin(true);
     } catch (authError) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }

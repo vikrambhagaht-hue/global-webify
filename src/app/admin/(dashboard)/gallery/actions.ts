@@ -2,6 +2,7 @@
 
 import { db } from '@/lib/db';
 import { revalidatePath, revalidateTag } from 'next/cache';
+import { requireAdmin } from '@/lib/auth';
 
 export async function getGalleryData() {
   const categories = await db.galleryCategory.findMany({
@@ -43,6 +44,7 @@ export async function fetchAdminGalleryItems(skip: number, take: number, categor
 
 export async function createCategory(name: string) {
   try {
+    await requireAdmin();
     const lastCategory = await db.galleryCategory.findFirst({
       orderBy: { order: 'desc' },
     });
@@ -57,13 +59,14 @@ export async function createCategory(name: string) {
     revalidatePath('/gallery');
     return { success: true, category: newCategory };
   } catch (error) {
-    console.error('Error creating category:', error);
+    console.error('Error creating category');
     return { success: false, error: 'Failed to create category' };
   }
 }
 
 export async function updateCategory(id: number, name: string) {
   try {
+    await requireAdmin();
     const updatedCategory = await db.galleryCategory.update({
       where: { id },
       data: { name },
@@ -76,13 +79,14 @@ export async function updateCategory(id: number, name: string) {
     revalidatePath('/gallery');
     return { success: true };
   } catch (error) {
-    console.error('Error updating category:', error);
+    console.error('Error updating category');
     return { success: false, error: 'Failed to update category' };
   }
 }
 
 export async function toggleFeatured(id: number, isFeatured: boolean) {
   try {
+    await requireAdmin();
     await db.galleryItem.update({
       where: { id },
       data: { isFeatured },
@@ -91,13 +95,14 @@ export async function toggleFeatured(id: number, isFeatured: boolean) {
     revalidatePath('/gallery');
     return { success: true };
   } catch (error) {
-    console.error('Error toggling featured status:', error);
+    console.error('Error toggling featured status');
     return { success: false, error: 'Failed to toggle featured status' };
   }
 }
 
 export async function updateFeatureOrder(id: number, featureOrder: number) {
   try {
+    await requireAdmin();
     await db.galleryItem.update({
       where: { id },
       data: { featureOrder },
@@ -106,13 +111,14 @@ export async function updateFeatureOrder(id: number, featureOrder: number) {
     revalidatePath('/gallery');
     return { success: true };
   } catch (error) {
-    console.error('Error updating feature order:', error);
+    console.error('Error updating feature order');
     return { success: false, error: 'Failed to update feature order' };
   }
 }
 
 export async function deleteCategory(id: number) {
   try {
+    await requireAdmin();
     await db.galleryCategory.delete({
       where: { id },
     });
@@ -121,13 +127,14 @@ export async function deleteCategory(id: number) {
     revalidatePath('/gallery');
     return { success: true };
   } catch (error) {
-    console.error('Error deleting category:', error);
+    console.error('Error deleting category');
     return { success: false, error: 'Failed to delete category' };
   }
 }
 
 export async function addGalleryItem(data: { url: string; itemType: string; categoryId?: number }) {
   try {
+    await requireAdmin();
     const lastItem = await db.galleryItem.findFirst({
       orderBy: { order: 'desc' },
     });
@@ -156,13 +163,14 @@ export async function addGalleryItem(data: { url: string; itemType: string; cate
     revalidatePath('/gallery');
     return { success: true, item: newItem };
   } catch (error) {
-    console.error('Error adding gallery item:', error);
+    console.error('Error adding gallery item');
     return { success: false, error: 'Failed to add item' };
   }
 }
 
 export async function deleteGalleryItem(id: number) {
   try {
+    await requireAdmin();
     await db.galleryItem.delete({
       where: { id },
     });
@@ -171,13 +179,14 @@ export async function deleteGalleryItem(id: number) {
     revalidatePath('/gallery');
     return { success: true };
   } catch (error) {
-    console.error('Error deleting gallery item:', error);
+    console.error('Error deleting gallery item');
     return { success: false, error: 'Failed to delete item' };
   }
 }
 
 export async function updateItemCategory(id: number, categoryId: number | null) {
   try {
+    await requireAdmin();
     await db.galleryItem.update({
       where: { id },
       data: { categoryId },
@@ -187,13 +196,14 @@ export async function updateItemCategory(id: number, categoryId: number | null) 
     revalidatePath('/gallery');
     return { success: true };
   } catch (error) {
-    console.error('Error updating item category:', error);
+    console.error('Error updating item category');
     return { success: false, error: 'Failed to update item' };
   }
 }
 
 export async function updateGallerySequence(itemIds: number[], isCategorySequence: boolean = false) {
   try {
+    await requireAdmin();
     const updates = itemIds.map((id, index) => 
       db.galleryItem.update({
         where: { id },
@@ -207,7 +217,7 @@ export async function updateGallerySequence(itemIds: number[], isCategorySequenc
     revalidatePath('/gallery');
     return { success: true };
   } catch (error) {
-    console.error('Error updating sequence:', error);
+    console.error('Error updating sequence');
     return { success: false, error: 'Failed to update sequence' };
   }
 }

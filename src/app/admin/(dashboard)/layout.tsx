@@ -5,6 +5,7 @@ import { headers } from 'next/headers';
 import { db } from '@/lib/db';
 import { unstable_cache } from 'next/cache';
 import SidebarNav from '@/features/admin/components/shared/SidebarNav';
+import { LogoutButton } from '@/components/layout/LogoutButton';
 
 const getSidebarServices = unstable_cache(
   async () => {
@@ -203,13 +204,7 @@ export default async function AdminDashboardLayout({
 
         {/* Sidebar Footer / Logout */}
         <div className="p-4 border-t border-[#132a1d] bg-[#08140e]">
-          <a
-            href="/api/auth/logout"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-950/40 text-red-400/90 hover:text-red-400 text-xs md:text-sm font-bold transition-all duration-200 group"
-          >
-            <LogOut size={18} className="stroke-[2.2] group-hover:scale-110 transition-transform" />
-            <span>Sign Out</span>
-          </a>
+          <LogoutButton />
         </div>
       </aside>
 
@@ -273,13 +268,7 @@ export default async function AdminDashboardLayout({
               >
                 <MessageSquare size={16} />
               </Link>
-              <a
-                href="/api/auth/logout"
-                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all"
-                title="Sign Out"
-              >
-                <LogOut size={16} />
-              </a>
+              <LogoutButton isMobile />
             </div>
 
           </div>

@@ -222,7 +222,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
   const [availability, setAvailability] = useState({ daysToShow: 10, blockedDates: [] as string[], blockedTimes: [] as string[] });
 
   useEffect(() => {
-    fetch('/api/partnership/slots')
+    fetch(`/api/partnership/slots?t=${new Date().getTime()}`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
         if (data.success && data.bookedSlots) {
@@ -231,7 +231,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
       })
       .catch(console.error);
 
-    fetch('/api/partnership/availability')
+    fetch(`/api/partnership/availability?t=${new Date().getTime()}`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
         if (data.success && data.settings) {

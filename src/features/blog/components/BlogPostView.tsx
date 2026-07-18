@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { sanitizeHtml } from '@/lib/sanitize';
 import BlogContactForm from '@/components/forms/BlogContactForm';
 
 export function BlogPostView({ post, isDbPost, headings = [], displayDate, displayAuthor, displayExcerpt }: any) {
@@ -1060,7 +1061,7 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
                   {/* Blog Content Body */}
                   <div className="article-detail-body" id="blog-content">
                     {isDbPost ? (
-                      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                      <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }} />
                     ) : (
                       post.richContent?.map((section: any, idx: number) => {
                         switch (section.type) {

@@ -49,9 +49,20 @@ export async function middleware(request: NextRequest) {
         pathname === r.source + '/'
     );
     if (match && match.destination) {
-      const destUrl = match.destination.startsWith('http')
-        ? match.destination
-        : new URL(match.destination, request.url).toString();
+      let destUrl = match.destination;
+      if (match.destination.startsWith('http')) {
+        try {
+          const urlObj = new URL(match.destination);
+          const allowedDomains = ['globalwebify.com', 'www.globalwebify.com', 'localhost'];
+          if (!allowedDomains.some(d => urlObj.hostname === d || urlObj.hostname.endsWith('.' + d))) {
+            destUrl = '/'; // fallback to home if malicious open redirect
+          }
+        } catch {
+          destUrl = '/';
+        }
+      } else {
+        destUrl = new URL(match.destination, request.url).toString();
+      }
       return NextResponse.redirect(destUrl, 301);
     }
   }
@@ -91,7 +102,7 @@ export async function middleware(request: NextRequest) {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: 60 * 60 * 24 * 7, // Reset to 7 days from now
+        maxAge: 60 * 60 * 24, // Reset to 24 hours from now
         path: '/',
       });
     }

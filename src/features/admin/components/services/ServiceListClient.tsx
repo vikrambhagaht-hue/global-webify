@@ -7,6 +7,7 @@ import {
   Globe, TrendingUp, Palette, Server, CheckCircle2, XCircle,
   FolderSync, LayoutGrid, ChevronRight
 } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 import { deleteService, toggleServiceStatus } from '@/app/admin/(dashboard)/services/actions';
 import { useSearchParams } from 'next/navigation';
 import { getSlugTitle } from '@/lib/replaceLocation';
@@ -35,7 +36,7 @@ export default function ServiceListClient({ services }: { services: Service[] })
   // Load category toggle status
   useEffect(() => {
     if (selectedCategory === 'hosting' || selectedCategory === 'branding') {
-      fetch('/api/settings')
+      adminFetch('/api/settings')
         .then(res => res.json())
         .then(data => {
           if (data) {
@@ -177,7 +178,7 @@ export default function ServiceListClient({ services }: { services: Service[] })
             onClick={async () => {
               const nextVal = !hostingActive;
               try {
-                const res = await fetch('/api/settings', {
+                const res = await adminFetch('/api/settings', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ hostingMenuEnabled: nextVal })
@@ -220,7 +221,7 @@ export default function ServiceListClient({ services }: { services: Service[] })
             onClick={async () => {
               const nextVal = !brandingActive;
               try {
-                const res = await fetch('/api/settings', {
+                const res = await adminFetch('/api/settings', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ brandingMenuEnabled: nextVal })

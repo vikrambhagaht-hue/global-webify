@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Trash2, Loader2, CheckCircle2, Image as ImageIcon, ExternalLink, Star, Edit2, ArrowDownRight } from "lucide-react";
 import Image from "next/image";
+import { adminFetch } from "@/lib/adminFetch";
 
 interface PortfolioItem {
   id: number;
@@ -59,7 +60,7 @@ export default function AdminHomepagePortfolioPage() {
 
   const fetchItems = async () => {
     try {
-      const res = await fetch("/api/portfolio?featured=true");
+      const res = await adminFetch("/api/portfolio?featured=true");
       const data = await res.json();
       setItems(data);
     } catch (error) {
@@ -185,7 +186,7 @@ export default function AdminHomepagePortfolioPage() {
       }
 
       const isEditing = editingId !== null;
-      const res = await fetch("/api/portfolio", {
+      const res = await adminFetch("/api/portfolio", {
         method: isEditing ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -215,7 +216,7 @@ export default function AdminHomepagePortfolioPage() {
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this?")) return;
     try {
-      await fetch(`/api/portfolio?id=${id}`, { method: "DELETE" });
+      await adminFetch(`/api/portfolio?id=${id}`, { method: "DELETE" });
       setToastMessage("🗑️ Item deleted successfully!");
       setTimeout(() => setToastMessage(""), 3000);
       fetchItems();
@@ -227,7 +228,7 @@ export default function AdminHomepagePortfolioPage() {
   const handleMoveToPortfolio = async (item: PortfolioItem) => {
     if (!confirm("Move this card back to the Main Portfolio? (It will be removed from the Homepage)")) return;
     try {
-      const res = await fetch("/api/portfolio", {
+      const res = await adminFetch("/api/portfolio", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...item, isFeatured: false }),

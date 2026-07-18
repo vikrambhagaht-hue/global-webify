@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { FileText, Shield } from 'lucide-react';
 import { db } from '@/lib/db';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 export const revalidate = 60; // Cache page for 60 seconds
 
@@ -71,7 +72,7 @@ export default async function RefundPolicyPage() {
 
             <div 
               className="text-gray-600 text-[15px] md:text-[16px] leading-relaxed space-y-6 text-left about-seo-content"
-              dangerouslySetInnerHTML={{ __html: data.content }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.content) }}
             />
 
             <style dangerouslySetInnerHTML={{__html: `

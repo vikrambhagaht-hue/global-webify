@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Mail, Phone, Calendar, Trash2, Search, Filter, MessageSquare, X, Copy, Check, AlertCircle } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 interface ContactSubmission {
   id: number;
@@ -40,7 +41,7 @@ export default function ContactsListClient({ initialSubmissions }: ContactsListC
 
   const handleDelete = async (id: number) => {
     try {
-      const response = await fetch(`/api/contact?id=${id}`, {
+      const response = await adminFetch(`/api/contact?id=${id}`, {
         method: 'DELETE',
       });
       const data = await response.json();
@@ -60,7 +61,7 @@ export default function ContactsListClient({ initialSubmissions }: ContactsListC
 
   const handleDeleteAll = async () => {
     try {
-      const response = await fetch('/api/contact?id=all', {
+      const response = await adminFetch('/api/contact?id=all', {
         method: 'DELETE',
       });
       const data = await response.json();

@@ -65,6 +65,19 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: '/(.*\\.mp4)',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'video/mp4',
+          },
+          {
+            key: 'Content-Disposition',
+            value: 'inline',
+          },
+        ],
+      },
+      {
         source: '/(.*)',
         headers: [
           {
@@ -90,6 +103,14 @@ const nextConfig = {
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'Content-Security-Policy-Report-Only',
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.clarity.ms https://*.google.com https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://*.googleapis.com; img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.clarity.ms https://*.google.com https://*.gstatic.com; media-src 'self' https://res.cloudinary.com; font-src 'self' data: https://*.gstatic.com; frame-src 'self' https://*.instagram.com https://*.pinterest.com https://*.youtube.com https://*.google.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.clarity.ms https://*.googleapis.com;"
           },
         ],
       },

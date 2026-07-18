@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { Plus, Trash2, Loader2, CheckCircle2, Edit2, PlayCircle, Image as ImageIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import imageCompression from 'browser-image-compression';
+import { adminFetch } from '@/lib/adminFetch';
 
 interface PortfolioItem {
   id: number;
@@ -51,7 +52,7 @@ function MediaPortfolioContent() {
   const fetchItems = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("/api/portfolio");
+      const res = await adminFetch("/api/portfolio");
       const data = await res.json();
       setItems(data.filter((i: PortfolioItem) => i.category === defaultType));
     } catch (error) {
@@ -126,7 +127,7 @@ function MediaPortfolioContent() {
           formData.append("file", compressedFile || mediaFile);
           
           try {
-            const uploadRes = await fetch("/api/upload-media", {
+            const uploadRes = await adminFetch("/api/upload-media", {
               method: "POST",
               body: formData
             });
@@ -182,7 +183,7 @@ function MediaPortfolioContent() {
         payload.uploadedImageUrl = ""; 
       }
 
-      const res = await fetch("/api/portfolio", {
+      const res = await adminFetch("/api/portfolio", {
         method: isEditing ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -210,7 +211,7 @@ function MediaPortfolioContent() {
   const handleDelete = async (id: number) => {
     if (!confirm(`Are you sure you want to delete this ${defaultType}?`)) return;
     try {
-      await fetch(`/api/portfolio?id=${id}`, { method: "DELETE" });
+      await adminFetch(`/api/portfolio?id=${id}`, { method: "DELETE" });
       fetchItems();
     } catch (error) {
       console.error("Delete failed:", error);

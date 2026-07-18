@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Trash2, Loader2, CheckCircle2, Edit2, PlayCircle, Video as VideoIcon } from "lucide-react";
+import { adminFetch } from '@/lib/adminFetch';
 
 interface PortfolioItem {
   id: number;
@@ -43,7 +44,7 @@ export default function AdminVideosPage() {
 
   const fetchItems = async () => {
     try {
-      const res = await fetch("/api/portfolio");
+      const res = await adminFetch("/api/portfolio");
       const data = await res.json();
       // Only keep Videos
       setItems(data.filter((i: PortfolioItem) => i.category === "Videos"));
@@ -110,7 +111,7 @@ export default function AdminVideosPage() {
           formData.append("file", mediaFile);
           
           try {
-            const uploadRes = await fetch("/api/upload-media", {
+            const uploadRes = await adminFetch("/api/upload-media", {
               method: "POST",
               body: formData
             });
@@ -155,7 +156,7 @@ export default function AdminVideosPage() {
         payload.uploadedImageUrl = ""; 
       }
 
-      const res = await fetch("/api/portfolio", {
+      const res = await adminFetch("/api/portfolio", {
         method: isEditing ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -182,7 +183,7 @@ export default function AdminVideosPage() {
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this video?")) return;
     try {
-      await fetch(`/api/portfolio?id=${id}`, { method: "DELETE" });
+      await adminFetch(`/api/portfolio?id=${id}`, { method: "DELETE" });
       fetchItems();
     } catch (error) {
       console.error("Delete failed:", error);

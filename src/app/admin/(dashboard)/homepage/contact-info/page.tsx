@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { adminFetch } from "@/lib/adminFetch";
 import { getGlobalContactInfo, saveGlobalContactInfo, GlobalContactInfoData } from "@/app/admin/(dashboard)/homepage/actions";
 import { Phone, MessageCircle, Mail, MapPin, Save, CheckCircle2, AlertCircle, Share2, Globe, HelpCircle } from "lucide-react";
 
@@ -285,7 +286,7 @@ export default function AdminContactInfoPage() {
                       uploadData.append('file', file);
                       
                       try {
-                        const res = await fetch('/api/upload', {
+                        const res = await adminFetch('/api/upload', {
                           method: 'POST',
                           body: uploadData,
                         });

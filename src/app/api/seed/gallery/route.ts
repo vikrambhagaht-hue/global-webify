@@ -2,9 +2,15 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import fs from 'fs';
 import path from 'path';
+import { requireAdmin } from '@/lib/auth';
 
 export async function GET() {
   try {
+    try {
+      await requireAdmin();
+    } catch (authError) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     // Read the old JSON file
     const jsonPath = path.join(process.cwd(), 'src', 'data', 'gallery_scraped.json');
     if (!fs.existsSync(jsonPath)) {
@@ -51,6 +57,6 @@ export async function GET() {
 
   } catch (error: any) {
     console.error('Migration error:', error);
-    return NextResponse.json({ message: 'Error migrating data', error: error.message }, { status: 500 });
+    return NextResponse.json({ message: 'Error migrating data', error: 'Internal server error' }, { status: 500 });
   }
 }

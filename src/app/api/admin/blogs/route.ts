@@ -6,7 +6,7 @@ import { requireAdmin } from '@/lib/auth';
 export async function POST(request: Request) {
   try {
     try {
-      await requireAdmin();
+      await requireAdmin(true);
     } catch (authError) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }
@@ -56,11 +56,7 @@ export async function POST(request: Request) {
             create: { source: existingRecord.slug, destination: data.slug }
           });
           
-          const allRedirects = await db.redirect.findMany({ orderBy: { createdAt: 'asc' } });
-          const fs = require('fs');
-          const path = require('path');
-          const filePath = path.join(process.cwd(), 'public', 'redirects.json');
-          fs.writeFileSync(filePath, JSON.stringify(allRedirects, null, 2));
+          // Redirect saved successfully
         } catch (redirectError) {
           console.error("Failed to auto-create redirect on blog slug change:", redirectError);
         }

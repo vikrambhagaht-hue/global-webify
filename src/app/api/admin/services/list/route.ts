@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { verifyJWT } from '@/lib/jwt';
+import { requireAdmin } from '@/lib/auth';
 
 export async function GET(request: Request) {
   try {
-    // Only verify auth in middleware, but just in case
+    try {
+      await requireAdmin();
+    } catch (authError) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const services = await db.servicePage.findMany({
       select: {
         slug: true,
@@ -17,7 +21,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ services });
   } catch (error: any) {
-    console.error('API List Services Error:', error);
+    console.error('API List Services Error');
     return NextResponse.json({ error: 'Failed to fetch services' }, { status: 500 });
   }
 }

@@ -17,8 +17,8 @@ export default async function AdminDashboardOverview() {
   ] = await Promise.all([
     db.servicePage.count(),
     db.blogPost.count(),
-    db.$queryRawUnsafe<any[]>('SELECT COUNT(*) as count FROM ContactSubmission').catch(e => {
-      console.error(e);
+    db.$queryRaw<any[]>`SELECT COUNT(*) as count FROM ContactSubmission`.catch(e => {
+      console.error('Failed to query contacts count');
       return [];
     }),
     db.servicePage.findMany({

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { adminFetch } from '@/lib/adminFetch';
 import { Upload, Plus, Trash2, Image as ImageIcon, Film, Save, RefreshCw, Edit2, Check, X as XIcon, Star } from 'lucide-react';
 import { createCategory, deleteCategory, updateCategory, addGalleryItem, deleteGalleryItem, updateItemCategory, toggleFeatured, updateFeatureOrder, fetchAdminGalleryItems } from './actions';
 import Image from 'next/image';
@@ -191,7 +192,7 @@ export default function AdminGalleryClient({
       const formData = new FormData();
       formData.append('file', file);
       
-      const res = await fetch('/api/upload', {
+      const res = await adminFetch('/api/upload', {
         method: 'POST',
         body: formData,
       });

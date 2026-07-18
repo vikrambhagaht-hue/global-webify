@@ -82,7 +82,7 @@ export default function AdminLoginPage() {
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="admin"
+                  placeholder="Enter username"
                   className="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-xs md:text-sm font-semibold text-white placeholder-gray-600 focus:outline-none focus:border-[#1a8b4c] transition-colors"
                 />
               </div>
@@ -101,7 +101,7 @@ export default function AdminLoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
+                  placeholder="Enter password"
                   className="w-full bg-gray-950 border border-gray-800 rounded-xl pl-10 pr-4 py-3 text-xs md:text-sm font-semibold text-white placeholder-gray-600 focus:outline-none focus:border-[#1a8b4c] transition-colors"
                 />
               </div>

@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   try {
     // 1. Authenticate the request
     try {
-      await requireAdmin();
+      await requireAdmin(true);
     } catch (authError) {
       return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
     }
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     const originalName = file.name;
     const ext = path.extname(originalName).toLowerCase();
-    const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.pdf', '.doc', '.docx', '.mp4'];
+    const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.pdf', '.doc', '.docx', '.mp4'];
     
     if (!allowedExtensions.includes(ext)) {
       return NextResponse.json({ success: false, message: `File type not allowed.` }, { status: 400 });

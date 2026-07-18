@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Section } from '../layout/Responsive/Section';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 interface AboutSEOProps {
   data?: {
@@ -69,7 +70,7 @@ export default function AboutSEO({ data }: AboutSEOProps) {
             className={`text-gray-600 text-[15px] md:text-[16px] leading-relaxed space-y-6 text-left transition-all duration-500 overflow-hidden about-seo-content ${isExpanded ? 'max-h-[3000px]' : 'max-h-[180px]'}`}
             role="region"
             aria-expanded={isExpanded}
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(htmlContent) }}
           />
 
           <style dangerouslySetInnerHTML={{__html: `

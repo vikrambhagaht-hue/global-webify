@@ -1,7 +1,7 @@
 const SECRET_KEY = process.env.JWT_SECRET;
 
 async function getCryptoKey() {
-  const secret = SECRET_KEY || (process.env.NODE_ENV === 'development' ? 'globalwebify-super-secret-admin-token-2026' : null);
+  const secret = SECRET_KEY || null;
   if (!secret) {
     throw new Error('JWT_SECRET environment variable is required in production');
   }

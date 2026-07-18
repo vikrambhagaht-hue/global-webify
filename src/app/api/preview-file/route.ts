@@ -1,12 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { readFile } from 'fs/promises';
 import path from 'path';
+import { requireAdmin } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
   const fileUrl = req.nextUrl.searchParams.get('url');
 
   if (!fileUrl) {
     return NextResponse.json({ error: 'Missing url parameter' }, { status: 400 });
+  }
+
+  try {
+    await requireAdmin();
+  } catch (authError) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const mimeMap: Record<string, string> = {
@@ -38,6 +45,21 @@ export async function GET(req: NextRequest) {
       fileBuffer = await readFile(filePath);
       ext = path.extname(filePath).toLowerCase();
     } else {
+      // SSRF Protection: Only allow whitelisted domains
+      const allowedDomains = ['res.cloudinary.com', 'images.unsplash.com', 'globalwebify.com', 'www.globalwebify.com'];
+      try {
+        const urlObj = new URL(fileUrl);
+        if (!allowedDomains.some(d => urlObj.hostname === d || urlObj.hostname.endsWith('.' + d))) {
+          return NextResponse.json({ error: 'Domain not allowed' }, { status: 403 });
+        }
+        // Block private/internal IPs
+        if (/^(10\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.|127\.|0\.|169\.254\.|localhost)/i.test(urlObj.hostname)) {
+          return NextResponse.json({ error: 'Internal addresses not allowed' }, { status: 403 });
+        }
+      } catch {
+        return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
+      }
+
       // Remote URL (Cloudinary or any other host) — proxy fetch
       const response = await fetch(fileUrl);
       if (!response.ok) {
