@@ -205,8 +205,7 @@ export default function Hero({
           alt=""
           fill
           priority
-          quality={60}
-          sizes="100vw"
+          unoptimized
           className="object-cover object-top"
         />
       </div>
