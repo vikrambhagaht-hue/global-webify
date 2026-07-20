@@ -69,24 +69,30 @@ export default function ServiceHero({
         />
       ) : bgType === 'image' && bgImage ? (
         <div className="absolute inset-0 w-full h-full z-0">
-          <img
+          <Image
             src={bgImage}
             alt={title}
             title={`${title} - Global Webify`}
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            loading="eager"
+            fill
+            priority
+            quality={65}
+            sizes="100vw"
+            className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-gray-950/40 z-10" />
         </div>
       ) : (
         /* Fallback Default site-wide background */
         <div className="absolute inset-0 w-full h-full z-0">
-          <img
+          <Image
             src="/web-dev-banner-bg.png"
             alt={title}
             title={`${title} - Global Webify`}
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            loading="eager"
+            fill
+            priority
+            quality={65}
+            sizes="100vw"
+            className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-gray-950/40 z-10" />
         </div>
