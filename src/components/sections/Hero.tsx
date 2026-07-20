@@ -198,16 +198,17 @@ export default function Hero({
 
   return (
     <section className="w-full relative overflow-hidden bg-white font-jost text-left">
-      {/* Background Pattern - Pure CSS background for sharpest quality on high-DPI mobiles & instant LCP */}
-      <div 
-        className="absolute inset-0 z-0 pointer-events-none w-full h-full translate-y-[55px] md:translate-y-0 opacity-[0.65] md:opacity-[0.8] saturate-[1.60] contrast-[1.15]"
-        style={{ 
-          backgroundImage: 'url(/bg-pattern-landing.avif)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'top center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      />
+      {/* Background Pattern - Optimized for instant LCP using Next.js Image priority */}
+      <div className="absolute inset-0 z-0 pointer-events-none w-full h-full translate-y-[55px] md:translate-y-0 opacity-[0.65] md:opacity-[0.8] saturate-[1.60] contrast-[1.15]">
+        <Image
+          src="/bg-pattern-landing.avif"
+          alt="Background Pattern"
+          fill
+          priority
+          unoptimized
+          className="object-cover object-top"
+        />
+      </div>
 
       <Section 
         id="hero" 
