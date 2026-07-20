@@ -75,7 +75,7 @@ export default function ServiceHero({
             title={`${title} - Global Webify`}
             fill
             priority
-            quality={65}
+            quality={85}
             sizes="100vw"
             className="object-cover object-center"
           />
@@ -90,7 +90,7 @@ export default function ServiceHero({
             title={`${title} - Global Webify`}
             fill
             priority
-            quality={65}
+            quality={85}
             sizes="100vw"
             className="object-cover object-center"
           />

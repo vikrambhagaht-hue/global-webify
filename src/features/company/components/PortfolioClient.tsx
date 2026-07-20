@@ -18,10 +18,10 @@ export interface ProjectItem {
   order: number;
 }
 
-const getOptimizedUrl = (url: string, width: number = 800) => {
+const getOptimizedUrl = (url: string, width: number = 400, quality: string = 'eco') => {
   if (url && url.includes('res.cloudinary.com') && url.includes('/upload/')) {
     if (!url.includes('q_auto')) {
-      return url.replace('/upload/', `/upload/w_${width},q_auto,f_auto/`);
+      return url.replace('/upload/', `/upload/w_${width},q_auto:${quality},f_auto/`);
     }
   }
   return url;
@@ -224,7 +224,9 @@ const ProjectCard = ({ project, index }: { project: ProjectItem; index: number }
         className="relative w-full aspect-[4/3] overflow-hidden bg-gray-50 cursor-pointer block group/img"
       >
         <img 
-          src={getOptimizedUrl(project.image || project.link)} 
+          src={getOptimizedUrl(project.image || project.link, 800, 'good')}
+          srcSet={`${getOptimizedUrl(project.image || project.link, 400, 'eco')} 400w, ${getOptimizedUrl(project.image || project.link, 800, 'good')} 800w`}
+          sizes="(max-width: 768px) 400px, 800px"
           alt={project.title}
           title={project.title}
           className="absolute inset-0 w-full h-full object-cover object-top transition-[object-position] duration-[0.5s] group-hover/img:[transition-duration:var(--scroll-duration)] ease-linear group-hover/img:object-bottom"
@@ -318,13 +320,15 @@ const GraphicCard = ({ project, index }: { project: ProjectItem; index: number }
             href={project.image || project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full cursor-pointer block"
+            className="w-full relative block aspect-[4/5] cursor-pointer"
           >
             <img 
-              src={getOptimizedUrl(project.image || project.link, 400)} 
+              src={getOptimizedUrl(project.image || project.link, 800, 'good')}
+              srcSet={`${getOptimizedUrl(project.image || project.link, 400, 'eco')} 400w, ${getOptimizedUrl(project.image || project.link, 800, 'good')} 800w`}
+              sizes="(max-width: 768px) 400px, 800px"
               alt={project.title}
               title={project.title}
-              className="w-full h-auto block transition-transform duration-500 group-hover/img:scale-105 will-change-transform"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105 will-change-transform"
               loading="lazy"
               decoding="async"
             />
@@ -417,7 +421,9 @@ export const SeoCard = ({ project, index }: { project: ProjectItem; index: numbe
           >
             <img 
               ref={imgRef}
-              src={getOptimizedUrl(project.image)} 
+              src={getOptimizedUrl(project.image, 800, 'good')}
+              srcSet={`${getOptimizedUrl(project.image, 400, 'eco')} 400w, ${getOptimizedUrl(project.image, 800, 'good')} 800w`}
+              sizes="(max-width: 768px) 400px, 800px"
               alt={project.title}
               className="w-full h-full object-cover object-top transition-[object-position] duration-[0.5s] group-hover/seoimg:[transition-duration:var(--scroll-duration)] ease-linear group-hover/seoimg:object-bottom"
               style={{ '--scroll-duration': scrollDuration } as React.CSSProperties}
@@ -629,6 +635,7 @@ const VideoCard = React.memo(({ project, index, shareOrigin = 'https://www.globa
 export default function PortfolioClient({ projects }: { projects: ProjectItem[] }) {
   const [activeCategory, setActiveCategory] = useState("Website");
   const [currentPage, setCurrentPage] = useState(1);
+  const topRef = React.useRef<HTMLDivElement>(null);
   const ITEMS_PER_PAGE = activeCategory === "Videos" ? 16 : 30;
   
   const [shareOrigin, setShareOrigin] = useState('https://www.globalwebify.com');
@@ -639,13 +646,22 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
   }, []);
 
   const handleCategoryChange = (cat: string) => {
+    if (topRef.current) {
+      const y = topRef.current.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'auto' });
+    }
     setActiveCategory(cat);
     setCurrentPage(1);
   };
 
   const handlePageChange = (page: number) => {
+    if (topRef.current) {
+      const y = topRef.current.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'auto' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Removed disable-hover logic as it caused flickering on the top navbar when scrolling
@@ -689,7 +705,7 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
       <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full -mr-72 -mt-72" style={{ background: 'radial-gradient(circle, rgba(187, 247, 208, 0.2) 0%, transparent 70%)' }} />
       <div className="absolute top-1/3 left-0 w-[500px] h-[500px] rounded-full -ml-64" style={{ background: 'radial-gradient(circle, rgba(187, 247, 208, 0.15) 0%, transparent 70%)' }} />
 
-      <div className="relative z-10 container-custom">
+      <div className="relative z-10 container-custom min-h-[120vh]" ref={topRef}>
         {/* Header Block */}
         <div className="text-center mb-8 sm:mb-10 max-w-3xl mx-auto">
 
