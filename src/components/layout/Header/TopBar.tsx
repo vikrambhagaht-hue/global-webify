@@ -42,9 +42,9 @@ export const TopBar = ({ isOpen, setIsOpen, onContactClick }: TopBarProps) => {
                 title="Logo - Global Webify"
                 fill
                 priority
-                quality={75}
+                quality={65}
                 className="object-contain py-1"
-                sizes="(max-width: 768px) 90px, 110px"
+                sizes="(max-width: 768px) 50px, 110px"
               />
             </div>
           </Link>

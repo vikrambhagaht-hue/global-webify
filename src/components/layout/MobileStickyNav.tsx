@@ -326,6 +326,8 @@ export default function MobileStickyNav() {
                             title={project.title}
                             width={300}
                             height={188}
+                            quality={60}
+                            sizes="(max-width: 768px) 90vw, 300px"
                             className="w-full h-auto block"
                           />
                         </a>
