@@ -50,8 +50,8 @@ export const TopBar = ({ isOpen, setIsOpen, onContactClick }: TopBarProps) => {
           </Link>
 
           {/* Marquee - Increased width to the right */}
-          <div className="hidden lg:block overflow-hidden relative w-[180px] xl:w-[380px] h-[24px] flex items-center ml-[-20px] group">
-            <div className="animate-marquee-scroll flex gap-20 whitespace-nowrap items-center group-hover:[animation-play-state:paused] cursor-pointer">
+          <div className="hidden lg:block overflow-hidden relative w-[130px] xl:w-[380px] h-[24px] flex items-center ml-[-20px] group">
+            <div className="animate-marquee-scroll flex gap-10 whitespace-nowrap items-center group-hover:[animation-play-state:paused] cursor-pointer">
               {[1, 2].map((i) => (
                 <span key={i} className="text-[11px] xl:text-[13.5px] font-medium text-gray-700 tracking-tight font-sans">
                   Global Webify is a trusted Website Designer in Ranchi, Jharkhand delivering creative, user-friendly websites for all industries with proven strategies and expert SEO services.
@@ -82,23 +82,23 @@ export const TopBar = ({ isOpen, setIsOpen, onContactClick }: TopBarProps) => {
         </div>
 
         {/* RIGHT: Contacts, Desktop Socials, and Hamburger */}
-        <div className="flex items-center gap-2 md:gap-4 z-10 h-full">
+        <div className="flex items-center gap-1 md:gap-1.5 lg:gap-2 xl:gap-4 z-10 h-full">
           {/* Desktop & Tablet Contacts */}
-          <div className="hidden md:flex items-center gap-2 lg:gap-3 xl:gap-5 text-[11px] xl:text-[12.8px] font-medium text-gray-700 tracking-tight mr-1 lg:mr-2 xl:mr-4 font-sans whitespace-nowrap shrink-0">
-            <a href={`tel:${contactInfo?.phone || TOP_BAR_CONTACT.phone1}`} title={`Call ${contactInfo?.phone || TOP_BAR_CONTACT.phone1} - Global Webify`} className="flex items-center gap-1 xl:gap-1.5 hover:text-primary transition-colors group whitespace-nowrap shrink-0">
-              <div className="w-5 h-5 lg:w-6 lg:h-6 xl:w-7 xl:h-7 rounded-full bg-pink-50 flex items-center justify-center text-pink-500 shadow-sm border border-pink-100 group-hover:bg-pink-100 transition-colors shrink-0">
-                <Phone size={10} className="xl:w-3 xl:h-3" fill="currentColor" />
+          <div className="hidden md:flex items-center gap-1 lg:gap-1.5 xl:gap-5 text-[9px] lg:text-[10px] xl:text-[12.8px] font-medium text-gray-700 tracking-tight mr-0 lg:mr-1 xl:mr-4 font-sans whitespace-nowrap shrink-0">
+            <a href={`tel:${contactInfo?.phone || TOP_BAR_CONTACT.phone1}`} title={`Call ${contactInfo?.phone || TOP_BAR_CONTACT.phone1} - Global Webify`} className="flex items-center gap-0.5 xl:gap-1.5 hover:text-primary transition-colors group whitespace-nowrap shrink-0">
+              <div className="w-4 h-4 lg:w-5 lg:h-5 xl:w-7 xl:h-7 rounded-full bg-pink-50 flex items-center justify-center text-pink-500 shadow-sm border border-pink-100 group-hover:bg-pink-100 transition-colors shrink-0">
+                <Phone size={10} className="w-2.5 h-2.5 xl:w-3 xl:h-3" fill="currentColor" />
               </div>
               <span className="font-sans whitespace-nowrap">{contactInfo?.phone || TOP_BAR_CONTACT.phone1}</span>
             </a>
-            <a href={`tel:${contactInfo?.phone2 || TOP_BAR_CONTACT.phone2}`} title={`Call ${contactInfo?.phone2 || TOP_BAR_CONTACT.phone2} - Global Webify`} className="hidden lg:flex items-center gap-1 xl:gap-1.5 hover:text-primary transition-colors group whitespace-nowrap shrink-0">
-              <div className="w-5 h-5 lg:w-6 lg:h-6 xl:w-7 xl:h-7 rounded-full bg-pink-50 flex items-center justify-center text-pink-500 shadow-sm border border-pink-100 group-hover:bg-pink-100 transition-colors shrink-0">
+            <a href={`tel:${contactInfo?.phone2 || TOP_BAR_CONTACT.phone2}`} title={`Call ${contactInfo?.phone2 || TOP_BAR_CONTACT.phone2} - Global Webify`} className="hidden md:flex items-center gap-0.5 xl:gap-1.5 hover:text-primary transition-colors group whitespace-nowrap shrink-0">
+              <div className="w-4 h-4 lg:w-5 lg:h-5 xl:w-7 xl:h-7 rounded-full bg-pink-50 flex items-center justify-center text-pink-500 shadow-sm border border-pink-100 group-hover:bg-pink-100 transition-colors shrink-0">
                 <Phone size={10} className="xl:w-3 xl:h-3" fill="currentColor" />
               </div>
               <span className="font-sans whitespace-nowrap">{contactInfo?.phone2 || TOP_BAR_CONTACT.phone2}</span>
             </a>
-            <a href={`mailto:${contactInfo?.email || TOP_BAR_CONTACT.email}`} title={`Email ${contactInfo?.email || TOP_BAR_CONTACT.email} - Global Webify`} className="hidden lg:flex items-center gap-1 xl:gap-1.5 hover:text-primary transition-colors group whitespace-nowrap shrink-0">
-              <div className="w-5 h-5 lg:w-6 lg:h-6 xl:w-7 xl:h-7 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 shadow-sm border border-purple-100 group-hover:bg-purple-100 transition-colors shrink-0">
+            <a href={`mailto:${contactInfo?.email || TOP_BAR_CONTACT.email}`} title={`Email ${contactInfo?.email || TOP_BAR_CONTACT.email} - Global Webify`} className="hidden md:flex items-center gap-0.5 xl:gap-1.5 hover:text-primary transition-colors group whitespace-nowrap shrink-0">
+              <div className="w-4 h-4 lg:w-5 lg:h-5 xl:w-7 xl:h-7 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 shadow-sm border border-purple-100 group-hover:bg-purple-100 transition-colors shrink-0">
                 <Mail size={10} className="xl:w-3 xl:h-3" fill="currentColor" />
               </div>
               <span className="lowercase font-sans whitespace-nowrap">{contactInfo?.email || TOP_BAR_CONTACT.email}</span>
@@ -106,7 +106,7 @@ export const TopBar = ({ isOpen, setIsOpen, onContactClick }: TopBarProps) => {
           </div>
 
           {/* Tablet & Desktop Social Icons */}
-          <div className="hidden md:flex items-center gap-1.5 xl:gap-2 border-l border-gray-100 pl-3 xl:pl-4 mr-1 xl:mr-2">
+          <div className="hidden md:flex items-center gap-0.5 xl:gap-2 border-l border-gray-100 pl-1.5 xl:pl-4 mr-0.5 xl:mr-2">
             {socialList.map((social, i) => (
               <a
                 key={i}
@@ -115,7 +115,7 @@ export const TopBar = ({ isOpen, setIsOpen, onContactClick }: TopBarProps) => {
                 rel="noopener noreferrer"
                 title={`${social.name} - Global Webify`}
                 className={cn(
-                  "w-6 h-6 xl:w-7 xl:h-7 rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm p-1.5 overflow-hidden",
+                  "w-5 h-5 xl:w-7 xl:h-7 rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm p-1 overflow-hidden",
                   social.bg.startsWith('bg-') ? social.bg : ""
                 )}
                 style={!social.bg.startsWith('bg-') ? { background: social.bg } : {}}
@@ -125,7 +125,7 @@ export const TopBar = ({ isOpen, setIsOpen, onContactClick }: TopBarProps) => {
             ))}
           </div>
 
-          <button onClick={onContactClick} title="Contact Us - Global Webify" className="hidden md:flex items-center justify-center bg-[#22c55e] text-white px-5 py-2 rounded-full text-[12px] xl:text-[12.8px] font-semibold uppercase tracking-widest shadow-lg shadow-green-100 hover:bg-[#16a34a] transition-all active:scale-95 font-sans whitespace-nowrap">
+          <button onClick={onContactClick} title="Contact Us - Global Webify" className="hidden md:flex items-center justify-center bg-[#22c55e] text-white px-2 xl:px-5 py-1 xl:py-2 rounded-full text-[9px] xl:text-[12.8px] font-semibold uppercase tracking-widest shadow-lg shadow-green-100 hover:bg-[#16a34a] transition-all active:scale-95 font-sans whitespace-nowrap">
             Contact Us
           </button>
 

@@ -127,7 +127,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
         </div>
 
         {/* Tech Grid */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 gap-3 md:gap-4 max-w-[1400px] mx-auto">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-9 gap-3 md:gap-4 max-w-[1400px] mx-auto">
           {techStack.map((tech, i) => (
             <m.div
               key={tech.name}
@@ -139,7 +139,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
               style={{ '--tech-color': tech.color } as React.CSSProperties}
             >
               <div 
-                className="w-full aspect-square border border-white/20 rounded-[36px] p-3 md:p-5 flex items-center justify-center shadow-xl md:shadow-[0_15px_35px_rgba(0,0,0,0.4),inset_0_0_20px_rgba(255,255,255,0.05),inset_0_2px_5px_rgba(255,255,255,0.3)] bg-white/5 relative overflow-hidden group/card"
+                className="w-full aspect-square border border-white/20 rounded-[36px] p-3 lg:p-5 flex items-center justify-center shadow-xl md:shadow-[0_15px_35px_rgba(0,0,0,0.4),inset_0_0_20px_rgba(255,255,255,0.05),inset_0_2px_5px_rgba(255,255,255,0.3)] bg-white/5 relative overflow-hidden group/card"
                 style={{ backgroundColor: `${tech.color}10`, willChange: 'transform' }}
               >
                 
@@ -162,7 +162,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
                   width={56}
                   height={56}
                   loading="eager"
-                  className="w-11 h-11 md:w-12 md:h-12 object-contain filter transition-transform duration-300 group-hover:scale-110 relative z-10"
+                  className="w-9 h-9 md:w-10 md:h-10 lg:w-12 lg:h-12 object-contain filter transition-transform duration-300 group-hover:scale-110 relative z-10"
                 />
                 
                 {/* Unique Subtle Glow on Hover */}
@@ -173,8 +173,8 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
               </div>
               
               <div className="mt-3 text-center">
-                <p className="text-[11px] md:text-[13px] font-semibold text-white/90 group-hover:text-[var(--tech-color)] transition-colors duration-300 line-clamp-1">{tech.name}</p>
-                <p className="hidden md:block text-[9px] font-medium text-gray-400 uppercase tracking-widest mt-0.5">{tech.desc}</p>
+                <p className="text-[10px] lg:text-[13px] font-semibold text-white/90 group-hover:text-[var(--tech-color)] transition-colors duration-300 line-clamp-1">{tech.name}</p>
+                <p className="hidden lg:block text-[9px] font-medium text-gray-400 uppercase tracking-widest mt-0.5">{tech.desc}</p>
               </div>
             </m.div>
           ))}

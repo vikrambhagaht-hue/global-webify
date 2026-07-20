@@ -253,11 +253,11 @@ export default function Hero({
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-row gap-4 w-full mt-0 md:-mt-1 md:ml-4">
-              <a href="tel:+917563901100" title="Free Consultation - Global Webify" className="flex-1 md:flex-none bg-gradient-to-r from-[#1cb05b] to-[#117846] hover:from-[#21c767] hover:to-[#158e53] text-white text-[14px] md:text-[16px] font-bold px-5 md:px-8 md:py-[18px] py-3 rounded-xl transition-all shadow-xl shadow-green-900/20 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap text-center inline-block">
+            <div className="flex flex-row justify-center min-[900px]:justify-start gap-4 w-full mt-0 md:-mt-1">
+              <a href="tel:+917563901100" title="Free Consultation - Global Webify" className="flex-1 max-w-[200px] md:flex-none bg-gradient-to-r from-[#1cb05b] to-[#117846] hover:from-[#21c767] hover:to-[#158e53] text-white text-[14px] md:text-[16px] font-bold px-5 md:px-8 md:py-[18px] py-3 rounded-xl transition-all shadow-xl shadow-green-900/20 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap text-center inline-block">
                 Free Consultation
               </a>
-              <button onClick={() => setIsAuditOpen(true)} className="flex-1 md:flex-none bg-white border-2 border-[#15703d] hover:shadow-none text-[#15703d] hover:bg-green-50 text-[13px] md:text-[15px] font-bold px-4 md:px-7 md:py-4 py-2.5 rounded-xl transition-all shadow-md hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
+              <button onClick={() => setIsAuditOpen(true)} className="flex-1 max-w-[200px] md:flex-none bg-white border-2 border-[#15703d] hover:shadow-none text-[#15703d] hover:bg-green-50 text-[13px] md:text-[15px] font-bold px-4 md:px-7 md:py-4 py-2.5 rounded-xl transition-all shadow-md hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
                 Get Free Audit
               </button>
             </div>
@@ -293,12 +293,10 @@ export default function Hero({
 
           {/* ---- RIGHT COLUMN ---- */}
           <div className="w-full min-[900px]:flex-1 flex justify-center min-[900px]:justify-end relative z-10">
-            {/* Desktop: lazy loaded with framer-motion 3D card. Skipped on mobile SSR to prevent DOM bloat. */}
-            {!isMobile && (
-              <div className="hidden md:block w-full">
-                <AuditCardDesktop />
-              </div>
-            )}
+            {/* Desktop: lazy loaded with framer-motion 3D card. CSS media queries handle visibility. */}
+            <div className="hidden md:block w-full">
+              <AuditCardDesktop />
+            </div>
             {/* Mobile: inline component, no framer-motion */}
             <div className="block md:hidden w-full">
               <AuditCardMobile />
