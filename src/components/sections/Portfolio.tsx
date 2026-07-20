@@ -86,7 +86,7 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
                 src={project.thumbnail || project.image}
                 alt={project.title}
                 fill
-                priority={index < 3}
+                loading="eager"
                 quality={65}
                 sizes="(max-width: 768px) 45vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
