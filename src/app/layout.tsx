@@ -13,21 +13,21 @@ const poppins = Poppins({
   subsets: ["latin"], 
   weight: ["400", "600", "700", "900"],
   variable: "--font-poppins",
-  display: "swap"
+  display: "optional"
 });
 
 const lexend = Lexend({ 
   subsets: ["latin"],
   weight: ["400", "600", "700", "900"],
   variable: "--font-lexend",
-  display: "swap"
+  display: "optional"
 });
 
 const jost = Jost({ 
   subsets: ["latin"],
   weight: ["300", "400", "500", "700", "800"],
   variable: "--font-jost",
-  display: "swap"
+  display: "optional"
 });
 
 // NOTE: We intentionally do NOT call headers() here.
