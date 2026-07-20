@@ -232,7 +232,10 @@ export function ServicePageView({ page, remainingSubMenus, faqs, locationName = 
       </section>
 
       {/* Industries */}
-      <section className="py-10 bg-white border-t border-gray-100 font-lexend">
+      <section 
+        className="py-10 bg-white border-t border-gray-100 font-lexend"
+        style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}
+      >
         <div className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl md:text-[32px] font-black text-gray-900 mb-12">
             Industries We Work With {locationName ? `in ${locationName}` : ""}
@@ -253,7 +256,11 @@ export function ServicePageView({ page, remainingSubMenus, faqs, locationName = 
         </div>
       </section>
 
-      {faqs.length > 0 && <FAQSection faqs={faqs} />}
+      {faqs.length > 0 && (
+        <div style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 800px' }}>
+          <FAQSection faqs={faqs} />
+        </div>
+      )}
 
       {/* Floating WhatsApp Icon rendered via Portal with GPU Hardware Acceleration for zero lag */}
       {mounted && typeof document !== 'undefined' && createPortal(
