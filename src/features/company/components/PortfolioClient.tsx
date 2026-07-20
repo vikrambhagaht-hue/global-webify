@@ -20,9 +20,19 @@ export interface ProjectItem {
 
 const getOptimizedUrl = (url: string, width: number = 400, quality: string = 'eco') => {
   if (url && url.includes('res.cloudinary.com') && url.includes('/upload/')) {
-    if (!url.includes('q_auto')) {
-      return url.replace('/upload/', `/upload/w_${width},q_auto:${quality},f_auto/`);
-    }
+    // Strip existing transformations that might be hardcoded in the database (like w_800,q_auto,f_auto)
+    // Cloudinary format is /upload/[transformations]/v1234/
+    const cleanUrl = url.replace(/\/upload\/(?:[a-zA-Z0-9_]+:[a-zA-Z0-9_]+|[a-zA-Z0-9_]+)+,?(?:[a-zA-Z0-9_:,]+)?\//g, (match) => {
+      // Don't strip version numbers (v1234567/)
+      if (match.match(/\/upload\/v\d+\//)) return match;
+      return '/upload/';
+    });
+    
+    // Clean up any double uploads just in case, then apply new transformations
+    const finalUrl = cleanUrl.replace(/\/upload\/(?:\/upload\/)+/g, '/upload/');
+    
+    // Now apply the dynamic width and quality
+    return finalUrl.replace('/upload/', `/upload/w_${width},q_auto:${quality},f_auto/`);
   }
   return url;
 };
