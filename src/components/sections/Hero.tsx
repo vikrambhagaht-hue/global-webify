@@ -202,10 +202,11 @@ export default function Hero({
       <div className="absolute inset-0 z-0 pointer-events-none w-full h-full translate-y-[55px] md:translate-y-0 opacity-[0.65] md:opacity-[0.8] saturate-[1.60] contrast-[1.15]">
         <Image
           src="/bg-pattern-landing.avif"
-          alt="Background Pattern"
+          alt=""
           fill
           priority
-          unoptimized
+          quality={60}
+          sizes="100vw"
           className="object-cover object-top"
         />
       </div>
