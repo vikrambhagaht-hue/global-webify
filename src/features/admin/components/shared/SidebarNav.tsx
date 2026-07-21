@@ -26,6 +26,7 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
   const isSubdomainHomepage = pathname.startsWith('/admin/subdomains/homepage');
   const isPartnershipPage = pathname === '/admin/partnership';
   const isPartnershipAvailability = pathname === '/admin/partnership-availability';
+  const isFranchiseeOnboarding = pathname === '/admin/franchisee-onboarding';
   const isPartnershipSubmissions = pathname.startsWith('/admin/partnership-submissions');
   const isRedirects = pathname.startsWith('/admin/redirects');
   const isReviews = pathname.startsWith('/admin/reviews');
@@ -161,14 +162,14 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
       </details>
 
       {/* Collapsible Franchise Settings Dropdown */}
-      <details className="group/details" open={isPartnershipPage || isPartnershipAvailability} onToggle={() => {}}>
+      <details className="group/details" open={isPartnershipPage || isPartnershipAvailability || isFranchiseeOnboarding} onToggle={() => {}}>
         <summary className={`flex items-center justify-between gap-2.5 px-4 py-2.5 rounded-xl transition-all duration-300 text-[11px] md:text-xs font-semibold tracking-wide cursor-pointer list-none [&::-webkit-details-marker]:hidden border group/summary ${
-          (isPartnershipPage || isPartnershipAvailability)
+          (isPartnershipPage || isPartnershipAvailability || isFranchiseeOnboarding)
             ? 'bg-gradient-to-r from-[#1a8b4c] to-[#0e5e3b] text-white border-[#15703d] shadow-xl shadow-[#1a8b4c]/20' 
             : 'text-gray-400 hover:text-white hover:bg-[#132a1d]/60 border-transparent hover:border-[#132a1d] hover:shadow-lg backdrop-blur-sm'
         }`}>
           <div className="flex items-center gap-2.5">
-            <Handshake className={`stroke-[2.2] flex-shrink-0 transition-colors w-[22px] h-[22px] ${(isPartnershipPage || isPartnershipAvailability) ? 'text-white' : 'text-gray-500 group-hover/summary:text-white'}`} />
+            <Handshake className={`stroke-[2.2] flex-shrink-0 transition-colors w-[22px] h-[22px] ${(isPartnershipPage || isPartnershipAvailability || isFranchiseeOnboarding) ? 'text-white' : 'text-gray-500 group-hover/summary:text-white'}`} />
             <span>Franchise Settings</span>
           </div>
           <span className="text-[10px] group-open/details:rotate-90 transition-transform font-bold text-gray-500 group-hover/summary:text-white">▶</span>
@@ -195,6 +196,16 @@ export default function SidebarNav({ initialActiveServiceCategory }: SidebarNavP
             }`}
           >
             Availability Setup
+          </Link>
+          <Link 
+            href="/admin/franchisee-onboarding" 
+            className={`text-xs font-semibold tracking-wide block px-3.5 py-2.5 rounded-xl transition-all duration-300 border ${
+              isFranchiseeOnboarding
+                ? 'text-[#22c55e] bg-[#1a8b4c]/10 border-[#1a8b4c]/30 shadow-md font-bold'
+                : 'text-gray-400 bg-transparent hover:bg-[#132a1d]/40 border-transparent hover:border-[#132a1d] hover:text-white'
+            }`}
+          >
+            Franchisee Onboarding
           </Link>
         </div>
       </details>

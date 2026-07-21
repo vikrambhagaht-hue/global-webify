@@ -28,6 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function PartnershipPage() {
   let settings = {};
+  let franchisees: any[] = [];
   try {
     const allSettings = await db.siteSetting.findMany();
     const settingsMap = allSettings.reduce((acc, curr) => {
@@ -52,9 +53,22 @@ export default async function PartnershipPage() {
       partnershipExpandHeading: settingsMap['partnershipExpandHeading'],
       partnershipExpandParagraph: expandPara
     };
+
+    franchisees = await db.franchiseeOnboarding.findMany({
+      where: { status: 'APPROVED' },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        photo: true,
+        name: true,
+        companyName: true,
+        experience: true,
+        createdAt: true,
+      }
+    });
   } catch (err) {
     console.error(err);
   }
 
-  return <PartnershipClient settings={settings} />;
+  return <PartnershipClient settings={settings} franchisees={franchisees} />;
 }

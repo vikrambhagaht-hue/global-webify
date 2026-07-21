@@ -6,7 +6,7 @@ import { m, AnimatePresence } from 'framer-motion';
 import { 
   Mail, Phone, MapPin, Send, CheckCircle2, Building2, 
   Handshake, Globe2, Sparkles, Award, Users2, LineChart, ShieldCheck, ShieldAlert,
-  Store, MonitorSmartphone, BadgeCheck, TrendingUp, ArrowRight, MessageCircle, ChevronLeft, ChevronRight
+  Store, MonitorSmartphone, BadgeCheck, TrendingUp, ArrowRight, MessageCircle, ChevronLeft, ChevronRight, X
 } from 'lucide-react';
 
 interface PartnershipClientProps {
@@ -21,6 +21,14 @@ interface PartnershipClientProps {
     partnershipExpandHeading?: string;
     partnershipExpandParagraph?: string;
   };
+  franchisees?: {
+    id: number;
+    photo: string | null;
+    name: string;
+    companyName: string | null;
+    experience: string | null;
+    createdAt: Date | string;
+  }[];
 }
 const COUNTRIES = [
   { name: "India", code: "+91", iso: "IN", length: 10, placeholder: "98765 43210" },
@@ -182,7 +190,7 @@ const isValidEmail = (email: string): boolean => {
   return true;
 };
 
-export default function PartnershipClient({ settings }: PartnershipClientProps) {
+export default function PartnershipClient({ settings, franchisees }: PartnershipClientProps) {
   const heroTitle = settings?.partnershipHeroTitle || "Partner With Global Webify";
   const heroDesc = settings?.partnershipHeroDesc || "Expand your service catalog, increase your revenue, and deliver state-of-the-art technological experiences to your clients.";
   const pageImage = settings?.partnershipPageImage || "/partnership/Partner1.jpg";
@@ -220,6 +228,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
   const [isExpanded, setIsExpanded] = useState(false);
   const [bookedSlots, setBookedSlots] = useState<{preferredDate: string, preferredTime: string}[]>([]);
   const [availability, setAvailability] = useState({ daysToShow: 10, blockedDates: [] as string[], blockedTimes: [] as string[] });
+  const [selectedFranchisee, setSelectedFranchisee] = useState<any>(null);
 
   useEffect(() => {
     fetch(`/api/partnership/slots?t=${new Date().getTime()}`, { cache: 'no-store' })
@@ -489,6 +498,81 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
         </div>
       </div>
 
+
+      {/* Franchisee Modal */}
+      <AnimatePresence>
+        {selectedFranchisee && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+            <m.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+              onClick={() => setSelectedFranchisee(null)}
+            />
+            <m.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative bg-white w-full max-w-md rounded-[32px] shadow-2xl overflow-hidden"
+            >
+              <div className="bg-gradient-to-br from-blue-600 to-cyan-500 p-8 text-center relative overflow-hidden">
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
+                <button 
+                  onClick={() => setSelectedFranchisee(null)}
+                  className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors"
+                >
+                  <X size={20} />
+                </button>
+                <div className="relative w-28 h-28 mx-auto rounded-full overflow-hidden border-4 border-white/20 shadow-xl bg-white mb-4">
+                  {selectedFranchisee.photo ? (
+                    <img src={selectedFranchisee.photo} alt={selectedFranchisee.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-slate-300"><Users2 size={40} /></div>
+                  )}
+                </div>
+                <h3 className="text-2xl font-black text-white">{selectedFranchisee.name}</h3>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 rounded-full text-white/90 text-xs font-bold mt-2">
+                  <BadgeCheck size={14} className="text-cyan-200" />
+                  Verified Partner
+                </div>
+              </div>
+              <div className="p-8 space-y-5">
+                {selectedFranchisee.companyName && (
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+                      <Building2 size={18} className="text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Company Name</p>
+                      <p className="font-semibold text-slate-800">{selectedFranchisee.companyName}</p>
+                    </div>
+                  </div>
+                )}
+                {selectedFranchisee.experience && (
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
+                      <TrendingUp size={18} className="text-emerald-600" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Experience</p>
+                      <p className="font-semibold text-slate-800">{selectedFranchisee.experience}</p>
+                    </div>
+                  </div>
+                )}
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center shrink-0">
+                    <Handshake size={18} className="text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Joined Us</p>
+                    <p className="font-semibold text-slate-800">
+                      {new Date(selectedFranchisee.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </m.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* ========== LIGHT SECTIONS BELOW ========== */}
       <div className="bg-slate-50 relative">
         {/* Subtle background texture */}
@@ -497,7 +581,7 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
         <div className="container-custom relative z-10 px-4 sm:px-6 max-w-[1440px] mx-auto">
 
         {/* ========== FRANCHISE FEATURES SECTION ========== */}
-        <div className="pt-10 pb-6">
+        <div className="pt-8 pb-2">
           <div className="bg-gradient-to-br from-white via-slate-50/80 to-blue-50/40 p-6 sm:p-10 lg:p-12 rounded-[32px] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.06)] border border-slate-200/80 relative overflow-hidden">
             <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
             <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start relative z-10">
@@ -631,8 +715,54 @@ export default function PartnershipClient({ settings }: PartnershipClientProps) 
           </div>
         </div>
 
+        {/* ========== FRANCHISEE GRID ========== */}
+        {franchisees && franchisees.length > 0 && (
+          <div className="pt-4 pb-4 overflow-hidden relative z-10 w-full max-w-[1440px] mx-auto">
+            <div className="text-center mb-8 px-4">
+              <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-3 py-1.5 rounded-full text-[11px] font-black uppercase tracking-widest mb-3">
+                <Globe2 size={14} /> Our Growing Community
+              </div>
+              <h3 className="text-[26px] md:text-[34px] font-black text-slate-900 leading-tight mb-3">
+                Meet Our Trusted <span className="text-blue-600">Partners</span>
+              </h3>
+              <p className="text-slate-500 font-medium max-w-4xl mx-auto text-[15px]">
+                Connect with an exclusive community of visionary leaders and agencies delivering world-class digital solutions globally.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-6 max-w-7xl mx-auto px-4 md:px-8">
+              {(franchisees || []).map((f, i) => (
+                <div 
+                  key={i} 
+                  onClick={() => setSelectedFranchisee(f)}
+                  className="w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] max-w-[320px] bg-white rounded-[24px] border border-slate-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.08)] overflow-hidden cursor-pointer hover:shadow-[0_8px_30px_-10px_rgba(37,99,235,0.2)] hover:border-blue-200 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col"
+                >
+                  <div className="w-full aspect-[4/3] bg-slate-50 relative overflow-hidden">
+                    {f.photo ? (
+                      <img src={f.photo} alt={f.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-slate-300"><Users2 size={40} /></div>
+                    )}
+                  </div>
+                  <div className="p-5 flex-grow flex flex-col text-center items-center justify-center bg-white relative">
+                    <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center absolute -top-4 right-4 shadow-sm border border-blue-100">
+                      <BadgeCheck size={16} />
+                    </div>
+                    <h4 className="font-bold text-slate-900 text-[18px] w-full truncate mb-1">{f.name}</h4>
+                    {f.companyName && (
+                      <p className="text-[11px] text-blue-600 font-black uppercase tracking-wider w-full truncate">
+                        {f.companyName}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* ========== PARTNERSHIP FORM ========== */}
-        <div id="partnership-form" className="max-w-3xl mx-auto relative z-10 pt-4 pb-16">
+        <div id="partnership-form" className="max-w-3xl mx-auto relative z-10 pt-2 pb-12">
           <div className="w-full relative">
             <m.div
               initial={{ opacity: 0, y: 30 }}

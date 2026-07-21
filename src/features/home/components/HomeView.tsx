@@ -41,10 +41,11 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
   let serviceDescriptions: Record<string, string> = {};
   let reviews: any[] = [];
   let featuredProjects: any[] = [];
+  let franchisees: any[] = [];
 
   // Fix 2: Fire both DB queries in parallel instead of sequentially
   try {
-    const [rawPosts, services, dbReviews, subdomainOverrides, fetchedFeaturedProjects] = await Promise.all([
+    const [rawPosts, services, dbReviews, subdomainOverrides, fetchedFeaturedProjects, fetchedFranchisees] = await Promise.all([
       db.blogPost.findMany({
         where: { isActive: true },
         orderBy: { createdAt: 'desc' },
@@ -65,12 +66,25 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
           { order: 'asc' },
           { createdAt: 'desc' }
         ]
+      }),
+      db.franchiseeOnboarding.findMany({
+        where: { status: 'APPROVED' },
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          photo: true,
+          name: true,
+          companyName: true,
+          experience: true,
+          createdAt: true,
+        }
       })
     ]);
 
     dbPosts = rawPosts;
     reviews = dbReviews;
     featuredProjects = fetchedFeaturedProjects;
+    franchisees = fetchedFranchisees;
     services.forEach(s => {
       const key = s.slug.startsWith('/') ? s.slug.substring(1) : s.slug;
       let desc = s.heroDescription || "";
@@ -229,7 +243,7 @@ export default async function HomeView({ city, cityKey, location, subdomainConte
 
         <LatestBlog dbPosts={processedPosts} sectionTitle={sectionHeaders?.latestBlog?.title} sectionDesc={sectionHeaders?.latestBlog?.description} />
 
-        <TrustSection sectionTitle={sectionHeaders?.trust?.title} sectionDesc={sectionHeaders?.trust?.description} />
+        <TrustSection sectionTitle={sectionHeaders?.trust?.title} sectionDesc={sectionHeaders?.trust?.description} franchisees={franchisees} />
         {homepageFaqs.length > 0 && <FAQSection faqs={homepageFaqs} sectionTitle={sectionHeaders?.faq?.title} sectionDesc={sectionHeaders?.faq?.description} />}
       </div>
 

@@ -701,7 +701,7 @@ export default function PortfolioClient({ projects }: { projects: ProjectItem[] 
       return p.category !== "Videos" && p.category !== "Graphics" && p.category !== "Logo";
     }
     if (activeCategory === "Website") {
-      return p.category === "Website" || p.category === "SEO" || hiddenCategories.includes(p.category);
+      return p.category === "Website" || p.category === "SEO" || p.category === "CRM" || hiddenCategories.includes(p.category);
     }
     return p.category === activeCategory;
   });

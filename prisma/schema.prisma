@@ -247,3 +247,21 @@ model GalleryItem {
   @@map("galleryitem")
 }
 
+model FranchiseeOnboarding {
+  id          Int      @id @default(autoincrement())
+  photo       String?  @db.Text // Cloudinary Image URL
+  name        String
+  email       String
+  phone       String
+  companyName String?
+  address     String?
+  experience  String?
+  status      String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  notes       String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([createdAt(sort: Desc)])
+  @@map("franchiseeonboarding")
+}
+

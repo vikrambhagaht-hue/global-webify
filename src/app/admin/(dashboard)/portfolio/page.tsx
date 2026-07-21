@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Trash2, Loader2, CheckCircle2, Image as ImageIcon, ExternalLink, Star, Edit2 } from "lucide-react";
 import Image from "next/image";
+import { adminFetch } from "@/lib/adminFetch";
 
 interface PortfolioItem {
   id: number;
@@ -59,7 +60,7 @@ export default function AdminPortfolioPage() {
 
   const fetchItems = async () => {
     try {
-      const res = await fetch("/api/portfolio");
+      const res = await adminFetch("/api/portfolio");
       const data = await res.json();
       // Filter out Videos, they are managed in the dedicated videos page
       setItems(data.filter((item: PortfolioItem) => item.category !== "Videos"));
@@ -183,7 +184,7 @@ export default function AdminPortfolioPage() {
       }
 
       const isEditing = editingId !== null;
-      const res = await fetch("/api/portfolio", {
+      const res = await adminFetch("/api/portfolio", {
         method: isEditing ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -200,7 +201,8 @@ export default function AdminPortfolioPage() {
         setSeoTargetedCountry("United Arab Emirates"); setSeoTargetedLocationLabel("Targeted Country"); setSeoShowTargetedLocation(true); setSeoTotalRanked(""); setSeoTop10(""); setSeoTop20(""); setSeoTop30(""); setSeoDisplayCategory("SEO");
         fetchItems();
       } else {
-        alert("Failed to save portfolio item.");
+        const data = await res.json().catch(() => ({}));
+        alert(data.error || "Failed to save portfolio item.");
       }
     } catch (error) {
       console.error(error);
@@ -213,7 +215,7 @@ export default function AdminPortfolioPage() {
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this?")) return;
     try {
-      await fetch(`/api/portfolio?id=${id}`, { method: "DELETE" });
+      await adminFetch(`/api/portfolio?id=${id}`, { method: "DELETE" });
       fetchItems();
     } catch (error) {
       console.error("Delete failed:", error);
@@ -222,7 +224,7 @@ export default function AdminPortfolioPage() {
 
   const handleToggleFeatured = async (item: PortfolioItem) => {
     try {
-      const res = await fetch("/api/portfolio", {
+      const res = await adminFetch("/api/portfolio", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...item, isFeatured: !item.isFeatured }),

@@ -203,7 +203,8 @@ export default function AdminHomepagePortfolioPage() {
         setSeoTargetedCountry("United Arab Emirates"); setSeoTargetedLocationLabel("Targeted Country"); setSeoShowTargetedLocation(true); setSeoTotalRanked(""); setSeoTop10(""); setSeoTop20(""); setSeoTop30(""); setSeoDisplayCategory("SEO");
         fetchItems();
       } else {
-        alert("Failed to save portfolio item.");
+        const data = await res.json().catch(() => ({}));
+        alert(data.error || "Failed to save portfolio item.");
       }
     } catch (error) {
       console.error(error);
