@@ -90,7 +90,7 @@ function ServiceCard({ service, index, cityKey, onOpenQuote }: { service: Servic
     <m.div
       initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "150px" }}
+      viewport={{ once: true, margin: "600px" }}
       transition={{ duration: 0.3, delay: index * 0.02 }}
       className="group relative flex flex-col w-full h-full"
     >
@@ -200,7 +200,7 @@ export default function ServicesGrid({ cityKey, dynamicDescriptions, sectionTitl
         <m.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "150px" }}
+          viewport={{ once: true, margin: "600px" }}
           className="inline-flex items-center gap-2 bg-gray-50 border border-gray-100 text-[#15803d] text-[10px] md:text-[11px] font-bold px-3 py-1 md:px-4 md:py-1.5 rounded-full uppercase tracking-widest mb-4 md:mb-5 shadow-sm"
         >
           Our Expertise

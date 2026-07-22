@@ -22,6 +22,48 @@ export default function TrustSection({ sectionTitle, sectionDesc, franchisees, s
   const [franchiseeIndex, setFranchiseeIndex] = useState(0);
   const [selectedFranchisee, setSelectedFranchisee] = useState<any>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoSrc, setVideoSrc] = useState<string>("");
+
+  useEffect(() => {
+    // Fetch video from our custom API route as raw binary data
+    // This makes it 100% invisible to aggressive download managers like IDM
+    fetch("/api/video")
+      .then(res => res.blob())
+      .then(rawBlob => {
+        // Reconstruct the blob as an MP4 video in browser memory
+        const videoBlob = new Blob([rawBlob], { type: 'video/mp4' });
+        const url = URL.createObjectURL(videoBlob);
+        setVideoSrc(url);
+      })
+      .catch(e => console.error("Failed to load video as blob", e));
+      
+    return () => {
+      if (videoSrc) URL.revokeObjectURL(videoSrc);
+    }
+  }, []);
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    if (!videoSrc || !videoElement) return;
+
+    videoElement.load();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          videoElement.play().catch(e => console.log("Play prevented:", e));
+        } else {
+          videoElement.pause();
+        }
+      });
+    }, { threshold: 0.1 });
+
+    observer.observe(videoElement);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [videoSrc]);
 
   const hasFranchisees = franchisees && franchisees.length > 0;
 
@@ -47,25 +89,8 @@ export default function TrustSection({ sectionTitle, sectionDesc, franchisees, s
   }, [franchisees]);
 
   useEffect(() => {
-    const videoElement = videoRef.current;
-    if (!videoElement) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Start downloading and playing only when in view
-            videoElement.play().catch(e => console.log("Autoplay prevented:", e));
-          } else {
-            videoElement.pause();
-          }
-        });
-      },
-      { rootMargin: '1000px' } // trigger download and play 1000px before reaching
-    );
-
-    observer.observe(videoElement);
-    return () => observer.disconnect();
+    // Removed IntersectionObserver as JS play() triggers IDM (Internet Download Manager)
+    // to hijack the request and download the video instead of playing it.
   }, []);
 
   const nextCert = () => setCertIndex((prev) => (prev + 1) % certificates.length);
@@ -189,9 +214,8 @@ export default function TrustSection({ sectionTitle, sectionDesc, franchisees, s
                   muted
                   loop
                   playsInline
-                  preload="none"
+                  src={videoSrc || undefined}
                 >
-                  <source src="/videoplayback.mp4" type="video/mp4" />
                   <track kind="captions" src="/placeholder.txt" srcLang="en" label="English" />
                   Your browser does not support the video tag.
                 </video>

@@ -54,7 +54,7 @@ const defaultProjects: FeaturedProject[] = [
   }
 ];
 
-const ProjectCard = ({ project, index, isDesktop }: { project: any, index: number, isDesktop: boolean }) => {
+const ProjectCard = ({ project, index }: { project: any, index: number }) => {
   const cardRef = React.useRef(null);
 
   let displayCategory = project.category;
@@ -72,8 +72,8 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
       ref={cardRef}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "100px" }}
-      transition={{ delay: isDesktop ? index * 0.05 : 0, duration: 0.4 }}
+      viewport={{ once: true, margin: "400px" }}
+      transition={{ delay: index * 0.05, duration: 0.4 }}
       className={`relative ${index >= 3 ? 'hidden md:block' : ''}`}
     >
       <a href={project.link} target="_blank" rel="noopener noreferrer" title={`${project.title} - Global Webify`} className="block">
@@ -86,7 +86,6 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
                 src={project.thumbnail || project.image}
                 alt={project.title}
                 fill
-                loading="eager"
                 quality={65}
                 sizes="(max-width: 768px) 45vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
@@ -127,17 +126,6 @@ const ProjectCard = ({ project, index, isDesktop }: { project: any, index: numbe
 export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: { projects?: FeaturedProject[], sectionTitle?: string; sectionDesc?: string }) {
   const displayProjects = projects.length > 0 ? projects : defaultProjects;
   const logos = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 15];
-  const [isDesktop, setIsDesktop] = React.useState(false);
-
-  React.useEffect(() => {
-    const checkDevice = () => {
-      const isLargeHover = window.innerWidth >= 1024 && window.matchMedia('(hover: hover)').matches;
-      setIsDesktop(prev => (prev !== isLargeHover ? isLargeHover : prev));
-    };
-    checkDevice();
-    window.addEventListener('resize', checkDevice);
-    return () => window.removeEventListener('resize', checkDevice);
-  }, []);
 
   return (
     <Section id="portfolio" variant="gray" className="bg-[#f0fdf4] font-sans relative overflow-hidden">
@@ -148,9 +136,9 @@ export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: 
       <div className="relative z-10">
         <div className="text-center max-w-[1100px] mx-auto mb-10 px-4">
           <m.div
-            initial={isDesktop ? { opacity: 0, scale: 0.9 } : { opacity: 1, scale: 1 }}
-            whileInView={isDesktop ? { opacity: 1, scale: 1 } : undefined}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "400px" }}
             className="inline-flex items-center gap-2 bg-green-100/50 border border-green-200 px-4 py-1.5 rounded-full mb-6"
           >
             <span className="w-2 h-2 rounded-full bg-[#1a8b4c] animate-pulse" />
@@ -159,17 +147,17 @@ export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: 
 
           {sectionTitle ? (
             <m.h2
-              initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-              whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "400px" }}
               className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-[#064e3b] leading-tight mb-6 tracking-tight font-heading"
               dangerouslySetInnerHTML={{ __html: sectionTitle }}
             />
           ) : (
             <m.h2
-              initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-              whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "400px" }}
               className="text-[24px] md:text-[32px] lg:text-[36px] font-bold text-[#064e3b] leading-tight mb-6 tracking-tight font-heading"
             >
               Our Work Speaks for Itself
@@ -178,18 +166,18 @@ export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: 
 
           {sectionDesc ? (
             <m.p
-              initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-              whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "400px" }}
               transition={{ delay: 0.1 }}
               className="text-gray-600 text-[14px] md:text-[18px] font-medium"
               dangerouslySetInnerHTML={{ __html: sectionDesc }}
             />
           ) : (
             <m.p
-              initial={isDesktop ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-              whileInView={isDesktop ? { opacity: 1, y: 0 } : undefined}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "400px" }}
               transition={{ delay: 0.1 }}
               className="text-gray-600 text-[14px] md:text-[18px] font-medium"
             >
@@ -200,7 +188,7 @@ export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: 
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8 max-w-[1400px] mx-auto px-4">
           {displayProjects.map((project, i) => (
-            <ProjectCard key={i} project={project} index={i} isDesktop={isDesktop} />
+            <ProjectCard key={i} project={project} index={i} />
           ))}
         </div>
 
@@ -208,9 +196,9 @@ export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: 
         <div className="mt-16 py-14 bg-[#052e16] rounded-[32px] md:rounded-[40px] overflow-hidden relative shadow-2xl border border-green-900/20 px-4">
           <div className="text-center mb-10">
             <m.h3
-              initial={isDesktop ? { opacity: 0 } : { opacity: 0.8 }}
-              whileInView={isDesktop ? { opacity: 0.8 } : undefined}
-              viewport={{ once: true }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 0.8 }}
+              viewport={{ once: true, margin: "400px" }}
               className="text-[11px] md:text-[13px] font-bold text-green-100 font-heading uppercase tracking-[0.4em]"
             >
               Trusted by Industry Leaders
@@ -255,8 +243,8 @@ export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: 
         <div className="mt-12 text-center">
           <Link href="/portfolio" className="inline-block">
             <m.div
-              whileHover={isDesktop ? { scale: 1.05, boxShadow: "0 10px 20px -5px rgba(26,139,76,0.3)" } : undefined}
-              whileTap={isDesktop ? { scale: 0.95 } : undefined}
+              whileHover={{ scale: 1.05, boxShadow: "0 10px 20px -5px rgba(26,139,76,0.3)" }}
+              whileTap={{ scale: 0.95 }}
               className="group bg-[#1a8b4c] text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl text-[16px] md:text-[17px] font-bold shadow-md shadow-green-900/10 hover:bg-[#15803d] transition-all flex items-center gap-3 mx-auto cursor-pointer"
             >
               View All Projects

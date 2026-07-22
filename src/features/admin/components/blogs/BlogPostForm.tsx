@@ -264,7 +264,7 @@ export default function BlogPostForm({ post }: { post?: BlogPost }) {
             <p className="text-[11px] text-gray-600 font-semibold leading-relaxed">
               Use the placeholder <code className="bg-[#e4f8ec] px-1.5 py-0.5 rounded font-mono font-black text-[#1a8b4c]">{"{location}"}</code> inside your blog title, summary, meta descriptions, or content editor. When viewed under market-area URL paths (e.g. <code className="font-mono">/delhi/blog-slug</code>), it will automatically render the target city name (e.g. &quot;Delhi&quot;)!
             </p>
-          </div>
+          </div>  
         </div>
 
         {/* Core fields grid */}
