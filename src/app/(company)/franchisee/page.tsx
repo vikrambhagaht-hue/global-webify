@@ -70,5 +70,5 @@ export default async function PartnershipPage() {
     console.error(err);
   }
 
-  return <PartnershipClient settings={settings} franchisees={franchisees} />;
+  return <PartnershipClient settings={settings} franchisees={[]} />;
 }
