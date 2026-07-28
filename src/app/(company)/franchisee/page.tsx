@@ -62,6 +62,7 @@ export default async function PartnershipPage() {
         photo: true,
         name: true,
         companyName: true,
+        address: true,
         experience: true,
         createdAt: true,
       }
@@ -70,5 +71,5 @@ export default async function PartnershipPage() {
     console.error(err);
   }
 
-  return <PartnershipClient settings={settings} franchisees={[]} />;
+  return <PartnershipClient settings={settings} franchisees={franchisees} />;
 }

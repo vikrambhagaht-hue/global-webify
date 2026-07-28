@@ -12,7 +12,7 @@ export default function BreadcrumbClientWrapper({ dynamicPages = [] }: { dynamic
   const segments = pathname.split('/').filter(Boolean);
   const isCityHome = segments.length === 1 && citySlugs.includes(segments[0].toLowerCase());
 
-  if (pathname === '/' || pathname === '' || isCityHome) return null;
+  if (pathname === '/' || pathname === '' || isCityHome || pathname === '/our-franchisee') return null;
 
   // Dynamically set background color to match the page client's background
   let bgColorClass = 'bg-white';

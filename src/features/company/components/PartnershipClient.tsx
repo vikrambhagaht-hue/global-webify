@@ -26,6 +26,7 @@ interface PartnershipClientProps {
     photo: string | null;
     name: string;
     companyName: string | null;
+    address: string | null;
     experience: string | null;
     createdAt: Date | string;
   }[];
@@ -293,15 +294,12 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
     let hasError = false;
     const newErrors: Record<string, string> = {};
 
-    if (!isValidEmail(formData.email)) {
+    if (formData.email && !isValidEmail(formData.email)) {
       newErrors.email = "Please enter a valid email address. Check for typos like '.comm' or 'gamil'.";
       hasError = true;
     }
 
-    if (!phoneDigits) {
-      newErrors.phone = "Mobile number is required.";
-      hasError = true;
-    } else if (phoneDigits.length !== selectedCountry.length) {
+    if (phoneDigits && phoneDigits.length !== selectedCountry.length) {
       newErrors.phone = `Phone number must be exactly ${selectedCountry.length} digits for ${selectedCountry.name}.`;
       hasError = true;
     }
@@ -365,13 +363,13 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
   return (
     <div className="relative overflow-hidden font-sans selection:bg-[#0082f0] selection:text-white min-h-screen">
 
-      {/* ========== HERO SECTION — DARK PREMIUM ========== */}
-      <div className="relative bg-[#0a0a0f] pt-16 md:pt-28 pb-16 md:pb-24 overflow-hidden">
+      {/* ========== HERO SECTION — VIBRANT MOUNTAIN & WAVE THEME ========== */}
+      <div className="relative bg-gradient-to-b from-[#2e1065] via-[#4c1d95] to-[#1e1b4b] pt-16 md:pt-24 text-white overflow-hidden shadow-2xl">
         {/* Animated mesh grid */}
-        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-        {/* Glowing orbs */}
-        <div className="absolute top-[-20%] right-[-10%] w-[700px] h-[700px] bg-gradient-to-br from-blue-600/25 via-cyan-500/15 to-transparent blur-[130px] rounded-full pointer-events-none" />
-        <div className="absolute bottom-[-30%] left-[-15%] w-[600px] h-[600px] bg-gradient-to-tr from-purple-600/20 via-indigo-500/10 to-transparent blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+        {/* Glowing Orbs */}
+        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-purple-500/20 blur-[130px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-indigo-500/20 blur-[120px] rounded-full pointer-events-none" />
 
       {/* Custom Toast Notification */}
       <AnimatePresence>
@@ -399,417 +397,408 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
         )}
       </AnimatePresence>
 
-        <div className="container-custom relative z-10 px-4 max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-center">
-            {/* Left Text Block */}
-            <div className="lg:col-span-6 space-y-4 md:space-y-7 text-left">
-              <m.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] backdrop-blur-sm"
-              >
-                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></div>
-                <span className="text-cyan-300 font-bold text-[10px] md:text-[11px] uppercase tracking-[0.2em]">Premium Franchise Program</span>
-              </m.div>
+        <div className="max-w-5xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
+          {/* Badge */}
+          <m.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/20 text-xs font-bold tracking-wider uppercase mb-6 shadow-xl"
+          >
+            <Sparkles className="w-4 h-4 text-purple-300" />
+            <span className="text-purple-200 font-extrabold">Premium Franchise Program</span>
+          </m.div>
 
-              <m.h1 
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="text-[38px] md:text-[60px] font-black font-heading leading-[1.08] tracking-tight text-white pb-1"
-              >
-                {(() => {
-                  const match = heroTitle.match(/(Global\s*Weblify|Global\s*Webify)/i);
-                  if (match && match.index !== undefined) {
-                    const before = heroTitle.substring(0, match.index);
-                    const matchedText = heroTitle.substring(match.index, match.index + match[0].length);
-                    const after = heroTitle.substring(match.index + match[0].length);
-                    return (
-                      <>
-                        {before}<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">{matchedText}</span>{after}
-                      </>
-                    );
-                  }
-                  const words = heroTitle.split(' ');
-                  if (words.length > 1) {
-                    const lastWord = words.pop();
-                    const startText = words.join(' ');
-                    return (
-                      <>
-                        {startText} <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">{lastWord}</span>
-                      </>
-                    );
-                  }
-                  return heroTitle;
-                })()}
-              </m.h1>
+          {/* Dynamic Hero Title */}
+          <m.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl sm:text-6xl md:text-7xl font-black text-white uppercase tracking-tight leading-tight mb-4 drop-shadow-[0_8px_20px_rgba(0,0,0,0.4)]"
+          >
+            {(() => {
+              const match = heroTitle.match(/(Global\s*Weblify|Global\s*Webify)/i);
+              if (match && match.index !== undefined) {
+                const before = heroTitle.substring(0, match.index);
+                const matchedText = heroTitle.substring(match.index, match.index + match[0].length);
+                const after = heroTitle.substring(match.index + match[0].length);
+                return (
+                  <>
+                    {before}<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-fuchsia-300 to-pink-300">{matchedText}</span>{after}
+                  </>
+                );
+              }
+              const words = heroTitle.split(' ');
+              if (words.length > 1) {
+                const lastWord = words.pop();
+                const startText = words.join(' ');
+                return (
+                  <>
+                    {startText} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-fuchsia-300 to-pink-300">{lastWord}</span>
+                  </>
+                );
+              }
+              return heroTitle;
+            })()}
+          </m.h1>
 
-              <m.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="text-slate-400 text-[15px] md:text-[17px] font-medium leading-relaxed max-w-xl"
-              >
-                {heroDesc}
-              </m.p>
+          {/* Dynamic Hero Description */}
+          <m.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg md:text-xl text-purple-100/90 max-w-3xl font-medium tracking-wide mb-8 drop-shadow"
+          >
+            {heroDesc}
+          </m.p>
 
-              <m.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="pt-2 flex items-center gap-5"
-              >
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById('partnership-form')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-9 py-4 rounded-full font-bold text-[13px] uppercase tracking-wider transition-all duration-300 shadow-[0_8px_30px_-8px_rgba(59,130,246,0.5)] hover:shadow-[0_12px_40px_-8px_rgba(59,130,246,0.6)] hover:-translate-y-0.5 overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                  <span className="relative z-10">Apply Now</span>
-                  <svg className="relative z-10 w-4 h-4 text-white stroke-[2.5] transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </button>
-              </m.div>
+          {/* Apply Now Button */}
+          <m.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mb-10"
+          >
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('partnership-form')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 text-white px-9 py-4 rounded-full font-bold text-[13px] uppercase tracking-wider transition-all duration-300 shadow-[0_8px_30px_-8px_rgba(168,85,247,0.5)] hover:shadow-[0_12px_40px_-8px_rgba(168,85,247,0.7)] hover:scale-105 overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+              <span className="relative z-10">Apply Now</span>
+              <svg className="relative z-10 w-4 h-4 text-white stroke-[2.5] transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </m.div>
+
+          {/* Mountain Card Box */}
+          <div className="w-full max-w-3xl bg-gradient-to-b from-[#1e1b4b] to-[#0f172a] rounded-t-3xl md:rounded-t-[40px] pt-8 pb-10 px-6 shadow-2xl border-t border-x border-purple-400/30 text-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08)_0,transparent_70%)] pointer-events-none"></div>
+            
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-1.5 text-xs md:text-sm font-black tracking-widest text-purple-300 uppercase mb-2">
+                <TrendingUp className="w-4 h-4 text-purple-300" />
+                <span>Established & Growing</span>
+              </div>
+              <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tight drop-shadow">
+                SCALING IT TOGETHER
+              </h2>
             </div>
+          </div>
+        </div>
 
-            {/* Right Image Block */}
-            <div className="lg:col-span-6 relative">
-              <m.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.2, type: 'spring' }}
-                className="relative z-10 rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40 group bg-[#0a0a0f]"
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/70 via-transparent to-transparent z-10 pointer-events-none"></div>
-                <img 
-                  src={pageImage?.toLowerCase().includes('partner1.jpg') ? '/partnership/partner1.jpg' : (pageImage || '/partnership/partner1.jpg')} 
-                  alt="Become a Partner"
-                  className="w-full h-auto max-h-[480px] object-cover transform-gpu transition-transform duration-1000 group-hover:scale-[1.04]" 
-                />
-              </m.div>
-              {/* Floating glow */}
-              <div className="absolute -top-8 -right-8 w-40 h-40 bg-blue-500/30 rounded-full blur-[50px] -z-10"></div>
-              <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-purple-500/20 rounded-full blur-[60px] -z-10"></div>
+        {/* Clean Curved SVG Wave Transition */}
+        <div className="w-full overflow-hidden leading-none relative z-20 -mt-1">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-10 md:h-14 text-[#f8fafc] fill-current">
+            <path d="M0,0 C150,90 350,-40 500,45 C650,130 900,10 1200,40 L1200,120 L0,120 Z"></path>
+          </svg>
+        </div>
+      </div>
+
+
+
+
+      {/* ========== APPLE-STYLE ULTRA-LUXURY FRESH LIGHT CANVAS ========== */}
+      <div className="bg-[#f8fafc] text-slate-900 relative min-h-screen overflow-hidden">
+        {/* Ambient aura glow */}
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-tr from-purple-200/40 via-fuchsia-100/50 to-indigo-200/40 blur-[130px] rounded-full pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] pointer-events-none" />
+
+        {/* ========== CONTINUOUS DIAGONAL MARQUEE RIBBON TAPES ========== */}
+        <div className="relative z-30 pt-4 pb-2 overflow-hidden pointer-events-none">
+          <style>{`
+            @keyframes marqueeLeft {
+              0% { transform: translate3d(0, 0, 0); }
+              100% { transform: translate3d(-50%, 0, 0); }
+            }
+            @keyframes marqueeRight {
+              0% { transform: translate3d(-50%, 0, 0); }
+              100% { transform: translate3d(0, 0, 0); }
+            }
+            .animate-tape-left {
+              animation: marqueeLeft 28s linear infinite;
+              will-change: transform;
+            }
+            .animate-tape-right {
+              animation: marqueeRight 28s linear infinite;
+              will-change: transform;
+            }
+          `}</style>
+
+          {/* Tape 1 (Vibrant Electric Blue Gradient Tape - Left) */}
+          <div className="w-[140%] -ml-[20%] bg-gradient-to-r from-blue-600 via-sky-500 to-blue-700 text-white font-black text-sm md:text-base uppercase tracking-widest py-3.5 md:py-4 shadow-xl rotate-[-2.5deg] border-y border-white/40 whitespace-nowrap overflow-hidden flex">
+            <div className="flex shrink-0 items-center gap-8 animate-tape-left pr-8">
+              <span>WEB DEVELOPMENT FRANCHISE</span>
+              <span>★</span>
+              <span>CUSTOM CRM SOLUTIONS</span>
+              <span>★</span>
+              <span>SEO & DIGITAL GROWTH</span>
+              <span>★</span>
+              <span>AUTHORIZED GLOBAL WEBIFY PARTNER</span>
+              <span>★</span>
+              <span>START YOUR DIGITAL BUSINESS TODAY</span>
+            </div>
+            <div className="flex shrink-0 items-center gap-8 animate-tape-left pr-8" aria-hidden="true">
+              <span>WEB DEVELOPMENT FRANCHISE</span>
+              <span>★</span>
+              <span>CUSTOM CRM SOLUTIONS</span>
+              <span>★</span>
+              <span>SEO & DIGITAL GROWTH</span>
+              <span>★</span>
+              <span>AUTHORIZED GLOBAL WEBIFY PARTNER</span>
+              <span>★</span>
+              <span>START YOUR DIGITAL BUSINESS TODAY</span>
+            </div>
+          </div>
+
+          {/* Tape 2 (Dark Slate / Amber Gold Tape - Right) */}
+          <div className="w-[140%] -ml-[20%] bg-slate-900 text-amber-300 font-black text-sm md:text-base uppercase tracking-widest py-3.5 md:py-4 shadow-2xl rotate-[2.5deg] -mt-8 md:-mt-9 border-y border-amber-400/40 whitespace-nowrap overflow-hidden flex">
+            <div className="flex shrink-0 items-center gap-8 animate-tape-right pr-8">
+              <span>★ ZERO TECHNICAL TEAM NEEDED</span>
+              <span>•</span>
+              <span>COMPLETE PROJECT EXECUTION</span>
+              <span>•</span>
+              <span>HIGH EARNING POTENTIAL</span>
+              <span>•</span>
+              <span>100% BACKEND DEVELOPMENT SUPPORT</span>
+              <span>•</span>
+              <span>GROW YOUR DIGITAL AGENCY</span>
+              <span>•</span>
+              <span>ZERO TECHNICAL TEAM NEEDED</span>
+              <span>•</span>
+              <span>COMPLETE PROJECT EXECUTION</span>
+            </div>
+            <div className="flex shrink-0 items-center gap-8 animate-tape-right pr-8" aria-hidden="true">
+              <span>★ ZERO TECHNICAL TEAM NEEDED</span>
+              <span>•</span>
+              <span>COMPLETE PROJECT EXECUTION</span>
+              <span>•</span>
+              <span>HIGH EARNING POTENTIAL</span>
+              <span>•</span>
+              <span>100% BACKEND DEVELOPMENT SUPPORT</span>
+              <span>•</span>
+              <span>GROW YOUR DIGITAL AGENCY</span>
+              <span>•</span>
+              <span>ZERO TECHNICAL TEAM NEEDED</span>
+              <span>•</span>
+              <span>COMPLETE PROJECT EXECUTION</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="container-custom relative z-10 px-4 sm:px-6 max-w-[1440px] mx-auto">
+
+        {/* ========== FRANCHISE FEATURES SECTION ========== */}
+        <div className="pt-12 md:pt-16 pb-4">
+          <div className="relative p-[2px] rounded-[36px] bg-gradient-to-r from-purple-300 via-fuchsia-200 to-indigo-300 shadow-[0_20px_60px_-15px_rgba(147,51,234,0.15)]">
+            <div className="bg-gradient-to-br from-[#f4efff] via-[#e8e0fe] to-[#f6f1ff] p-6 sm:p-10 lg:p-12 rounded-[34px] relative overflow-hidden text-slate-900 border border-purple-200/80">
+              <div className="absolute -top-24 -right-24 w-96 h-96 bg-purple-400/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-400/15 rounded-full blur-3xl pointer-events-none" />
+              
+              <div className="grid lg:grid-cols-12 gap-8 lg:gap-14 items-start relative z-10">
+                {/* Left — Text Content */}
+                <div className="lg:col-span-6 space-y-6 w-full">
+                  <m.h2
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="text-[26px] sm:text-[30px] lg:text-[36px] font-black font-heading tracking-tight leading-snug w-full"
+                  >
+                    {(() => {
+                      const matchRegex = /of Global Webify/i;
+                      const match = franchiseTitle.match(matchRegex);
+                      if (match && match.index !== undefined) {
+                        const before = franchiseTitle.substring(0, match.index);
+                        const matchedText = franchiseTitle.substring(match.index, match.index + match[0].length);
+                        const after = franchiseTitle.substring(match.index + match[0].length);
+                        return (
+                          <>
+                            <span className="text-slate-900">{before}</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-700 font-black drop-shadow-sm">{matchedText}</span>
+                            <span className="text-purple-800 font-black">{after}</span>
+                          </>
+                        );
+                      }
+                      return <span className="text-slate-900">{franchiseTitle}</span>;
+                    })()}
+                  </m.h2>
+                  <m.h3
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 }}
+                    className="text-[16px] md:text-[17px] font-extrabold text-purple-800 leading-snug"
+                  >
+                    {featuresSubtitle}
+                  </m.h3>
+                  
+                  <m.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="relative p-6 sm:p-7 rounded-2xl bg-white/90 border border-purple-200/80 shadow-md backdrop-blur-md overflow-hidden text-slate-700"
+                  >
+                    {/* Left glowing gradient accent bar */}
+                    <div className="absolute left-0 top-3 bottom-3 w-1.5 bg-gradient-to-b from-purple-600 via-fuchsia-500 to-indigo-600 rounded-r-full shadow-sm" />
+
+                    <div className="pl-3 space-y-3.5 text-slate-700 text-[14px] md:text-[15px] font-medium leading-relaxed text-justify [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:my-3 [&_ul]:space-y-1.5 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:my-3 [&_ol]:space-y-1.5 [&_li]:text-slate-700 [&_strong]:font-bold [&_strong]:text-slate-900 [&_p]:mb-3 [&_p:last-child]:mb-0">
+                      {/<[a-z][\s\S]*>/i.test(featuresDescText) ? (
+                        <div dangerouslySetInnerHTML={{ __html: featuresDescText }} />
+                      ) : (
+                        featuresDescText.split('\n').map((para, idx) => (
+                          para.trim() && <p key={idx}>{para}</p>
+                        ))
+                      )}
+                    </div>
+                  </m.div>
+
+                  {/* Action Buttons below description */}
+                  <m.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.25 }}
+                    className="pt-2 space-y-3.5"
+                  >
+                    <h4 className="text-[15px] md:text-[16px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600 tracking-tight">
+                      Know More About Global Webify
+                    </h4>
+                    <div className="flex flex-wrap items-center gap-3.5">
+                      <Link
+                        href="/portfolio"
+                        className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-600 text-white font-bold text-xs md:text-sm shadow-lg shadow-purple-600/30 hover:shadow-xl hover:shadow-purple-600/40 hover:-translate-y-0.5 transition-all duration-300"
+                      >
+                        Portfolio <ArrowRight size={16} />
+                      </Link>
+                      <Link
+                        href="/about"
+                        className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 text-white font-bold text-xs md:text-sm shadow-md hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300"
+                      >
+                        About Us
+                      </Link>
+                    </div>
+                  </m.div>
+                </div>
+
+                {/* Right — 2x2 Vibrant Gradient Feature Cards */}
+                <div className="lg:col-span-6 w-full pt-10 lg:pt-28 lg:sticky lg:top-36">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
+                    {/* Card 1 */}
+                    <m.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 }}
+                      className="group bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700 rounded-3xl p-7 text-center shadow-xl shadow-blue-600/20 border border-white/20 hover:shadow-2xl hover:shadow-blue-600/35 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[210px]"
+                    >
+                      <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <MonitorSmartphone size={32} className="text-white drop-shadow-md" />
+                      </div>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-cyan-200/90 mb-1">Easy Setup</span>
+                      <h4 className="font-bold text-white text-[15px] sm:text-[16px] leading-snug tracking-wide">
+                        No Technical Knowledge Required
+                      </h4>
+                    </m.div>
+
+                    {/* Card 2 */}
+                    <m.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="group bg-gradient-to-br from-violet-600 via-purple-700 to-fuchsia-700 rounded-3xl p-7 text-center shadow-xl shadow-purple-600/20 border border-white/20 hover:shadow-2xl hover:shadow-purple-600/35 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[210px]"
+                    >
+                      <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <BadgeCheck size={32} className="text-white drop-shadow-md" />
+                      </div>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-purple-200/90 mb-1">Zero Barrier</span>
+                      <h4 className="font-bold text-white text-[15px] sm:text-[16px] leading-snug tracking-wide">
+                        No Experience Necessary
+                      </h4>
+                    </m.div>
+
+                    {/* Card 3 */}
+                    <m.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 }}
+                      className="group bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 rounded-3xl p-7 text-center shadow-xl shadow-emerald-600/20 border border-white/20 hover:shadow-2xl hover:shadow-emerald-600/35 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[210px]"
+                    >
+                      <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <Store size={32} className="text-white drop-shadow-md" />
+                      </div>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-emerald-200/90 mb-1">High Demand</span>
+                      <h4 className="font-bold text-white text-[15px] sm:text-[16px] leading-snug tracking-wide">
+                        Sell Website Packages to Businesses
+                      </h4>
+                    </m.div>
+
+                    {/* Card 4 */}
+                    <m.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5 }}
+                      className="group bg-gradient-to-br from-rose-600 via-pink-600 to-orange-600 rounded-3xl p-7 text-center shadow-xl shadow-rose-600/20 border border-white/20 hover:shadow-2xl hover:shadow-rose-600/35 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[210px]"
+                    >
+                      <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <TrendingUp size={32} className="text-white drop-shadow-md" />
+                      </div>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-rose-200/90 mb-1">High Returns</span>
+                      <h4 className="font-bold text-white text-[15px] sm:text-[16px] leading-snug tracking-wide">
+                      Unlimited Earning Potential
+                    </h4>
+                  </m.div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
 
-      {/* Franchisee Modal */}
-      <AnimatePresence>
-        {selectedFranchisee && (
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-            <m.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
-              onClick={() => setSelectedFranchisee(null)}
-            />
-            <m.div 
-              initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative bg-white w-full max-w-md rounded-[32px] shadow-2xl overflow-hidden"
-            >
-              <div className="bg-gradient-to-br from-blue-600 to-cyan-500 p-8 text-center relative overflow-hidden">
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
-                <button 
-                  onClick={() => setSelectedFranchisee(null)}
-                  className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors"
-                >
-                  <X size={20} />
-                </button>
-                <div className="relative w-28 h-28 mx-auto rounded-full overflow-hidden border-4 border-white/20 shadow-xl bg-white mb-4">
-                  {selectedFranchisee.photo ? (
-                    <img src={selectedFranchisee.photo} alt={selectedFranchisee.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-300"><Users2 size={40} /></div>
-                  )}
-                </div>
-                <h3 className="text-2xl font-black text-white">{selectedFranchisee.name}</h3>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 rounded-full text-white/90 text-xs font-bold mt-2">
-                  <BadgeCheck size={14} className="text-cyan-200" />
-                  Verified Partner
-                </div>
-              </div>
-              <div className="p-8 space-y-5">
-                {selectedFranchisee.companyName && (
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-                      <Building2 size={18} className="text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Company Name</p>
-                      <p className="font-semibold text-slate-800">{selectedFranchisee.companyName}</p>
-                    </div>
-                  </div>
-                )}
-                {selectedFranchisee.experience && (
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
-                      <TrendingUp size={18} className="text-emerald-600" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Experience</p>
-                      <p className="font-semibold text-slate-800">{selectedFranchisee.experience}</p>
-                    </div>
-                  </div>
-                )}
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center shrink-0">
-                    <Handshake size={18} className="text-purple-600" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Joined Us</p>
-                    <p className="font-semibold text-slate-800">
-                      {new Date(selectedFranchisee.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </m.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* ========== LIGHT SECTIONS BELOW ========== */}
-      <div className="bg-slate-50 relative">
-        {/* Subtle background texture */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white to-slate-50 pointer-events-none" />
-
-        <div className="container-custom relative z-10 px-4 sm:px-6 max-w-[1440px] mx-auto">
-
-        {/* ========== FRANCHISE FEATURES SECTION ========== */}
-        <div className="pt-8 pb-2">
-          <div className="bg-gradient-to-br from-white via-slate-50/80 to-blue-50/40 p-6 sm:p-10 lg:p-12 rounded-[32px] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.06)] border border-slate-200/80 relative overflow-hidden">
-            <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
-            <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start relative z-10">
-              {/* Left — Text */}
-              <div className="lg:col-span-6 space-y-5 w-full">
-                <m.h2
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                  className="text-[26px] sm:text-[30px] lg:text-[34px] font-black font-heading text-slate-900 tracking-tight leading-snug w-full"
-                >
-                  {(() => {
-                    const matchRegex = /of Global Webify/i;
-                    const match = franchiseTitle.match(matchRegex);
-                    if (match && match.index !== undefined) {
-                      const before = franchiseTitle.substring(0, match.index);
-                      const matchedText = franchiseTitle.substring(match.index, match.index + match[0].length);
-                      const after = franchiseTitle.substring(match.index + match[0].length);
-                      return (
-                        <>
-                          {before}<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">{matchedText}</span>{after}
-                        </>
-                      );
-                    }
-                    return franchiseTitle;
-                  })()}
-                </m.h2>
-                <m.h3
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.15 }}
-                  className="text-[16px] md:text-[17px] font-bold text-blue-600 leading-snug"
-                >
-                  {featuresSubtitle}
-                </m.h3>
-                <m.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="space-y-3.5 text-slate-700 text-[14px] md:text-[15.5px] font-medium leading-relaxed text-justify [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:my-3 [&_ul]:space-y-1.5 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:my-3 [&_ol]:space-y-1.5 [&_li]:text-slate-700 [&_strong]:font-bold [&_strong]:text-slate-900 [&_p]:mb-3"
-                >
-                  {/<[a-z][\s\S]*>/i.test(featuresDescText) ? (
-                    <div dangerouslySetInnerHTML={{ __html: featuresDescText }} />
-                  ) : (
-                    featuresDescText.split('\n').map((para, idx) => (
-                      para.trim() && <p key={idx}>{para}</p>
-                    ))
-                  )}
-                </m.div>
-
-                {/* Action Buttons below description */}
-                <m.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.25 }}
-                  className="pt-4 space-y-3.5"
-                >
-                  <h4 className="text-[15px] md:text-[16px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 tracking-tight">
-                    Know More About Global Webify
-                  </h4>
-                  <div className="flex flex-wrap items-center gap-3.5">
-                    <Link
-                      href="/portfolio"
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-xs md:text-sm shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all duration-300"
-                    >
-                      Portfolio <ArrowRight size={16} />
-                    </Link>
-                    <Link
-                      href="/about"
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white font-bold text-xs md:text-sm shadow-md shadow-slate-900/10 hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300"
-                    >
-                      About Us
-                    </Link>
-                  </div>
-                </m.div>
-              </div>
-
-              {/* Right — 2x2 Dark & Vibrant Gradient Cards */}
-              <div className="lg:col-span-6 w-full mt-0 lg:sticky lg:top-28">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
-                  {/* Card 1 */}
-                  <m.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="group bg-gradient-to-br from-blue-600 to-cyan-500 rounded-3xl p-8 text-center shadow-lg shadow-blue-500/25 border border-white/20 hover:shadow-2xl hover:shadow-blue-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[220px]"
-                  >
-                    <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner mb-6 group-hover:scale-110 transition-transform duration-300">
-                      <MonitorSmartphone size={32} className="text-white drop-shadow-md" />
-                    </div>
-                    <h4 className="font-black text-white text-[16px] md:text-[17px] leading-snug tracking-tight drop-shadow-sm">No Technical Knowledge Required</h4>
-                  </m.div>
-
-                  {/* Card 2 */}
-                  <m.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="group bg-gradient-to-br from-violet-600 to-purple-500 rounded-3xl p-8 text-center shadow-lg shadow-purple-500/25 border border-white/20 hover:shadow-2xl hover:shadow-purple-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[220px]"
-                  >
-                    <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner mb-6 group-hover:scale-110 transition-transform duration-300">
-                      <BadgeCheck size={32} className="text-white drop-shadow-md" />
-                    </div>
-                    <h4 className="font-black text-white text-[16px] md:text-[17px] leading-snug tracking-tight drop-shadow-sm">No Experience<br />Necessary</h4>
-                  </m.div>
-
-                  {/* Card 3 */}
-                  <m.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                    className="group bg-gradient-to-br from-emerald-600 to-teal-500 rounded-3xl p-8 text-center shadow-lg shadow-emerald-500/25 border border-white/20 hover:shadow-2xl hover:shadow-emerald-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[220px]"
-                  >
-                    <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner mb-6 group-hover:scale-110 transition-transform duration-300">
-                      <Store size={32} className="text-white drop-shadow-md" />
-                    </div>
-                    <h4 className="font-black text-white text-[16px] md:text-[17px] leading-snug tracking-tight drop-shadow-sm">Sell Website Packages to Businesses</h4>
-                  </m.div>
-
-                  {/* Card 4 */}
-                  <m.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="group bg-gradient-to-br from-rose-600 to-orange-500 rounded-3xl p-8 text-center shadow-lg shadow-rose-500/25 border border-white/20 hover:shadow-2xl hover:shadow-rose-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[220px]"
-                  >
-                    <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner mb-6 group-hover:scale-110 transition-transform duration-300">
-                      <TrendingUp size={32} className="text-white drop-shadow-md" />
-                    </div>
-                    <h4 className="font-black text-white text-[16px] md:text-[17px] leading-snug tracking-tight drop-shadow-sm">Unlimited Earning<br />Potential</h4>
-                  </m.div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ========== FRANCHISEE GRID ========== */}
-        {franchisees && franchisees.length > 0 && (
-          <div className="pt-4 pb-4 overflow-hidden relative z-10 w-full max-w-[1440px] mx-auto">
-            <div className="text-center mb-8 px-4">
-              <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-3 py-1.5 rounded-full text-[11px] font-black uppercase tracking-widest mb-3">
-                <Globe2 size={14} /> Our Growing Community
-              </div>
-              <h3 className="text-[26px] md:text-[34px] font-black text-slate-900 leading-tight mb-3">
-                Meet Our Trusted <span className="text-blue-600">Partners</span>
-              </h3>
-              <p className="text-slate-500 font-medium max-w-4xl mx-auto text-[15px]">
-                Connect with an exclusive community of visionary leaders and agencies delivering world-class digital solutions globally.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-6 max-w-7xl mx-auto px-4 md:px-8">
-              {(franchisees || []).map((f, i) => (
-                <div 
-                  key={i} 
-                  onClick={() => setSelectedFranchisee(f)}
-                  className="w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] max-w-[320px] bg-white rounded-[24px] border border-slate-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.08)] overflow-hidden cursor-pointer hover:shadow-[0_8px_30px_-10px_rgba(37,99,235,0.2)] hover:border-blue-200 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col"
-                >
-                  <div className="w-full aspect-[4/3] bg-slate-50 relative overflow-hidden">
-                    {f.photo ? (
-                      <img src={f.photo} alt={f.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-300"><Users2 size={40} /></div>
-                    )}
-                  </div>
-                  <div className="p-5 flex-grow flex flex-col text-center items-center justify-center bg-white relative">
-                    <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center absolute -top-4 right-4 shadow-sm border border-blue-100">
-                      <BadgeCheck size={16} />
-                    </div>
-                    <h4 className="font-bold text-slate-900 text-[18px] w-full truncate mb-1">{f.name}</h4>
-                    {f.companyName && (
-                      <p className="text-[11px] text-blue-600 font-black uppercase tracking-wider w-full truncate">
-                        {f.companyName}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* ========== PARTNERSHIP FORM ========== */}
-        <div id="partnership-form" className="max-w-3xl mx-auto relative z-10 pt-2 pb-12">
+        <div id="partnership-form" className="max-w-3xl mx-auto relative z-10 pt-4 pb-12">
           <div className="w-full relative">
             <m.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="bg-gradient-to-b from-white to-slate-50/80 p-8 md:p-12 rounded-[32px] shadow-[0_15px_50px_-15px_rgba(0,0,0,0.1)] border border-slate-200/80 relative overflow-hidden"
+              className="bg-gradient-to-br from-[#fcfaff] via-[#f2ebff] to-[#f6f1ff] p-8 md:p-12 rounded-[32px] shadow-2xl shadow-purple-950/10 border border-purple-200/90 relative overflow-hidden text-slate-900"
             >
               <div className="text-center mb-10">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 font-bold text-[10px] uppercase tracking-[0.15em] mb-5">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-200/60 border border-purple-300 text-purple-900 font-bold text-[10px] uppercase tracking-[0.15em] mb-5 shadow-sm">
                   <Sparkles size={12} /> Schedule a Call
                 </div>
                 <h2 className="text-[26px] md:text-[36px] font-black text-slate-900 tracking-tight font-heading leading-tight">
                   Schedule a Call With Us
                 </h2>
-                <p className="text-slate-500 text-[14px] md:text-[15px] font-medium mt-3 max-w-lg mx-auto leading-relaxed">
+                <p className="text-slate-600 text-[14px] md:text-[15px] font-medium mt-3 max-w-lg mx-auto leading-relaxed">
                   Pick your preferred date & time, and our franchisee team will call you.
                 </p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
-                
-                {/* Contact Name & Email */}
+                  {/* Contact Name & Email */}
                 <div className="grid md:grid-cols-2 gap-5">
                   <div className="flex flex-col gap-1.5 relative group">
-                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Contact Name *</label>
+                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-purple-700">Contact Name *</label>
                     <input 
                       type="text" 
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="w-full px-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all placeholder-slate-300"
+                      className="w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border border-purple-200/90 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 transition-all placeholder-slate-400 shadow-sm"
                       placeholder="Jane Smith"
                     />
                   </div>
 
                    <div className="flex flex-col gap-1.5 relative group">
-                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Business Email *</label>
+                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-purple-700">Business Email *</label>
                     <input 
                       type="email" 
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className={`w-full px-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:ring-2 transition-all placeholder-slate-300 ${errors.email ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' : 'border-slate-200 focus:border-blue-500 focus:ring-blue-500/10'}`}
+                      className={`w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:ring-2 transition-all placeholder-slate-400 shadow-sm ${errors.email ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' : 'border-purple-200/90 focus:border-purple-600 focus:ring-purple-600/10'}`}
                       placeholder="jane@company.com"
                     />
                     {errors.email && <span className="text-red-500 text-[11px] font-bold mt-0.5 ml-1">{errors.email}</span>}
@@ -819,37 +808,37 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                 {/* Company Name & Website URL */}
                 <div className="grid md:grid-cols-2 gap-5">
                   <div className="flex flex-col gap-1.5 relative group">
-                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Company Name <span className="text-slate-300 font-semibold lowercase tracking-normal">(optional)</span></label>
+                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-purple-700">Company Name <span className="text-slate-400 font-semibold lowercase tracking-normal">(optional)</span></label>
                     <input 
                       type="text" 
                       value={formData.companyName}
                       onChange={(e) => setFormData({...formData, companyName: e.target.value})}
-                      className="w-full px-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all placeholder-slate-300"
+                      className="w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border border-purple-200/90 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 transition-all placeholder-slate-400 shadow-sm"
                       placeholder="Acme Corp"
                     />
                   </div>
 
                   <div className="flex flex-col gap-1.5 relative group">
-                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Website URL <span className="text-slate-300 font-semibold lowercase tracking-normal">(optional)</span></label>
+                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-purple-700">Website URL <span className="text-slate-400 font-semibold lowercase tracking-normal">(optional)</span></label>
                     <input 
                       type="url" 
                       value={formData.websiteUrl}
                       onChange={(e) => setFormData({...formData, websiteUrl: e.target.value})}
-                      className="w-full px-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all placeholder-slate-300"
+                      className="w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border border-purple-200/90 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 transition-all placeholder-slate-400 shadow-sm"
                       placeholder="https://company.com"
                     />
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-1.5 relative group">
-                  <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-blue-500">Mobile Number *</label>
+                  <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-purple-700">Mobile Number *</label>
                   <div className="flex gap-3 relative">
                     {/* Country Code Select */}
                     <div className="relative w-[125px] shrink-0">
                       <button
                         type="button"
                         onClick={() => setDropdownOpen(!dropdownOpen)}
-                        className="w-full h-full flex items-center justify-between px-3.5 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all"
+                        className="w-full h-full flex items-center justify-between px-3.5 bg-white hover:bg-white focus:bg-white border border-purple-200/90 rounded-xl text-[13px] font-bold text-slate-900 focus:outline-none focus:border-purple-600 transition-all shadow-sm"
                       >
                         <span className="flex items-center gap-2">
                           <FlagIcon iso={selectedCountry.iso} />
@@ -863,7 +852,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                       {dropdownOpen && (
                         <>
                           <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
-                          <div className="absolute left-0 mt-2 w-[270px] max-h-[260px] overflow-y-auto bg-white border border-slate-200 rounded-xl shadow-xl z-50 py-1.5 scrollbar-thin scrollbar-thumb-slate-200">
+                          <div className="absolute left-0 mt-2 w-[270px] max-h-[260px] overflow-y-auto bg-white border border-purple-200 rounded-xl shadow-xl z-50 py-1.5 scrollbar-thin scrollbar-thumb-purple-200">
                             {COUNTRIES.map((c, i) => (
                               <button
                                 key={i}
@@ -875,11 +864,11 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                   setPhoneDigits(truncatedDigits);
                                   setFormData(prev => ({ ...prev, phone: truncatedDigits ? `${c.code} ${truncatedDigits}` : '' }));
                                 }}
-                                className={`w-full flex items-center gap-3 px-3.5 py-2 text-left text-[13px] font-semibold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors ${i === selectedCountryIndex ? 'bg-blue-50 text-blue-600' : ''}`}
+                                className={`w-full flex items-center gap-3 px-3.5 py-2 text-left text-[13px] font-semibold text-slate-700 hover:bg-purple-50 transition-colors ${i === selectedCountryIndex ? 'bg-purple-100/80 text-purple-700' : ''}`}
                               >
                                 <FlagIcon iso={c.iso} />
                                 <span className="shrink-0 w-11 font-bold">{c.code}</span>
-                                <span className="text-slate-400 font-medium truncate">{c.name}</span>
+                                <span className="text-slate-500 font-medium truncate">{c.name}</span>
                               </button>
                             ))}
                           </div>
@@ -900,23 +889,25 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                           setFormData(prev => ({ ...prev, phone: val ? `${selectedCountry.code} ${val}` : '' }));
                         }}
                         placeholder={selectedCountry.placeholder}
-                        className={`w-full px-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:ring-2 transition-all placeholder-slate-300 ${errors.phone ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' : 'border-slate-200 focus:border-blue-500 focus:ring-blue-500/10'}`}
+                        className={`w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:ring-2 transition-all placeholder-slate-400 shadow-sm ${errors.phone ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' : 'border-purple-200/90 focus:border-purple-600 focus:ring-purple-600/10'}`}
                       />
                     </div>
                   </div>
                   {errors.phone && <span className="text-red-500 text-[11px] font-bold mt-0.5 ml-1">{errors.phone}</span>}
                 </div>
 
-                {/* ========== DATE & TIME PICKER ========== */}
-                <div className="space-y-4 pt-2">
+                {/* ========== DATE & TIME PICKER (DEFAULT BLUE / ACTIVE PURPLE-FUCHSIA) ========== */}
+                <div className="space-y-5 pt-3">
                   {/* Preferred Date */}
                   <div className="flex flex-col gap-2.5">
-                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1">📅 Preferred Date *</label>
+                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 flex items-center gap-1.5">
+                      <span className="text-purple-600">📅</span> Preferred Date *
+                    </label>
                     <div className="flex items-center gap-2 group/scroll w-full">
                       <button 
                         type="button" 
                         onClick={() => scrollDates('left')} 
-                        className="flex-shrink-0 p-1.5 bg-white shadow-sm border border-slate-200 rounded-full text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all hidden sm:flex"
+                        className="flex-shrink-0 p-1.5 bg-white border border-purple-200 rounded-full text-slate-600 hover:text-purple-700 hover:bg-purple-50 transition-all hidden sm:flex shadow-sm"
                       >
                         <ChevronLeft size={18} />
                       </button>
@@ -947,37 +938,45 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                           const actualTomorrow = new Date(today);
                           actualTomorrow.setDate(today.getDate() + 1);
 
-                          return dates.map((d, idx) => {
+                          return dates.map((d, i) => {
                             const dateStr = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
                             const dayName = d.toLocaleDateString('en-IN', { weekday: 'short' });
                             const isSelected = formData.preferredDate === dateStr;
-                            const isTomorrow = d.getTime() === actualTomorrow.getTime();
                             const isBlocked = availability.blockedDates.includes(dateStr);
+                            const isTomorrow = d.getTime() === actualTomorrow.getTime();
                             
                             return (
-                              <div key={dateStr} className="relative flex-shrink-0 snap-start pt-2 pb-3">
+                              <div key={i} className="relative shrink-0 flex items-center justify-center">
                                 <button
                                   type="button"
                                   disabled={isBlocked}
                                   onClick={() => setFormData(prev => ({ ...prev, preferredDate: dateStr }))}
-                                  className={`relative flex flex-col items-center w-[60px] h-[70px] rounded-[12px] transition-all duration-300 ${
+                                  className={`relative flex flex-col items-center w-[62px] h-[72px] rounded-[14px] transition-all duration-300 ${
                                     isBlocked
                                       ? 'opacity-70 cursor-not-allowed'
                                       : isSelected
-                                        ? 'scale-[1.08] z-10'
+                                        ? 'scale-[1.10] z-20'
                                         : 'hover:-translate-y-1 hover:shadow-lg cursor-pointer'
                                   }`}
                                 >
                                   {/* Ring holes / Binders */}
-                                  <div className="absolute -top-1.5 left-2.5 w-1 h-3 bg-gradient-to-b from-slate-200 to-slate-400 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.6)] z-20"></div>
-                                  <div className="absolute -top-1.5 right-2.5 w-1 h-3 bg-gradient-to-b from-slate-200 to-slate-400 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.6)] z-20"></div>
+                                  <div className="absolute -top-1.5 left-2.5 w-1 h-3 bg-gradient-to-b from-slate-300 to-slate-500 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.5)] z-20"></div>
+                                  <div className="absolute -top-1.5 right-2.5 w-1 h-3 bg-gradient-to-b from-slate-300 to-slate-500 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.5)] z-20"></div>
 
-                                  <div className={`w-full h-full flex flex-col rounded-[12px] border-2 shadow-sm overflow-hidden ${
-                                     isBlocked ? 'border-red-200 bg-red-50/30' : isSelected ? 'border-slate-900 shadow-slate-500/30 shadow-lg bg-white' : 'border-slate-200 hover:border-blue-400 bg-white'
+                                  <div className={`w-full h-full flex flex-col rounded-[14px] border-2 shadow-sm overflow-hidden ${
+                                     isBlocked 
+                                       ? 'border-red-200 bg-red-50/50' 
+                                       : isSelected 
+                                         ? 'border-purple-600 shadow-xl shadow-purple-500/40 bg-purple-50/90 ring-4 ring-purple-400/30' 
+                                         : 'border-blue-300/80 hover:border-blue-500 bg-white'
                                   }`}>
                                     {/* Calendar Top Header (Month) */}
                                     <div className={`w-full py-1 flex items-center justify-center border-b ${
-                                      isBlocked ? 'bg-red-500 border-red-600 text-white' : isSelected ? 'bg-slate-900 border-slate-950 text-white' : 'bg-blue-600 border-blue-700 text-white'
+                                      isBlocked 
+                                        ? 'bg-red-500 border-red-600 text-white' 
+                                        : isSelected 
+                                          ? 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 border-purple-600 text-white font-black' 
+                                          : 'bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600 border-blue-700 text-white font-black'
                                     }`}>
                                       <span className="text-[9px] font-black uppercase tracking-widest leading-none mt-0.5">
                                         {d.toLocaleDateString('en-IN', { month: 'short' })}
@@ -986,15 +985,27 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                     
                                     {/* Calendar Body (Date & Day) */}
                                     <div className={`w-full flex-grow flex flex-col items-center justify-center gap-[1px] ${
-                                      isBlocked ? 'bg-red-50/50' : isSelected ? 'bg-slate-50' : 'bg-white'
+                                      isBlocked 
+                                        ? 'bg-red-50/30' 
+                                        : isSelected 
+                                          ? 'bg-purple-50/90' 
+                                          : 'bg-white'
                                     }`}>
                                       <span className={`text-[20px] font-black leading-none mt-0.5 ${
-                                        isBlocked ? 'text-red-300 line-through decoration-red-300/50' : isSelected ? 'text-slate-900' : 'text-blue-700'
+                                        isBlocked 
+                                          ? 'text-red-400 line-through decoration-red-300' 
+                                          : isSelected 
+                                            ? 'text-purple-800' 
+                                            : 'text-slate-900 font-black'
                                       }`}>
                                         {d.getDate()}
                                       </span>
                                       <span className={`text-[9px] font-bold uppercase tracking-wider ${
-                                        isBlocked ? 'text-red-400' : isSelected ? 'text-slate-500' : 'text-blue-500'
+                                        isBlocked 
+                                          ? 'text-red-400' 
+                                          : isSelected 
+                                            ? 'text-purple-700 font-black' 
+                                            : 'text-blue-600 font-extrabold'
                                       }`}>
                                         {dayName}
                                       </span>
@@ -1003,8 +1014,8 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                 </button>
                                 {/* Tomorrow badge outside the button scaling to stay aligned */}
                                 {isTomorrow && (
-                                   <span className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 px-1.5 py-[1px] text-white text-[7px] font-black uppercase tracking-widest rounded-full shadow-md whitespace-nowrap z-20 ${
-                                     isBlocked ? 'bg-red-800' : isSelected ? 'bg-slate-900' : 'bg-violet-600'
+                                   <span className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 px-2 py-[1.5px] text-white text-[7px] font-black uppercase tracking-widest rounded-full shadow-md whitespace-nowrap z-20 ${
+                                     isBlocked ? 'bg-red-600' : isSelected ? 'bg-purple-700' : 'bg-blue-700'
                                    }`}>
                                      Tomorrow
                                    </span>
@@ -1018,7 +1029,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                       <button 
                         type="button" 
                         onClick={() => scrollDates('right')} 
-                        className="flex-shrink-0 p-1.5 bg-white shadow-sm border border-slate-200 rounded-full text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all hidden sm:flex"
+                        className="flex-shrink-0 p-1.5 bg-white border border-purple-200 rounded-full text-slate-600 hover:text-purple-700 hover:bg-purple-50 transition-all hidden sm:flex shadow-sm"
                       >
                         <ChevronRight size={18} />
                       </button>
@@ -1028,19 +1039,21 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
 
                   {/* Preferred Time */}
                   <div className="flex flex-col gap-2">
-                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.1em] ml-1">🕐 Preferred Time *</label>
+                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 flex items-center gap-1.5">
+                      <span className="text-purple-600">🕐</span> Preferred Time *
+                    </label>
                     <div className="flex items-center gap-2 group/scroll w-full">
                       <button 
                         type="button" 
                         onClick={() => scrollTimes('left')} 
-                        className="flex-shrink-0 p-1.5 bg-white shadow-sm border border-slate-200 rounded-full text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all hidden sm:flex"
+                        className="flex-shrink-0 p-1.5 bg-white border border-purple-200 rounded-full text-slate-600 hover:text-purple-700 hover:bg-purple-50 transition-all hidden sm:flex shadow-sm"
                       >
                         <ChevronLeft size={18} />
                       </button>
 
                       <div 
                         ref={timeScrollRef}
-                        className="flex gap-1.5 overflow-x-auto snap-x snap-proximity py-2 w-full flex-grow"
+                        className="flex gap-2 overflow-x-auto snap-x snap-proximity py-2 w-full flex-grow"
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                       >
                         {(() => {
@@ -1078,17 +1091,17 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                 type="button"
                                 disabled={isBooked}
                                 onClick={() => setFormData(prev => ({ ...prev, preferredTime: time }))}
-                                className={`flex-shrink-0 snap-start px-3 py-1.5 rounded-lg text-[12px] font-bold border transition-all duration-200 min-w-[70px] flex flex-col items-center justify-center ${
+                                className={`flex-shrink-0 snap-start px-3.5 py-2 rounded-xl text-[12px] font-bold border transition-all duration-200 min-w-[76px] flex flex-col items-center justify-center ${
                                   isBooked 
-                                    ? 'bg-red-50/50 border-red-100 cursor-not-allowed'
+                                    ? 'bg-red-50/50 border-red-100 opacity-60 cursor-not-allowed'
                                     : isSelected
-                                      ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20 py-2'
-                                      : 'bg-white text-slate-600 border-slate-200 hover:border-blue-400 hover:bg-blue-50 py-2'
+                                      ? 'bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 text-white border-purple-600 shadow-md shadow-purple-500/20'
+                                      : 'bg-white text-slate-700 border-purple-200/80 hover:border-purple-400 hover:bg-purple-50'
                                 }`}
                               >
                                 {isBooked ? (
                                   <>
-                                    <span className={`text-slate-400 line-through text-[11px] font-medium leading-none ${blockedLabel ? 'mb-1' : ''}`}>{time}</span>
+                                    <span className="text-slate-400 line-through text-[11px] font-medium leading-none mb-1">{time}</span>
                                     {blockedLabel && <span className="text-red-500 text-[8px] font-black uppercase tracking-wider leading-none">{blockedLabel}</span>}
                                   </>
                                 ) : (
@@ -1103,7 +1116,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                       <button 
                         type="button" 
                         onClick={() => scrollTimes('right')} 
-                        className="flex-shrink-0 p-1.5 bg-white shadow-sm border border-slate-200 rounded-full text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all hidden sm:flex"
+                        className="flex-shrink-0 p-1.5 bg-white border border-purple-200 rounded-full text-slate-600 hover:text-purple-700 hover:bg-purple-50 transition-all hidden sm:flex shadow-sm"
                       >
                         <ChevronRight size={18} />
                       </button>
@@ -1113,23 +1126,23 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                 </div>
 
                 {errors.submit && (
-                  <div className="p-3 bg-red-50 border border-red-200 rounded-xl">
+                  <div className="p-3.5 bg-red-50 border border-red-200 rounded-xl">
                     <span className="text-red-600 text-sm font-semibold block text-center">{errors.submit}</span>
                   </div>
                 )}
 
-                {/* Submit Button */}
-                <div className="pt-1">
+                {/* Submit Button (Electric Blue) */}
+                <div className="pt-2">
                   <m.button 
                     whileHover={{ scale: 1.01, translateY: -1 }}
                     whileTap={{ scale: 0.99 }}
                     disabled={submitting}
                     type="submit"
-                    className="group relative w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white py-4 rounded-xl font-black text-[12px] uppercase tracking-[0.15em] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
+                    className="group relative w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-600 text-white py-4 rounded-xl font-black text-[13px] uppercase tracking-[0.15em] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-blue-600/30 hover:shadow-2xl hover:shadow-blue-600/40 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                     <span className="relative z-10">{submitting ? 'Scheduling Call...' : 'Schedule a Call'}</span>
-                    <Send size={14} className="relative z-10 stroke-[2.5] group-hover:translate-x-1 transition-transform duration-300" />
+                    <Send size={15} className="relative z-10 stroke-[2.5] group-hover:translate-x-1 transition-transform duration-300" />
                   </m.button>
                 </div>
 
@@ -1137,9 +1150,8 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
             </m.div>
           </div>
         </div>
-
-        </div>{/* end container */}
-      </div>{/* end light section */}
+        </div>
+      </div>
 
       {/* Floating WhatsApp Button */}
       <a

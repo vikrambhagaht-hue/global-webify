@@ -144,5 +144,6 @@ export const NAV_LINKS = [
   { name: 'HOSTING', id: 'hosting', hasDropdown: true },
   { name: 'COMPANY', id: 'company', hasDropdown: true },
   { name: 'CONTACT', id: 'contact', hasDropdown: false },
-  { name: 'FRANCHISE OPPORTUNITY', id: 'partnership', hasDropdown: false }
+  { name: 'FRANCHISE OPPORTUNITY', id: 'partnership', hasDropdown: false },
+  { name: 'OUR FRANCHISE', id: 'our_franchise', hasDropdown: false }
 ];

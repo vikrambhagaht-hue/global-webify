@@ -207,33 +207,75 @@ export default function Header({ initialSettings }: HeaderProps) {
               className="flex items-center px-0.5 xl:px-2 py-3 h-full cursor-pointer shrink"
               onMouseEnter={() => handleNavItemEnter(link)}
             >
-              <Link
-                href={
-                  link.hasDropdown 
-                    ? "#" 
-                    : link.id === 'partnership' 
-                      ? `/${partnershipSlug}` 
-                      : `/${link.id}`
-                }
-                title={`${link.name} - Global Webify`}
-                onClick={(e) => {
-                  if (link.hasDropdown) {
-                    e.preventDefault();
-                  } else {
-                    closeMenu();
-                  }
-                }}
-                className={cn(
-                  "px-1.5 lg:px-2 xl:px-4 py-2 text-[10.5px] xl:text-[12.8px] font-semibold flex items-center gap-1 xl:gap-1.5 rounded-full font-sans transition-all duration-75 whitespace-nowrap",
-                  link.id === 'partnership'
-                    ? "text-white border-2 border-[#1a8b4c]/50 font-bold shadow-sm animate-premium-dark-glow hover:animate-none hover:bg-[#1a8b4c] hover:border-transparent"
-                    : activeMenu === link.id
+              {link.id === 'our_franchise' ? (
+                <Link 
+                  href="/our-franchisee"
+                  title="Our Franchisees"
+                  onClick={closeMenu}
+                  className="relative group flex items-center justify-center overflow-hidden rounded-full font-sans transition-all duration-300 ml-1 shadow-md shadow-blue-500/20"
+                >
+                  {/* Base Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-700 via-purple-600 to-violet-700 transition-transform duration-500 group-hover:scale-110"></div>
+                  
+                  {/* Radar/Ripple Circles on Hover */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <div className="absolute w-12 h-12 rounded-full border border-white/30 scale-0 group-hover:animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                    <div className="absolute w-24 h-24 rounded-full border border-white/20 scale-0 group-hover:animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '0.6s' }}></div>
+                  </div>
+
+                  <span className="relative z-10 px-3 lg:px-4 py-2 text-[10.5px] xl:text-[11.5px] font-black text-white whitespace-nowrap tracking-wider uppercase group-hover:scale-105 transition-transform duration-300">
+                    {link.name}
+                  </span>
+                </Link>
+              ) : link.id === 'partnership' ? (
+                <Link
+                  href={`/${partnershipSlug}`}
+                  title={`${link.name} - Global Webify`}
+                  onClick={closeMenu}
+                  className="relative group flex items-center justify-center overflow-hidden rounded-full font-sans transition-all duration-300 ml-2 shadow-lg shadow-indigo-600/30"
+                >
+                  {/* Base Color (Darkest outer layer) */}
+                  <div className="absolute inset-0 bg-[#312581]"></div>
+                  
+                  {/* Concentric Circles Pattern (Matching the image) */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-transform duration-700 group-hover:scale-110">
+                    <div className="absolute w-44 h-44 rounded-full bg-[#3a2ea1]"></div>
+                    <div className="absolute w-32 h-32 rounded-full bg-[#4638c4]"></div>
+                    <div className="absolute w-20 h-20 rounded-full bg-[#5244e6]"></div>
+                    <div className="absolute w-10 h-10 rounded-full bg-[#6255ff]"></div>
+                  </div>
+                  
+                  {/* Radar/Ripple Circles on Hover (Kept for dynamic effect) */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <div className="absolute w-12 h-12 rounded-full border-2 border-white/40 scale-0 group-hover:animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                    <div className="absolute w-24 h-24 rounded-full border-2 border-white/20 scale-0 group-hover:animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '0.6s' }}></div>
+                  </div>
+
+                  <span className="relative z-10 px-3 lg:px-4 py-2 text-[10.5px] xl:text-[11.5px] font-black text-white whitespace-nowrap tracking-wider uppercase group-hover:scale-105 transition-transform duration-300 drop-shadow-md">
+                    {link.name}
+                  </span>
+                </Link>
+              ) : (
+                <Link
+                  href={link.hasDropdown ? "#" : `/${link.id}`}
+                  title={`${link.name} - Global Webify`}
+                  onClick={(e) => {
+                    if (link.hasDropdown) {
+                      e.preventDefault();
+                    } else {
+                      closeMenu();
+                    }
+                  }}
+                  className={cn(
+                    "px-1.5 lg:px-2 xl:px-4 py-2 text-[10.5px] xl:text-[12.8px] font-semibold flex items-center gap-1 xl:gap-1.5 rounded-full font-sans transition-all duration-75 whitespace-nowrap",
+                    activeMenu === link.id
                       ? "text-white bg-[#1a8b4c]"
                       : "text-[#0a0a0a] hover:text-white hover:bg-[#1a8b4c]"
-                )}
-              >
-                {link.name}
-              </Link>
+                  )}
+                >
+                  {link.name}
+                </Link>
+              )}
 
               {link.hasDropdown && (
                 <MegaMenu
@@ -285,21 +327,61 @@ export default function Header({ initialSettings }: HeaderProps) {
                           </svg>
                         </div>
                       </button>
+                    ) : link.id === 'our_franchise' ? (
+                      <Link 
+                        href="/our-franchisee"
+                        onClick={closeMenu}
+                        className="w-full text-center my-3 py-3 px-4 flex justify-center items-center group transition-all rounded-2xl relative overflow-hidden shadow-lg shadow-purple-500/20"
+                      >
+                        {/* Base Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-700 via-purple-600 to-violet-700 transition-transform duration-500 group-active:scale-110"></div>
+                        
+                        {/* Radar/Ripple Circles on Hover/Active */}
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <div className="absolute w-16 h-16 rounded-full border border-white/30 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                          <div className="absolute w-32 h-32 rounded-full border border-white/20 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '0.6s' }}></div>
+                        </div>
+
+                        <span className="relative z-10 text-[14px] font-black tracking-widest text-white uppercase group-active:scale-105 transition-transform duration-300">
+                          {link.name}
+                        </span>
+                      </Link>
+                    ) : link.id === 'partnership' ? (
+                      <Link 
+                        href={`/${partnershipSlug}`}
+                        onClick={closeMenu}
+                        className="w-full text-center my-3 py-3 px-4 flex justify-center items-center group transition-all rounded-2xl relative overflow-hidden shadow-lg shadow-indigo-600/30"
+                      >
+                        {/* Base Color (Darkest outer layer) */}
+                        <div className="absolute inset-0 bg-[#312581]"></div>
+                        
+                        {/* Concentric Circles Pattern (Matching the image) */}
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-transform duration-700 group-active:scale-110">
+                          <div className="absolute w-56 h-56 rounded-full bg-[#3a2ea1]"></div>
+                          <div className="absolute w-40 h-40 rounded-full bg-[#4638c4]"></div>
+                          <div className="absolute w-24 h-24 rounded-full bg-[#5244e6]"></div>
+                          <div className="absolute w-12 h-12 rounded-full bg-[#6255ff]"></div>
+                        </div>
+                        
+                        {/* Radar/Ripple Circles on Hover/Active */}
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <div className="absolute w-16 h-16 rounded-full border-2 border-white/40 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                          <div className="absolute w-32 h-32 rounded-full border-2 border-white/20 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '0.6s' }}></div>
+                        </div>
+
+                        <span className="relative z-10 text-[14px] font-black tracking-widest text-white uppercase group-active:scale-105 transition-transform duration-300 drop-shadow-md">
+                          {link.name}
+                        </span>
+                      </Link>
                     ) : (
                       <Link 
-                        href={getPrefixedHref('/' + (link.id === 'partnership' ? partnershipSlug : link.id), link.id, currentCity)}
+                        href={getPrefixedHref('/' + link.id, link.id, currentCity)}
                         onClick={closeMenu}
-                        className={cn(
-                          "w-full text-left py-3 flex justify-between items-center group transition-all",
-                          link.id === 'partnership' ? "my-2 px-4 py-2.5 rounded-2xl border border-[#1a8b4c]/40 animate-premium-dark-glow" : ""
-                        )}
+                        className="w-full text-left py-3 flex justify-between items-center group transition-all"
                       >
                         <div className="flex items-center gap-3">
-                          <div className={cn("w-1.5 h-1.5 rounded-full", link.id === 'partnership' ? "bg-white" : "bg-[#1a8b4c]")} />
-                          <span className={cn(
-                            "text-[14px] font-semibold tracking-normal hover:text-[#1a8b4c] transition-colors",
-                            link.id === 'partnership' ? "text-white font-black hover:text-white" : "text-[#1a1a1a]"
-                          )}>
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#1a8b4c]" />
+                          <span className="text-[14px] font-semibold tracking-normal hover:text-[#1a8b4c] transition-colors text-[#1a1a1a]">
                             {link.name}
                           </span>
                         </div>

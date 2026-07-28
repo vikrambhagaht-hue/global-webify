@@ -721,6 +721,7 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
       {editor && (
         <BubbleMenu
           editor={editor}
+          // @ts-ignore
           tippyOptions={{
             appendTo: () => document.body,
             zIndex: 999999,
