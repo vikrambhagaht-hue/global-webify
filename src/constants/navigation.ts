@@ -121,7 +121,6 @@ export const CRM_SERVICES = [
 ];
 
 export const COMPANY_LINKS = [
-  { name: "About Us", href: "/about" },
   { name: "Our Team", href: "/team" },
   { name: "Careers", href: "/career" },
   { name: "Gallery", href: "/gallery" },
@@ -136,6 +135,7 @@ export const MARKET_AREA_LINKS = CITIES_LIST.map(city => ({
 }));
 
 export const NAV_LINKS = [
+  { name: 'ABOUT US', id: 'about', hasDropdown: false },
   { name: 'WEBSITE', id: 'website', hasDropdown: true },
   { name: 'CRM SOLUTIONS', id: 'crm', hasDropdown: true },
   { name: 'SEO SERVICES', id: 'seo', hasDropdown: true },

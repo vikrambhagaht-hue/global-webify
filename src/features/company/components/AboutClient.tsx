@@ -24,35 +24,40 @@ const Counter: React.FC<CounterProps> = ({ value, suffix = "", duration = 1500 }
     if (value > 1000) {
       start = value - 150;
     }
-    
     const end = value;
+    
     if (start === end) {
       setCount(end);
       return;
     }
 
-    const totalFrames = Math.min(Math.ceil(duration / 16), 120);
-    const increment = (end - start) / totalFrames;
-    let currentFrame = 0;
+    let startTimestamp: number | null = null;
+    let animationFrameId: number;
 
-    const timer = setInterval(() => {
-      currentFrame++;
-      const nextVal = Math.floor(start + increment * currentFrame);
-      if (currentFrame >= totalFrames) {
-        setCount(end);
-        clearInterval(timer);
+    const step = (timestamp: number) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      // easeOutQuart for smooth deceleration
+      const easeProgress = 1 - Math.pow(1 - progress, 4);
+      
+      const nextVal = Math.floor(start + (end - start) * easeProgress);
+      setCount(nextVal);
+
+      if (progress < 1) {
+        animationFrameId = requestAnimationFrame(step);
       } else {
-        setCount(nextVal);
+        setCount(end);
       }
-    }, 16);
+    };
 
-    return () => clearInterval(timer);
+    animationFrameId = requestAnimationFrame(step);
+
+    return () => cancelAnimationFrame(animationFrameId);
   }, [isInView, value, duration]);
 
   return (
-    <span ref={ref}>
-      {count}
-      {suffix}
+    <span ref={ref} className="tabular-nums">
+      {count}{suffix}
     </span>
   );
 };
@@ -75,32 +80,89 @@ export default function AboutClient() {
   };
 
   return (
-    <div className="bg-white">
-      {/* Top Header Section */}
-      <section className="pt-0 pb-6 bg-white border-b border-gray-100">
-        <div className="container-custom text-center">
-          <m.h1 
+    <div className="bg-[#f0f9f4]">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#064e3b] via-[#065f46] to-[#047857] py-16 md:py-24">
+        {/* Decorative Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/[0.03] rounded-full" />
+          <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-emerald-400/[0.06] rounded-full" />
+        </div>
+
+        <div className="container-custom relative z-10 text-center">
+          {/* Breadcrumb */}
+          <m.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl md:text-5xl font-black font-lexend text-primary-dark mb-4 uppercase tracking-tight"
+            transition={{ duration: 0.4 }}
+            className="flex items-center justify-center gap-2 mb-8"
           >
-            About Global Webify
+            <Link href="/" className="flex items-center gap-1.5 text-emerald-200 hover:text-white transition-colors text-sm font-medium">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+              Home
+            </Link>
+            <span className="text-emerald-300/60">/</span>
+            <span className="text-white font-semibold text-sm">About Us</span>
+          </m.div>
+
+          {/* Title */}
+          <m.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-4xl md:text-6xl font-black font-lexend text-white mb-6 uppercase tracking-tight leading-[1.1]"
+          >
+            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 to-green-300">Global Webify</span>
           </m.h1>
-          <div className="w-16 h-1 bg-primary mx-auto mb-6 rounded-full"></div>
+
+          {/* Divider */}
+          <m.div 
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="w-24 h-1.5 bg-gradient-to-r from-emerald-300 to-green-400 mx-auto mb-8 rounded-full origin-center"
+          />
+
+          {/* Subtitle */}
           <m.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-base md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            transition={{ delay: 0.5 }}
+            className="text-lg md:text-xl text-emerald-100/90 max-w-3xl mx-auto leading-relaxed font-medium"
           >
             We help businesses grow online with custom web development, SEO, and digital marketing solutions.
           </m.p>
+
+          {/* Stats Row */}
+          <m.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.6 }}
+            className="flex flex-wrap items-center justify-center gap-6 md:gap-10 mt-12"
+          >
+            {[
+              { label: 'Projects Delivered', value: '500+' },
+              { label: 'Happy Clients', value: '500+' },
+              { label: 'Years Experience', value: '10+' },
+            ].map((stat, i) => (
+              <div key={i} className="text-center bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl px-8 py-4">
+                <div className="text-3xl md:text-4xl font-black text-white">{stat.value}</div>
+                <div className="text-xs md:text-sm text-emerald-200/80 font-semibold mt-1.5 uppercase tracking-wider">{stat.label}</div>
+              </div>
+            ))}
+          </m.div>
+        </div>
+
+        {/* Bottom Wave */}
+        <div className="absolute bottom-0 left-0 right-0 z-10">
+          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
+            <path d="M0,50 C360,80 720,20 1440,50 L1440,80 L0,80 Z" fill="#f0f9f4"/>
+          </svg>
         </div>
       </section>
 
       {/* Main Content Section */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-white via-slate-50/50 to-[#f4fbf7]/40">
+      <section className="py-12 md:py-16 bg-[#f0f9f4]">
         <div className="container-custom">
           {/* Centered Main Section Heading */}
           <m.div 
@@ -256,13 +318,14 @@ export default function AboutClient() {
             </m.div>
 
             {/* Right Column: Premium Visual & About1 Image (Reduced size, centered on mobile, right-aligned on desktop) */}
-            <m.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="lg:col-span-5 lg:sticky lg:top-24 space-y-6 w-full max-w-[420px] mx-auto lg:ml-auto lg:mr-0"
-            >
+            <div className="lg:col-span-5 lg:sticky lg:top-24 w-full max-w-[420px] mx-auto lg:ml-auto lg:mr-0 h-max z-10">
+              <m.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="space-y-6 w-full"
+              >
               {/* Premium Image Container with Framer Motion Hover Lift Effect */}
               <m.div 
                 whileHover={{ y: -8, scale: 1.015 }}
@@ -286,7 +349,7 @@ export default function AboutClient() {
               <m.div 
                 whileHover={{ y: -6 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                className="relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl border border-gray-100 bg-white"
+                className="relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl border border-gray-100 bg-white aspect-video"
               >
                 <video 
                   src="/Aboutus/demo-about-video.mp4" 
@@ -296,7 +359,7 @@ export default function AboutClient() {
                   playsInline
                   preload="metadata"
                   controls
-                  className="w-full h-auto object-cover rounded-3xl"
+                  className="w-full h-full object-cover rounded-3xl absolute inset-0"
                 />
               </m.div>
 
@@ -315,13 +378,14 @@ export default function AboutClient() {
                   <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Client Focused</p>
                 </div>
               </div>
-            </m.div>
+              </m.div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Mission & Vision Section */}
-      <section id="vision" className="py-12 md:py-16 border-t border-gray-100 bg-[#f4fbf7]/10">
+      <section id="vision" className="py-12 md:py-16 bg-[#e8f5ee]">
         <div className="container-custom space-y-10 md:space-y-12">
           {/* Row 1: Our Mission */}
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-stretch">
@@ -330,34 +394,34 @@ export default function AboutClient() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white p-8 sm:p-10 rounded-3xl shadow-xl border border-gray-100 relative flex flex-col justify-between"
+              className="bg-gradient-to-br from-[#ff7e40] via-[#ff5b7f] to-[#b066fe] text-white p-8 sm:p-10 rounded-3xl shadow-2xl border border-white/20 relative flex flex-col justify-between"
             >
-              {/* Floating Green Target Badge */}
-              <div className="absolute -top-5 left-6 lg:-left-5 bg-emerald-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+              {/* Floating Target Badge */}
+              <div className="absolute -top-5 left-6 lg:-left-5 bg-white text-[#ff5b7f] w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-pink-500/20 z-20">
                 <Target size={24} />
               </div>
 
-              <div className="space-y-6">
-                <h3 className="text-2xl sm:text-3xl font-extrabold font-lexend text-primary-dark mt-2">
+              <div className="space-y-6 pt-2">
+                <h3 className="text-2xl sm:text-3xl font-extrabold font-lexend text-white mt-2">
                   Our Mission
                 </h3>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                <p className="text-white/95 text-sm sm:text-base leading-relaxed">
                   Our mission is to empower businesses with innovative digital solutions that drive growth and success. We aim to deliver high-quality web designing, CRM solutions, web development, SEO, and marketing services that enhance brand visibility, improve performance, and create lasting value for clients through creativity, technology, and result-driven strategies.
                 </p>
                 
                 {/* Stats Container */}
                 <div className="grid grid-cols-2 gap-4 pt-2">
-                  <div className="bg-emerald-50 border border-emerald-100 p-5 rounded-2xl text-center">
-                    <p className="text-2xl sm:text-3xl font-black text-emerald-700 font-lexend mb-1">
+                  <div className="bg-white/10 border border-white/20 p-5 rounded-2xl text-center backdrop-blur-sm">
+                    <p className="text-2xl sm:text-3xl font-black text-white font-lexend mb-1">
                       <Counter value={500} suffix="+" />
                     </p>
-                    <p className="text-[10px] sm:text-xs font-bold text-emerald-600 uppercase tracking-wider">Projects Delivered</p>
+                    <p className="text-[10px] sm:text-xs font-bold text-white/90 uppercase tracking-wider">Projects Delivered</p>
                   </div>
-                  <div className="bg-blue-50 border border-blue-100 p-5 rounded-2xl text-center">
-                    <p className="text-2xl sm:text-3xl font-black text-blue-700 font-lexend mb-1">
+                  <div className="bg-white/10 border border-white/20 p-5 rounded-2xl text-center backdrop-blur-sm">
+                    <p className="text-2xl sm:text-3xl font-black text-white font-lexend mb-1">
                       <Counter value={98} suffix="%" />
                     </p>
-                    <p className="text-[10px] sm:text-xs font-bold text-blue-600 uppercase tracking-wider">Client Satisfaction</p>
+                    <p className="text-[10px] sm:text-xs font-bold text-white/90 uppercase tracking-wider">Client Satisfaction</p>
                   </div>
                 </div>
               </div>
@@ -425,34 +489,34 @@ export default function AboutClient() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white p-8 sm:p-10 rounded-3xl shadow-xl border border-gray-100 relative flex flex-col justify-between"
+              className="bg-gradient-to-br from-[#7dd3fc] via-[#bae6fd] to-[#f0f9ff] text-slate-800 p-8 sm:p-10 rounded-3xl shadow-2xl border border-[#bae6fd] relative flex flex-col justify-between"
             >
               {/* Floating Blue Eye Badge */}
-              <div className="absolute -top-5 left-6 lg:-left-5 bg-blue-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+              <div className="absolute -top-5 left-6 lg:-left-5 bg-gradient-to-r from-sky-500 to-blue-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-sky-500/20 z-20">
                 <Eye size={24} />
               </div>
 
-              <div className="space-y-6">
-                <h3 className="text-2xl sm:text-3xl font-extrabold font-lexend text-primary-dark mt-2">
+              <div className="space-y-6 pt-2">
+                <h3 className="text-2xl sm:text-3xl font-extrabold font-lexend text-[#0369a1] mt-2">
                   Our Vision
                 </h3>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
                   Global Webify, founded by Mr. Vikram Bhagat (Co-Founder and CEO) and Mr. Shakti Singh (Co-Founder & CTO), envisions empowering startups, SMEs, corporations, and non-profits to build a strong digital identity. We help businesses move beyond third-party platforms and grow through their own websites, enhancing visibility, generating quality leads, and achieving long-term digital success.
                 </p>
                 
                 {/* Stats Container */}
                 <div className="grid grid-cols-2 gap-4 pt-2">
-                  <div className="bg-blue-50 border border-blue-100 p-5 rounded-2xl text-center">
-                    <p className="text-2xl sm:text-3xl font-black text-blue-700 font-lexend mb-1">
+                  <div className="bg-white/60 border border-[#bae6fd] p-5 rounded-2xl text-center backdrop-blur-sm">
+                    <p className="text-2xl sm:text-3xl font-black text-[#0369a1] font-lexend mb-1">
                       <Counter value={10} suffix="+" />
                     </p>
-                    <p className="text-[10px] sm:text-xs font-bold text-blue-600 uppercase tracking-wider">Years Experience</p>
+                    <p className="text-[10px] sm:text-xs font-bold text-[#0284c7] uppercase tracking-wider">Years Experience</p>
                   </div>
-                  <div className="bg-emerald-50 border border-emerald-100 p-5 rounded-2xl text-center">
-                    <p className="text-2xl sm:text-3xl font-black text-emerald-700 font-lexend mb-1">
+                  <div className="bg-white/60 border border-[#bae6fd] p-5 rounded-2xl text-center backdrop-blur-sm">
+                    <p className="text-2xl sm:text-3xl font-black text-[#0369a1] font-lexend mb-1">
                       <Counter value={500} suffix="+" />
                     </p>
-                    <p className="text-[10px] sm:text-xs font-bold text-emerald-600 uppercase tracking-wider">Happy Clients</p>
+                    <p className="text-[10px] sm:text-xs font-bold text-[#0284c7] uppercase tracking-wider">Happy Clients</p>
                   </div>
                 </div>
               </div>
@@ -462,7 +526,7 @@ export default function AboutClient() {
       </section>
 
       {/* Leadership Section */}
-      <section className="py-12 md:py-16 bg-white border-t border-gray-100">
+      <section className="py-12 md:py-16 bg-[#f0f9f4]">
         <div className="container-custom space-y-10 md:space-y-12">
           {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto mb-16">
@@ -676,7 +740,7 @@ export default function AboutClient() {
         </div>
       </section>
       {/* Certifications Section */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-[#f4fbf7]/10 to-white border-t border-gray-100">
+      <section className="py-12 md:py-16 bg-[#e8f5ee]">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             
@@ -762,27 +826,37 @@ export default function AboutClient() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 w-full max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 md:gap-6 w-full max-w-6xl mx-auto">
             {[
-              { src: "/Razorpay.avif", alt: "Razorpay" },
-              { src: "/PhonePe.avif", alt: "PhonePe" },
-              { src: "/PayPal.avif", alt: "PayPal" },
-              { src: "/BankOfBaroda.avif", alt: "Bank of Baroda" },
-              { src: "/IndianOverseasBank.avif", alt: "Indian Overseas Bank" },
+              { src: "/Razorpay.avif", alt: "Razorpay", label: "Razorpay" },
+              { src: "/PhonePe.avif", alt: "PhonePe", label: "PhonePe" },
+              { src: "/PayPal.avif", alt: "PayPal", label: "PayPal" },
+              { src: "/BankOfBaroda.avif", alt: "Bank of Baroda", label: "Bank of Baroda" },
+              { src: "/IndianOverseasBank.avif", alt: "Indian Overseas Bank", label: "IOB" },
             ].map((partner, index) => (
               <m.div
                 key={index}
-                whileHover={{ scale: 1.05, y: -4 }}
-                transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                className="relative h-28 sm:h-32 w-48 sm:w-56 lg:w-64 flex items-center justify-center bg-white shadow-md hover:shadow-lg rounded-2xl p-3 border border-gray-100 hover:border-gray-200 transition-all duration-300 shrink-0"
+                whileHover={{ y: -5, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="group relative bg-[#f0f9f4] hover:bg-[#e4f4ea] rounded-2xl p-4 border border-emerald-200/80 shadow-sm hover:shadow-md hover:border-[#1a8b4c]/40 transition-all duration-300 flex flex-col items-center justify-between text-center overflow-hidden"
               >
-                <Image
-                  src={partner.src}
-                  alt={partner.alt}
-                  width={220}
-                  height={90}
-                  className="object-contain max-h-full max-w-full"
-                />
+                {/* Logo Frame Container with Soft Color & Border */}
+                <div className="w-full bg-[#fafdfb] rounded-xl p-3 border border-emerald-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] group-hover:bg-white group-hover:border-[#1a8b4c]/30 transition-all duration-300 flex items-center justify-center h-20 md:h-24">
+                  <Image
+                    src={partner.src}
+                    alt={partner.alt}
+                    width={180}
+                    height={70}
+                    className="object-contain max-h-full max-w-full transform group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+
+                {/* Label */}
+                <div className="mt-3 w-full">
+                  <span className="text-[11px] md:text-xs font-bold text-gray-700 group-hover:text-[#1a8b4c] transition-colors duration-300 uppercase tracking-wider block truncate">
+                    {partner.label}
+                  </span>
+                </div>
               </m.div>
             ))}
           </div>

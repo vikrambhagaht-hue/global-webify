@@ -21,6 +21,7 @@ body {
   }
 }
 
+
 /* Custom Styles for GlobalWebify Exact Replication */
 .container-custom {
   @apply max-w-[1400px] mx-auto px-6 lg:px-12;
