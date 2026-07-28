@@ -719,8 +719,15 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
 
       {/* ===== BUBBLE MENU ===== */}
       {editor && (
-        <BubbleMenu editor={editor}>
-          <div className="tiptap-bubble shadow-2xl border border-gray-700/50 backdrop-blur-md bg-[#1e1e2e]/90">
+        <BubbleMenu
+          editor={editor}
+          tippyOptions={{
+            appendTo: () => document.body,
+            zIndex: 999999,
+            duration: 150,
+          }}
+        >
+          <div className="tiptap-bubble shadow-2xl border border-gray-700/50 backdrop-blur-md bg-[#1e1e2e]/95">
             <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'active' : ''}>B</button>
             <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'active' : ''}>I</button>
             <button type="button" onClick={() => editor.chain().focus().toggleUnderline().run()} className={editor.isActive('underline') ? 'active' : ''}>U</button>
@@ -744,10 +751,10 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
         .tiptap-wrapper {
           border: 1px solid #e2e8f0;
           border-radius: 12px;
-          overflow: hidden;
           background: #ffffff;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
           transition: all 0.2s ease;
+          position: relative;
         }
         .tiptap-wrapper:focus-within {
           border-color: #1a8b4c;
@@ -761,12 +768,14 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
           align-items: center;
           gap: 4px;
           padding: 8px 16px;
-          background: rgba(255, 255, 255, 0.85);
+          background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(12px);
           border-bottom: 1px solid #e2e8f0;
           position: sticky;
-          top: 0;
-          z-index: 10;
+          top: 64px;
+          z-index: 20;
+          border-top-left-radius: 11px;
+          border-top-right-radius: 11px;
         }
         .tiptap-tb-group {
           display: flex;
@@ -876,6 +885,10 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
         }
 
         /* BUBBLE MENU */
+        div[data-tippy-root] {
+          z-index: 99999 !important;
+        }
+        
         .tiptap-bubble {
           display: flex;
           gap: 2px;
@@ -883,6 +896,7 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
           border-radius: 8px;
           padding: 4px;
           box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+          z-index: 99999;
         }
         .tiptap-bubble button {
           width: 28px;
@@ -921,6 +935,8 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
           line-height: 1.625;
           color: #4b5563;
           outline: none;
+          border-bottom-left-radius: 11px;
+          border-bottom-right-radius: 11px;
         }
         .tiptap-editor-canvas:focus,
         .tiptap:focus {

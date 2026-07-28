@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Save, HelpCircle, CheckCircle2, XCircle, Settings, Globe, Type, Layout } from 'lucide-react';
 import { getPartnershipSettings, savePartnershipSettings } from '../homepage/actions';
+import ContentEditor from '@/features/admin/components/shared/ContentEditor';
 
 export default function AdminPartnershipPage() {
   const [loading, setLoading] = useState(true);
@@ -222,23 +223,19 @@ export default function AdminPartnershipPage() {
               <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block font-poppins">Description Paragraphs</label>
               <div className="flex items-center gap-3 text-[11px] font-bold">
                 <span className="text-gray-500">
-                  Words: <strong className="text-gray-800">{settings.partnershipExpandParagraph ? settings.partnershipExpandParagraph.trim().split(/\s+/).filter(Boolean).length : 0}</strong>
+                  Words: <strong className="text-gray-800">{settings.partnershipExpandParagraph ? settings.partnershipExpandParagraph.replace(/<[^>]*>?/gm, '').trim().split(/\s+/).filter(Boolean).length : 0}</strong>
                 </span>
                 <span className={`px-2 py-0.5 rounded ${
-                  (settings.partnershipExpandParagraph?.length || 0) > 1500 ? 'bg-red-100 text-red-700' : 'bg-[#1a8b4c]/10 text-[#1a8b4c]'
+                  (settings.partnershipExpandParagraph?.length || 0) > 5000 ? 'bg-red-100 text-red-700' : 'bg-[#1a8b4c]/10 text-[#1a8b4c]'
                 }`}>
-                  Chars: <strong>{settings.partnershipExpandParagraph?.length || 0}</strong> / 1621 limit
+                  Chars (inc. HTML): <strong>{settings.partnershipExpandParagraph?.length || 0}</strong>
                 </span>
               </div>
             </div>
-            <textarea
-              required
-              rows={8}
-              maxLength={1621}
-              value={settings.partnershipExpandParagraph}
-              onChange={(e) => setSettings({...settings, partnershipExpandParagraph: e.target.value})}
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:border-[#1a8b4c]"
-              placeholder="Write multiple paragraphs separated by new lines..."
+            <ContentEditor
+              content={settings.partnershipExpandParagraph}
+              setContent={(val) => setSettings({...settings, partnershipExpandParagraph: val})}
+              placeholder="Write multiple paragraphs, add bullet points, format text..."
             />
           </div>
         </div>

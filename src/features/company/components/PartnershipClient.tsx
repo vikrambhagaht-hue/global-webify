@@ -621,11 +621,15 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="space-y-3.5 text-slate-700 text-[14px] md:text-[15.5px] font-medium leading-relaxed text-justify"
+                  className="space-y-3.5 text-slate-700 text-[14px] md:text-[15.5px] font-medium leading-relaxed text-justify [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:my-3 [&_ul]:space-y-1.5 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:my-3 [&_ol]:space-y-1.5 [&_li]:text-slate-700 [&_strong]:font-bold [&_strong]:text-slate-900 [&_p]:mb-3"
                 >
-                  {featuresDescText.split('\n').map((para, idx) => (
-                    para.trim() && <p key={idx}>{para}</p>
-                  ))}
+                  {/<[a-z][\s\S]*>/i.test(featuresDescText) ? (
+                    <div dangerouslySetInnerHTML={{ __html: featuresDescText }} />
+                  ) : (
+                    featuresDescText.split('\n').map((para, idx) => (
+                      para.trim() && <p key={idx}>{para}</p>
+                    ))
+                  )}
                 </m.div>
 
                 {/* Action Buttons below description */}
