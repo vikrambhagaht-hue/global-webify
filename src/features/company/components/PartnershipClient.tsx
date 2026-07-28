@@ -197,7 +197,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
   const pageImage = settings?.partnershipPageImage || "/partnership/Partner1.jpg";
   const franchiseTitle = settings?.partnershipHeading || "Web Design Franchise of Global Webify in your City";
   const featuresSubtitle = settings?.partnershipExpandHeading || "Detailed Partnership Program Overview & Dynamic Synergies";
-  const defaultFranchiseDesc = "Are you a digital marketing agency, freelancer, entrepreneur, or business professional looking to expand your services? Start your own website designing and digital solutions business with Global Webify without the need to hire a technical team or manage complex development processes.\n\nAs a Global Webify franchise partner, you get complete access to our expert development support, advanced tools, and technical assistance. We deliver modern, conversion-focused websites and powerful CRM solutions while handling full project execution behind the scenes—allowing you to focus entirely on client acquisition, brand growth, and unlimited earning potential.";
+  const defaultFranchiseDesc = "Are you a digital marketing agency, freelancer, entrepreneur, or business professional looking to expand your services? Start your own website designing and digital solutions business with Global Webify without the need to hire a technical team or manage complex development processes. Grow your business with the support of an experienced technology partner and achieve your goals with confidence.\n\nGlobal Webify is a trusted web development and SEO company in India, helping businesses build a strong online presence through innovative and result-oriented solutions. Our franchise program allows digital agencies and freelancers to offer professional website design, ecommerce website development, SEO services, and CRM solutions to their clients under a reliable technology partnership.\n\nAs a Global Webify franchise partner, you get access to expert development support, advanced tools, technical assistance, and a skilled team that handles project execution while you focus on client acquisition and business growth.\n\nOur experienced team delivers modern, responsive, and conversion-focused websites along with powerful CRM solutions that help businesses improve customer management, automate processes, and generate better results. With complete backend support and guidance, you can expand your service offerings without investing heavily in technical infrastructure.";
   let rawDesc = settings?.partnershipExpandParagraph || defaultFranchiseDesc;
   if (rawDesc.includes('3. Strategic Co-Development:')) {
     rawDesc = defaultFranchiseDesc;
@@ -615,13 +615,13 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                         const after = franchiseTitle.substring(match.index + match[0].length);
                         return (
                           <>
-                            <span className="text-slate-900">{before}</span>
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-700 font-black drop-shadow-sm">{matchedText}</span>
-                            <span className="text-purple-800 font-black">{after}</span>
+                            <span className="text-slate-800">{before}</span>
+                            <span className="text-emerald-600 font-black drop-shadow-sm">{matchedText}</span>
+                            <span className="text-slate-800 font-black">{after}</span>
                           </>
                         );
                       }
-                      return <span className="text-slate-900">{franchiseTitle}</span>;
+                      return <span className="text-emerald-700 font-black drop-shadow-sm">{franchiseTitle}</span>;
                     })()}
                   </m.h2>
                   <m.h3
@@ -637,12 +637,12 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="relative p-6 sm:p-7 rounded-2xl bg-white/90 border border-purple-200/80 shadow-md backdrop-blur-md overflow-hidden text-slate-700"
+                    className={`relative p-6 sm:p-7 rounded-2xl bg-white/90 border border-purple-200/80 shadow-md backdrop-blur-md text-slate-700 transition-all duration-500 ease-in-out custom-scrollbar-purple overflow-x-hidden lg:overflow-y-auto lg:max-h-[550px] ${!isExpanded ? 'max-h-[280px] overflow-hidden' : 'max-h-[1000px] overflow-visible'}`}
                   >
                     {/* Left glowing gradient accent bar */}
                     <div className="absolute left-0 top-3 bottom-3 w-1.5 bg-gradient-to-b from-purple-600 via-fuchsia-500 to-indigo-600 rounded-r-full shadow-sm" />
 
-                    <div className="pl-3 space-y-3.5 text-slate-700 text-[14px] md:text-[15px] font-medium leading-relaxed text-justify [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:my-3 [&_ul]:space-y-1.5 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:my-3 [&_ol]:space-y-1.5 [&_li]:text-slate-700 [&_strong]:font-bold [&_strong]:text-slate-900 [&_p]:mb-3 [&_p:last-child]:mb-0">
+                    <div className="pl-3 space-y-4 text-slate-700 text-[15px] md:text-[16.5px] font-medium leading-relaxed text-justify [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:my-3 [&_ul]:space-y-1.5 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:my-3 [&_ol]:space-y-1.5 [&_li]:text-slate-700 [&_strong]:font-bold [&_strong]:text-slate-900 [&_p]:mb-3 [&_p:last-child]:mb-0">
                       {/<[a-z][\s\S]*>/i.test(featuresDescText) ? (
                         <div dangerouslySetInnerHTML={{ __html: featuresDescText }} />
                       ) : (
@@ -651,6 +651,30 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                         ))
                       )}
                     </div>
+                    
+                    {/* Fade effect on mobile when collapsed */}
+                    {!isExpanded && (
+                      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white/95 to-transparent lg:hidden pointer-events-none rounded-b-2xl" />
+                    )}
+                  </m.div>
+
+                  {/* See More / See Less Button for Mobile/Tablet */}
+                  <m.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.25 }}
+                    className="flex justify-center mt-2 lg:hidden"
+                  >
+                    <button 
+                      onClick={() => setIsExpanded(!isExpanded)}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 rounded-full font-bold text-xs uppercase tracking-wider transition-colors shadow-sm"
+                    >
+                      {isExpanded ? (
+                        <>See Less <ChevronRight className="w-3.5 h-3.5 -rotate-90" /></>
+                      ) : (
+                        <>See More <ChevronRight className="w-3.5 h-3.5 rotate-90" /></>
+                      )}
+                    </button>
                   </m.div>
 
                   {/* Action Buttons below description */}
@@ -675,6 +699,12 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                         className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 text-white font-bold text-xs md:text-sm shadow-md hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300"
                       >
                         About Us
+                      </Link>
+                      <Link
+                        href="/our-franchisee"
+                        className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-purple-50 text-purple-700 font-bold text-xs md:text-sm shadow-sm hover:bg-purple-100 hover:-translate-y-0.5 transition-all duration-300"
+                      >
+                        Our Franchise
                       </Link>
                     </div>
                   </m.div>

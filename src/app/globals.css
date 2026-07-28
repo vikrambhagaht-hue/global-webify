@@ -78,6 +78,22 @@ body {
   border-radius: 10px;
 }
 
+/* Custom Purple Scrollbar for Containers */
+.custom-scrollbar-purple::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar-purple::-webkit-scrollbar-track {
+  background: rgba(243, 232, 255, 0.4);
+  border-radius: 10px;
+}
+.custom-scrollbar-purple::-webkit-scrollbar-thumb {
+  background: #c084fc;
+  border-radius: 10px;
+}
+.custom-scrollbar-purple::-webkit-scrollbar-thumb:hover {
+  background: #a855f7;
+}
+
 /* 🚀 Premium Floating Animations for Interactive Capability Cards */
 @keyframes float1 {
   0%, 100% { transform: translateY(0px); }
