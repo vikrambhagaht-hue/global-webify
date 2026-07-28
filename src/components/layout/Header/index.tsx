@@ -35,7 +35,7 @@ const citySlugs = Object.keys(CITIES_MAP);
 
 const getPrefixedHref = (href: string, menuId: string, currentCity: string | null) => {
   if (!currentCity) return href;
-  if (menuId === 'company' || href === '/contact' || href.startsWith('http') || href === '#') {
+  if (menuId === 'company' || menuId === 'partnership' || href === '/contact' || href.startsWith('http') || href === '#') {
     return href;
   }
   return `/${currentCity}${href.startsWith('/') ? href : `/${href}`}`;
