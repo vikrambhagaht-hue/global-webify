@@ -24,6 +24,7 @@ export interface ContactInfo {
   address2?: string;
   mapQuery?: string;
   mapScreenshotUrl?: string;
+  marqueeText?: string;
   socials: SocialLinksData;
 }
 
@@ -39,6 +40,7 @@ export const defaultContactInfo: ContactInfo = {
   address: '2nd Floor, Alam Complex, Ashok Nagar Road, Kadru, Ranchi, Jharkhand, India-834002',
   address2: '36/1E/1L, Topsia Road, Panchannagram, Kolkata, Pin - 700039, West Bengal, India.',
   mapQuery: 'https://www.google.com/maps/place/Global+Webify/@23.3495578,85.3086946,17z/data=!3m1!5s0x39f4e0528e2c8fa7:0xf0b8c1d5d5dbe41a!4m6!3m5!1s0x39f4e195a816671d:0xa9ebf12893abb828!8m2!3d23.3496601!4d85.3104862!16s%2Fg%2F11wbvkw_tm?entry=ttu&g_ep=EgoyMDI2MDYyOC4wIKXMDSoASAFQAw%3D%3D',
+  marqueeText: 'Global Webify is a trusted Website Designer in Ranchi, Jharkhand delivering creative, user-friendly websites for all industries with proven strategies and expert SEO services.',
   socials: {
     facebook: 'https://www.facebook.com/global.webify',
     twitter: 'https://x.com/globalwebify',
