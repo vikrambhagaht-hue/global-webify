@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { m, AnimatePresence } from 'framer-motion';
+
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Section } from '../layout/Responsive/Section';
 import { sanitizeHtml } from '@/lib/sanitize';

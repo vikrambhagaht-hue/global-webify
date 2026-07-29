@@ -110,7 +110,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
           <m.div 
             initial={isDesktop ? { opacity: 0, x: -20 } : { opacity: 1, x: 0 }}
             whileInView={isDesktop ? { opacity: 1, x: 0 } : undefined}
-            viewport={{ once: true, margin: "150px" }}
+            viewport={{ once: true, margin: "1200px" }}
             className="lg:col-span-6 bg-gradient-to-br from-gray-950 to-[#022c22] shadow-2xl rounded-[40px] p-8 md:p-12 flex flex-col justify-between relative overflow-hidden group min-h-[450px]"
           >
             <div className="relative z-10">
@@ -146,7 +146,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
             <m.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "150px" }}
+              viewport={{ once: true, margin: "1200px" }}
               className="bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] shadow-xl shadow-blue-900/20 rounded-[32px] p-8 flex flex-col justify-center flex-1 group hover:-translate-y-1 transition-transform"
             >
               <h4 className="text-[42px] font-black text-white mb-2">350%</h4>
@@ -169,7 +169,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
             <m.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "150px" }}
+              viewport={{ once: true, margin: "1200px" }}
               transition={{ delay: 0.1 }}
               className="bg-gradient-to-br from-[#1e1b4b] to-[#4c1d95] shadow-xl shadow-purple-900/20 rounded-[32px] p-8 flex flex-col justify-center flex-1 text-white group hover:-translate-y-1 transition-transform"
             >
@@ -194,7 +194,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
           <m.div 
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "150px" }}
+            viewport={{ once: true, margin: "1200px" }}
             className="lg:col-span-3 bg-[#f3f4f6] rounded-[40px] p-8 md:p-10 flex flex-col justify-between relative overflow-hidden group min-h-[450px]"
           >
             <div className="relative z-10 flex-1 flex flex-col">
@@ -271,7 +271,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
           <m.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "150px" }}
+            viewport={{ once: true, margin: "1200px" }}
             className="bg-[#f0fdf4] border border-[#1a8b4c]/10 shadow-lg shadow-[#1a8b4c]/5 rounded-[24px] md:rounded-[32px] p-5 md:p-6 flex flex-col md:flex-row items-center justify-between group hover:border-[#1a8b4c]/30 transition-all text-center md:text-left"
           >
             <div>
@@ -286,7 +286,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
           <m.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "150px" }}
+            viewport={{ once: true, margin: "1200px" }}
             transition={{ delay: 0.05 }}
             className="bg-[#f0fdf4] border border-[#1a8b4c]/10 shadow-lg shadow-[#1a8b4c]/5 rounded-[24px] md:rounded-[32px] p-5 md:p-6 flex flex-col md:flex-row items-center justify-between group hover:border-[#1a8b4c]/30 transition-all text-center md:text-left"
           >
@@ -302,7 +302,7 @@ export default function ResultsSection({ cardData, reviews, sectionTitle, sectio
           <m.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "150px" }}
+            viewport={{ once: true, margin: "1200px" }}
             transition={{ delay: 0.1 }}
             className="bg-[#f0fdf4] border border-[#1a8b4c]/10 shadow-lg shadow-[#1a8b4c]/5 rounded-[24px] md:rounded-[32px] p-5 md:p-6 flex flex-col md:flex-row items-center justify-between group hover:border-[#1a8b4c]/30 transition-all text-center md:text-left"
           >

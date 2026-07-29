@@ -40,7 +40,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
             <m.h2 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "1200px" }}
               className="text-[28px] md:text-[36px] font-black text-[#064e3b] leading-tight"
               dangerouslySetInnerHTML={{ __html: sectionTitle }}
             />
@@ -48,7 +48,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
             <m.h2 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "1200px" }}
               className="text-[28px] md:text-[36px] font-black text-[#064e3b] leading-tight"
             >
               Latest <span className="text-[#1a8b4c]">Insights & News</span>
@@ -59,7 +59,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
             <m.p 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "1200px" }}
               className="text-gray-500 mt-4 font-medium max-w-2xl mx-auto"
               dangerouslySetInnerHTML={{ __html: sectionDesc }}
             />
@@ -67,7 +67,7 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
             <m.p 
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "1200px" }}
               className="text-gray-500 mt-4 font-medium max-w-2xl mx-auto"
             >
               Stay up to date with the latest trends, strategies, and growth hacks in the digital world.
@@ -91,7 +91,8 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
               >
                 <m.article
                   initial={{ opacity: 0, y: 25 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "1200px" }}
                   transition={{ delay: i * 0.02, duration: 0.3 }}
                   className="bg-green-50/10 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.03)] border border-[#1a8b4c]/10 hover:border-[#1a8b4c] hover:shadow-[0_12px_40px_rgba(26,139,76,0.08)] hover:bg-green-50/20 hover:translate-y-[-4px] transition-all duration-300 group flex flex-col h-full"
                 >
@@ -151,7 +152,8 @@ export default function LatestBlog({ dbPosts = [], sectionTitle, sectionDesc }: 
         <div className="flex justify-center mt-8 md:mt-12">
           <m.div
             initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "1200px" }}
           >
             <Link
               href="/blog"

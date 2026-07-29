@@ -130,7 +130,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
               key={tech.name}
               initial={isDesktop ? { opacity: 0, scale: 0.8 } : { opacity: 1, scale: 1 }}
               whileInView={isDesktop ? { opacity: 1, scale: 1 } : undefined}
-              viewport={{ once: true, margin: "150px" }}
+              viewport={{ once: true, margin: "1200px" }}
               transition={{ delay: i * 0.015, duration: 0.3 }}
               className={`group flex flex-col items-center hover:-translate-y-1.5 transition-transform duration-200`}
               style={{ '--tech-color': tech.color } as React.CSSProperties}
@@ -158,7 +158,7 @@ export default function TechStack({ sectionTitle, sectionDesc }: { sectionTitle?
                   title={tech.name}
                   width={56}
                   height={56}
-                  loading="eager"
+                  loading="lazy"
                   className="w-9 h-9 md:w-10 md:h-10 lg:w-12 lg:h-12 object-contain filter transition-transform duration-300 group-hover:scale-110 relative z-10"
                 />
                 

@@ -32,6 +32,7 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
   const [isLinkModalOpen, setIsLinkModalOpen] = React.useState(false);
   const [linkInput, setLinkInput] = React.useState('');
   const [linkIsNofollow, setLinkIsNofollow] = React.useState(false); // Default to dofollow (unchecked)
+  const [lastUsedColor, setLastUsedColor] = React.useState('#32ba32'); // Remember the last used color
 
   const editor = useEditor({
     extensions: [
@@ -694,18 +695,34 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
         <Divider />
 
         {/* Text Color */}
-        <div className="tiptap-tb-group">
-          <div className="tiptap-color-wrapper">
+        <div className="tiptap-tb-group" style={{ gap: '2px' }}>
+          {/* Main "Apply Last Color" Button */}
+          <ToolbarButton 
+            onClick={() => editor.chain().focus().setColor(lastUsedColor).run()} 
+            title={`Apply Color (${lastUsedColor})`}
+          >
+            <div className="flex flex-col items-center justify-center -space-y-0.5 mt-0.5">
+              <span className="font-bold text-[14px] font-serif leading-none" style={{ color: editor.getAttributes('textStyle').color || 'inherit' }}>A</span>
+              <span className="w-3 h-[3px] rounded-full" style={{ backgroundColor: lastUsedColor }} />
+            </div>
+          </ToolbarButton>
+          
+          {/* Tiny Color Picker Dropdown Arrow */}
+          <div className="relative flex items-center justify-center w-3 h-6 hover:bg-gray-200 rounded-[3px] cursor-pointer" title="Pick New Color">
             <input
               type="color"
-              className="tiptap-color-input"
-              title="Text Color"
-              value={editor.getAttributes('textStyle').color || '#000000'}
-              onChange={(e) => editor.chain().focus().setColor(e.target.value).run()}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              value={lastUsedColor}
+              onChange={(e) => {
+                setLastUsedColor(e.target.value);
+                editor.chain().focus().setColor(e.target.value).run();
+              }}
             />
-            <span className="tiptap-color-label">A</span>
-            <span className="tiptap-color-bar" style={{ backgroundColor: editor.getAttributes('textStyle').color || '#000000' }} />
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
+
+          <div className="w-[1px] h-4 bg-gray-200 mx-0.5" />
+
           <ToolbarButton onClick={() => editor.chain().focus().unsetColor().run()} title="Remove Color">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M21 3L3 21M12 3v7a6 6 0 0 0 .7 2.8"/></svg>
           </ToolbarButton>
@@ -815,6 +832,10 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
           transition: all 0.2s ease;
           position: relative;
+          max-height: 600px;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
         }
         .tiptap-wrapper:focus-within {
           border-color: #1a8b4c;
@@ -832,7 +853,7 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
           backdrop-filter: blur(12px);
           border-bottom: 1px solid #e2e8f0;
           position: sticky;
-          top: 64px;
+          top: 0;
           z-index: 20;
           border-top-left-radius: 11px;
           border-top-right-radius: 11px;
@@ -1031,7 +1052,7 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
           font-family: var(--font-poppins, 'Lexend', 'Inter', sans-serif);
           font-size: 48px;
           font-weight: 800;
-          color: #111827;
+          color: #32ba32;
           margin: 32px 0 16px 0;
           line-height: 1.25;
           letter-spacing: -0.02em;
@@ -1041,7 +1062,7 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
           font-family: var(--font-poppins, 'Lexend', 'Inter', sans-serif);
           font-size: 36px;
           font-weight: 700;
-          color: #111827;
+          color: #32ba32;
           margin: 32px 0 16px 0 !important;
           line-height: 1.375;
           letter-spacing: -0.01em;
@@ -1049,20 +1070,20 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
         .tiptap-editor-canvas h3,
         .tiptap h3 {
           font-family: var(--font-poppins, 'Lexend', 'Inter', sans-serif);
-          font-size: 24px;
-          font-weight: 600;
-          color: #1f2937;
+          font-size: 28px;
+          font-weight: 700;
+          color: #32ba32;
           margin: 28px 0 12px 0 !important;
-          line-height: 1.375;
+          line-height: 1.4;
         }
         .tiptap-editor-canvas h4,
         .tiptap h4 {
           font-family: var(--font-poppins, 'Lexend', 'Inter', sans-serif);
-          font-size: 20px;
+          font-size: 24px;
           font-weight: 600;
-          color: #374151;
-          margin: 20px 0 10px 0;
-          line-height: 1.5;
+          color: #32ba32;
+          margin: 24px 0 12px 0 !important;
+          line-height: 1.4;
         }
         .tiptap-editor-canvas h5,
         .tiptap h5 {

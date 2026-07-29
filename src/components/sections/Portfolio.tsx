@@ -70,10 +70,10 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
   return (
     <m.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "400px" }}
-      transition={{ delay: index * 0.05, duration: 0.4 }}
+      viewport={{ once: true, margin: "1200px" }}
+      transition={{ delay: index * 0.03, duration: 0.3 }}
       className={`relative ${index >= 3 ? 'hidden md:block' : ''}`}
     >
       <a href={project.link} target="_blank" rel="noopener noreferrer" title={`${project.title} - Global Webify`} className="block">

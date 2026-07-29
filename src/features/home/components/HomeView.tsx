@@ -5,13 +5,13 @@ import { db } from '@/lib/db';
 import { getHomepageFaqs, getHeroTexts, getAboutSeo, getCityHeroSettings, getHomepageHeroDesc, getHomepageAboutCard, getSectionHeaders } from '@/app/admin/(dashboard)/homepage/actions';
 import { getSubdomainHomepageFaqs, getSubdomainHomepageHeroDesc, getSubdomainAboutSeo, getSubdomainHomepageAboutCard, getSubdomainSectionHeaders } from '@/app/admin/(dashboard)/subdomains/homepage/actions';
 
-const ServicesGrid = dynamic(() => import('@/components/sections/ServicesGrid'), { ssr: true });
-const Portfolio = dynamic(() => import('@/components/sections/Portfolio'), { ssr: true });
+import ServicesGrid from '@/components/sections/ServicesGrid';
+import Portfolio from '@/components/sections/Portfolio';
 const TechStack = dynamic(() => import('@/components/sections/TechStack'), { ssr: true });
-const LatestBlog = dynamic(() => import('@/components/sections/LatestBlog'), { ssr: true });
 const ResultsSection = dynamic(() => import('@/components/sections/ResultsSection'), { ssr: true });
-const AboutSEO = dynamic(() => import('@/components/sections/AboutSEO'), { ssr: true });
 const TrustSection = dynamic(() => import('@/components/sections/TrustSection'), { ssr: true });
+const LatestBlog = dynamic(() => import('@/components/sections/LatestBlog'), { ssr: true });
+const AboutSEO = dynamic(() => import('@/components/sections/AboutSEO'), { ssr: true });
 const FAQSection = dynamic(() => import('@/components/sections/FAQSection').then(mod => mod.FAQSection), { ssr: true });
 
 function replaceLocation(text: string, loc: string = ""): string {

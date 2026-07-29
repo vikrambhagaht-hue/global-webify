@@ -495,87 +495,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
         <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-tr from-purple-200/40 via-fuchsia-100/50 to-indigo-200/40 blur-[130px] rounded-full pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] pointer-events-none" />
 
-        {/* ========== CONTINUOUS DIAGONAL MARQUEE RIBBON TAPES ========== */}
-        <div className="relative z-30 pt-4 pb-2 overflow-hidden pointer-events-none">
-          <style>{`
-            @keyframes marqueeLeft {
-              0% { transform: translate3d(0, 0, 0); }
-              100% { transform: translate3d(-50%, 0, 0); }
-            }
-            @keyframes marqueeRight {
-              0% { transform: translate3d(-50%, 0, 0); }
-              100% { transform: translate3d(0, 0, 0); }
-            }
-            .animate-tape-left {
-              animation: marqueeLeft 28s linear infinite;
-              will-change: transform;
-            }
-            .animate-tape-right {
-              animation: marqueeRight 28s linear infinite;
-              will-change: transform;
-            }
-          `}</style>
 
-          {/* Tape 1 (Vibrant Electric Blue Gradient Tape - Left) */}
-          <div className="w-[140%] -ml-[20%] bg-gradient-to-r from-blue-600 via-sky-500 to-blue-700 text-white font-black text-sm md:text-base uppercase tracking-widest py-3.5 md:py-4 shadow-xl rotate-[-2.5deg] border-y border-white/40 whitespace-nowrap overflow-hidden flex">
-            <div className="flex shrink-0 items-center gap-8 animate-tape-left pr-8">
-              <span>WEB DEVELOPMENT FRANCHISE</span>
-              <span>★</span>
-              <span>CUSTOM CRM SOLUTIONS</span>
-              <span>★</span>
-              <span>SEO & DIGITAL GROWTH</span>
-              <span>★</span>
-              <span>AUTHORIZED GLOBAL WEBIFY PARTNER</span>
-              <span>★</span>
-              <span>START YOUR DIGITAL BUSINESS TODAY</span>
-            </div>
-            <div className="flex shrink-0 items-center gap-8 animate-tape-left pr-8" aria-hidden="true">
-              <span>WEB DEVELOPMENT FRANCHISE</span>
-              <span>★</span>
-              <span>CUSTOM CRM SOLUTIONS</span>
-              <span>★</span>
-              <span>SEO & DIGITAL GROWTH</span>
-              <span>★</span>
-              <span>AUTHORIZED GLOBAL WEBIFY PARTNER</span>
-              <span>★</span>
-              <span>START YOUR DIGITAL BUSINESS TODAY</span>
-            </div>
-          </div>
-
-          {/* Tape 2 (Dark Slate / Amber Gold Tape - Right) */}
-          <div className="w-[140%] -ml-[20%] bg-slate-900 text-amber-300 font-black text-sm md:text-base uppercase tracking-widest py-3.5 md:py-4 shadow-2xl rotate-[2.5deg] -mt-8 md:-mt-9 border-y border-amber-400/40 whitespace-nowrap overflow-hidden flex">
-            <div className="flex shrink-0 items-center gap-8 animate-tape-right pr-8">
-              <span>★ ZERO TECHNICAL TEAM NEEDED</span>
-              <span>•</span>
-              <span>COMPLETE PROJECT EXECUTION</span>
-              <span>•</span>
-              <span>HIGH EARNING POTENTIAL</span>
-              <span>•</span>
-              <span>100% BACKEND DEVELOPMENT SUPPORT</span>
-              <span>•</span>
-              <span>GROW YOUR DIGITAL AGENCY</span>
-              <span>•</span>
-              <span>ZERO TECHNICAL TEAM NEEDED</span>
-              <span>•</span>
-              <span>COMPLETE PROJECT EXECUTION</span>
-            </div>
-            <div className="flex shrink-0 items-center gap-8 animate-tape-right pr-8" aria-hidden="true">
-              <span>★ ZERO TECHNICAL TEAM NEEDED</span>
-              <span>•</span>
-              <span>COMPLETE PROJECT EXECUTION</span>
-              <span>•</span>
-              <span>HIGH EARNING POTENTIAL</span>
-              <span>•</span>
-              <span>100% BACKEND DEVELOPMENT SUPPORT</span>
-              <span>•</span>
-              <span>GROW YOUR DIGITAL AGENCY</span>
-              <span>•</span>
-              <span>ZERO TECHNICAL TEAM NEEDED</span>
-              <span>•</span>
-              <span>COMPLETE PROJECT EXECUTION</span>
-            </div>
-          </div>
-        </div>
 
         <div className="container-custom relative z-10 px-4 sm:px-6 max-w-[1440px] mx-auto">
 
@@ -630,8 +550,21 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                   >
                     {/* Left glowing gradient accent bar */}
                     <div className="absolute left-0 top-3 bottom-3 w-1.5 bg-gradient-to-b from-purple-600 via-fuchsia-500 to-indigo-600 rounded-r-full shadow-sm" />
-
-                    <div className="pl-3 space-y-4 text-slate-700 text-[15px] md:text-[16.5px] font-medium leading-relaxed text-justify [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:my-3 [&_ul]:space-y-1.5 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:my-3 [&_ol]:space-y-1.5 [&_li]:text-slate-700 [&_strong]:font-bold [&_strong]:text-slate-900 [&_p]:mb-3 [&_p:last-child]:mb-0">
+                    <div className="pl-3 space-y-4 text-slate-700 text-[15px] md:text-[16.5px] font-medium leading-relaxed text-justify [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:my-3 [&_ul]:space-y-1.5 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:my-3 [&_ol]:space-y-1.5 [&_li]:text-slate-700 [&_strong]:font-bold [&_strong]:text-slate-900 [&_p]:mb-3 [&_p:last-child]:mb-0 franchise-desc-content">
+                      <style dangerouslySetInnerHTML={{__html: `
+                        .franchise-desc-content h1,
+                        .franchise-desc-content h2,
+                        .franchise-desc-content h3,
+                        .franchise-desc-content h4 {
+                          color: #32ba32 !important;
+                          text-align: left !important;
+                        }
+                        .franchise-desc-content h1 strong, .franchise-desc-content h2 strong, .franchise-desc-content h3 strong, .franchise-desc-content h4 strong,
+                        .franchise-desc-content h1 b, .franchise-desc-content h2 b, .franchise-desc-content h3 b, .franchise-desc-content h4 b,
+                        .franchise-desc-content h1 span, .franchise-desc-content h2 span, .franchise-desc-content h3 span, .franchise-desc-content h4 span {
+                          color: inherit !important;
+                        }
+                      `}} />
                       {/<[a-z][\s\S]*>/i.test(featuresDescText) ? (
                         <div dangerouslySetInnerHTML={{ __html: featuresDescText }} />
                       ) : (
