@@ -255,11 +255,15 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
 
   const handleSeeLess = () => {
     setIsCollapsing(true);
-    document.getElementById('franchise-desc-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const container = document.getElementById('franchise-desc-container');
+    if (container) {
+      const y = container.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
     setTimeout(() => {
       setIsExpanded(false);
       setIsCollapsing(false);
-    }, 450);
+    }, 350);
   };
 
   useEffect(() => {
@@ -588,7 +592,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className={`relative p-4 sm:p-6 lg:p-7 rounded-xl lg:rounded-2xl bg-slate-50 lg:bg-white/90 border border-slate-100 lg:border-purple-200/80 lg:shadow-md lg:backdrop-blur-md text-slate-700 transition-all duration-500 ease-in-out custom-scrollbar-purple overflow-x-hidden lg:overflow-y-auto lg:max-h-[550px] ${!isExpanded ? 'max-h-[280px] overflow-hidden' : 'max-h-[4000px] overflow-visible'}`}
+                    className={`relative p-4 sm:p-6 lg:p-7 rounded-xl lg:rounded-2xl bg-slate-50 lg:bg-white/90 border border-slate-100 lg:border-purple-200/80 lg:shadow-md lg:backdrop-blur-md text-slate-700 transition-[max-height] duration-300 ease-out custom-scrollbar-purple overflow-x-hidden lg:overflow-y-auto lg:max-h-[550px] ${!isExpanded ? 'max-h-[280px] overflow-hidden' : 'max-h-[4000px] overflow-visible'}`}
                   >
                     {/* Left glowing gradient accent bar */}
                     <div className="absolute left-0 top-3 bottom-3 w-1.5 bg-[#1a8b4c] lg:bg-gradient-to-b lg:from-purple-600 lg:via-fuchsia-500 lg:to-indigo-600 rounded-r-full lg:shadow-sm" />
