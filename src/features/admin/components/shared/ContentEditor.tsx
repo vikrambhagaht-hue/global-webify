@@ -29,6 +29,9 @@ interface ContentEditorProps {
 }
 
 export default function ContentEditor({ content, setContent, placeholder, isBlog = false }: ContentEditorProps) {
+  const [isLinkModalOpen, setIsLinkModalOpen] = React.useState(false);
+  const [linkInput, setLinkInput] = React.useState('');
+  const [linkIsNofollow, setLinkIsNofollow] = React.useState(false); // Default to dofollow (unchecked)
 
   const editor = useEditor({
     extensions: [
@@ -43,7 +46,12 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Link.configure({
         openOnClick: false,
-        HTMLAttributes: { class: 'editor-link' },
+        HTMLAttributes: { 
+          class: 'editor-link',
+          rel: 'noopener noreferrer' // This removes nofollow by default globally for the editor
+        },
+        linkOnPaste: true,
+        autolink: true,
       }),
       Image.configure({ inline: true }),
       Placeholder.configure({
@@ -524,15 +532,24 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
 
   const setLink = useCallback(() => {
     if (!editor) return;
-    const previousUrl = editor.getAttributes('link').href;
-    const url = window.prompt('Enter URL:', previousUrl);
-    if (url === null) return;
-    if (url === '') {
-      editor.chain().focus().extendMarkRange('link').unsetLink().run();
-      return;
-    }
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+    const previousUrl = editor.getAttributes('link').href || '';
+    const previousRel = editor.getAttributes('link').rel || 'noopener noreferrer'; // Default to dofollow
+    
+    setLinkInput(previousUrl);
+    setLinkIsNofollow(previousRel.includes('nofollow'));
+    setIsLinkModalOpen(true);
   }, [editor]);
+
+  const handleSaveLink = () => {
+    if (!editor) return;
+    if (linkInput.trim() === '') {
+      editor.chain().focus().extendMarkRange('link').unsetLink().run();
+    } else {
+      const relValue = linkIsNofollow ? 'noopener noreferrer nofollow' : 'noopener noreferrer';
+      editor.chain().focus().extendMarkRange('link').setLink({ href: linkInput, target: '_blank', rel: relValue }).run();
+    }
+    setIsLinkModalOpen(false);
+  };
 
   const addImage = useCallback(() => {
     if (!editor) return;
@@ -581,6 +598,48 @@ export default function ContentEditor({ content, setContent, placeholder, isBlog
 
   return (
     <div className={`tiptap-wrapper ${wrapperClass}`}>
+      {/* ===== LINK MODAL ===== */}
+      {isLinkModalOpen && (
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/10 backdrop-blur-[2px] rounded-[12px]">
+          <div className="bg-white border border-gray-200 shadow-xl rounded-xl p-5 w-[90%] max-w-[360px]">
+            <h3 className="text-sm font-bold text-gray-800 mb-3 uppercase tracking-wider">Insert Link</h3>
+            <input
+              type="url"
+              placeholder="https://..."
+              value={linkInput}
+              onChange={(e) => setLinkInput(e.target.value)}
+              className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] transition-colors mb-3"
+              autoFocus
+            />
+            <label className="flex items-center gap-2 mb-4 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={linkIsNofollow}
+                onChange={(e) => setLinkIsNofollow(e.target.checked)}
+                className="w-4 h-4 text-[#1a8b4c] border-gray-300 rounded focus:ring-[#1a8b4c] focus:ring-2 accent-[#1a8b4c]"
+              />
+              <span className="text-xs font-semibold text-gray-700">Make link Nofollow (SEO)</span>
+            </label>
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setIsLinkModalOpen(false)}
+                className="px-3 py-1.5 text-xs font-bold text-gray-500 hover:bg-gray-100 rounded-md transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveLink}
+                className="px-4 py-1.5 text-xs font-bold text-white bg-[#1a8b4c] hover:bg-[#15703d] rounded-md transition-colors shadow-sm"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ===== TOOLBAR ===== */}
       <div className="tiptap-toolbar">
         {/* Text style group */}
