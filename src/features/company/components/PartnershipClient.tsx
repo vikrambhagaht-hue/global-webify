@@ -399,20 +399,15 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
 
         <div className="max-w-5xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
           {/* Badge */}
-          <m.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/20 text-xs font-bold tracking-wider uppercase mb-6 shadow-xl"
           >
             <Sparkles className="w-4 h-4 text-purple-300" />
             <span className="text-purple-200 font-extrabold">Premium Franchise Program</span>
-          </m.div>
+          </div>
 
           {/* Dynamic Hero Title */}
-          <m.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+          <h1 
             className="text-4xl sm:text-6xl md:text-7xl font-black text-white uppercase tracking-tight leading-tight mb-4 drop-shadow-[0_8px_20px_rgba(0,0,0,0.4)]"
           >
             {(() => {
@@ -439,23 +434,17 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
               }
               return heroTitle;
             })()}
-          </m.h1>
+          </h1>
 
           {/* Dynamic Hero Description */}
-          <m.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+          <p
             className="text-lg md:text-xl text-purple-100/90 max-w-3xl font-medium tracking-wide mb-8 drop-shadow"
           >
             {heroDesc}
-          </m.p>
+          </p>
 
           {/* Apply Now Button */}
-          <m.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+          <div
             className="mb-10"
           >
             <button
@@ -471,7 +460,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </button>
-          </m.div>
+          </div>
 
           {/* Mountain Card Box */}
           <div className="w-full max-w-3xl bg-gradient-to-b from-[#1e1b4b] to-[#0f172a] rounded-t-3xl md:rounded-t-[40px] pt-8 pb-10 px-6 shadow-2xl border-t border-x border-purple-400/30 text-center relative overflow-hidden">
