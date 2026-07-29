@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { m, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence, useInView } from 'framer-motion';
 import { 
   Mail, Phone, MapPin, Send, CheckCircle2, Building2, 
   Handshake, Globe2, Sparkles, Award, Users2, LineChart, ShieldCheck, ShieldAlert,
@@ -230,6 +230,37 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
   const [bookedSlots, setBookedSlots] = useState<{preferredDate: string, preferredTime: string}[]>([]);
   const [availability, setAvailability] = useState({ daysToShow: 10, blockedDates: [] as string[], blockedTimes: [] as string[] });
   const [selectedFranchisee, setSelectedFranchisee] = useState<any>(null);
+
+  const textContainerRef = useRef<HTMLDivElement>(null);
+  const endSentinelRef = useRef<HTMLDivElement>(null);
+  const [isEndReached, setIsEndReached] = useState(false);
+  const [isCollapsing, setIsCollapsing] = useState(false);
+
+  useEffect(() => {
+    if (!isExpanded || !endSentinelRef.current) {
+      setIsEndReached(false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsEndReached(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(endSentinelRef.current);
+    return () => observer.disconnect();
+  }, [isExpanded]);
+
+  const handleSeeLess = () => {
+    setIsCollapsing(true);
+    document.getElementById('franchise-desc-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => {
+      setIsExpanded(false);
+      setIsCollapsing(false);
+    }, 450);
+  };
 
   useEffect(() => {
     fetch(`/api/partnership/slots?t=${new Date().getTime()}`, { cache: 'no-store' })
@@ -501,22 +532,31 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
 
         {/* ========== FRANCHISE FEATURES SECTION ========== */}
         <div className="pt-12 md:pt-16 pb-4">
-          <div className="relative p-[2px] rounded-[36px] bg-gradient-to-r from-purple-300 via-fuchsia-200 to-indigo-300 shadow-[0_20px_60px_-15px_rgba(147,51,234,0.15)]">
-            <div className="bg-gradient-to-br from-[#f4efff] via-[#e8e0fe] to-[#f6f1ff] p-6 sm:p-10 lg:p-12 rounded-[34px] relative overflow-hidden text-slate-900 border border-purple-200/80">
-              <div className="absolute -top-24 -right-24 w-96 h-96 bg-purple-400/15 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-400/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative p-0 lg:p-[2px] rounded-[36px] bg-transparent lg:bg-gradient-to-r lg:from-purple-300 lg:via-fuchsia-200 lg:to-indigo-300 shadow-none lg:shadow-[0_20px_60px_-15px_rgba(147,51,234,0.15)]">
+            <div className="bg-white lg:bg-gradient-to-br lg:from-[#f4efff] lg:via-[#e8e0fe] lg:to-[#f6f1ff] p-2 sm:p-6 lg:p-12 rounded-xl lg:rounded-[34px] relative overflow-visible lg:overflow-hidden text-slate-900 border-none lg:border lg:border-purple-200/80">
+              <div className="absolute -top-24 -right-24 w-96 h-96 bg-purple-400/15 rounded-full blur-3xl pointer-events-none hidden lg:block" />
+              <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-400/15 rounded-full blur-3xl pointer-events-none hidden lg:block" />
               
               <div className="grid lg:grid-cols-12 gap-8 lg:gap-14 items-start relative z-10">
                 {/* Left — Text Content */}
-                <div className="lg:col-span-6 space-y-6 w-full">
+                <div className="lg:col-span-6 space-y-4 sm:space-y-6 w-full">
+                  <m.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-[11px] sm:text-xs font-bold uppercase tracking-wider shadow-xs"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Franchise Program</span>
+                  </m.div>
+
                   <m.h2
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
-                    className="text-[26px] sm:text-[30px] lg:text-[36px] font-black font-heading tracking-tight leading-snug w-full"
+                    className="text-[22px] sm:text-[30px] lg:text-[36px] font-extrabold sm:font-black font-heading tracking-tight leading-[1.28] w-full"
                   >
                     {(() => {
-                      const matchRegex = /of Global Webify/i;
+                      const matchRegex = /(?:with|of)\s+Global Webify|Global Webify/i;
                       const match = franchiseTitle.match(matchRegex);
                       if (match && match.index !== undefined) {
                         const before = franchiseTitle.substring(0, match.index);
@@ -524,32 +564,34 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                         const after = franchiseTitle.substring(match.index + match[0].length);
                         return (
                           <>
-                            <span className="text-slate-800">{before}</span>
-                            <span className="text-emerald-600 font-black drop-shadow-sm">{matchedText}</span>
-                            <span className="text-slate-800 font-black">{after}</span>
+                            <span className="text-slate-900">{before}</span>
+                            <span className="text-[#1a8b4c] font-black drop-shadow-xs px-1">{matchedText}</span>
+                            <span className="text-slate-900">{after}</span>
                           </>
                         );
                       }
-                      return <span className="text-emerald-700 font-black drop-shadow-sm">{franchiseTitle}</span>;
+                      return <span className="text-[#1a8b4c] font-black drop-shadow-xs">{franchiseTitle}</span>;
                     })()}
                   </m.h2>
                   <m.h3
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.15 }}
-                    className="text-[16px] md:text-[17px] font-extrabold text-purple-800 leading-snug"
+                    className="text-[13.5px] sm:text-[15.5px] font-medium sm:font-semibold text-slate-600 border-l-2 border-[#1a8b4c]/80 pl-3 py-0.5 leading-relaxed"
                   >
                     {featuresSubtitle}
                   </m.h3>
                   
                   <m.div
+                    id="franchise-desc-container"
+                    ref={textContainerRef}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className={`relative p-6 sm:p-7 rounded-2xl bg-white/90 border border-purple-200/80 shadow-md backdrop-blur-md text-slate-700 transition-all duration-500 ease-in-out custom-scrollbar-purple overflow-x-hidden lg:overflow-y-auto lg:max-h-[550px] ${!isExpanded ? 'max-h-[280px] overflow-hidden' : 'max-h-[1000px] overflow-visible'}`}
+                    className={`relative p-4 sm:p-6 lg:p-7 rounded-xl lg:rounded-2xl bg-slate-50 lg:bg-white/90 border border-slate-100 lg:border-purple-200/80 lg:shadow-md lg:backdrop-blur-md text-slate-700 transition-all duration-500 ease-in-out custom-scrollbar-purple overflow-x-hidden lg:overflow-y-auto lg:max-h-[550px] ${!isExpanded ? 'max-h-[280px] overflow-hidden' : 'max-h-[4000px] overflow-visible'}`}
                   >
                     {/* Left glowing gradient accent bar */}
-                    <div className="absolute left-0 top-3 bottom-3 w-1.5 bg-gradient-to-b from-purple-600 via-fuchsia-500 to-indigo-600 rounded-r-full shadow-sm" />
+                    <div className="absolute left-0 top-3 bottom-3 w-1.5 bg-[#1a8b4c] lg:bg-gradient-to-b lg:from-purple-600 lg:via-fuchsia-500 lg:to-indigo-600 rounded-r-full lg:shadow-sm" />
                     <div className="pl-3 space-y-4 text-slate-700 text-[15px] md:text-[16.5px] font-medium leading-relaxed text-justify [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:my-3 [&_ul]:space-y-1.5 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:my-3 [&_ol]:space-y-1.5 [&_li]:text-slate-700 [&_strong]:font-bold [&_strong]:text-slate-900 [&_p]:mb-3 [&_p:last-child]:mb-0 franchise-desc-content">
                       <style dangerouslySetInnerHTML={{__html: `
                         .franchise-desc-content h1,
@@ -578,24 +620,52 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                     {!isExpanded && (
                       <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white/95 to-transparent lg:hidden pointer-events-none rounded-b-2xl" />
                     )}
+
+                    {/* End of content sentinel & normal inline See Less button at bottom of text */}
+                    {isExpanded && (
+                      <div ref={endSentinelRef} className="pt-4 pb-1 flex justify-center lg:hidden">
+                        <button 
+                          onClick={handleSeeLess}
+                          className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#1a8b4c]/10 hover:bg-[#1a8b4c]/20 border border-[#1a8b4c]/20 text-[#1a8b4c] rounded-full font-bold text-xs uppercase tracking-wider transition-all shadow-sm"
+                        >
+                          See Less <ChevronRight className="w-3.5 h-3.5 -rotate-90" />
+                        </button>
+                      </div>
+                    )}
                   </m.div>
 
-                  {/* See More / See Less Button for Mobile/Tablet */}
+                  {/* Floating 'See Less' Button — visible while scrolling expanded text, hides when end of text is reached */}
+                  <AnimatePresence>
+                    {isExpanded && !isEndReached && !isCollapsing && (
+                      <m.div 
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.2 }}
+                        className="fixed bottom-6 inset-x-0 z-50 flex justify-center lg:hidden pointer-events-none"
+                      >
+                        <button 
+                          onClick={handleSeeLess}
+                          className="pointer-events-auto flex items-center gap-1.5 px-5 py-2.5 bg-[#1a8b4c] text-white rounded-full font-bold text-[12px] uppercase tracking-wider shadow-xl shadow-[#1a8b4c]/30 hover:scale-105 transition-transform"
+                        >
+                          See Less <ChevronRight className="w-4 h-4 -rotate-90" />
+                        </button>
+                      </m.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* See More Button for Mobile/Tablet */}
                   <m.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.25 }}
-                    className="flex justify-center mt-2 lg:hidden"
+                    className={`justify-center mt-2 lg:hidden ${!isExpanded ? 'flex' : 'hidden'}`}
                   >
                     <button 
-                      onClick={() => setIsExpanded(!isExpanded)}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 rounded-full font-bold text-xs uppercase tracking-wider transition-colors shadow-sm"
+                      onClick={() => setIsExpanded(true)}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1a8b4c]/5 hover:bg-[#1a8b4c]/10 border border-[#1a8b4c]/15 text-[#1a8b4c] rounded-full font-bold text-xs uppercase tracking-wider transition-colors shadow-sm"
                     >
-                      {isExpanded ? (
-                        <>See Less <ChevronRight className="w-3.5 h-3.5 -rotate-90" /></>
-                      ) : (
-                        <>See More <ChevronRight className="w-3.5 h-3.5 rotate-90" /></>
-                      )}
+                      See More <ChevronRight className="w-3.5 h-3.5 rotate-90" />
                     </button>
                   </m.div>
 
@@ -606,25 +676,25 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                     transition={{ delay: 0.25 }}
                     className="pt-2 space-y-3.5"
                   >
-                    <h4 className="text-[15px] md:text-[16px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600 tracking-tight">
+                    <h4 className="text-[15px] md:text-[16px] font-extrabold text-slate-800 lg:text-transparent lg:bg-clip-text lg:bg-gradient-to-r lg:from-purple-700 lg:via-fuchsia-600 lg:to-indigo-600 tracking-tight">
                       Know More About Global Webify
                     </h4>
-                    <div className="flex flex-wrap items-center gap-3.5">
+                    <div className="flex flex-wrap items-center gap-2 md:gap-3.5">
                       <Link
                         href="/portfolio"
-                        className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-600 text-white font-bold text-xs md:text-sm shadow-lg shadow-purple-600/30 hover:shadow-xl hover:shadow-purple-600/40 hover:-translate-y-0.5 transition-all duration-300"
+                        className="inline-flex items-center gap-1.5 md:gap-2 px-3.5 py-2.5 md:px-6 md:py-3.5 rounded-xl bg-[#1a8b4c] lg:bg-gradient-to-r lg:from-purple-600 lg:via-fuchsia-600 lg:to-indigo-600 text-white font-bold text-[11px] md:text-sm shadow-md lg:shadow-purple-600/30 hover:shadow-lg lg:hover:shadow-purple-600/40 hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
                       >
-                        Portfolio <ArrowRight size={16} />
+                        Portfolio <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
                       </Link>
                       <Link
                         href="/about"
-                        className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 text-white font-bold text-xs md:text-sm shadow-md hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300"
+                        className="inline-flex items-center gap-1.5 md:gap-2 px-3.5 py-2.5 md:px-6 md:py-3.5 rounded-xl bg-slate-900 text-white font-bold text-[11px] md:text-sm shadow-md hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
                       >
                         About Us
                       </Link>
                       <Link
                         href="/our-franchisee"
-                        className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-purple-50 text-purple-700 font-bold text-xs md:text-sm shadow-sm hover:bg-purple-100 hover:-translate-y-0.5 transition-all duration-300"
+                        className="inline-flex items-center gap-1.5 md:gap-2 px-3.5 py-2.5 md:px-6 md:py-3.5 rounded-xl bg-slate-100 text-slate-800 lg:bg-purple-50 lg:text-purple-700 font-bold text-[11px] md:text-sm shadow-sm hover:bg-slate-200 lg:hover:bg-purple-100 hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
                       >
                         Our Franchise
                       </Link>
