@@ -9,6 +9,7 @@ import { ServicePageView } from '@/features/services/components/ServicePageView'
 import { CITIES_MAP } from '@/features/services/constants/cities';
 import { parseFaqs } from '@/features/services/utils/faq-parser';
 import { getSubdomainContent } from '@/app/admin/(dashboard)/subdomains/actions';
+import { getAllValidServiceSlugs } from '@/constants/navigation';
 
 
 
@@ -82,7 +83,7 @@ export default async function CityServicePage({ params }: Props) {
   }
 
   if (!rawPage) {
-    const knownCategories = ['seo-services', 'ai-seo-services', 'social-media-marketing', 'ppc-services'];
+    const knownCategories = getAllValidServiceSlugs();
     if (knownCategories.includes(raw)) {
       const formattedTitle = raw.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
       rawPage = {

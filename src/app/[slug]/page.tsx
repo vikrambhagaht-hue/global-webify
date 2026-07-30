@@ -12,6 +12,7 @@ import { getSubdomainLocation } from '@/lib/subdomain';
 import { getSubdomainContent } from '@/app/admin/(dashboard)/subdomains/actions';
 import PartnershipClient from '@/features/company/components/PartnershipClient';
 import { cache } from 'react';
+import { getAllValidServiceSlugs } from '@/constants/navigation';
 
 // Request-level caching to prevent duplicate DB queries between generateMetadata and the Page component
 const getCachedSiteSettings = cache(async () => {
@@ -204,7 +205,7 @@ export default async function DynamicPage({ params }: Props) {
   }
 
   if (!fetchedPage) {
-    const knownCategories = ['seo-services', 'ai-seo-services', 'social-media-marketing', 'ppc-services'];
+    const knownCategories = getAllValidServiceSlugs();
     
     if (knownCategories.includes(rawSlug)) {
       const formattedTitle = rawSlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');

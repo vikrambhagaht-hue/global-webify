@@ -147,3 +147,15 @@ export const NAV_LINKS = [
   { name: 'FRANCHISE OPPORTUNITY', id: 'partnership', hasDropdown: false },
   { name: 'OUR FRANCHISE', id: 'our_franchise', hasDropdown: false }
 ];
+
+export const getAllValidServiceSlugs = () => {
+  const slugs: string[] = [];
+  const processList = (list: any[]) => {
+    list.forEach(item => {
+      if (item.href) slugs.push(item.href.replace('/', ''));
+      if (item.subLinks) processList(item.subLinks);
+    });
+  };
+  processList([...WEBSITE_SERVICES, ...HOSTING_SERVICES, ...SEO_SERVICES, ...MARKETING_SERVICES, ...BRANDING_SERVICES, ...CRM_SERVICES]);
+  return slugs;
+};

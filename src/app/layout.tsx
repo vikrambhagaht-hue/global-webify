@@ -20,7 +20,7 @@ const lexend = Lexend({
   subsets: ["latin"],
   weight: ["400", "600", "700", "900"],
   variable: "--font-lexend",
-  display: "swap"
+  display: "block"
 });
 
 const jost = Jost({ 
