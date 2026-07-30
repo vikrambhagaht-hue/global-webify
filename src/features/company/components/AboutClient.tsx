@@ -82,7 +82,7 @@ export default function AboutClient() {
   return (
     <div className="bg-[#f0f9f4]">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#064e3b] via-[#065f46] to-[#047857] py-16 md:py-24">
+      <section className="relative overflow-hidden bg-[#1a8b4c] pt-16 md:pt-20 pb-20 md:pb-28">
         {/* Decorative Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/[0.03] rounded-full" />
@@ -141,13 +141,15 @@ export default function AboutClient() {
             className="flex flex-wrap items-center justify-center gap-6 md:gap-10 mt-12"
           >
             {[
-              { label: 'Projects Delivered', value: '500+' },
-              { label: 'Happy Clients', value: '500+' },
-              { label: 'Years Experience', value: '10+' },
+              { label: 'Projects Delivered', value: 500, suffix: '+' },
+              { label: 'Happy Clients', value: 500, suffix: '+' },
+              { label: 'Years Experience', value: 10, suffix: '+' },
             ].map((stat, i) => (
-              <div key={i} className="text-center bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl px-8 py-4">
-                <div className="text-3xl md:text-4xl font-black text-white">{stat.value}</div>
-                <div className="text-xs md:text-sm text-emerald-200/80 font-semibold mt-1.5 uppercase tracking-wider">{stat.label}</div>
+              <div key={i} className="text-center bg-[#22a15c] border-2 border-[#3bb573] rounded-2xl px-6 py-3 shadow-lg min-w-[160px]">
+                <div className="text-2xl md:text-3xl font-black text-white">
+                  <Counter value={stat.value} suffix={stat.suffix} />
+                </div>
+                <div className="text-[10px] text-emerald-50 font-bold mt-1 uppercase tracking-wider whitespace-nowrap">{stat.label}</div>
               </div>
             ))}
           </m.div>
@@ -489,15 +491,15 @@ export default function AboutClient() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-gradient-to-br from-[#7dd3fc] via-[#bae6fd] to-[#f0f9ff] text-slate-800 p-8 sm:p-10 rounded-3xl shadow-2xl border border-[#bae6fd] relative flex flex-col justify-between"
+              className="bg-gradient-to-br from-white via-[#f0f9f4] to-[#e2f3ea] text-slate-800 p-8 sm:p-10 rounded-3xl shadow-xl border border-emerald-100 relative flex flex-col justify-between"
             >
-              {/* Floating Blue Eye Badge */}
-              <div className="absolute -top-5 left-6 lg:-left-5 bg-gradient-to-r from-sky-500 to-blue-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-sky-500/20 z-20">
+              {/* Floating Green Eye Badge */}
+              <div className="absolute -top-5 left-6 lg:-left-5 bg-gradient-to-br from-[#22c55e] to-[#16a34a] text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-green-500/20 z-20">
                 <Eye size={24} />
               </div>
 
               <div className="space-y-6 pt-2">
-                <h3 className="text-2xl sm:text-3xl font-extrabold font-lexend text-[#0369a1] mt-2">
+                <h3 className="text-2xl sm:text-3xl font-extrabold font-lexend text-[#1a8b4c] mt-2">
                   Our Vision
                 </h3>
                 <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
@@ -506,17 +508,17 @@ export default function AboutClient() {
                 
                 {/* Stats Container */}
                 <div className="grid grid-cols-2 gap-4 pt-2">
-                  <div className="bg-white/60 border border-[#bae6fd] p-5 rounded-2xl text-center backdrop-blur-sm">
-                    <p className="text-2xl sm:text-3xl font-black text-[#0369a1] font-lexend mb-1">
+                  <div className="bg-white/70 border border-emerald-100 p-5 rounded-2xl text-center backdrop-blur-sm">
+                    <p className="text-2xl sm:text-3xl font-black text-[#1a8b4c] font-lexend mb-1">
                       <Counter value={10} suffix="+" />
                     </p>
-                    <p className="text-[10px] sm:text-xs font-bold text-[#0284c7] uppercase tracking-wider">Years Experience</p>
+                    <p className="text-[10px] sm:text-xs font-bold text-emerald-700 uppercase tracking-wider">Years Experience</p>
                   </div>
-                  <div className="bg-white/60 border border-[#bae6fd] p-5 rounded-2xl text-center backdrop-blur-sm">
-                    <p className="text-2xl sm:text-3xl font-black text-[#0369a1] font-lexend mb-1">
+                  <div className="bg-white/70 border border-emerald-100 p-5 rounded-2xl text-center backdrop-blur-sm">
+                    <p className="text-2xl sm:text-3xl font-black text-[#1a8b4c] font-lexend mb-1">
                       <Counter value={500} suffix="+" />
                     </p>
-                    <p className="text-[10px] sm:text-xs font-bold text-[#0284c7] uppercase tracking-wider">Happy Clients</p>
+                    <p className="text-[10px] sm:text-xs font-bold text-emerald-700 uppercase tracking-wider">Happy Clients</p>
                   </div>
                 </div>
               </div>

@@ -112,7 +112,7 @@ export default function Footer() {
   };
 
   return (
-    <footer ref={footerRef} className={`bg-[#f8fbfa] pt-12 ${isHomepage ? 'pb-[75px]' : 'pb-12'} md:pt-20 md:pb-12 font-sans border-t border-gray-100`}>
+    <footer ref={footerRef} className={`bg-[#dbe6e0] pt-12 ${isHomepage ? 'pb-[75px]' : 'pb-12'} md:pt-20 md:pb-12 font-sans border-t border-emerald-200/60`}>
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         
         {/* Main Footer Content */}
@@ -282,7 +282,7 @@ export default function Footer() {
                   key={i} 
                   href={contact.href} 
                   title={`${contact.type === 'Email' ? 'Email' : 'Call'} ${contact.value} - Global Webify`}
-                  className="flex items-center gap-4 p-3 bg-white border border-gray-50 rounded-2xl shadow-sm hover:border-[#1a8b4c]/30 hover:shadow-md transition-all duration-300 group w-full"
+                  className="flex items-center gap-4 p-3 bg-[#f0f5f2] border border-[#e2ebe5] rounded-2xl shadow-sm hover:border-[#1a8b4c]/30 hover:shadow-md transition-all duration-300 group w-full"
                 >
                   <div className={`w-10 h-10 shrink-0 rounded-xl flex items-center justify-center ${contact.color} transition-transform group-hover:scale-110`}>
                     {contact.icon}
@@ -300,7 +300,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="View Office on Google Maps - Global Webify"
-                className="flex items-start gap-4 p-4 bg-white border border-gray-50 rounded-2xl shadow-sm hover:border-[#1a8b4c]/30 hover:shadow-md transition-all duration-300 group text-left w-full"
+                className="flex items-start gap-4 p-4 bg-[#f0f5f2] border border-[#e2ebe5] rounded-2xl shadow-sm hover:border-[#1a8b4c]/30 hover:shadow-md transition-all duration-300 group text-left w-full"
               >
                 <div className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center bg-green-50 text-green-500 mt-1 transition-transform group-hover:scale-110">
                   <MapPin size={18} />
@@ -314,7 +314,7 @@ export default function Footer() {
 
               <Link 
                 href="/market-area" 
-                className="group flex items-center justify-between p-4 bg-white border border-gray-50 rounded-2xl shadow-sm hover:shadow-md hover:border-[#1a8b4c]/20 transition-all duration-300 w-full"
+                className="group flex items-center justify-between p-4 bg-[#f0f5f2] border border-[#e2ebe5] rounded-2xl shadow-sm hover:shadow-md hover:border-[#1a8b4c]/20 transition-all duration-300 w-full"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center bg-green-50 text-[#1a8b4c] transition-transform group-hover:scale-110">

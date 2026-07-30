@@ -145,7 +145,7 @@ export const NAV_LINKS = [
   { name: 'COMPANY', id: 'company', hasDropdown: true },
   { name: 'CONTACT', id: 'contact', hasDropdown: false },
   { name: 'FRANCHISE OPPORTUNITY', id: 'partnership', hasDropdown: false },
-  { name: 'OUR FRANCHISE', id: 'our_franchise', hasDropdown: false }
+  { name: 'FRANCHISE PARTNERS', id: 'our_franchise', hasDropdown: false }
 ];
 
 export const getAllValidServiceSlugs = () => {
