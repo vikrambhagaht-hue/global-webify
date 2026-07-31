@@ -433,13 +433,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
       </AnimatePresence>
 
         <div className="max-w-5xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
-          {/* Badge */}
-          <div
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/20 text-xs font-bold tracking-wider uppercase mb-6 shadow-xl"
-          >
-            <Sparkles className="w-4 h-4 text-purple-300" />
-            <span className="text-purple-200 font-extrabold">Premium Franchise Program</span>
-          </div>
+          {/* Badge Removed */}
 
           {/* Dynamic Hero Title */}
           <h1 
@@ -788,10 +782,10 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-[#fcfaff] via-[#f2ebff] to-[#f6f1ff] p-8 md:p-12 rounded-[32px] shadow-2xl shadow-purple-950/10 border border-purple-200/90 relative overflow-hidden text-slate-900"
+              className="bg-gradient-to-br from-white via-emerald-50/30 to-emerald-100/30 p-8 md:p-12 rounded-[32px] shadow-2xl shadow-[#1a8b4c]/10 border border-emerald-200/90 relative overflow-hidden text-slate-900"
             >
               <div className="text-center mb-10">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-200/60 border border-purple-300 text-purple-900 font-bold text-[10px] uppercase tracking-[0.15em] mb-5 shadow-sm">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100/60 border border-emerald-300 text-[#1a8b4c] font-bold text-[10px] uppercase tracking-[0.15em] mb-5 shadow-sm">
                   <Sparkles size={12} /> Schedule a Call
                 </div>
                 <h2 className="text-[26px] md:text-[36px] font-black text-slate-900 tracking-tight font-heading leading-tight">
@@ -806,25 +800,25 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                   {/* Contact Name & Email */}
                 <div className="grid md:grid-cols-2 gap-5">
                   <div className="flex flex-col gap-1.5 relative group">
-                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-purple-700">Contact Name *</label>
+                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-[#1a8b4c]">Contact Name *</label>
                     <input 
                       type="text" 
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border border-purple-200/90 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 transition-all placeholder-slate-400 shadow-sm"
+                      className="w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border border-emerald-200/90 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-[#1a8b4c] focus:ring-2 focus:ring-emerald-600/10 transition-all placeholder-slate-400 shadow-sm"
                       placeholder="Jane Smith"
                     />
                   </div>
 
                    <div className="flex flex-col gap-1.5 relative group">
-                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-purple-700">Business Email *</label>
+                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-[#1a8b4c]">Business Email *</label>
                     <input 
                       type="email" 
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className={`w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:ring-2 transition-all placeholder-slate-400 shadow-sm ${errors.email ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' : 'border-purple-200/90 focus:border-purple-600 focus:ring-purple-600/10'}`}
+                      className={`w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:ring-2 transition-all placeholder-slate-400 shadow-sm ${errors.email ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' : 'border-emerald-200/90 focus:border-[#1a8b4c] focus:ring-emerald-600/10'}`}
                       placeholder="jane@company.com"
                     />
                     {errors.email && <span className="text-red-500 text-[11px] font-bold mt-0.5 ml-1">{errors.email}</span>}
@@ -834,37 +828,37 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                 {/* Company Name & Website URL */}
                 <div className="grid md:grid-cols-2 gap-5">
                   <div className="flex flex-col gap-1.5 relative group">
-                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-purple-700">Company Name <span className="text-slate-400 font-semibold lowercase tracking-normal">(optional)</span></label>
+                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-[#1a8b4c]">Company Name <span className="text-slate-400 font-semibold lowercase tracking-normal">(optional)</span></label>
                     <input 
                       type="text" 
                       value={formData.companyName}
                       onChange={(e) => setFormData({...formData, companyName: e.target.value})}
-                      className="w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border border-purple-200/90 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 transition-all placeholder-slate-400 shadow-sm"
+                      className="w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border border-emerald-200/90 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-[#1a8b4c] focus:ring-2 focus:ring-emerald-600/10 transition-all placeholder-slate-400 shadow-sm"
                       placeholder="Acme Corp"
                     />
                   </div>
 
                   <div className="flex flex-col gap-1.5 relative group">
-                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-purple-700">Website URL <span className="text-slate-400 font-semibold lowercase tracking-normal">(optional)</span></label>
+                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-[#1a8b4c]">Website URL <span className="text-slate-400 font-semibold lowercase tracking-normal">(optional)</span></label>
                     <input 
                       type="url" 
                       value={formData.websiteUrl}
                       onChange={(e) => setFormData({...formData, websiteUrl: e.target.value})}
-                      className="w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border border-purple-200/90 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 transition-all placeholder-slate-400 shadow-sm"
+                      className="w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border border-emerald-200/90 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-[#1a8b4c] focus:ring-2 focus:ring-emerald-600/10 transition-all placeholder-slate-400 shadow-sm"
                       placeholder="https://company.com"
                     />
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-1.5 relative group">
-                  <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-purple-700">Mobile Number *</label>
+                  <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-[#1a8b4c]">Mobile Number *</label>
                   <div className="flex gap-3 relative">
                     {/* Country Code Select */}
                     <div className="relative w-[125px] shrink-0">
                       <button
                         type="button"
                         onClick={() => setDropdownOpen(!dropdownOpen)}
-                        className="w-full h-full flex items-center justify-between px-3.5 bg-white hover:bg-white focus:bg-white border border-purple-200/90 rounded-xl text-[13px] font-bold text-slate-900 focus:outline-none focus:border-purple-600 transition-all shadow-sm"
+                        className="w-full h-full flex items-center justify-between px-3.5 bg-white hover:bg-white focus:bg-white border border-emerald-200/90 rounded-xl text-[13px] font-bold text-slate-900 focus:outline-none focus:border-[#1a8b4c] transition-all shadow-sm"
                       >
                         <span className="flex items-center gap-2">
                           <FlagIcon iso={selectedCountry.iso} />
@@ -878,7 +872,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                       {dropdownOpen && (
                         <>
                           <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
-                          <div className="absolute left-0 mt-2 w-[270px] max-h-[260px] overflow-y-auto bg-white border border-purple-200 rounded-xl shadow-xl z-50 py-1.5 scrollbar-thin scrollbar-thumb-purple-200">
+                          <div className="absolute left-0 mt-2 w-[270px] max-h-[260px] overflow-y-auto bg-white border border-emerald-200 rounded-xl shadow-xl z-50 py-1.5 scrollbar-thin scrollbar-thumb-emerald-200">
                             {COUNTRIES.map((c, i) => (
                               <button
                                 key={i}
@@ -890,7 +884,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                   setPhoneDigits(truncatedDigits);
                                   setFormData(prev => ({ ...prev, phone: truncatedDigits ? `${c.code} ${truncatedDigits}` : '' }));
                                 }}
-                                className={`w-full flex items-center gap-3 px-3.5 py-2 text-left text-[13px] font-semibold text-slate-700 hover:bg-purple-50 transition-colors ${i === selectedCountryIndex ? 'bg-purple-100/80 text-purple-700' : ''}`}
+                                className={`w-full flex items-center gap-3 px-3.5 py-2 text-left text-[13px] font-semibold text-slate-700 hover:bg-emerald-50 transition-colors ${i === selectedCountryIndex ? 'bg-emerald-100/80 text-[#1a8b4c]' : ''}`}
                               >
                                 <FlagIcon iso={c.iso} />
                                 <span className="shrink-0 w-11 font-bold">{c.code}</span>
@@ -915,7 +909,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                           setFormData(prev => ({ ...prev, phone: val ? `${selectedCountry.code} ${val}` : '' }));
                         }}
                         placeholder={selectedCountry.placeholder}
-                        className={`w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:ring-2 transition-all placeholder-slate-400 shadow-sm ${errors.phone ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' : 'border-purple-200/90 focus:border-purple-600 focus:ring-purple-600/10'}`}
+                        className={`w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:ring-2 transition-all placeholder-slate-400 shadow-sm ${errors.phone ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' : 'border-emerald-200/90 focus:border-[#1a8b4c] focus:ring-emerald-600/10'}`}
                       />
                     </div>
                   </div>
@@ -926,15 +920,15 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                 <div className="space-y-5 pt-3">
                   {/* Preferred Date */}
                   <div className="flex flex-col gap-2.5">
-                    <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 flex items-center gap-1.5">
-                      <span className="text-purple-600">📅</span> Preferred Date *
-                    </label>
-                    <div className="flex items-center gap-2 group/scroll w-full">
-                      <button 
-                        type="button" 
-                        onClick={() => scrollDates('left')} 
-                        className="flex-shrink-0 p-1.5 bg-white border border-purple-200 rounded-full text-slate-600 hover:text-purple-700 hover:bg-purple-50 transition-all hidden sm:flex shadow-sm"
-                      >
+                      <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 flex items-center gap-1.5">
+                        <span className="text-[#1a8b4c]">📅</span> Preferred Date *
+                      </label>
+                      <div className="flex items-center gap-2 group/scroll w-full">
+                        <button 
+                          type="button" 
+                          onClick={() => scrollDates('left')} 
+                          className="flex-shrink-0 p-1.5 bg-white border border-emerald-200 rounded-full text-slate-600 hover:text-[#1a8b4c] hover:bg-emerald-50 transition-all hidden sm:flex shadow-sm"
+                        >
                         <ChevronLeft size={18} />
                       </button>
                       
@@ -993,16 +987,16 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                      isBlocked 
                                        ? 'border-red-200 bg-red-50/50' 
                                        : isSelected 
-                                         ? 'border-purple-600 shadow-xl shadow-purple-500/40 bg-purple-50/90 ring-4 ring-purple-400/30' 
-                                         : 'border-blue-300/80 hover:border-blue-500 bg-white'
+                                         ? 'border-[#1a8b4c] shadow-xl shadow-emerald-500/40 bg-emerald-50/90 ring-4 ring-emerald-400/30' 
+                                         : 'border-emerald-200/80 hover:border-[#1a8b4c] bg-white'
                                   }`}>
                                     {/* Calendar Top Header (Month) */}
                                     <div className={`w-full py-1 flex items-center justify-center border-b ${
                                       isBlocked 
                                         ? 'bg-red-500 border-red-600 text-white' 
                                         : isSelected 
-                                          ? 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 border-purple-600 text-white font-black' 
-                                          : 'bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600 border-blue-700 text-white font-black'
+                                          ? 'bg-gradient-to-r from-emerald-600 via-[#1a8b4c] to-emerald-700 border-[#1a8b4c] text-white font-black' 
+                                          : 'bg-gradient-to-r from-[#1a8b4c] via-emerald-600 to-[#126b38] border-[#1a8b4c] text-white font-black'
                                     }`}>
                                       <span className="text-[9px] font-black uppercase tracking-widest leading-none mt-0.5">
                                         {d.toLocaleDateString('en-IN', { month: 'short' })}
@@ -1014,14 +1008,14 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                       isBlocked 
                                         ? 'bg-red-50/30' 
                                         : isSelected 
-                                          ? 'bg-purple-50/90' 
+                                          ? 'bg-emerald-50/90' 
                                           : 'bg-white'
                                     }`}>
                                       <span className={`text-[20px] font-black leading-none mt-0.5 ${
                                         isBlocked 
                                           ? 'text-red-400 line-through decoration-red-300' 
                                           : isSelected 
-                                            ? 'text-purple-800' 
+                                            ? 'text-emerald-800' 
                                             : 'text-slate-900 font-black'
                                       }`}>
                                         {d.getDate()}
@@ -1030,8 +1024,8 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                         isBlocked 
                                           ? 'text-red-400' 
                                           : isSelected 
-                                            ? 'text-purple-700 font-black' 
-                                            : 'text-blue-600 font-extrabold'
+                                            ? 'text-[#1a8b4c] font-black' 
+                                            : 'text-emerald-600 font-extrabold'
                                       }`}>
                                         {dayName}
                                       </span>
@@ -1041,7 +1035,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                 {/* Tomorrow badge outside the button scaling to stay aligned */}
                                 {isTomorrow && (
                                    <span className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 px-2 py-[1.5px] text-white text-[7px] font-black uppercase tracking-widest rounded-full shadow-md whitespace-nowrap z-20 ${
-                                     isBlocked ? 'bg-red-600' : isSelected ? 'bg-purple-700' : 'bg-blue-700'
+                                     isBlocked ? 'bg-red-600' : isSelected ? 'bg-emerald-700' : 'bg-[#1a8b4c]'
                                    }`}>
                                      Tomorrow
                                    </span>
@@ -1055,7 +1049,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                       <button 
                         type="button" 
                         onClick={() => scrollDates('right')} 
-                        className="flex-shrink-0 p-1.5 bg-white border border-purple-200 rounded-full text-slate-600 hover:text-purple-700 hover:bg-purple-50 transition-all hidden sm:flex shadow-sm"
+                        className="flex-shrink-0 p-1.5 bg-white border border-emerald-200 rounded-full text-slate-600 hover:text-[#1a8b4c] hover:bg-emerald-50 transition-all hidden sm:flex shadow-sm"
                       >
                         <ChevronRight size={18} />
                       </button>
@@ -1066,13 +1060,13 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                   {/* Preferred Time */}
                   <div className="flex flex-col gap-2">
                     <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 flex items-center gap-1.5">
-                      <span className="text-purple-600">🕐</span> Preferred Time *
+                      <span className="text-[#1a8b4c]">🕐</span> Preferred Time *
                     </label>
                     <div className="flex items-center gap-2 group/scroll w-full">
                       <button 
                         type="button" 
                         onClick={() => scrollTimes('left')} 
-                        className="flex-shrink-0 p-1.5 bg-white border border-purple-200 rounded-full text-slate-600 hover:text-purple-700 hover:bg-purple-50 transition-all hidden sm:flex shadow-sm"
+                        className="flex-shrink-0 p-1.5 bg-white border border-emerald-200 rounded-full text-slate-600 hover:text-[#1a8b4c] hover:bg-emerald-50 transition-all hidden sm:flex shadow-sm"
                       >
                         <ChevronLeft size={18} />
                       </button>
@@ -1121,8 +1115,8 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                   isBooked 
                                     ? 'bg-red-50/50 border-red-100 opacity-60 cursor-not-allowed'
                                     : isSelected
-                                      ? 'bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 text-white border-purple-600 shadow-md shadow-purple-500/20'
-                                      : 'bg-white text-slate-700 border-purple-200/80 hover:border-purple-400 hover:bg-purple-50'
+                                      ? 'bg-gradient-to-r from-emerald-600 via-[#1a8b4c] to-emerald-700 text-white border-[#1a8b4c] shadow-md shadow-emerald-500/20'
+                                      : 'bg-white text-slate-700 border-emerald-200/80 hover:border-emerald-400 hover:bg-emerald-50'
                                 }`}
                               >
                                 {isBooked ? (
@@ -1142,7 +1136,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                       <button 
                         type="button" 
                         onClick={() => scrollTimes('right')} 
-                        className="flex-shrink-0 p-1.5 bg-white border border-purple-200 rounded-full text-slate-600 hover:text-purple-700 hover:bg-purple-50 transition-all hidden sm:flex shadow-sm"
+                        className="flex-shrink-0 p-1.5 bg-white border border-emerald-200 rounded-full text-slate-600 hover:text-[#1a8b4c] hover:bg-emerald-50 transition-all hidden sm:flex shadow-sm"
                       >
                         <ChevronRight size={18} />
                       </button>
@@ -1164,7 +1158,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                     whileTap={{ scale: 0.99 }}
                     disabled={submitting}
                     type="submit"
-                    className="group relative w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-600 text-white py-4 rounded-xl font-black text-[13px] uppercase tracking-[0.15em] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-blue-600/30 hover:shadow-2xl hover:shadow-blue-600/40 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
+                    className="group relative w-full bg-gradient-to-r from-emerald-600 via-[#1a8b4c] to-emerald-700 hover:from-emerald-500 hover:to-[#1a8b4c] text-white py-4 rounded-xl font-black text-[13px] uppercase tracking-[0.15em] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-emerald-600/30 hover:shadow-2xl hover:shadow-emerald-600/40 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                     <span className="relative z-10">{submitting ? 'Scheduling Call...' : 'Schedule a Call'}</span>

@@ -333,19 +333,19 @@ export default function Footer() {
         {/* Bottom Stats Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 mb-8 lg:mb-12">
           {/* Projects Card */}
-          <div className="lg:col-span-2 bg-[#f0fdf4] border border-green-100 rounded-2xl p-4 text-center flex flex-col items-center justify-center group hover:border-[#1a8b4c]/40 transition-all shadow-sm">
+          <div className="lg:col-span-2 bg-[#f0fdf4] border-2 border-green-200 rounded-2xl p-4 text-center flex flex-col items-center justify-center group hover:border-[#1a8b4c]/60 transition-all shadow-sm">
             <h3 className="text-[30px] font-extrabold text-[#1a8b4c] leading-none mb-1.5">500+</h3>
             <p className="text-[#15803d] text-[10px] font-bold uppercase tracking-[0.15em]">Projects Delivered</p>
           </div>
 
           {/* Satisfaction Card */}
-          <div className="lg:col-span-2 bg-[#f0f9ff] border border-sky-100 rounded-2xl p-4 text-center flex flex-col items-center justify-center group hover:border-[#0284c7]/40 transition-all shadow-sm">
+          <div className="lg:col-span-2 bg-[#f0f9ff] border-2 border-sky-200 rounded-2xl p-4 text-center flex flex-col items-center justify-center group hover:border-[#0284c7]/60 transition-all shadow-sm">
             <h3 className="text-[30px] font-extrabold text-[#0284c7] leading-none mb-1.5">98%</h3>
             <p className="text-[#0369a1] text-[10px] font-bold uppercase tracking-[0.15em]">Client Satisfaction</p>
           </div>
 
           {/* Social Card */}
-          <div className="lg:col-span-3 bg-[#f5f3ff] border border-violet-100 rounded-2xl p-4 text-center flex flex-col items-center justify-center shadow-sm hover:border-[#7c3aed]/40 transition-all">
+          <div className="lg:col-span-3 bg-[#f5f3ff] border-2 border-violet-200 rounded-2xl p-4 text-center flex flex-col items-center justify-center shadow-sm hover:border-[#7c3aed]/60 transition-all">
             <h4 className="text-[12px] font-bold text-[#6d28d9] uppercase tracking-wider mb-3">Follow Us</h4>
             <div className="flex gap-2">
                {socialList.map((social, i) => {
@@ -374,7 +374,7 @@ export default function Footer() {
           </div>
 
           {/* Payment Card */}
-          <div className="lg:col-span-5 bg-[#fffbeb] border border-amber-100 rounded-2xl p-4 text-center flex flex-col items-center justify-center shadow-sm hover:border-[#d97706]/40 transition-all">
+          <div className="lg:col-span-5 bg-[#fffbeb] border-2 border-amber-200 rounded-2xl p-4 text-center flex flex-col items-center justify-center shadow-sm hover:border-[#d97706]/60 transition-all">
             <h4 className="text-[12px] font-bold text-[#b45309] uppercase tracking-wider mb-3">Secure Payment Methods</h4>
             <div className="flex flex-row flex-nowrap justify-center items-center gap-1.5 sm:gap-2 w-full">
                {/* Bank of Baroda */}
