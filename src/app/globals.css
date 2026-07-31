@@ -96,16 +96,16 @@ body {
 
 /* 🚀 Premium Floating Animations for Interactive Capability Cards */
 @keyframes float1 {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
+  0%, 100% { transform: translate3d(0, 0px, 0); }
+  50% { transform: translate3d(0, -8px, 0); }
 }
 @keyframes float2 {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+  0%, 100% { transform: translate3d(0, 0px, 0); }
+  50% { transform: translate3d(0, -12px, 0); }
 }
 @keyframes float3 {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+  0%, 100% { transform: translate3d(0, 0px, 0); }
+  50% { transform: translate3d(0, -6px, 0); }
 }
 .animate-float-1 {
   animation: float1 5s ease-in-out infinite;

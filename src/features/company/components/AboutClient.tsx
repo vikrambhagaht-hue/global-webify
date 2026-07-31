@@ -14,31 +14,38 @@ interface CounterProps {
 }
 
 const Counter: React.FC<CounterProps> = ({ value, suffix = "", duration = 1500 }) => {
-  const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView || !ref.current) return;
     let start = 0;
     if (value > 1000) start = value - 150;
     const end = value;
-    if (start === end) { setCount(end); return; }
+    if (start === end) {
+      ref.current.textContent = `${end}${suffix}`;
+      return;
+    }
     let startTimestamp: number | null = null;
     let animationFrameId: number;
     const step = (timestamp: number) => {
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
       const easeProgress = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.floor(start + (end - start) * easeProgress));
+      const currentCount = Math.floor(start + (end - start) * easeProgress);
+      
+      if (ref.current) {
+        ref.current.textContent = `${currentCount}${suffix}`;
+      }
+
       if (progress < 1) animationFrameId = requestAnimationFrame(step);
-      else setCount(end);
+      else if (ref.current) ref.current.textContent = `${end}${suffix}`;
     };
     animationFrameId = requestAnimationFrame(step);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isInView, value, duration]);
+  }, [isInView, value, duration, suffix]);
 
-  return <span ref={ref} className="tabular-nums">{count}{suffix}</span>;
+  return <span ref={ref} className="tabular-nums">0{suffix}</span>;
 };
 
 export default function AboutClient() {
