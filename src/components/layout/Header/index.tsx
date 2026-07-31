@@ -218,7 +218,7 @@ export default function Header({ initialSettings }: HeaderProps) {
                       href={href}
                       title={`${link.name} - Global Webify`}
                       onClick={closeMenu}
-                      className="relative group flex items-center justify-center overflow-hidden rounded-full font-sans transition-all duration-300 ml-2 shadow-lg shadow-emerald-600/30"
+                      className="relative group flex items-center justify-center overflow-hidden rounded-full font-sans transition-all duration-300 ml-1 lg:ml-2 shadow-lg shadow-emerald-600/30"
                     >
                       {/* Base Color (Darkest outer layer) */}
                       <div className="absolute inset-0 bg-[#064e3b]"></div>
@@ -237,7 +237,7 @@ export default function Header({ initialSettings }: HeaderProps) {
                         <div className="absolute w-24 h-24 rounded-full border-2 border-white/20 scale-0 group-hover:animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '0.6s' }}></div>
                       </div>
 
-                      <span className="relative z-10 px-3 lg:px-4 py-2 text-[10.5px] xl:text-[11.5px] font-black text-white whitespace-nowrap tracking-wider uppercase group-hover:scale-105 transition-transform duration-300 drop-shadow-md">
+                      <span className="relative z-10 px-2 lg:px-3 2xl:px-4 py-1.5 lg:py-2 text-[9px] lg:text-[9.5px] xl:text-[10.5px] 2xl:text-[11.5px] font-black text-white whitespace-nowrap tracking-wider uppercase group-hover:scale-105 transition-transform duration-300 drop-shadow-md">
                         {link.name}
                       </span>
                     </Link>
@@ -256,7 +256,7 @@ export default function Header({ initialSettings }: HeaderProps) {
                       }
                     }}
                     className={cn(
-                      "px-1.5 lg:px-2 xl:px-4 py-2 text-[10.5px] xl:text-[12.8px] font-semibold flex items-center gap-1 xl:gap-1.5 rounded-full font-sans transition-all duration-75 whitespace-nowrap",
+                      "px-1 lg:px-1.5 xl:px-2.5 2xl:px-4 py-1.5 lg:py-2 text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[12.8px] font-semibold flex items-center gap-1 2xl:gap-1.5 rounded-full font-sans transition-all duration-75 whitespace-nowrap",
                       activeMenu === link.id
                         ? "text-white bg-[#1a8b4c]"
                         : "text-[#0a0a0a] hover:text-white hover:bg-[#1a8b4c]"
@@ -290,7 +290,7 @@ export default function Header({ initialSettings }: HeaderProps) {
              {/* Spacer to push content below the header without showing background */}
              <div className="shrink-0 h-[64px] bg-white" />
              <div className="flex-1 px-5 py-2 pb-4 flex flex-col gap-0.5 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-gray-50 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#1a8b4c]/50 pr-4">
-                {visibleNavLinks.map((link) => (
+                {visibleNavLinks.filter(l => l.id !== 'our_franchise' && l.id !== 'partnership').map((link) => (
                   <div key={link.id} className="border-b border-gray-50">
                     {link.hasDropdown ? (
                       <button 
@@ -317,52 +317,6 @@ export default function Header({ initialSettings }: HeaderProps) {
                           </svg>
                         </div>
                       </button>
-                    ) : link.id === 'our_franchise' ? (
-                      <Link 
-                        href="/our-franchisee"
-                        onClick={closeMenu}
-                        className="w-full text-center my-3 py-3 px-4 flex justify-center items-center group transition-all rounded-2xl relative overflow-hidden shadow-lg shadow-purple-500/20"
-                      >
-                        {/* Base Gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-700 via-purple-600 to-violet-700 transition-transform duration-500 group-active:scale-110"></div>
-                        
-                        {/* Radar/Ripple Circles on Hover/Active */}
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                          <div className="absolute w-16 h-16 rounded-full border border-white/30 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
-                          <div className="absolute w-32 h-32 rounded-full border border-white/20 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '0.6s' }}></div>
-                        </div>
-
-                        <span className="relative z-10 text-[14px] font-black tracking-widest text-white uppercase group-active:scale-105 transition-transform duration-300">
-                          {link.name}
-                        </span>
-                      </Link>
-                    ) : link.id === 'partnership' ? (
-                      <Link 
-                        href={`/${partnershipSlug}`}
-                        onClick={closeMenu}
-                        className="w-full text-center my-3 py-3 px-4 flex justify-center items-center group transition-all rounded-2xl relative overflow-hidden shadow-lg shadow-indigo-600/30"
-                      >
-                        {/* Base Color (Darkest outer layer) */}
-                        <div className="absolute inset-0 bg-[#312581]"></div>
-                        
-                        {/* Concentric Circles Pattern (Matching the image) */}
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-transform duration-700 group-active:scale-110">
-                          <div className="absolute w-56 h-56 rounded-full bg-[#3a2ea1]"></div>
-                          <div className="absolute w-40 h-40 rounded-full bg-[#4638c4]"></div>
-                          <div className="absolute w-24 h-24 rounded-full bg-[#5244e6]"></div>
-                          <div className="absolute w-12 h-12 rounded-full bg-[#6255ff]"></div>
-                        </div>
-                        
-                        {/* Radar/Ripple Circles on Hover/Active */}
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                          <div className="absolute w-16 h-16 rounded-full border-2 border-white/40 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
-                          <div className="absolute w-32 h-32 rounded-full border-2 border-white/20 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '0.6s' }}></div>
-                        </div>
-
-                        <span className="relative z-10 text-[14px] font-black tracking-widest text-white uppercase group-active:scale-105 transition-transform duration-300 drop-shadow-md">
-                          {link.name}
-                        </span>
-                      </Link>
                     ) : (
                       <Link 
                         href={getPrefixedHref('/' + link.id, link.id, currentCity)}
@@ -420,6 +374,45 @@ export default function Header({ initialSettings }: HeaderProps) {
                     </div>
                   </div>
                 ))}
+             </div>
+
+             {/* Fixed CTA Buttons for Mobile */}
+             <div className="shrink-0 p-4 pb-2 bg-white flex flex-col gap-3 border-t border-gray-100 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.05)] z-20 relative">
+               <Link 
+                 href="/franchisee"
+                 onClick={closeMenu}
+                 className="w-full text-center py-3.5 px-4 flex justify-center items-center group transition-all rounded-2xl relative overflow-hidden shadow-lg shadow-emerald-600/30"
+               >
+                 <div className="absolute inset-0 bg-[#064e3b]"></div>
+                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-transform duration-700 group-active:scale-110">
+                   <div className="absolute w-56 h-56 rounded-full bg-[#065f46]"></div>
+                   <div className="absolute w-40 h-40 rounded-full bg-[#047857]"></div>
+                   <div className="absolute w-24 h-24 rounded-full bg-[#059669]"></div>
+                   <div className="absolute w-12 h-12 rounded-full bg-[#10b981]"></div>
+                 </div>
+                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                   <div className="absolute w-16 h-16 rounded-full border-2 border-white/40 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                   <div className="absolute w-32 h-32 rounded-full border-2 border-white/20 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '0.6s' }}></div>
+                 </div>
+                 <span className="relative z-10 text-[14px] font-black tracking-widest text-white uppercase group-active:scale-105 transition-transform duration-300 drop-shadow-md">
+                   Franchise Opportunity
+                 </span>
+               </Link>
+
+               <Link 
+                 href="/our-franchisee"
+                 onClick={closeMenu}
+                 className="w-full text-center py-3.5 px-4 flex justify-center items-center group transition-all rounded-2xl relative overflow-hidden shadow-lg shadow-purple-500/20"
+               >
+                 <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-700 via-purple-600 to-violet-700 transition-transform duration-500 group-active:scale-110"></div>
+                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                   <div className="absolute w-16 h-16 rounded-full border border-white/30 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                   <div className="absolute w-32 h-32 rounded-full border border-white/20 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '0.6s' }}></div>
+                 </div>
+                 <span className="relative z-10 text-[14px] font-black tracking-widest text-white uppercase group-active:scale-105 transition-transform duration-300">
+                   Franchise Partners
+                 </span>
+               </Link>
              </div>
 
              {/* Contact Info for Mobile */}
