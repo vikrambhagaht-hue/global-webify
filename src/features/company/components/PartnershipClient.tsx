@@ -692,7 +692,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                       </Link>
                       <Link
                         href="/our-franchisee"
-                        className="inline-flex items-center gap-1.5 md:gap-2 px-3.5 py-2.5 md:px-6 md:py-3.5 rounded-xl bg-slate-100 text-slate-800 lg:bg-purple-50 lg:text-purple-700 font-bold text-[11px] md:text-sm shadow-sm hover:bg-slate-200 lg:hover:bg-purple-100 hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
+                        className="inline-flex items-center gap-1.5 md:gap-2 px-3.5 py-2.5 md:px-6 md:py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-[11px] md:text-sm shadow-md shadow-blue-500/30 hover:shadow-lg hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
                       >
                         Our Franchise
                       </Link>
@@ -987,16 +987,16 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                      isBlocked 
                                        ? 'border-red-200 bg-red-50/50' 
                                        : isSelected 
-                                         ? 'border-[#1a8b4c] shadow-xl shadow-emerald-500/40 bg-emerald-50/90 ring-4 ring-emerald-400/30' 
-                                         : 'border-emerald-200/80 hover:border-[#1a8b4c] bg-white'
+                                         ? 'border-purple-500 shadow-xl shadow-purple-500/40 bg-purple-50/90 ring-4 ring-purple-400/30' 
+                                         : 'border-blue-200/80 hover:border-blue-500 bg-white'
                                   }`}>
                                     {/* Calendar Top Header (Month) */}
                                     <div className={`w-full py-1 flex items-center justify-center border-b ${
                                       isBlocked 
                                         ? 'bg-red-500 border-red-600 text-white' 
                                         : isSelected 
-                                          ? 'bg-gradient-to-r from-emerald-600 via-[#1a8b4c] to-emerald-700 border-[#1a8b4c] text-white font-black' 
-                                          : 'bg-gradient-to-r from-[#1a8b4c] via-emerald-600 to-[#126b38] border-[#1a8b4c] text-white font-black'
+                                          ? 'bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 border-purple-600 text-white font-black' 
+                                          : 'bg-gradient-to-r from-blue-600 via-blue-500 to-sky-500 border-blue-600 text-white font-black'
                                     }`}>
                                       <span className="text-[9px] font-black uppercase tracking-widest leading-none mt-0.5">
                                         {d.toLocaleDateString('en-IN', { month: 'short' })}
@@ -1008,14 +1008,14 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                       isBlocked 
                                         ? 'bg-red-50/30' 
                                         : isSelected 
-                                          ? 'bg-emerald-50/90' 
+                                          ? 'bg-purple-50/90' 
                                           : 'bg-white'
                                     }`}>
                                       <span className={`text-[20px] font-black leading-none mt-0.5 ${
                                         isBlocked 
                                           ? 'text-red-400 line-through decoration-red-300' 
                                           : isSelected 
-                                            ? 'text-emerald-800' 
+                                            ? 'text-purple-800' 
                                             : 'text-slate-900 font-black'
                                       }`}>
                                         {d.getDate()}
@@ -1024,8 +1024,8 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                         isBlocked 
                                           ? 'text-red-400' 
                                           : isSelected 
-                                            ? 'text-[#1a8b4c] font-black' 
-                                            : 'text-emerald-600 font-extrabold'
+                                            ? 'text-purple-600 font-black' 
+                                            : 'text-blue-600 font-extrabold'
                                       }`}>
                                         {dayName}
                                       </span>
@@ -1035,7 +1035,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                 {/* Tomorrow badge outside the button scaling to stay aligned */}
                                 {isTomorrow && (
                                    <span className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 px-2 py-[1.5px] text-white text-[7px] font-black uppercase tracking-widest rounded-full shadow-md whitespace-nowrap z-20 ${
-                                     isBlocked ? 'bg-red-600' : isSelected ? 'bg-emerald-700' : 'bg-[#1a8b4c]'
+                                     isBlocked ? 'bg-red-600' : isSelected ? 'bg-purple-600' : 'bg-blue-600'
                                    }`}>
                                      Tomorrow
                                    </span>
@@ -1115,8 +1115,8 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                   isBooked 
                                     ? 'bg-red-50/50 border-red-100 opacity-60 cursor-not-allowed'
                                     : isSelected
-                                      ? 'bg-gradient-to-r from-emerald-600 via-[#1a8b4c] to-emerald-700 text-white border-[#1a8b4c] shadow-md shadow-emerald-500/20'
-                                      : 'bg-white text-slate-700 border-emerald-200/80 hover:border-emerald-400 hover:bg-emerald-50'
+                                      ? 'bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 text-white border-purple-600 shadow-md shadow-purple-500/20'
+                                      : 'bg-white text-slate-700 border-blue-200/80 hover:border-blue-500 hover:bg-blue-50'
                                 }`}
                               >
                                 {isBooked ? (

@@ -207,75 +207,65 @@ export default function Header({ initialSettings }: HeaderProps) {
               className="flex items-center px-0.5 xl:px-2 py-3 h-full cursor-pointer shrink"
               onMouseEnter={() => handleNavItemEnter(link)}
             >
-              {link.id === 'our_franchise' ? (
-                <Link 
-                  href="/our-franchisee"
-                  title="Our Franchisees"
-                  onClick={closeMenu}
-                  className="relative group flex items-center justify-center overflow-hidden rounded-full font-sans transition-all duration-300 ml-1 shadow-md shadow-blue-500/20"
-                >
-                  {/* Base Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-700 via-purple-600 to-violet-700 transition-transform duration-500 group-hover:scale-110"></div>
-                  
-                  {/* Radar/Ripple Circles on Hover */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <div className="absolute w-12 h-12 rounded-full border border-white/30 scale-0 group-hover:animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
-                    <div className="absolute w-24 h-24 rounded-full border border-white/20 scale-0 group-hover:animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '0.6s' }}></div>
-                  </div>
+              {(() => {
+                let href = link.hasDropdown ? "#" : `/${link.id}`;
+                if (link.id === 'our_franchise') href = "/our-franchisee";
+                if (link.id === 'partnership') href = "/franchisee";
+                
+                if (link.id === 'partnership') {
+                  return (
+                    <Link
+                      href={href}
+                      title={`${link.name} - Global Webify`}
+                      onClick={closeMenu}
+                      className="relative group flex items-center justify-center overflow-hidden rounded-full font-sans transition-all duration-300 ml-2 shadow-lg shadow-emerald-600/30"
+                    >
+                      {/* Base Color (Darkest outer layer) */}
+                      <div className="absolute inset-0 bg-[#064e3b]"></div>
+                      
+                      {/* Concentric Circles Pattern (Green theme) */}
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-transform duration-700 group-hover:scale-110">
+                        <div className="absolute w-44 h-44 rounded-full bg-[#065f46]"></div>
+                        <div className="absolute w-32 h-32 rounded-full bg-[#047857]"></div>
+                        <div className="absolute w-20 h-20 rounded-full bg-[#059669]"></div>
+                        <div className="absolute w-10 h-10 rounded-full bg-[#10b981]"></div>
+                      </div>
+                      
+                      {/* Radar/Ripple Circles on Hover */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                        <div className="absolute w-12 h-12 rounded-full border-2 border-white/40 scale-0 group-hover:animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                        <div className="absolute w-24 h-24 rounded-full border-2 border-white/20 scale-0 group-hover:animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '0.6s' }}></div>
+                      </div>
 
-                  <span className="relative z-10 px-3 lg:px-4 py-2 text-[10.5px] xl:text-[11.5px] font-black text-white whitespace-nowrap tracking-wider uppercase group-hover:scale-105 transition-transform duration-300">
-                    {link.name}
-                  </span>
-                </Link>
-              ) : link.id === 'partnership' ? (
-                <Link
-                  href={`/${partnershipSlug}`}
-                  title={`${link.name} - Global Webify`}
-                  onClick={closeMenu}
-                  className="relative group flex items-center justify-center overflow-hidden rounded-full font-sans transition-all duration-300 ml-2 shadow-lg shadow-indigo-600/30"
-                >
-                  {/* Base Color (Darkest outer layer) */}
-                  <div className="absolute inset-0 bg-[#312581]"></div>
-                  
-                  {/* Concentric Circles Pattern (Matching the image) */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-transform duration-700 group-hover:scale-110">
-                    <div className="absolute w-44 h-44 rounded-full bg-[#3a2ea1]"></div>
-                    <div className="absolute w-32 h-32 rounded-full bg-[#4638c4]"></div>
-                    <div className="absolute w-20 h-20 rounded-full bg-[#5244e6]"></div>
-                    <div className="absolute w-10 h-10 rounded-full bg-[#6255ff]"></div>
-                  </div>
-                  
-                  {/* Radar/Ripple Circles on Hover (Kept for dynamic effect) */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <div className="absolute w-12 h-12 rounded-full border-2 border-white/40 scale-0 group-hover:animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
-                    <div className="absolute w-24 h-24 rounded-full border-2 border-white/20 scale-0 group-hover:animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" style={{ animationDelay: '0.6s' }}></div>
-                  </div>
+                      <span className="relative z-10 px-3 lg:px-4 py-2 text-[10.5px] xl:text-[11.5px] font-black text-white whitespace-nowrap tracking-wider uppercase group-hover:scale-105 transition-transform duration-300 drop-shadow-md">
+                        {link.name}
+                      </span>
+                    </Link>
+                  );
+                }
 
-                  <span className="relative z-10 px-3 lg:px-4 py-2 text-[10.5px] xl:text-[11.5px] font-black text-white whitespace-nowrap tracking-wider uppercase group-hover:scale-105 transition-transform duration-300 drop-shadow-md">
+                return (
+                  <Link
+                    href={href}
+                    title={`${link.name} - Global Webify`}
+                    onClick={(e) => {
+                      if (link.hasDropdown) {
+                        e.preventDefault();
+                      } else {
+                        closeMenu();
+                      }
+                    }}
+                    className={cn(
+                      "px-1.5 lg:px-2 xl:px-4 py-2 text-[10.5px] xl:text-[12.8px] font-semibold flex items-center gap-1 xl:gap-1.5 rounded-full font-sans transition-all duration-75 whitespace-nowrap",
+                      activeMenu === link.id
+                        ? "text-white bg-[#1a8b4c]"
+                        : "text-[#0a0a0a] hover:text-white hover:bg-[#1a8b4c]"
+                    )}
+                  >
                     {link.name}
-                  </span>
-                </Link>
-              ) : (
-                <Link
-                  href={link.hasDropdown ? "#" : `/${link.id}`}
-                  title={`${link.name} - Global Webify`}
-                  onClick={(e) => {
-                    if (link.hasDropdown) {
-                      e.preventDefault();
-                    } else {
-                      closeMenu();
-                    }
-                  }}
-                  className={cn(
-                    "px-1.5 lg:px-2 xl:px-4 py-2 text-[10.5px] xl:text-[12.8px] font-semibold flex items-center gap-1 xl:gap-1.5 rounded-full font-sans transition-all duration-75 whitespace-nowrap",
-                    activeMenu === link.id
-                      ? "text-white bg-[#1a8b4c]"
-                      : "text-[#0a0a0a] hover:text-white hover:bg-[#1a8b4c]"
-                  )}
-                >
-                  {link.name}
-                </Link>
-              )}
+                  </Link>
+                );
+              })()}
 
               {link.hasDropdown && (
                 <MegaMenu

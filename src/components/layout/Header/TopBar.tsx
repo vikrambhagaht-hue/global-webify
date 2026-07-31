@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Mail, Menu, X } from 'lucide-react';
+import { m } from 'framer-motion';
 import { TOP_BAR_CONTACT, SOCIAL_LINKS } from '@/constants/navigation';
 import { cn } from '@/lib/utils';
 import { useContactInfo } from '@/lib/ContactContext';

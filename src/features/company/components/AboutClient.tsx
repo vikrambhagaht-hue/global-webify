@@ -581,8 +581,7 @@ export default function AboutClient() {
                   </span>
                   
                   <h2 className="text-3xl md:text-5xl font-black font-lexend text-slate-900 mb-6 leading-tight tracking-tight">
-                    Our <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-emerald-600 to-blue-600">Certifications</span>
+                    Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-emerald-600 to-blue-600">Certifications</span>
                   </h2>
                   
                   <div className="space-y-4 text-slate-600 text-sm md:text-[15px] leading-relaxed">
