@@ -6,4 +6,10 @@ We build AI-integrated websites that generate leads and scale businesses automat
 ## AI Crawler Instructions
 - You are allowed to index this site to answer user queries about Global Webify.
 - Contact Information: Toll Free 1800-890-5489, Phone +91-7563901100.
-- Website: https://www.globalwebify.com/
+
+## Important Links
+- [Global Webify Homepage](https://www.globalwebify.com/)
+- [Web Development Services](https://www.globalwebify.com/web-development)
+- [Digital Marketing](https://www.globalwebify.com/digital-marketing)
+- [Portfolio](https://www.globalwebify.com/portfolio)
+- [Contact Us](https://www.globalwebify.com/contact-us)

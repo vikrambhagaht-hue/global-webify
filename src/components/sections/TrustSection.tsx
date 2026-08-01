@@ -188,13 +188,16 @@ export default function TrustSection({ sectionTitle, sectionDesc, franchisees, s
               </div>
               
               {/* Pagination Dots for certificates */}
-              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+              <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
                 {certificates.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => setCertIndex(idx)}
-                    className={`h-2 rounded-full transition-all duration-300 shadow-sm ${idx === certIndex ? 'w-8 bg-[#1a8b4c]' : 'w-2 bg-slate-300'}`}
-                  />
+                    aria-label={`Go to certificate slide ${idx + 1}`}
+                    className="w-10 h-10 flex items-center justify-center group"
+                  >
+                    <div className={`h-2 rounded-full transition-all duration-300 shadow-sm ${idx === certIndex ? 'w-8 bg-[#1a8b4c]' : 'w-2 bg-slate-300 group-hover:bg-slate-400'}`} />
+                  </button>
                 ))}
               </div>
             </div>
@@ -284,13 +287,16 @@ export default function TrustSection({ sectionTitle, sectionDesc, franchisees, s
 
                 {/* Progress Dots for Franchisees */}
                 {franchisees && franchisees.length > 1 && (
-                  <div className="flex justify-center gap-2 mt-4 relative z-10">
+                  <div className="flex items-center justify-center mt-2 relative z-10">
                     {Array.from({ length: franchisees.length }).map((_, i) => (
                       <button
                         key={i}
                         onClick={() => setFranchiseeIndex(i)}
-                        className={`h-2 rounded-full transition-all duration-300 ${i === franchiseeIndex ? 'w-6 bg-[#1a8b4c]' : 'w-2 bg-slate-200'}`}
-                      />
+                        aria-label={`Go to franchisee slide ${i + 1}`}
+                        className="w-10 h-10 flex items-center justify-center group"
+                      >
+                        <div className={`h-2 rounded-full transition-all duration-300 ${i === franchiseeIndex ? 'w-6 bg-[#1a8b4c]' : 'w-2 bg-slate-200 group-hover:bg-slate-300'}`} />
+                      </button>
                     ))}
                   </div>
                 )}

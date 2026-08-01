@@ -216,12 +216,12 @@ export function ServicePageView({ page, remainingSubMenus, faqs, locationName = 
                 const Icon = categoryIcons[i % categoryIcons.length];
                 
                 const CARD_THEMES = [
-                  { bg: 'bg-[#1a8b4c]', hex: '#1a8b4c', cardBg: 'bg-green-50/70', border: 'border-green-200/80', hoverBorder: 'hover:border-[#1a8b4c]/60', mesh: 'bg-[#1a8b4c]/10' },
-                  { bg: 'bg-[#0ea5e9]', hex: '#0ea5e9', cardBg: 'bg-sky-50/70', border: 'border-sky-200/80', hoverBorder: 'hover:border-sky-500/60', mesh: 'bg-blue-500/10' },
-                  { bg: 'bg-[#ec4899]', hex: '#ec4899', cardBg: 'bg-pink-50/70', border: 'border-pink-200/80', hoverBorder: 'hover:border-pink-500/60', mesh: 'bg-pink-500/10' },
-                  { bg: 'bg-[#f59e0b]', hex: '#f59e0b', cardBg: 'bg-amber-50/70', border: 'border-amber-200/80', hoverBorder: 'hover:border-amber-500/60', mesh: 'bg-amber-500/10' },
-                  { bg: 'bg-[#8b5cf6]', hex: '#8b5cf6', cardBg: 'bg-purple-50/70', border: 'border-purple-200/80', hoverBorder: 'hover:border-purple-500/60', mesh: 'bg-purple-500/10' },
-                  { bg: 'bg-[#10b981]', hex: '#10b981', cardBg: 'bg-emerald-50/70', border: 'border-emerald-200/80', hoverBorder: 'hover:border-emerald-500/60', mesh: 'bg-emerald-500/10' },
+                  { bg: 'bg-[#1a8b4c]', hex: '#1a8b4c', textHex: '#14693a', cardBg: 'bg-green-50/70', border: 'border-green-200/80', hoverBorder: 'hover:border-[#1a8b4c]/60', mesh: 'bg-[#1a8b4c]/10' },
+                  { bg: 'bg-[#0ea5e9]', hex: '#0ea5e9', textHex: '#0369a1', cardBg: 'bg-sky-50/70', border: 'border-sky-200/80', hoverBorder: 'hover:border-sky-500/60', mesh: 'bg-blue-500/10' },
+                  { bg: 'bg-[#ec4899]', hex: '#ec4899', textHex: '#be185d', cardBg: 'bg-pink-50/70', border: 'border-pink-200/80', hoverBorder: 'hover:border-pink-500/60', mesh: 'bg-pink-500/10' },
+                  { bg: 'bg-[#f59e0b]', hex: '#f59e0b', textHex: '#b45309', cardBg: 'bg-amber-50/70', border: 'border-amber-200/80', hoverBorder: 'hover:border-amber-500/60', mesh: 'bg-amber-500/10' },
+                  { bg: 'bg-[#8b5cf6]', hex: '#8b5cf6', textHex: '#6d28d9', cardBg: 'bg-purple-50/70', border: 'border-purple-200/80', hoverBorder: 'hover:border-purple-500/60', mesh: 'bg-purple-500/10' },
+                  { bg: 'bg-[#10b981]', hex: '#10b981', textHex: '#047857', cardBg: 'bg-emerald-50/70', border: 'border-emerald-200/80', hoverBorder: 'hover:border-emerald-500/60', mesh: 'bg-emerald-500/10' },
                 ];
                 const theme = CARD_THEMES[i % CARD_THEMES.length];
                 const cleanSlug = menu.slug.startsWith('/') ? menu.slug.slice(1) : menu.slug;
@@ -252,7 +252,7 @@ export function ServicePageView({ page, remainingSubMenus, faqs, locationName = 
                         </p>
                       </div>
                       <div className="w-full mt-auto pt-4 border-t border-gray-100/80">
-                        <span className="flex justify-center items-center gap-1.5 text-[12.5px] md:text-[13px] font-semibold font-jost tracking-wide group-hover:gap-2.5 transition-all duration-300" style={{ color: theme.hex }}>
+                        <span className="flex justify-center items-center gap-1.5 text-[12.5px] md:text-[13px] font-semibold font-jost tracking-wide group-hover:gap-2.5 transition-all duration-300" style={{ color: theme.textHex }}>
                           Explore Services
                           <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.2} />
                         </span>

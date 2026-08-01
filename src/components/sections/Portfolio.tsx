@@ -245,7 +245,7 @@ export default function Portfolio({ projects = [], sectionTitle, sectionDesc }: 
             <m.div
               whileHover={{ scale: 1.05, boxShadow: "0 10px 20px -5px rgba(26,139,76,0.3)" }}
               whileTap={{ scale: 0.95 }}
-              className="group bg-[#1a8b4c] text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl text-[16px] md:text-[17px] font-bold shadow-md shadow-green-900/10 hover:bg-[#15803d] transition-all flex items-center gap-3 mx-auto cursor-pointer"
+              className="group bg-[#146c3b] text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl text-[16px] md:text-[17px] font-bold shadow-md shadow-green-900/10 hover:bg-[#115e33] transition-all flex items-center gap-3 mx-auto cursor-pointer"
             >
               View All Projects
               <ArrowRight className="group-hover:translate-x-1 transition-transform" />

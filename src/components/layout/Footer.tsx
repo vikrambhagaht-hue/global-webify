@@ -21,7 +21,7 @@ const serviceCol1 = [
   { name: "Web Design Services", href: "/web-design-services", icon: Palette, color: "text-purple-500 bg-purple-50" },
   { name: "Responsive Design", href: "/responsive-web-designing", icon: Smartphone, color: "text-blue-500 bg-blue-50" },
   { name: "Website Redesigning", href: "/website-redesigning", icon: RefreshCw, color: "text-cyan-500 bg-cyan-50" },
-  { name: "Website Maintenance", href: "/website-maintenance", icon: Wrench, color: "text-gray-500 bg-gray-100" },
+  { name: "Website Maintenance", href: "/website-maintenance", icon: Wrench, color: "text-gray-700 bg-gray-100" },
   { name: "Small Business Website", href: "/small-business-website", icon: Globe, color: "text-emerald-500 bg-emerald-50" },
   { name: "Customised Website", href: "/customised-website-designing", icon: Settings, color: "text-indigo-500 bg-indigo-50" },
 ];
@@ -40,7 +40,7 @@ const serviceCol2 = [
 const crmCol = [
   { name: "CRM Software Development", href: "/crm-software-development", icon: Settings, color: "text-indigo-500 bg-indigo-50" },
   { name: "Lead Management Software", href: "/lead-management-software", icon: Target, color: "text-red-500 bg-red-50" },
-  { name: "Hotel Management Software", href: "/hotel-management-software", icon: Wrench, color: "text-gray-500 bg-gray-100" },
+  { name: "Hotel Management Software", href: "/hotel-management-software", icon: Wrench, color: "text-gray-700 bg-gray-100" },
   { name: "Hospital Management Software", href: "/hospital-management-software", icon: Globe, color: "text-emerald-500 bg-emerald-50" },
   { name: "HR Management Software", href: "/hr-management-software", icon: Code, color: "text-teal-500 bg-teal-50" },
   { name: "School Management Software", href: "/school-management-software", icon: ShoppingCart, color: "text-orange-500 bg-orange-50" }
@@ -142,16 +142,16 @@ export default function Footer() {
                   <Clock size={16} className="text-[#1a8b4c]" />
                   <span>Business Hours</span>
                 </div>
-                <div className="pl-6 text-[12px] text-gray-500 font-medium space-y-1">
+                <div className="pl-6 text-[12px] text-gray-700 font-medium space-y-1">
                   <p>Monday - Saturday: 11:00 AM - 07:00 PM</p>
-                  <p className="text-red-600 font-semibold">Sunday: Closed</p>
+                  <p className="text-red-700 font-semibold">Sunday: Closed</p>
                 </div>
               </div>
 
               {/* Trust Badges */}
               <div className="flex flex-wrap gap-2.5 pt-1">
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-100 rounded-xl shadow-xs">
-                  <span className="text-[11px] font-black text-amber-600">★ 4.7/5</span>
+                  <span className="text-[11px] font-black text-amber-700">★ 4.7/5</span>
                   <span className="text-[10px] font-bold text-gray-600">Google Rating</span>
                 </div>
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-100 rounded-xl shadow-xs">
@@ -288,7 +288,7 @@ export default function Footer() {
                     {contact.icon}
                   </div>
                   <div className="text-left">
-                    <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest leading-none mb-1">{contact.type}</p>
+                    <p className="text-[10px] font-black text-gray-700 uppercase tracking-widest leading-none mb-1">{contact.type}</p>
                     <p className="text-[14px] font-bold text-gray-800 group-hover:text-[#1a8b4c] transition-colors">{contact.value}</p>
                   </div>
                 </a>
@@ -321,7 +321,7 @@ export default function Footer() {
                     <MapPin size={18} />
                   </div>
                   <div className="text-left">
-                    <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest leading-none mb-1">Locations</p>
+                    <p className="text-[10px] font-black text-gray-700 uppercase tracking-widest leading-none mb-1">Locations</p>
                     <p className="text-[14px] font-bold text-gray-800 group-hover:text-[#1a8b4c] transition-colors">Our Market Areas</p>
                   </div>
                 </div>
@@ -403,7 +403,7 @@ export default function Footer() {
 
         {/* Final Bottom Bar */}
         <div className="pt-12 border-t border-gray-100 flex flex-col items-center justify-center gap-4 text-center">
-           <p className="text-[14px] font-bold text-gray-500">
+           <p className="text-[14px] font-bold text-gray-700" suppressHydrationWarning>
              © {new Date().getFullYear()} Global Webify. All rights reserved.
            </p>
            <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 sm:gap-x-8 text-center">
@@ -423,7 +423,7 @@ export default function Footer() {
                    key={link} 
                    href={slugMap[link] || "#"} 
                    title={`${link} - Global Webify`}
-                   className="text-[13px] font-bold text-gray-500 hover:text-[#1a8b4c] transition-colors"
+                   className="text-[13px] font-bold text-gray-700 hover:text-[#1a8b4c] transition-colors"
                  >
                    {link}
                  </Link>

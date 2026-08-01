@@ -149,7 +149,7 @@ function ServiceCard({ service, index, cityKey, onOpenQuote }: { service: Servic
                   onOpenQuote(service.title);
                 }
               }}
-              className="h-9 px-4 rounded-xl text-[#1a8b4c] text-[12px] font-bold font-jost flex items-center justify-center gap-1.5 transition-all duration-300 bg-[#1a8b4c]/10 border border-[#1a8b4c]/20 hover:bg-[#1a8b4c]/20 hover:border-[#1a8b4c]/40 active:scale-[0.97] cursor-pointer shadow-sm"
+              className="h-9 px-4 rounded-xl text-[#115e33] text-[12px] font-bold font-jost flex items-center justify-center gap-1.5 transition-all duration-300 bg-[#1a8b4c]/10 border border-[#1a8b4c]/20 hover:bg-[#1a8b4c]/20 hover:border-[#1a8b4c]/40 active:scale-[0.97] cursor-pointer shadow-sm"
             >
               Get Quote
             </div>

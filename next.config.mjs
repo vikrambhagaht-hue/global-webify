@@ -115,7 +115,7 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy-Report-Only',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.clarity.ms https://*.google.com https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://*.googleapis.com; img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.clarity.ms https://*.google.com https://*.gstatic.com; media-src 'self' https://res.cloudinary.com; font-src 'self' data: https://*.gstatic.com; frame-src 'self' https://*.instagram.com https://*.pinterest.com https://*.youtube.com https://*.google.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.clarity.ms https://*.googleapis.com;"
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://*.googletagmanager.com https://*.clarity.ms https://*.google.com https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://*.googleapis.com; img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.clarity.ms https://*.google.com https://*.gstatic.com https://cdn.simpleicons.org https://img.icons8.com; media-src 'self' https://res.cloudinary.com; font-src 'self' data: https://*.gstatic.com; frame-src 'self' https://*.instagram.com https://*.pinterest.com https://*.youtube.com https://*.google.com; connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com https://*.clarity.ms https://*.googleapis.com;"
           },
         ],
       },
