@@ -398,13 +398,14 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
   return (
     <div className="relative overflow-hidden font-sans selection:bg-[#0082f0] selection:text-white min-h-screen">
 
-      {/* ========== HERO SECTION — VIBRANT MOUNTAIN & WAVE THEME ========== */}
-      <div className="relative bg-gradient-to-b from-[#2e1065] via-[#4c1d95] to-[#1e1b4b] pt-16 md:pt-24 text-white overflow-hidden shadow-2xl">
-        {/* Animated mesh grid */}
-        <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-        {/* Glowing Orbs */}
-        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-purple-500/20 blur-[130px] rounded-full pointer-events-none" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-indigo-500/20 blur-[120px] rounded-full pointer-events-none" />
+      {/* ========== HERO SECTION — BRAND GREEN THEME ========== */}
+      <div className="relative bg-[#1a8b4c] pt-20 md:pt-28 text-white overflow-hidden">
+        {/* Subtle Background Circles matching screenshot */}
+        <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/[0.05] rounded-full pointer-events-none" />
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-white/[0.03] rounded-full pointer-events-none" />
+        
+        {/* Animated mesh grid for subtle modern texture */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
 
       {/* Custom Toast Notification */}
       <AnimatePresence>
@@ -437,7 +438,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
 
           {/* Dynamic Hero Title */}
           <h1 
-            className="text-4xl sm:text-6xl md:text-7xl font-black text-white uppercase tracking-tight leading-tight mb-4 drop-shadow-[0_8px_20px_rgba(0,0,0,0.4)]"
+            className="text-4xl sm:text-5xl md:text-[52px] font-black text-white uppercase tracking-tight leading-tight mb-4 drop-shadow-[0_4px_10px_rgba(0,0,0,0.3)]"
           >
             {(() => {
               const match = heroTitle.match(/(Global\s*Weblify|Global\s*Webify)/i);
@@ -447,7 +448,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                 const after = heroTitle.substring(match.index + match[0].length);
                 return (
                   <>
-                    {before}<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-fuchsia-300 to-pink-300">{matchedText}</span>{after}
+                    {before}<span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-emerald-300 to-teal-300">{matchedText}</span>{after}
                   </>
                 );
               }
@@ -457,7 +458,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                 const startText = words.join(' ');
                 return (
                   <>
-                    {startText} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-fuchsia-300 to-pink-300">{lastWord}</span>
+                    {startText} <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-emerald-300 to-teal-300">{lastWord}</span>
                   </>
                 );
               }
@@ -467,7 +468,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
 
           {/* Dynamic Hero Description */}
           <p
-            className="text-lg md:text-xl text-purple-100/90 max-w-3xl font-medium tracking-wide mb-8 drop-shadow"
+            className="text-[15px] md:text-[17px] text-green-100/90 max-w-3xl font-medium tracking-wide mb-8 drop-shadow"
           >
             {heroDesc}
           </p>
@@ -481,36 +482,36 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                 e.preventDefault();
                 document.getElementById('partnership-form')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 text-white px-9 py-4 rounded-full font-bold text-[13px] uppercase tracking-wider transition-all duration-300 shadow-[0_8px_30px_-8px_rgba(168,85,247,0.5)] hover:shadow-[0_12px_40px_-8px_rgba(168,85,247,0.7)] hover:scale-105 overflow-hidden"
+              className="group relative inline-flex items-center justify-center gap-2.5 bg-white text-[#1a8b4c] px-7 py-3.5 rounded-full font-bold text-[12.5px] uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-xl hover:scale-105 overflow-hidden border border-white/20"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#1a8b4c]/0 via-[#1a8b4c]/10 to-[#1a8b4c]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
               <span className="relative z-10">Apply Now</span>
-              <svg className="relative z-10 w-4 h-4 text-white stroke-[2.5] transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="relative z-10 w-4 h-4 text-[#1a8b4c] stroke-[2.5] transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </button>
           </div>
 
           {/* Mountain Card Box */}
-          <div className="w-full max-w-3xl bg-gradient-to-b from-[#1e1b4b] to-[#0f172a] rounded-t-3xl md:rounded-t-[40px] pt-8 pb-10 px-6 shadow-2xl border-t border-x border-purple-400/30 text-center relative overflow-hidden">
+          <div className="w-full max-w-2xl bg-gradient-to-b from-[#14723e] to-[#0d4f2a] rounded-t-3xl md:rounded-t-[36px] pt-6 pb-8 px-5 shadow-2xl border-t border-x border-white/10 text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08)_0,transparent_70%)] pointer-events-none"></div>
             
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-1.5 text-xs md:text-sm font-black tracking-widest text-purple-300 uppercase mb-2">
-                <TrendingUp className="w-4 h-4 text-purple-300" />
+              <div className="inline-flex items-center gap-1.5 text-[11px] md:text-[13px] font-black tracking-widest text-emerald-200 uppercase mb-2">
+                <svg className="w-4 h-4 text-emerald-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
                 <span>Established & Growing</span>
               </div>
-              <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tight drop-shadow">
+              <h2 className="text-2xl md:text-[34px] font-black text-white uppercase tracking-tight drop-shadow">
                 SCALING IT TOGETHER
               </h2>
             </div>
           </div>
         </div>
 
-        {/* Clean Curved SVG Wave Transition */}
-        <div className="w-full overflow-hidden leading-none relative z-20 -mt-1">
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-10 md:h-14 text-[#f8fafc] fill-current">
-            <path d="M0,0 C150,90 350,-40 500,45 C650,130 900,10 1200,40 L1200,120 L0,120 Z"></path>
+        {/* Clean Curved SVG Wave Transition matching screenshot pattern */}
+        <div className="w-full overflow-hidden leading-none relative z-20 -mt-1 md:-mt-2">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-8 md:h-12 text-[#f8fafc] fill-current">
+            <path d="M0,0 C150,50 350,-20 500,20 C650,60 900,10 1200,30 L1200,120 L0,120 Z"></path>
           </svg>
         </div>
       </div>
@@ -531,21 +532,14 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
         {/* ========== FRANCHISE FEATURES SECTION ========== */}
         <div className="pt-12 md:pt-16 pb-4">
           <div className="relative p-0 lg:p-[2px] rounded-[36px] bg-transparent lg:bg-gradient-to-r lg:from-purple-300 lg:via-fuchsia-200 lg:to-indigo-300 shadow-none lg:shadow-[0_20px_60px_-15px_rgba(147,51,234,0.15)]">
-            <div className="bg-white lg:bg-gradient-to-br lg:from-[#f4efff] lg:via-[#e8e0fe] lg:to-[#f6f1ff] p-2 sm:p-6 lg:p-12 rounded-xl lg:rounded-[34px] relative overflow-visible lg:overflow-hidden text-slate-900 border-none lg:border lg:border-purple-200/80">
-              <div className="absolute -top-24 -right-24 w-96 h-96 bg-purple-400/15 rounded-full blur-3xl pointer-events-none hidden lg:block" />
-              <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-400/15 rounded-full blur-3xl pointer-events-none hidden lg:block" />
+            <div className="bg-white lg:bg-gradient-to-br lg:from-green-50 lg:via-emerald-50 lg:to-green-50 p-2 sm:p-6 lg:p-12 rounded-xl lg:rounded-[34px] relative overflow-visible lg:overflow-hidden text-slate-900 border-none lg:border lg:border-green-200/80">
+              <div className="absolute -top-24 -right-24 w-96 h-96 bg-green-400/15 rounded-full blur-3xl pointer-events-none hidden lg:block" />
+              <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-400/15 rounded-full blur-3xl pointer-events-none hidden lg:block" />
               
               <div className="grid lg:grid-cols-12 gap-8 lg:gap-14 items-start relative z-10">
                 {/* Left — Text Content */}
                 <div className="lg:col-span-6 space-y-4 sm:space-y-6 w-full">
-                  <m.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-[11px] sm:text-xs font-bold uppercase tracking-wider shadow-xs"
-                  >
-                    <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Franchise Program</span>
-                  </m.div>
+
 
                   <m.h2
                     initial={{ opacity: 0, y: 10 }}
@@ -586,10 +580,8 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className={`relative p-4 sm:p-6 lg:p-7 rounded-xl lg:rounded-2xl bg-slate-50 lg:bg-white/90 border border-slate-100 lg:border-purple-200/80 lg:shadow-md lg:backdrop-blur-md text-slate-700 transition-[max-height] duration-300 ease-out custom-scrollbar-purple overflow-x-hidden lg:overflow-y-auto lg:max-h-[550px] ${!isExpanded ? 'max-h-[280px] overflow-hidden' : 'max-h-[4000px] overflow-visible'}`}
+                    className={`relative p-4 sm:p-6 lg:p-7 rounded-xl lg:rounded-2xl bg-slate-50 lg:bg-white/90 border border-slate-100 lg:border-green-200/80 lg:shadow-md lg:backdrop-blur-md text-slate-700 transition-[max-height] duration-300 ease-out overflow-x-hidden lg:overflow-y-auto lg:max-h-[550px] ${!isExpanded ? 'max-h-[280px] overflow-hidden' : 'max-h-[4000px] overflow-visible'}`}
                   >
-                    {/* Left glowing gradient accent bar */}
-                    <div className="absolute left-0 top-3 bottom-3 w-1.5 bg-[#1a8b4c] lg:bg-gradient-to-b lg:from-purple-600 lg:via-fuchsia-500 lg:to-indigo-600 rounded-r-full lg:shadow-sm" />
                     <div className="pl-3 space-y-4 text-slate-700 text-[15px] md:text-[16.5px] font-medium leading-relaxed text-justify [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:my-3 [&_ul]:space-y-1.5 [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:my-3 [&_ol]:space-y-1.5 [&_li]:text-slate-700 [&_strong]:font-bold [&_strong]:text-slate-900 [&_p]:mb-3 [&_p:last-child]:mb-0 franchise-desc-content">
                       <style dangerouslySetInnerHTML={{__html: `
                         .franchise-desc-content h1,
@@ -674,25 +666,25 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                     transition={{ delay: 0.25 }}
                     className="pt-2 space-y-3.5"
                   >
-                    <h4 className="text-[15px] md:text-[16px] font-extrabold text-slate-800 lg:text-transparent lg:bg-clip-text lg:bg-gradient-to-r lg:from-purple-700 lg:via-fuchsia-600 lg:to-indigo-600 tracking-tight">
+                    <h4 className="text-[15px] md:text-[16px] font-extrabold text-[#1a8b4c] tracking-tight">
                       Know More About Global Webify
                     </h4>
                     <div className="flex flex-wrap items-center gap-2 md:gap-3.5">
                       <Link
                         href="/portfolio"
-                        className="inline-flex items-center gap-1.5 md:gap-2 px-3.5 py-2.5 md:px-6 md:py-3.5 rounded-xl bg-[#1a8b4c] lg:bg-gradient-to-r lg:from-purple-600 lg:via-fuchsia-600 lg:to-indigo-600 text-white font-bold text-[11px] md:text-sm shadow-md lg:shadow-purple-600/30 hover:shadow-lg lg:hover:shadow-purple-600/40 hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
+                        className="inline-flex items-center gap-1.5 md:gap-2 px-3.5 py-2.5 md:px-6 md:py-3.5 rounded-xl bg-[#1a8b4c] text-white font-bold text-[11px] md:text-sm shadow-md hover:shadow-lg hover:bg-[#146c3b] hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
                       >
                         Portfolio <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
                       </Link>
                       <Link
                         href="/about"
-                        className="inline-flex items-center gap-1.5 md:gap-2 px-3.5 py-2.5 md:px-6 md:py-3.5 rounded-xl bg-slate-900 text-white font-bold text-[11px] md:text-sm shadow-md hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
+                        className="inline-flex items-center gap-1.5 md:gap-2 px-3.5 py-2.5 md:px-6 md:py-3.5 rounded-xl bg-blue-50 text-blue-700 font-bold text-[11px] md:text-sm shadow-sm border border-blue-200 hover:bg-blue-100 hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
                       >
                         About Us
                       </Link>
                       <Link
                         href="/our-franchisee"
-                        className="inline-flex items-center gap-1.5 md:gap-2 px-3.5 py-2.5 md:px-6 md:py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-[11px] md:text-sm shadow-md shadow-blue-500/30 hover:shadow-lg hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
+                        className="inline-flex items-center gap-1.5 md:gap-2 px-3.5 py-2.5 md:px-6 md:py-3.5 rounded-xl bg-slate-900 text-white font-bold text-[11px] md:text-sm shadow-md hover:shadow-lg hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
                       >
                         Our Franchise
                       </Link>
@@ -703,75 +695,67 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                 {/* Right — 2x2 Vibrant Gradient Feature Cards */}
                 <div className="lg:col-span-6 w-full pt-10 lg:pt-28 lg:sticky lg:top-36">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
-                    {/* Card 1 */}
+                    {/* Card 1 - Blue */}
                     <m.div 
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
-                      className="group bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700 rounded-3xl p-7 text-center shadow-xl shadow-blue-600/20 border border-white/20 hover:shadow-2xl hover:shadow-blue-600/35 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[210px]"
+                      className="group bg-white rounded-3xl p-7 text-center shadow-md border border-blue-200 hover:shadow-xl hover:shadow-blue-900/5 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[210px]"
                     >
-                      <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <MonitorSmartphone size={32} className="text-white drop-shadow-md" />
+                      <div className="w-16 h-16 rounded-2xl bg-blue-600 border border-blue-700 flex items-center justify-center shadow-md mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <MonitorSmartphone size={32} className="text-white" />
                       </div>
-                      <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-cyan-200/90 mb-1">Easy Setup</span>
-                      <h4 className="font-bold text-white text-[15px] sm:text-[16px] leading-snug tracking-wide">
-                        No Technical Knowledge Required
-                      </h4>
+                      <h3 className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-2">EASY SETUP</h3>
+                      <p className="text-[17px] font-black text-slate-800 leading-snug">No Technical Knowledge Required</p>
                     </m.div>
 
-                    {/* Card 2 */}
+                    {/* Card 2 - Violet */}
                     <m.div 
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
-                      className="group bg-gradient-to-br from-violet-600 via-purple-700 to-fuchsia-700 rounded-3xl p-7 text-center shadow-xl shadow-purple-600/20 border border-white/20 hover:shadow-2xl hover:shadow-purple-600/35 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[210px]"
+                      className="group bg-white rounded-3xl p-7 text-center shadow-md border border-violet-200 hover:shadow-xl hover:shadow-violet-900/5 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[210px]"
                     >
-                      <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <BadgeCheck size={32} className="text-white drop-shadow-md" />
+                      <div className="w-16 h-16 rounded-2xl bg-violet-600 border border-violet-700 flex items-center justify-center shadow-md mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <BadgeCheck size={32} className="text-white" />
                       </div>
-                      <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-purple-200/90 mb-1">Zero Barrier</span>
-                      <h4 className="font-bold text-white text-[15px] sm:text-[16px] leading-snug tracking-wide">
-                        No Experience Necessary
-                      </h4>
+                      <h3 className="text-[10px] font-black text-violet-600 uppercase tracking-widest mb-2">ZERO BARRIER</h3>
+                      <p className="text-[17px] font-black text-slate-800 leading-snug">No Experience Necessary</p>
                     </m.div>
 
-                    {/* Card 3 */}
+                    {/* Card 3 - Amber */}
                     <m.div 
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 }}
-                      className="group bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 rounded-3xl p-7 text-center shadow-xl shadow-emerald-600/20 border border-white/20 hover:shadow-2xl hover:shadow-emerald-600/35 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[210px]"
+                      className="group bg-white rounded-3xl p-7 text-center shadow-md border border-amber-200 hover:shadow-xl hover:shadow-amber-900/5 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[210px]"
                     >
-                      <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <Store size={32} className="text-white drop-shadow-md" />
+                      <div className="w-16 h-16 rounded-2xl bg-amber-500 border border-amber-600 flex items-center justify-center shadow-md mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <Store size={32} className="text-white" />
                       </div>
-                      <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-emerald-200/90 mb-1">High Demand</span>
-                      <h4 className="font-bold text-white text-[15px] sm:text-[16px] leading-snug tracking-wide">
-                        Sell Website Packages to Businesses
-                      </h4>
+                      <h3 className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-2">HIGH DEMAND</h3>
+                      <p className="text-[17px] font-black text-slate-800 leading-snug">Sell Website Packages to Businesses</p>
                     </m.div>
 
-                    {/* Card 4 */}
+                    {/* Card 4 - Brand Green */}
                     <m.div 
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.5 }}
-                      className="group bg-gradient-to-br from-rose-600 via-pink-600 to-orange-600 rounded-3xl p-7 text-center shadow-xl shadow-rose-600/20 border border-white/20 hover:shadow-2xl hover:shadow-rose-600/35 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[210px]"
+                      className="group bg-white rounded-3xl p-7 text-center shadow-md border border-[#1a8b4c]/30 hover:shadow-xl hover:shadow-[#1a8b4c]/5 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center min-h-[210px]"
                     >
-                      <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <TrendingUp size={32} className="text-white drop-shadow-md" />
+                      <div className="w-16 h-16 rounded-2xl bg-[#1a8b4c] border border-[#146c3b] flex items-center justify-center shadow-md mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <TrendingUp size={32} className="text-white" />
                       </div>
-                      <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-rose-200/90 mb-1">High Returns</span>
-                      <h4 className="font-bold text-white text-[15px] sm:text-[16px] leading-snug tracking-wide">
-                      Unlimited Earning Potential
-                    </h4>
-                  </m.div>
+                      <h3 className="text-[10px] font-black text-[#1a8b4c] uppercase tracking-widest mb-2">HIGH RETURNS</h3>
+                      <p className="text-[17px] font-black text-slate-800 leading-snug">Unlimited Earning Potential</p>
+                    </m.div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
 
 
@@ -785,9 +769,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
               className="bg-gradient-to-br from-white via-emerald-50/30 to-emerald-100/30 p-8 md:p-12 rounded-[32px] shadow-2xl shadow-[#1a8b4c]/10 border border-emerald-200/90 relative overflow-hidden text-slate-900"
             >
               <div className="text-center mb-10">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100/60 border border-emerald-300 text-[#1a8b4c] font-bold text-[10px] uppercase tracking-[0.15em] mb-5 shadow-sm">
-                  <Sparkles size={12} /> Schedule a Call
-                </div>
+
                 <h2 className="text-[26px] md:text-[36px] font-black text-slate-900 tracking-tight font-heading leading-tight">
                   Schedule a Call With Us
                 </h2>
@@ -987,16 +969,16 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                      isBlocked 
                                        ? 'border-red-200 bg-red-50/50' 
                                        : isSelected 
-                                         ? 'border-purple-500 shadow-xl shadow-purple-500/40 bg-purple-50/90 ring-4 ring-purple-400/30' 
-                                         : 'border-blue-200/80 hover:border-blue-500 bg-white'
+                                         ? 'border-[#1a8b4c] shadow-xl shadow-[#1a8b4c]/40 bg-green-50/90 ring-4 ring-[#1a8b4c]/30' 
+                                         : 'border-emerald-200/80 hover:border-[#1a8b4c] bg-white'
                                   }`}>
                                     {/* Calendar Top Header (Month) */}
                                     <div className={`w-full py-1 flex items-center justify-center border-b ${
                                       isBlocked 
                                         ? 'bg-red-500 border-red-600 text-white' 
                                         : isSelected 
-                                          ? 'bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 border-purple-600 text-white font-black' 
-                                          : 'bg-gradient-to-r from-blue-600 via-blue-500 to-sky-500 border-blue-600 text-white font-black'
+                                          ? 'bg-[#1a8b4c] border-[#146c3b] text-white font-black' 
+                                          : 'bg-emerald-100 border-emerald-200 text-[#1a8b4c] font-bold'
                                     }`}>
                                       <span className="text-[9px] font-black uppercase tracking-widest leading-none mt-0.5">
                                         {d.toLocaleDateString('en-IN', { month: 'short' })}
@@ -1115,8 +1097,8 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                                   isBooked 
                                     ? 'bg-red-50/50 border-red-100 opacity-60 cursor-not-allowed'
                                     : isSelected
-                                      ? 'bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 text-white border-purple-600 shadow-md shadow-purple-500/20'
-                                      : 'bg-white text-slate-700 border-blue-200/80 hover:border-blue-500 hover:bg-blue-50'
+                                      ? 'bg-[#1a8b4c] text-white border-[#1a8b4c] shadow-md shadow-[#1a8b4c]/30'
+                                      : 'bg-white text-slate-700 border-emerald-200/80 hover:border-[#1a8b4c] hover:bg-emerald-50'
                                 }`}
                               >
                                 {isBooked ? (
@@ -1158,7 +1140,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                     whileTap={{ scale: 0.99 }}
                     disabled={submitting}
                     type="submit"
-                    className="group relative w-full bg-gradient-to-r from-emerald-600 via-[#1a8b4c] to-emerald-700 hover:from-emerald-500 hover:to-[#1a8b4c] text-white py-4 rounded-xl font-black text-[13px] uppercase tracking-[0.15em] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-emerald-600/30 hover:shadow-2xl hover:shadow-emerald-600/40 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
+                    className="group relative w-full bg-[#1a8b4c] hover:bg-[#146c3b] text-white py-4 rounded-xl font-black text-[13px] uppercase tracking-[0.15em] flex items-center justify-center gap-2.5 transition-all duration-300 shadow-md shadow-[#1a8b4c]/20 hover:shadow-xl hover:shadow-[#1a8b4c]/30 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                     <span className="relative z-10">{submitting ? 'Scheduling Call...' : 'Schedule a Call'}</span>

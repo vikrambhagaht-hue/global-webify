@@ -265,10 +265,16 @@ export default function ContactClient() {
   };
 
   return (
-    <div className="pt-20 md:pt-24 pb-12 md:pb-20 bg-gray-50 relative overflow-hidden font-sans">
-      {/* Premium Background Elements */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-green-200/30 blur-[150px] rounded-full -mr-64 -mt-64 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-200/20 blur-[150px] rounded-full -ml-64 -mb-64 pointer-events-none" />
+    <div className="bg-gray-50 relative overflow-hidden font-sans">
+      
+      {/* ========== ORIGINAL HERO SECTION ========== */}
+      <div className="relative bg-[#1a8b4c] pt-32 pb-32 md:pt-40 md:pb-48 text-white overflow-hidden shadow-xl rounded-b-[40px]">
+        {/* Subtle Background Circles matching brand */}
+        <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/[0.05] rounded-full pointer-events-none" />
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-white/[0.03] rounded-full pointer-events-none" />
+        
+        {/* Animated mesh grid for subtle modern texture */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
 
       {/* Toast Notification */}
       <AnimatePresence>
@@ -296,30 +302,21 @@ export default function ContactClient() {
         )}
       </AnimatePresence>
 
-      <div className="container-custom relative z-10 px-4 max-w-7xl mx-auto">
-        
-        {/* Header Section */}
-        <div className="text-center mb-16">
-          <m.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-full mb-6 shadow-sm"
-          >
-            <span className="w-2 h-2 rounded-full bg-[#1a8b4c] animate-pulse" />
-            <span className="text-gray-600 text-xs font-black uppercase tracking-widest">Connect with Experts</span>
-          </m.div>
+        <div className="max-w-7xl mx-auto px-4 text-center relative z-10 flex flex-col items-center">
+          {/* Clean Hero Title */}
+          <h1 className="text-3xl md:text-[44px] font-black text-white uppercase tracking-tight mb-4 mt-2 drop-shadow-md">
+            LET'S START YOUR SUCCESS STORY
+          </h1>
+          
+          <div className="w-12 md:w-16 h-1 bg-green-300 rounded-full mb-5 md:mb-6 shadow-sm"></div>
 
-          <m.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-[28px] md:text-[52px] font-black font-heading text-gray-900 leading-tight mb-6"
-          >
-            Let's Start Your <span className="text-[#1a8b4c]">Success Story</span>
-          </m.h1>
-          <p className="text-gray-500 max-w-2xl mx-auto text-[15px] md:text-[17px] font-medium leading-relaxed">
+          <p className="text-sm md:text-[15.5px] text-white/95 max-w-2xl font-medium tracking-wide mb-8 drop-shadow">
             Ready to transform your digital presence? Send us a message or visit one of our global offices. We're here to help you scale.
           </p>
         </div>
+      </div>
+
+      <div className="container-custom relative z-10 px-4 max-w-7xl mx-auto -mt-16 md:-mt-32 pb-12 md:pb-20">
 
         {/* 2-Column Premium Grid */}
         <div className="grid lg:grid-cols-12 gap-6 lg:gap-10 items-stretch">

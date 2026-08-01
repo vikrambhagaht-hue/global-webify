@@ -120,8 +120,8 @@ export default function ServiceHero({
 
           {/* Heading */}
           <h1 className="text-lg sm:text-xl md:text-[26px] lg:text-[30px] font-black font-heading text-gray-950 uppercase leading-tight tracking-wide mb-4 w-full break-words">
-            <span className="text-purple-700">{mainTitle}</span>
-            {locationPart && <span className="text-purple-700"> {locationPart}</span>}
+            <span className="text-[#146c3b]">{mainTitle}</span>
+            {locationPart && <span className="text-[#146c3b]"> {locationPart}</span>}
           </h1>
 
           {/* Description */}
@@ -138,8 +138,8 @@ export default function ServiceHero({
               title="Contact Us - Global Webify"
               className="text-white font-bold py-3.5 px-2 md:px-6 rounded-2xl shadow-md hover:shadow-lg hover:translate-y-[-1px] transition-all flex items-center justify-center gap-1.5 md:gap-2 text-[12px] md:text-[13.5px] tracking-wide"
               style={{
-                background: 'linear-gradient(to right, #7c3aed, #4f46e5)',
-                border: '1px solid #7c3aed'
+                background: '#1a8b4c',
+                border: '1px solid #146c3b'
               }}
             >
               Contact Us <ArrowRight size={15} />

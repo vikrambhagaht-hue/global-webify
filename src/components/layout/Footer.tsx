@@ -112,7 +112,7 @@ export default function Footer() {
   };
 
   return (
-    <footer ref={footerRef} className={`bg-[#dbe6e0] pt-12 ${isHomepage ? 'pb-[75px]' : 'pb-12'} md:pt-20 md:pb-12 font-sans border-t border-emerald-200/60`}>
+    <footer ref={footerRef} className={`bg-emerald-50 pt-12 ${isHomepage ? 'pb-[75px]' : 'pb-12'} md:pt-20 md:pb-12 font-sans border-t border-emerald-200/60`}>
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         
         {/* Main Footer Content */}

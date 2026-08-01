@@ -55,35 +55,44 @@ export default async function CareersPage() {
 
   return (
     <div className="min-h-screen bg-[#f8fbfa] font-sans selection:bg-[#1a8b4c] selection:text-white pb-20">
-      {/* Premium Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#0a1911] via-[#0d2218] to-[#122c1f] text-white py-24 md:py-32">
-        {/* Animated Background Gradients */}
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#1a8b4c]/10 blur-[120px] pointer-events-none animate-pulse duration-[8000ms]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-500/10 blur-[120px] pointer-events-none animate-pulse duration-[6000ms]"></div>
-
-        <div className="max-w-7xl mx-auto px-4 text-center relative z-10 space-y-6">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-black uppercase tracking-widest">
-            Careers at GlobalWebify
-          </span>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight uppercase font-lexend bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-100 to-emerald-400">
-            Join Our Expert Team
+      {/* ========== HERO SECTION — BRAND GREEN THEME ========== */}
+      <section className="relative bg-[#1a8b4c] text-white pt-32 md:pt-40 pb-0 overflow-hidden mb-12">
+        {/* Subtle Background Circles matching brand */}
+        <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/[0.05] rounded-full pointer-events-none" />
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-white/[0.03] rounded-full pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto px-4 text-center relative z-10 flex flex-col items-center">
+          {/* Clean Hero Title */}
+          <h1 className="text-3xl md:text-[44px] font-black text-white uppercase tracking-tight mb-4 mt-2">
+            JOIN OUR EXPERT TEAM
           </h1>
-          <p className="text-base md:text-xl text-gray-300 max-w-3xl mx-auto font-semibold leading-relaxed">
+          
+          <div className="w-12 md:w-16 h-1 bg-green-300 rounded-full mb-5 md:mb-6"></div>
+
+          <p className="text-sm md:text-[15.5px] text-white/95 max-w-2xl font-medium tracking-wide mb-8">
             We help businesses grow online with custom web development, SEO, and digital marketing solutions. Be a part of a lively environment where creativity and innovation flourish.
           </p>
-          <div className="pt-4 flex justify-center gap-4">
-            <a href="#open-positions" className="bg-[#1a8b4c] hover:bg-[#15703d] text-white font-black px-8 py-4 rounded-2xl shadow-xl shadow-[#1a8b4c]/10 transition-all text-xs uppercase tracking-wider">
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8 md:mb-12">
+            <a href="#open-positions" className="bg-white hover:bg-gray-100 text-[#1a8b4c] font-black px-8 py-3.5 rounded-xl shadow-md transition-all text-[11px] md:text-[12px] uppercase tracking-widest text-center">
               View Open Positions
             </a>
-            <a href="#apply" className="border border-white/20 hover:bg-white/5 text-white font-black px-8 py-4 rounded-2xl transition-all text-xs uppercase tracking-wider">
+            <a href="#apply" className="bg-[#146c3b] border border-[#146c3b] hover:bg-[#105c31] text-white font-black px-8 py-3.5 rounded-xl transition-all text-[11px] md:text-[12px] uppercase tracking-widest shadow-sm text-center">
               Submit General Application
             </a>
           </div>
         </div>
+
+        {/* Clean Curved SVG Wave Transition seamlessly blending into the page background */}
+        <div className="w-full overflow-hidden leading-none relative z-20">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-8 md:h-12 text-[#f8fbfa] fill-current">
+            <path d="M0,0 C150,50 350,-20 500,20 C650,60 900,10 1200,30 L1200,120 L0,120 Z"></path>
+          </svg>
+        </div>
       </section>
 
       {/* Open Positions Section */}
-      <section id="open-positions" className="max-w-7xl mx-auto px-4 py-20">
+      <section id="open-positions" className="max-w-7xl mx-auto px-4 py-12 md:py-16">
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
           <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight font-lexend">
             Current Opportunities
@@ -115,7 +124,7 @@ export default async function CareersPage() {
       </section>
 
       {/* Culture Section */}
-      <section className="bg-white border-y border-gray-100 py-24">
+      <section className="bg-white border-y border-gray-100 py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
             <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight font-lexend">
@@ -131,7 +140,7 @@ export default async function CareersPage() {
             {cultureItems.map((item, index) => {
               const Icon = item.icon;
               return (
-                <div key={index} className="p-8 bg-white border border-gray-100 rounded-3xl hover:shadow-xl transition-all duration-300 flex items-start gap-4 group hover:border-[#1a8b4c]/20">
+                <div key={index} className="p-8 bg-[#f4fcf7] border border-[#d1ebd9] rounded-3xl hover:shadow-xl shadow-sm transition-all duration-300 flex items-start gap-4 group hover:border-[#1a8b4c]/40 hover:bg-[#ebf8f0] hover:-translate-y-1">
                   <div className={`p-3.5 rounded-2xl shrink-0 bg-gradient-to-br ${item.bg}`}>
                     <Icon size={24} className="stroke-[2.5]" />
                   </div>
@@ -151,7 +160,7 @@ export default async function CareersPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="max-w-7xl mx-auto px-4 py-24">
+      <section className="max-w-7xl mx-auto px-4 py-12 md:py-16">
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
           <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight font-lexend">
             Why Work With Us
@@ -166,7 +175,7 @@ export default async function CareersPage() {
           {benefitItems.map((item, index) => {
             const Icon = item.icon;
             return (
-              <div key={index} className="p-8 bg-white border border-gray-100 rounded-3xl hover:shadow-xl transition-all duration-300 flex items-start gap-4 group hover:border-[#1a8b4c]/20">
+              <div key={index} className="p-8 bg-[#f4fcf7] border border-[#d1ebd9] rounded-3xl hover:shadow-xl shadow-sm transition-all duration-300 flex items-start gap-4 group hover:border-[#1a8b4c]/40 hover:bg-[#ebf8f0] hover:-translate-y-1">
                 <div className="p-3.5 rounded-2xl shrink-0 bg-[#f0fdf4] text-[#1a8b4c]">
                   <Icon size={24} className="stroke-[2.5]" />
                 </div>
