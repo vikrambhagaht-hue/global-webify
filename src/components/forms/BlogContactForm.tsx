@@ -268,12 +268,12 @@ export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps =
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-xl rounded-[24px] p-6 md:p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-gray-100/80 relative overflow-hidden group">
+    <div className="bg-gradient-to-br from-[#137a44] via-[#1a8b4c] to-[#116938] rounded-[24px] p-6 md:p-8 shadow-[0_20px_60px_-15px_rgba(26,139,76,0.4)] border border-[#4ade80]/30 relative overflow-hidden group">
       {/* Premium subtle glow effect in the corner */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#1a8b4c]/10 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#86efac]/20 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
       
-      <h3 className="text-[15px] font-black text-gray-900 uppercase tracking-widest mb-4 flex items-center gap-2 pb-3 border-b border-gray-100/80 relative z-10">
-        <span className="text-[#1a8b4c]"><Sparkles size={16} strokeWidth={2.5} /></span> Request a Free Quote
+      <h3 className="text-[15px] font-black text-white uppercase tracking-widest mb-4 flex items-center gap-2 pb-3 border-b border-white/20 relative z-10">
+        <span className="text-[#a7f3d0]"><Sparkles size={16} strokeWidth={2.5} /></span> Request a Free Quote
       </h3>
       
       {submitted ? (
@@ -285,42 +285,44 @@ export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps =
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Field: Name */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Your Name *</label>
+              <label className="text-[10px] font-bold text-emerald-100/70 uppercase tracking-widest ml-1">Your Name *</label>
               <input 
                 type="text" 
                 required
+                maxLength={50}
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Enter name"
-                className="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/10 transition-all duration-300 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)]"
+                className="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-medium text-white placeholder-emerald-100/40 focus:outline-none focus:border-[#4ade80] focus:ring-4 focus:ring-[#4ade80]/20 transition-all duration-300 shadow-inner"
               />
             </div>
             
             {/* Field: Email */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Your Email *</label>
+              <label className="text-[10px] font-bold text-emerald-100/70 uppercase tracking-widest ml-1">Your Email *</label>
               <input 
                 type="email" 
                 required
+                maxLength={80}
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="Enter email"
-                className={`w-full bg-white/50 border rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-4 transition-all duration-300 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)] ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-100' : 'border-gray-200 focus:border-[#1a8b4c] focus:ring-[#1a8b4c]/10'}`}
+                className={`w-full bg-white/10 border rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-medium text-white placeholder-emerald-100/40 focus:outline-none focus:ring-4 transition-all duration-300 shadow-inner ${errors.email ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-white/10 focus:border-[#4ade80] focus:ring-[#4ade80]/20'}`}
               />
-              {errors.email && <span className="text-red-500 text-[11px] font-semibold mt-0.5 ml-1">{errors.email}</span>}
+              {errors.email && <span className="text-red-400 text-[11px] font-semibold mt-0.5 ml-1">{errors.email}</span>}
             </div>
           </div>
           
           {/* Field: Phone */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Your Phone *</label>
+            <label className="text-[10px] font-bold text-emerald-100/70 uppercase tracking-widest ml-1">Your Phone *</label>
             <div className="flex gap-2">
               {/* Premium Country Code Select */}
               <div className="relative w-32 shrink-0">
                 <button
                   type="button"
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="w-full flex items-center justify-between pl-3 pr-2.5 py-3 bg-white/50 border border-gray-200 rounded-xl text-[13px] font-bold text-gray-800 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/10 transition-all shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)]"
+                  className="w-full flex items-center justify-between pl-3 pr-2.5 py-3 bg-white/10 border border-white/10 rounded-xl text-[13px] font-bold text-white focus:outline-none focus:border-[#4ade80] focus:ring-4 focus:ring-[#4ade80]/20 transition-all shadow-inner"
                 >
                   <span className="flex items-center gap-2">
                     <FlagIcon iso={selectedCountry.iso} />
@@ -372,7 +374,7 @@ export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps =
                     setFormData(prev => ({ ...prev, phone: val ? `${selectedCountry.code} ${val}` : '' }));
                   }}
                   placeholder={selectedCountry.placeholder}
-                  className={`w-full bg-white/50 border rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-4 transition-all duration-300 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)] ${errors.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-100' : 'border-gray-200 focus:border-[#1a8b4c] focus:ring-[#1a8b4c]/10'}`}
+                  className={`w-full bg-white/10 border rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-medium text-white placeholder-emerald-100/40 focus:outline-none focus:ring-4 transition-all duration-300 shadow-inner ${errors.phone ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-white/10 focus:border-[#4ade80] focus:ring-[#4ade80]/20'}`}
                 />
               </div>
             </div>
@@ -381,13 +383,14 @@ export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps =
           
           {/* Field: Message */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Message <span className="text-gray-400 font-semibold lowercase tracking-normal">(optional)</span></label>
+            <label className="text-[10px] font-bold text-emerald-100/70 uppercase tracking-widest ml-1">Message <span className="text-emerald-100/40 font-semibold lowercase tracking-normal">(optional)</span></label>
             <textarea 
               rows={4}
+              maxLength={500}
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               placeholder="Describe your requirements"
-              className="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/10 transition-all duration-300 resize-none shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)]"
+              className="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-medium text-white placeholder-emerald-100/40 focus:outline-none focus:border-[#4ade80] focus:ring-4 focus:ring-[#4ade80]/20 transition-all duration-300 resize-none shadow-inner"
             />
           </div>
 
@@ -401,7 +404,7 @@ export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps =
           <button 
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-gray-900 hover:bg-[#1a8b4c] text-white rounded-xl py-3.5 text-xs font-black uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-[0_4px_15px_-3px_rgba(0,0,0,0.1)] active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-white hover:bg-[#dcfce7] text-[#116938] hover:text-[#064e3b] rounded-xl py-3.5 text-xs font-black uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-[0_4px_15px_-3px_rgba(0,0,0,0.2)] active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
           >
             {isSubmitting ? 'Sending Request...' : 'Get Free Quote'}
             <Send size={12} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />

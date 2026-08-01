@@ -13,6 +13,15 @@ import {
   COMPANY_LINKS
 } from '@/constants/navigation';
 
+const DIGITAL_MARKETING_CLIENTS = [
+  { src: 'BLPK Motion post.webp', alt: 'Babulal Premkumar', label: 'Babulal Premkumar', imgClass: 'h-6 md:h-8 object-contain', blend: 'mix-blend-multiply' },
+  { src: 'FPS.webp', alt: 'Firayalal Public School', label: 'Firayalal Public School', imgClass: 'h-6 md:h-8 object-contain', blend: 'mix-blend-multiply' },
+  { src: 'goldpecash.png', alt: 'Gold Pe Cash', label: 'Gold Pe Cash', imgClass: 'h-6 md:h-8 object-contain', blend: 'mix-blend-normal rounded-sm' },
+  { src: 'Spica Infra post.webp', alt: 'Spica Infra', label: 'Spica Infra', imgClass: 'h-6 md:h-8 object-contain', blend: 'mix-blend-multiply' },
+  { src: 'acs .webp', alt: 'ACS', label: 'ACS', imgClass: 'h-6 md:h-8 object-contain', blend: 'mix-blend-multiply' },
+  { src: 'vedika sawan standee.webp', alt: 'Vedika', label: 'Vedika', imgClass: 'h-10 md:h-[42px] object-contain', blend: 'mix-blend-multiply' }
+];
+
 interface MegaMenuProps {
   onClose: () => void;
   activeMenu: string | null;
@@ -155,6 +164,25 @@ export const MegaMenu = ({ onClose, activeMenu, currentMenuId, currentCity }: Me
           ))}
         </div>
       </div>
+
+      {/* Digital Marketing Trust Banner */}
+      {currentMenuId === 'marketing' && (
+        <div className="border-t border-gray-100 bg-gray-50/80 px-8 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <span className="text-[13px] font-bold text-gray-500 uppercase tracking-wider shrink-0">
+            Brands That Trust Us
+          </span>
+          <div className="flex flex-wrap items-center gap-6 md:gap-10 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+            {DIGITAL_MARKETING_CLIENTS.map((logo, i) => (
+              <img 
+                key={logo.label}
+                src={`/digital-marketing-clients/${logo.src}`} 
+                alt={logo.alt} 
+                className={`${logo.imgClass} ${logo.blend} transition-transform duration-300 hover:scale-110`} 
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
