@@ -118,21 +118,13 @@ export default function AboutClient() {
         </div>
 
         <div className="container-custom relative z-10">
-          {/* Breadcrumb */}
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="flex items-center justify-center gap-2 mb-6">
-            <Link href="/" className="flex items-center gap-1.5 text-white/80 hover:text-white transition-colors text-sm font-medium">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
-              Home
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-white/50" />
-            <span className="text-white font-semibold text-sm">About Us</span>
-          </motion.div>
+
 
           <div className="text-center max-w-4xl mx-auto">
             {/* Eyebrow */}
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.1 }} className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 mb-8">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
-              <span className="text-xs font-bold uppercase tracking-[0.18em] text-white">Since 2015 • End-to-End Digital Solutions</span>
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.1 }} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
+              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.15em] text-white">Since 2015 • End-to-End Digital Solutions</span>
             </motion.div>
 
             <motion.h1 initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="text-4xl sm:text-5xl md:text-7xl font-black font-lexend text-white mb-7 tracking-tight leading-[1.05]">
