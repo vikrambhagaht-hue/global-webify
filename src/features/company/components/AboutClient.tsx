@@ -182,18 +182,20 @@ export default function AboutClient() {
               <Globe className="w-3.5 h-3.5" />
               Our Story
             </span>
-            <h2 className="text-3xl md:text-5xl font-extrabold font-lexend text-slate-900 tracking-tight leading-tight">
-              Transforming Ideas Into<br className="hidden sm:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600">Digital Reality</span>
+            <h2 className="text-3xl md:text-4xl font-extrabold font-lexend text-slate-900 tracking-tight leading-tight">
+              Transforming Ideas Into <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600">Digital Reality</span>
             </h2>
+            <p className="text-slate-600 text-sm md:text-base mt-3 max-w-4xl mx-auto">
+              Empowering businesses with cutting-edge web design, robust development, and data-driven marketing strategies since 2015.
+            </p>
           </motion.div>
 
           {/* ── Bento Grid Layout ── */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
             {/* Bento: Main intro card — spans 2 cols */}
-            <motion.div initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="lg:col-span-2 relative overflow-hidden rounded-3xl p-8 md:p-10 border border-slate-200 bg-slate-100 shadow-sm">
-              <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-white/40 to-transparent rounded-bl-full" />
+            <motion.div initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="lg:col-span-2 relative overflow-hidden rounded-3xl p-8 md:p-10 border border-emerald-100/60 bg-white shadow-[0_8px_30px_rgb(16,185,129,0.12)]">
+              <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-emerald-50/50 to-transparent rounded-bl-full" />
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-emerald-400/10 to-transparent" />
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6">
@@ -303,9 +305,9 @@ export default function AboutClient() {
               <Users className="w-3.5 h-3.5 text-emerald-600" />
               What We Do
             </span>
-            <h3 className="text-2xl md:text-4xl font-extrabold font-lexend text-slate-900">Our Expertise & Services</h3>
-            <p className="text-slate-600 text-sm md:text-base mt-3 max-w-2xl mx-auto">
-              End-to-end digital solutions designed to solve real business challenges like low traffic, poor conversions, and weak online presence.
+            <h3 className="text-3xl md:text-4xl font-extrabold font-lexend text-slate-900 tracking-tight">Our Expertise & Services</h3>
+            <p className="text-slate-600 text-sm md:text-base mt-3 max-w-4xl mx-auto">
+              Comprehensive digital marketing, SEO, and web development services designed to accelerate your business growth and maximize ROI.
             </p>
           </motion.div>
 
@@ -479,10 +481,10 @@ export default function AboutClient() {
                 <Users className="w-3.5 h-3.5 text-amber-400" />
                 Global Webify Leaders
               </span>
-              <h2 className="text-3xl md:text-5xl font-extrabold font-lexend text-white mb-4 tracking-tight">Our Leadership Team</h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold font-lexend text-white mb-4 tracking-tight">Our Leadership Team</h2>
               <div className="w-20 h-1 bg-gradient-to-r from-amber-400 to-rose-400 mx-auto mb-6 rounded-full" />
-              <p className="text-emerald-100/70 text-sm md:text-base leading-relaxed">
-                Meet the visionaries guiding Global Webify&apos;s mission to drive digital growth and deliver excellence.
+              <p className="text-emerald-100/70 text-sm md:text-base leading-relaxed max-w-4xl mx-auto">
+                Meet the expert digital strategists and technical leaders driving innovation and measurable business growth at Global Webify.
               </p>
             </motion.div>
           </div>
@@ -632,7 +634,7 @@ export default function AboutClient() {
                     whileHover={{ y: -8, scale: 1.05, rotate: index % 2 === 0 ? 2 : -2 }} 
                     className={`relative aspect-[1131/1600] w-full rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-2xl hover:shadow-teal-500/20 border-2 border-white group transition-all duration-300 z-10 hover:z-20 transform-gpu ${index === 6 ? 'col-span-2 sm:col-span-1 sm:col-start-2 w-[60%] sm:w-full mx-auto' : ''}`}
                   >
-                    <Image src={cert.src} alt={cert.alt} fill quality={90} className="object-cover transition-transform duration-700 group-hover:scale-110" sizes="(max-width: 768px) 33vw, 20vw" />
+                    <Image src={cert.src} alt={cert.alt} fill quality={90} priority className="object-cover transition-transform duration-700 group-hover:scale-110" sizes="(max-width: 768px) 33vw, 20vw" />
                     
                     {/* Glass Reflection */}
                     <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-1000 ease-out pointer-events-none" />
@@ -669,9 +671,9 @@ export default function AboutClient() {
               <Shield className="w-3.5 h-3.5" />
               Secure Transactions
             </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold font-lexend text-white mb-4">Our Payment Partners</h2>
-            <p className="text-slate-400 text-sm md:text-base leading-relaxed">
-              We support secure, reliable, and convenient payment methods to facilitate both domestic and international transactions.
+            <h2 className="text-3xl md:text-4xl font-extrabold font-lexend text-white mb-4 tracking-tight">Our Payment Partners</h2>
+            <p className="text-slate-400 text-sm md:text-base leading-relaxed max-w-4xl mx-auto">
+              Global Webify integrates 100% secure, encrypted, and reliable payment gateways for seamless domestic and international transactions.
             </p>
           </motion.div>
 
@@ -686,7 +688,7 @@ export default function AboutClient() {
               <motion.div key={index} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.08 }} className="group bg-white/[0.06] hover:bg-white/[0.08] rounded-[24px] p-5 border border-white/[0.08] hover:border-emerald-400/50 shadow-xl shadow-black/10 hover:shadow-2xl hover:shadow-emerald-400/20 transition-all duration-500 flex flex-col items-center justify-between text-center transform-gpu hover:-translate-y-1.5">
                 {/* Logo White Box */}
                 <div className="w-full bg-white rounded-xl p-3 shadow-inner flex items-center justify-center min-h-[75px] max-h-[85px] relative">
-                  <Image src={partner.src} alt={partner.alt} width={130} height={50} quality={90} className="object-contain max-h-[50px] w-auto" />
+                  <Image src={partner.src} alt={partner.alt} width={130} height={50} quality={90} priority className="object-contain max-h-[50px] w-auto" />
                 </div>
                 {/* Text Label */}
                 <div className="mt-4">
