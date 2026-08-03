@@ -360,13 +360,13 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
           color: white;
         }
         .cta-ac-audit {
-          background: #3b82f6;
+          background: #10b981;
           color: white;
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
-          border: 2px solid #3b82f6;
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+          border: 2px solid #10b981;
         }
         .cta-ac-audit:hover {
-          background: #2563eb;
+          background: #059669;
           transform: translateY(-2px);
           color: white;
         }
@@ -764,7 +764,7 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
           left: 0;
           right: 0;
           height: 4px;
-          background: linear-gradient(90deg, var(--primary-green), var(--primary-blue));
+          background: linear-gradient(90deg, var(--primary-green), var(--primary-green-dark));
         }
         .blog-cta-section::after {
           content: '';
