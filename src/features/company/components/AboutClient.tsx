@@ -378,7 +378,7 @@ export default function AboutClient() {
 
           {/* ── Mission ── */}
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="relative overflow-hidden rounded-3xl p-8 sm:p-10 flex flex-col justify-between shadow-sm bg-gradient-to-br from-blue-50/70 via-white to-indigo-50/40 border border-blue-100/60">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="relative overflow-hidden rounded-3xl p-8 sm:p-10 flex flex-col justify-between shadow-sm bg-gradient-to-br from-blue-50 to-indigo-100/80 border border-blue-200/60">
               <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-white/8 via-transparent to-transparent rounded-bl-full" />
               <div className="absolute bottom-0 left-0 w-52 h-52 bg-gradient-to-tr from-green-300/10 via-transparent to-transparent" />
 
@@ -394,7 +394,7 @@ export default function AboutClient() {
                 </p>
                 <div className="grid grid-cols-2 gap-4 pt-2">
                   {[{ val: 500, sfx: '+', lbl: 'Projects Delivered' }, { val: 98, sfx: '%', lbl: 'Client Satisfaction' }].map((s, i) => (
-                    <div key={i} className="bg-white/60 backdrop-blur-sm border border-white p-5 rounded-2xl text-center hover:bg-white shadow-sm transition-colors duration-300">
+                    <div key={i} className="bg-white/80 backdrop-blur-sm border border-white p-5 rounded-2xl text-center hover:bg-white shadow-sm transition-colors duration-300">
                       <p className="text-2xl sm:text-3xl font-black text-slate-900 font-lexend mb-1"><Counter value={s.val} suffix={s.sfx} /></p>
                       <p className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-[0.12em]">{s.lbl}</p>
                     </div>
@@ -404,7 +404,7 @@ export default function AboutClient() {
             </motion.div>
 
             {/* Mission Image */}
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="relative rounded-3xl overflow-hidden shadow-2xl shadow-green-900/10 border border-green-100/40 group hover:-translate-y-1.5 transition-transform duration-300 transform-gpu">
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="relative rounded-3xl overflow-hidden shadow-2xl shadow-green-900/10 border border-green-100/40 order-first lg:order-none group hover:-translate-y-1.5 transition-transform duration-300 transform-gpu">
               <div className="absolute top-4 right-4 bg-gradient-to-br from-rose-500 to-pink-600 text-white w-9 h-9 rounded-full flex items-center justify-center shadow-lg shadow-rose-500/30 z-10">
                 <Heart size={16} className="fill-white text-white" />
               </div>
