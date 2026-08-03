@@ -4,9 +4,11 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { sanitizeHtml } from '@/lib/sanitize';
 import BlogContactForm from '@/components/forms/BlogContactForm';
+import AuditModal from '@/components/ui/AuditModal';
 
 export function BlogPostView({ post, isDbPost, headings = [], displayDate, displayAuthor, displayExcerpt }: any) {
   const [activeId, setActiveId] = useState<string>('');
+  const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
 
   useEffect(() => {
     const getHeadingElements = () => headings.map((h: any) => {
@@ -1052,9 +1054,9 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
                       <a href="https://wa.me/917563901100" target="_blank" rel="noopener noreferrer" className="hero-cta-action-btn cta-ac-wa">
                         <i className="fab fa-whatsapp"></i> WhatsApp
                       </a>
-                      <a href="/contact?subject=Free+Audit" className="hero-cta-action-btn cta-ac-audit">
+                      <button onClick={() => setIsAuditModalOpen(true)} className="hero-cta-action-btn cta-ac-audit">
                         <i className="fas fa-chart-line"></i> Free Audit
-                      </a>
+                      </button>
                     </div>
                   </div>
 
@@ -1238,6 +1240,7 @@ export function BlogPostView({ post, isDbPost, headings = [], displayDate, displ
           </div>
         </section>
       </main>
+      <AuditModal isOpen={isAuditModalOpen} onClose={() => setIsAuditModalOpen(false)} />
     </>
   );
 }
