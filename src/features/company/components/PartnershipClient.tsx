@@ -786,10 +786,11 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                     <input 
                       type="text" 
                       required
+                      maxLength={50}
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
                       className="w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border border-emerald-200/90 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-[#1a8b4c] focus:ring-2 focus:ring-emerald-600/10 transition-all placeholder-slate-400 shadow-sm"
-                      placeholder="Jane Smith"
+                      placeholder="Enter your name"
                     />
                   </div>
 
@@ -798,10 +799,11 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                     <input 
                       type="email" 
                       required
+                      maxLength={80}
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
                       className={`w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:ring-2 transition-all placeholder-slate-400 shadow-sm ${errors.email ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' : 'border-emerald-200/90 focus:border-[#1a8b4c] focus:ring-emerald-600/10'}`}
-                      placeholder="jane@company.com"
+                      placeholder="Enter your email"
                     />
                     {errors.email && <span className="text-red-500 text-[11px] font-bold mt-0.5 ml-1">{errors.email}</span>}
                   </div>
@@ -813,10 +815,11 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                     <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-[#1a8b4c]">Company Name <span className="text-slate-400 font-semibold lowercase tracking-normal">(optional)</span></label>
                     <input 
                       type="text" 
+                      maxLength={100}
                       value={formData.companyName}
                       onChange={(e) => setFormData({...formData, companyName: e.target.value})}
                       className="w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border border-emerald-200/90 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-[#1a8b4c] focus:ring-2 focus:ring-emerald-600/10 transition-all placeholder-slate-400 shadow-sm"
-                      placeholder="Acme Corp"
+                      placeholder="Enter company name"
                     />
                   </div>
 
@@ -824,10 +827,11 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                     <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.1em] ml-1 transition-colors group-focus-within:text-[#1a8b4c]">Website URL <span className="text-slate-400 font-semibold lowercase tracking-normal">(optional)</span></label>
                     <input 
                       type="url" 
+                      maxLength={150}
                       value={formData.websiteUrl}
                       onChange={(e) => setFormData({...formData, websiteUrl: e.target.value})}
                       className="w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border border-emerald-200/90 rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:border-[#1a8b4c] focus:ring-2 focus:ring-emerald-600/10 transition-all placeholder-slate-400 shadow-sm"
-                      placeholder="https://company.com"
+                      placeholder="Enter website URL"
                     />
                   </div>
                 </div>

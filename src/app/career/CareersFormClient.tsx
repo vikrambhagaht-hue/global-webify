@@ -149,9 +149,10 @@ ${coverLetter || 'None'}
           <input
             type="text"
             required
+            maxLength={50}
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            placeholder="John"
+            placeholder="Enter first name"
             className="w-full bg-gray-50/50 border border-gray-200/80 rounded-xl px-4 py-2.5 text-xs font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:bg-white transition-all"
           />
         </div>
@@ -160,9 +161,10 @@ ${coverLetter || 'None'}
           <input
             type="text"
             required
+            maxLength={50}
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            placeholder="Doe"
+            placeholder="Enter last name"
             className="w-full bg-gray-50/50 border border-gray-200/80 rounded-xl px-4 py-2.5 text-xs font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:bg-white transition-all"
           />
         </div>
@@ -174,9 +176,10 @@ ${coverLetter || 'None'}
           <input
             type="email"
             required
+            maxLength={80}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="johndoe@example.com"
+            placeholder="Enter your email"
             className="w-full bg-gray-50/50 border border-gray-200/80 rounded-xl px-4 py-2.5 text-xs font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:bg-white transition-all"
           />
         </div>
@@ -253,6 +256,7 @@ ${coverLetter || 'None'}
         <label className="text-[10px] font-black text-gray-500 uppercase tracking-wider">LinkedIn Profile URL</label>
         <input
           type="url"
+          maxLength={150}
           value={linkedin}
           onChange={(e) => setLinkedin(e.target.value)}
           placeholder="https://linkedin.com/in/yourprofile"
@@ -264,6 +268,7 @@ ${coverLetter || 'None'}
         <label className="text-[10px] font-black text-gray-500 uppercase tracking-wider">Portfolio / Website URL</label>
         <input
           type="url"
+          maxLength={150}
           value={portfolio}
           onChange={(e) => setPortfolio(e.target.value)}
           placeholder="https://yourportfolio.com"

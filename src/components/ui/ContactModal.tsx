@@ -70,7 +70,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             </button>
 
             <div className="p-1">
-              <BlogContactForm sourcePrefix="Contact Us Modal" />
+              <BlogContactForm sourcePrefix="Contact Us Modal" theme="white" />
             </div>
           </m.div>
         </m.div>

@@ -165,9 +165,10 @@ const isValidEmail = (email: string): boolean => {
 
 interface BlogContactFormProps {
   sourcePrefix?: string;
+  theme?: 'white' | 'green';
 }
 
-export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps = {}) {
+export default function BlogContactForm({ sourcePrefix, theme = 'green' }: BlogContactFormProps = {}) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -267,17 +268,45 @@ export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps =
     }
   };
 
+  const isWhite = theme === 'white';
+
+  const styles = isWhite ? {
+    container: 'bg-white rounded-[24px] p-6 md:p-8 shadow-xl border border-gray-100 relative overflow-hidden group',
+    titleBorder: 'border-b border-gray-100',
+    titleText: 'text-gray-900',
+    iconColor: 'text-[#1a8b4c]',
+    label: 'text-gray-500',
+    labelOpt: 'text-gray-400',
+    input: 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#1a8b4c] focus:ring-[#1a8b4c]/20',
+    inputError: 'border-red-400 focus:border-red-400 focus:ring-red-400/20',
+    dropdownBtn: 'bg-gray-50 border-gray-200 text-gray-900 focus:border-[#1a8b4c] focus:ring-[#1a8b4c]/20',
+    dropdownArrow: 'text-gray-500',
+    submitBtn: 'bg-[#1a8b4c] hover:bg-[#15703d] text-white shadow-[0_4px_15px_-3px_rgba(26,139,76,0.3)]'
+  } : {
+    container: 'bg-gradient-to-br from-[#22c55e] to-[#15803d] rounded-[24px] p-6 md:p-8 shadow-[0_15px_40px_-10px_rgba(26,139,76,0.4)] border border-emerald-400/40 relative overflow-hidden group',
+    titleBorder: 'border-b border-white/20',
+    titleText: 'text-white',
+    iconColor: 'text-[#a7f3d0]',
+    label: 'text-emerald-50',
+    labelOpt: 'text-emerald-100/60',
+    input: 'bg-white/10 border-white/20 text-white placeholder-emerald-100/60 focus:border-[#a7f3d0] focus:ring-[#a7f3d0]/30',
+    inputError: 'border-red-300 focus:border-red-300 focus:ring-red-300/30',
+    dropdownBtn: 'bg-white/10 border-white/20 text-white focus:border-[#a7f3d0] focus:ring-[#a7f3d0]/30',
+    dropdownArrow: 'text-white',
+    submitBtn: 'bg-white hover:bg-emerald-50 text-[#15803d] shadow-lg'
+  };
+
   return (
-    <div className="bg-white rounded-[24px] p-6 md:p-8 shadow-xl border border-gray-100 relative overflow-hidden group">
+    <div className={styles.container}>
       {/* Premium subtle glow effect in the corner */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#1a8b4c]/10 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+      <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${isWhite ? 'from-[#1a8b4c]/10' : 'from-white/10'} to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none`} />
       
-      <h3 className="text-[15px] font-black text-gray-900 uppercase tracking-widest mb-4 flex items-center gap-2 pb-3 border-b border-gray-100 relative z-10">
-        <span className="text-[#1a8b4c]"><Sparkles size={16} strokeWidth={2.5} /></span> Request a Free Quote
+      <h3 className={`text-[15px] font-black uppercase tracking-widest mb-4 flex items-center gap-2 pb-3 relative z-10 ${styles.titleBorder} ${styles.titleText}`}>
+        <span className={styles.iconColor}><Sparkles size={16} strokeWidth={2.5} /></span> Request a Free Quote
       </h3>
       
       {submitted ? (
-        <div className="p-4 bg-green-50/80 backdrop-blur-sm border border-green-100 text-green-700 rounded-xl text-xs font-bold text-center shadow-sm">
+        <div className={`p-4 rounded-xl text-xs font-bold text-center shadow-sm ${isWhite ? 'bg-green-50/80 border-green-100 text-green-700' : 'bg-white/20 border-white/30 text-white'}`}>
           Thank you! Your message has been sent successfully. We will get back to you shortly.
         </div>
       ) : (
@@ -285,7 +314,7 @@ export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps =
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Field: Name */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Your Name *</label>
+              <label className={`text-[10px] font-bold uppercase tracking-widest ml-1 ${styles.label}`}>Your Name *</label>
               <input 
                 type="text" 
                 required
@@ -293,13 +322,13 @@ export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps =
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Enter name"
-                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/20 transition-all duration-300 shadow-sm"
+                className={`w-full rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-medium focus:outline-none focus:ring-4 transition-all duration-300 shadow-sm ${styles.input}`}
               />
             </div>
             
             {/* Field: Email */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Your Email *</label>
+              <label className={`text-[10px] font-bold uppercase tracking-widest ml-1 ${styles.label}`}>Your Email *</label>
               <input 
                 type="email" 
                 required
@@ -307,28 +336,28 @@ export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps =
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="Enter email"
-                className={`w-full bg-gray-50 border rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 transition-all duration-300 shadow-sm ${errors.email ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-gray-200 focus:border-[#1a8b4c] focus:ring-[#1a8b4c]/20'}`}
+                className={`w-full rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-medium focus:outline-none focus:ring-4 transition-all duration-300 shadow-sm ${errors.email ? styles.inputError : styles.input}`}
               />
-              {errors.email && <span className="text-red-500 text-[11px] font-semibold mt-0.5 ml-1">{errors.email}</span>}
+              {errors.email && <span className={`text-[11px] font-semibold mt-0.5 ml-1 ${isWhite ? 'text-red-500' : 'text-red-200'}`}>{errors.email}</span>}
             </div>
           </div>
           
           {/* Field: Phone */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Your Phone *</label>
+            <label className={`text-[10px] font-bold uppercase tracking-widest ml-1 ${styles.label}`}>Your Phone *</label>
             <div className="flex gap-2">
               {/* Premium Country Code Select */}
               <div className="relative w-32 shrink-0">
                 <button
                   type="button"
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="w-full flex items-center justify-between pl-3 pr-2.5 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] font-bold text-gray-900 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/20 transition-all shadow-sm"
+                  className={`w-full flex items-center justify-between pl-3 pr-2.5 py-3 rounded-xl text-[13px] font-bold focus:outline-none focus:ring-4 transition-all shadow-sm ${styles.dropdownBtn}`}
                 >
                   <span className="flex items-center gap-2">
                     <FlagIcon iso={selectedCountry.iso} />
                     {selectedCountry.code}
                   </span>
-                  <svg className={`w-3.5 h-3.5 text-gray-500 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${styles.dropdownArrow} ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7"></path>
                   </svg>
                 </button>
@@ -374,29 +403,29 @@ export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps =
                     setFormData(prev => ({ ...prev, phone: val ? `${selectedCountry.code} ${val}` : '' }));
                   }}
                   placeholder=""
-                  className={`w-full bg-gray-50 border rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 transition-all duration-300 shadow-sm ${errors.phone ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-gray-200 focus:border-[#1a8b4c] focus:ring-[#1a8b4c]/20'}`}
+                  className={`w-full rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-medium focus:outline-none focus:ring-4 transition-all duration-300 shadow-sm ${errors.phone ? styles.inputError : styles.input}`}
                 />
               </div>
             </div>
-            {errors.phone && <span className="text-red-500 text-[11px] font-semibold mt-0.5 ml-1">{errors.phone}</span>}
+            {errors.phone && <span className={`text-[11px] font-semibold mt-0.5 ml-1 ${isWhite ? 'text-red-500' : 'text-red-200'}`}>{errors.phone}</span>}
           </div>
           
           {/* Field: Message */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Message <span className="text-gray-400 font-semibold lowercase tracking-normal">(optional)</span></label>
+            <label className={`text-[10px] font-bold uppercase tracking-widest ml-1 ${styles.label}`}>Message <span className={`font-semibold lowercase tracking-normal ${styles.labelOpt}`}>(optional)</span></label>
             <textarea 
               rows={4}
               maxLength={500}
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               placeholder="Describe your requirements"
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/20 transition-all duration-300 resize-none shadow-sm"
+              className={`w-full rounded-xl px-4 py-3 text-[16px] md:text-[13px] font-medium focus:outline-none focus:ring-4 transition-all duration-300 resize-none shadow-sm ${styles.input}`}
             />
           </div>
 
           {errors.submit && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-xl">
-              <span className="text-red-600 text-xs font-semibold block">{errors.submit}</span>
+            <div className={`p-3 rounded-xl border ${isWhite ? 'bg-red-50 border-red-200 text-red-600' : 'bg-red-400/20 border-red-300/30 text-red-100'}`}>
+              <span className="text-xs font-semibold block">{errors.submit}</span>
             </div>
           )}
           
@@ -404,7 +433,7 @@ export default function BlogContactForm({ sourcePrefix }: BlogContactFormProps =
           <button 
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-[#1a8b4c] hover:bg-[#15703d] text-white rounded-xl py-3.5 text-xs font-black uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-[0_4px_15px_-3px_rgba(26,139,76,0.3)] active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+            className={`w-full rounded-xl py-3.5 text-xs font-black uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 group/btn active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed mt-2 ${styles.submitBtn}`}
           >
             {isSubmitting ? 'Sending Request...' : 'Get Free Quote'}
             <Send size={12} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />

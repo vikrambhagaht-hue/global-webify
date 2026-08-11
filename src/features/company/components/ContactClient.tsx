@@ -268,7 +268,7 @@ export default function ContactClient() {
     <div className="bg-gray-50 relative overflow-hidden font-sans">
       
       {/* ========== ORIGINAL HERO SECTION ========== */}
-      <div className="relative bg-[#1a8b4c] pt-32 pb-32 md:pt-40 md:pb-48 text-white overflow-hidden shadow-xl rounded-b-[40px]">
+      <div className="relative bg-[#1a8b4c] pt-16 pb-28 md:pt-24 md:pb-40 text-white overflow-hidden shadow-xl rounded-b-[40px]">
         {/* Subtle Background Circles matching brand */}
         <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/[0.05] rounded-full pointer-events-none" />
         <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-white/[0.03] rounded-full pointer-events-none" />
@@ -316,7 +316,7 @@ export default function ContactClient() {
         </div>
       </div>
 
-      <div className="container-custom relative z-10 px-4 max-w-7xl mx-auto -mt-16 md:-mt-32 pb-12 md:pb-20">
+      <div className="container-custom relative z-10 px-4 max-w-7xl mx-auto -mt-12 md:-mt-24 pb-12 md:pb-20">
 
         {/* 2-Column Premium Grid */}
         <div className="grid lg:grid-cols-12 gap-6 lg:gap-10 items-stretch">
@@ -352,10 +352,11 @@ export default function ContactClient() {
                       <input 
                         type="text" 
                         required
+                        maxLength={50}
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
                         className="w-full pl-12 pr-4 py-4 bg-gray-50 hover:bg-white focus:bg-white border border-gray-200 rounded-2xl text-[15px] font-medium text-gray-800 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-green-50 transition-all placeholder-gray-400 shadow-sm shadow-gray-100/50"
-                        placeholder="John Doe"
+                        placeholder="Enter your name"
                       />
                     </div>
                   </div>
@@ -369,10 +370,11 @@ export default function ContactClient() {
                       <input 
                         type="email" 
                         required
+                        maxLength={80}
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
                         className={`w-full pl-12 pr-4 py-4 bg-gray-50 hover:bg-white focus:bg-white border rounded-2xl text-[15px] font-medium text-gray-800 focus:outline-none focus:ring-4 transition-all placeholder-gray-400 shadow-sm shadow-gray-100/50 ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-100' : 'border-gray-200 focus:border-[#1a8b4c] focus:ring-green-50'}`}
-                        placeholder="john@example.com"
+                        placeholder="Enter your email"
                       />
                     </div>
                     {errors.email && <span className="text-red-500 text-xs font-semibold mt-1">{errors.email}</span>}
@@ -479,6 +481,7 @@ export default function ContactClient() {
                     </div>
                     <textarea 
                       rows={5}
+                      maxLength={500}
                       value={formData.message}
                       onChange={(e) => setFormData({...formData, message: e.target.value})}
                       className="w-full pl-12 pr-4 py-4 bg-gray-50 hover:bg-white focus:bg-white border border-gray-200 rounded-2xl text-[15px] font-medium text-gray-800 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-green-50 transition-all placeholder-gray-400 resize-none shadow-sm shadow-gray-100/50"
