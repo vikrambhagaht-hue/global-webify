@@ -890,7 +890,7 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                           setPhoneDigits(val);
                           setFormData(prev => ({ ...prev, phone: val ? `${selectedCountry.code} ${val}` : '' }));
                         }}
-                        placeholder={selectedCountry.placeholder}
+                        placeholder=""
                         className={`w-full px-4 py-3 bg-white hover:bg-white focus:bg-white border rounded-xl text-[14px] font-semibold text-slate-900 focus:outline-none focus:ring-2 transition-all placeholder-slate-400 shadow-sm ${errors.phone ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' : 'border-emerald-200/90 focus:border-[#1a8b4c] focus:ring-emerald-600/10'}`}
                       />
                     </div>

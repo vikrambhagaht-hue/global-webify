@@ -160,13 +160,13 @@ export default function ServiceHero({
               target="_blank"
               rel="noopener noreferrer"
               title="Chat on WhatsApp - Global Webify"
-              className="text-white font-bold py-3.5 px-2 md:px-6 rounded-2xl shadow-md hover:shadow-lg hover:translate-y-[-1px] transition-all flex items-center justify-center gap-1.5 md:gap-2 text-[12px] md:text-[13.5px] tracking-wide"
+              className="text-gray-900 font-bold py-3.5 px-2 md:px-6 rounded-2xl shadow-sm hover:shadow-md hover:translate-y-[-1px] transition-all flex items-center justify-center gap-1.5 md:gap-2 text-[12px] md:text-[13.5px] tracking-wide"
               style={{
-                background: 'linear-gradient(to right, #25D366, #1b8a4a)',
-                border: '1px solid #25D366'
+                background: 'linear-gradient(to right, #f8fafc, #e2e8f0)',
+                border: '1px solid #cbd5e1'
               }}
             >
-              <MessageSquare size={14} className="fill-white stroke-none" /> WhatsApp
+              <MessageSquare size={15} className="fill-[#25D366] stroke-none" /> WhatsApp
             </a>
             <button
               onClick={() => setIsAuditOpen(true)}

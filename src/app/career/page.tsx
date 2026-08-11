@@ -56,7 +56,7 @@ export default async function CareersPage() {
   return (
     <div className="min-h-screen bg-[#f8fbfa] font-sans selection:bg-[#1a8b4c] selection:text-white pb-20">
       {/* ========== HERO SECTION — BRAND GREEN THEME ========== */}
-      <section className="relative bg-[#1a8b4c] text-white pt-32 md:pt-40 pb-0 overflow-hidden mb-12">
+      <section className="relative bg-[#1a8b4c] text-white pt-24 md:pt-32 pb-0 overflow-hidden mb-12">
         {/* Subtle Background Circles matching brand */}
         <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/[0.05] rounded-full pointer-events-none" />
         <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-white/[0.03] rounded-full pointer-events-none" />

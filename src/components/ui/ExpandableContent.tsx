@@ -252,7 +252,7 @@ export function ExpandableContent({
           <button
             ref={buttonRef}
             onClick={handleToggle}
-            className="inline-flex items-center gap-1.5 bg-[#2563eb] hover:bg-blue-700 active:scale-95 text-white font-semibold py-2 px-6 rounded-full transition-all shadow-sm text-xs md:text-sm z-20"
+            className="inline-flex items-center gap-1.5 bg-[#1a8b4c] hover:bg-green-700 active:scale-95 text-white font-semibold py-2 px-6 rounded-full transition-all shadow-sm text-xs md:text-sm z-20"
           >
             {isExpanded ? (
               <>See Less <span className="text-xs">↑</span></>

@@ -441,7 +441,7 @@ export default function BookingClient() {
                              setFormData(prev => ({ ...prev, phone: val ? `${selectedCountry.code} ${val}` : '' }));
                            }}
                            className={`w-full px-4 py-4 bg-gray-50 hover:bg-white focus:bg-white border rounded-2xl text-[15px] font-medium text-gray-800 focus:outline-none focus:ring-4 transition-all placeholder-gray-400 shadow-sm shadow-gray-100/50 ${errors.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-100' : 'border-gray-200 focus:border-[#1a8b4c] focus:ring-green-50'}`}
-                           placeholder={selectedCountry.placeholder}
+                           placeholder=""
                          />
                        </div>
                      </div>

@@ -126,7 +126,7 @@ export const TopBar = ({ isOpen, setIsOpen, onContactClick }: TopBarProps) => {
             ))}
           </div>
 
-          <button onClick={onContactClick} title="Contact Us - Global Webify" className="hidden md:flex items-center justify-center bg-[#22c55e] text-white px-2 xl:px-3 2xl:px-5 py-1 xl:py-1.5 2xl:py-2 rounded-full text-[9px] xl:text-[10.5px] 2xl:text-[12.8px] font-semibold uppercase tracking-widest shadow-lg shadow-green-100 hover:bg-[#16a34a] transition-all active:scale-95 font-sans whitespace-nowrap">
+          <button onClick={onContactClick} title="Contact Us - Global Webify" className="hidden md:flex items-center justify-center bg-white text-[#1a8b4c] border border-[#1a8b4c] px-2 xl:px-3 2xl:px-5 py-1 xl:py-1.5 2xl:py-2 rounded-full text-[9px] xl:text-[10.5px] 2xl:text-[12.8px] font-semibold uppercase tracking-widest shadow-sm hover:bg-gray-50 transition-all active:scale-95 font-sans whitespace-nowrap">
             Contact Us
           </button>
 
