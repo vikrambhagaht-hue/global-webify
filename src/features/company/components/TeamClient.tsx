@@ -99,26 +99,41 @@ export default function TeamClient({ initialMembers }: { initialMembers?: TeamMe
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Hero Header Section */}
-      <section className="pt-16 md:pt-24 pb-12 bg-[#f1faf5] border-b border-gray-100">
-        <div className="container-custom text-center">
+      {/* ========== HERO SECTION ========== */}
+      <section className="relative overflow-hidden bg-[#1a8b4c] pt-28 md:pt-32 pb-16 md:pb-24">
+        {/* Decorative Background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/[0.05] rounded-full" />
+          <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-white/[0.03] rounded-full" />
+        </div>
+
+        <div className="max-w-5xl mx-auto px-6 relative z-10 text-center">
+          {/* Title */}
           <m.h1 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-3xl md:text-5xl font-black font-lexend text-primary-dark mb-4 uppercase tracking-tight"
+            className="text-4xl md:text-6xl font-black font-lexend text-white mb-6 uppercase tracking-tight leading-[1.1]"
           >
-            Meet Our Team
+            Meet <span className="text-white">Our Team</span>
           </m.h1>
-          <div className="w-16 h-1 bg-primary mx-auto mb-6 rounded-full"></div>
+
+          {/* Subtitle */}
           <m.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-base md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg md:text-xl text-emerald-50 max-w-2xl mx-auto leading-relaxed font-medium"
           >
             Meet the passionate experts, designers, developers, and strategists behind Global Webify's success.
           </m.p>
+        </div>
+
+        {/* Bottom Wave */}
+        <div className="absolute bottom-0 left-0 right-0 z-10">
+          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
+            <path d="M0,50 C360,80 720,20 1440,50 L1440,80 L0,80 Z" fill="#f8fafc"/>
+          </svg>
         </div>
       </section>
 
