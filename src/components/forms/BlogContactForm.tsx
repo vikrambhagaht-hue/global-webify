@@ -478,7 +478,9 @@ export default function BlogContactForm({ sourcePrefix, theme = 'green' }: BlogC
                 <span className={isWhite ? 'text-gray-400' : 'text-white/50'}>=</span>
               </div>
               <input
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={captchaInput}
                 onChange={(e) => setCaptchaInput(e.target.value)}
                 placeholder="?"

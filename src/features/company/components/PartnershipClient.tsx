@@ -1189,7 +1189,9 @@ export default function PartnershipClient({ settings, franchisees }: Partnership
                       <span className="text-slate-400">=</span>
                     </div>
                     <input
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       value={captchaInput}
                       onChange={(e) => setCaptchaInput(e.target.value)}
                       placeholder="?"

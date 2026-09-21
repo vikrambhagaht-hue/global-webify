@@ -545,7 +545,9 @@ export default function ContactClient() {
                       <span className="text-gray-400">=</span>
                     </div>
                     <input
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       value={captchaInput}
                       onChange={(e) => setCaptchaInput(e.target.value)}
                       placeholder="?"
