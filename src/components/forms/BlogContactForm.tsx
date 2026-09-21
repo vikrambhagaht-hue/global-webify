@@ -182,6 +182,19 @@ export default function BlogContactForm({ sourcePrefix, theme = 'green' }: BlogC
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  // Anti-spam states
+  const [honeypot, setHoneypot] = useState('');
+  const [formLoadedAt] = useState(() => Date.now());
+  const [captchaA, setCaptchaA] = useState(() => Math.floor(Math.random() * 9) + 1);
+  const [captchaB, setCaptchaB] = useState(() => Math.floor(Math.random() * 9) + 1);
+  const [captchaInput, setCaptchaInput] = useState('');
+
+  const refreshCaptcha = () => {
+    setCaptchaA(Math.floor(Math.random() * 9) + 1);
+    setCaptchaB(Math.floor(Math.random() * 9) + 1);
+    setCaptchaInput('');
+  };
+
   const selectedCountry = COUNTRIES[selectedCountryIndex];
 
   useEffect(() => {
@@ -229,6 +242,12 @@ export default function BlogContactForm({ sourcePrefix, theme = 'green' }: BlogC
       hasError = true;
     }
 
+    // Captcha validation
+    if (!captchaInput || parseInt(captchaInput, 10) !== captchaA + captchaB) {
+      newErrors.captcha = 'Please solve the math question correctly.';
+      hasError = true;
+    }
+
     if (hasError) {
       setErrors(newErrors);
       return;
@@ -245,7 +264,12 @@ export default function BlogContactForm({ sourcePrefix, theme = 'green' }: BlogC
           email: formData.email,
           phone: formData.phone,
           service: formData.pageSource, // Sends the URL to the admin panel
-          message: formData.message
+          message: formData.message,
+          _hp: honeypot,
+          _t: formLoadedAt.toString(),
+          _ca: captchaA,
+          _cb: captchaB,
+          _cr: parseInt(captchaInput, 10),
         })
       });
 
@@ -255,6 +279,7 @@ export default function BlogContactForm({ sourcePrefix, theme = 'green' }: BlogC
         setPhoneDigits('');
         setSelectedCountryIndex(0);
         setErrors({});
+        refreshCaptcha();
         setTimeout(() => setSubmitted(false), 5000);
       } else {
         const data = await res.json();
@@ -428,6 +453,48 @@ export default function BlogContactForm({ sourcePrefix, theme = 'green' }: BlogC
               <span className="text-xs font-semibold block">{errors.submit}</span>
             </div>
           )}
+
+          {/* Honeypot - invisible to humans, bots auto-fill it */}
+          <input
+            type="text"
+            name="_hp"
+            value={honeypot}
+            onChange={(e) => setHoneypot(e.target.value)}
+            autoComplete="off"
+            tabIndex={-1}
+            style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, width: 0 }}
+          />
+
+          {/* Math CAPTCHA */}
+          <div className="flex flex-col gap-1.5">
+            <label className={`text-[10px] font-bold uppercase tracking-widest ml-1 flex items-center gap-1.5 ${styles.label}`}>
+              🔒 Security Check <span className="text-red-500">*</span>
+            </label>
+            <div className="flex items-center gap-2">
+              <div className={`flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-black select-none shrink-0 ${isWhite ? 'bg-gray-100 border border-gray-200 text-gray-800' : 'bg-white/10 border border-white/20 text-white'}`}>
+                <span>{captchaA}</span>
+                <span className={isWhite ? 'text-[#1a8b4c]' : 'text-green-300'}>+</span>
+                <span>{captchaB}</span>
+                <span className={isWhite ? 'text-gray-400' : 'text-white/50'}>=</span>
+              </div>
+              <input
+                type="number"
+                value={captchaInput}
+                onChange={(e) => setCaptchaInput(e.target.value)}
+                placeholder="?"
+                className={`w-20 px-3 py-2.5 rounded-xl text-[16px] md:text-[13px] font-bold text-center focus:outline-none focus:ring-4 transition-all shadow-sm ${errors.captcha ? (isWhite ? 'border-red-400 bg-red-50' : 'border-red-400 bg-red-400/10') : ''} ${styles.input}`}
+              />
+              <button
+                type="button"
+                onClick={refreshCaptcha}
+                className={`p-2 rounded-xl transition-all border ${isWhite ? 'text-gray-400 hover:text-[#1a8b4c] hover:bg-green-50 border-gray-200' : 'text-white/50 hover:text-white hover:bg-white/10 border-white/20'}`}
+                title="New question"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+              </button>
+            </div>
+            {errors.captcha && <span className={`text-[10px] font-bold ${isWhite ? 'text-red-500' : 'text-red-300'}`}>{errors.captcha}</span>}
+          </div>
           
           {/* Submit Button */}
           <button 

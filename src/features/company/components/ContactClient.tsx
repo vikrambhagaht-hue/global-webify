@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { m, AnimatePresence } from 'framer-motion';
 import { 
@@ -198,6 +198,19 @@ export default function ContactClient() {
     message: '',
     type: 'success'
   });
+  // Anti-spam states
+  const [honeypot, setHoneypot] = useState('');
+  const [formLoadedAt] = useState(() => Date.now());
+  const [captchaA, setCaptchaA] = useState(() => Math.floor(Math.random() * 9) + 1);
+  const [captchaB, setCaptchaB] = useState(() => Math.floor(Math.random() * 9) + 1);
+  const [captchaInput, setCaptchaInput] = useState('');
+
+  const refreshCaptcha = () => {
+    setCaptchaA(Math.floor(Math.random() * 9) + 1);
+    setCaptchaB(Math.floor(Math.random() * 9) + 1);
+    setCaptchaInput('');
+  };
+
   const selectedCountry = COUNTRIES[selectedCountryIndex];
 
   const triggerToast = (message: string, type: 'success' | 'error' = 'success') => {
@@ -227,6 +240,12 @@ export default function ContactClient() {
       hasError = true;
     }
 
+    // Captcha validation
+    if (!captchaInput || parseInt(captchaInput, 10) !== captchaA + captchaB) {
+      newErrors.captcha = 'Please solve the math question correctly.';
+      hasError = true;
+    }
+
     if (hasError) {
       setErrors(newErrors);
       triggerToast('Please fix the validation errors in the form.', 'error');
@@ -237,7 +256,12 @@ export default function ContactClient() {
     try {
       const payload = {
         ...formData,
-        service: `/contact:::${formData.service || 'General Inquiry'}`
+        service: `/contact:::${formData.service || 'General Inquiry'}`,
+        _hp: honeypot,
+        _t: formLoadedAt.toString(),
+        _ca: captchaA,
+        _cb: captchaB,
+        _cr: parseInt(captchaInput, 10),
       };
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -251,6 +275,7 @@ export default function ContactClient() {
         setPhoneDigits('');
         setSelectedCountryIndex(0);
         setErrors({});
+        refreshCaptcha();
       } else {
         setErrors({ submit: data.error || 'Failed to send message. Please try again.' });
         triggerToast(data.error || 'Failed to send message. Please try again.', 'error');
@@ -495,6 +520,48 @@ export default function ContactClient() {
                     <span className="text-red-600 text-xs font-semibold block">{errors.submit}</span>
                   </div>
                 )}
+
+                {/* Honeypot - invisible to humans, bots auto-fill it */}
+                <input
+                  type="text"
+                  name="_hp"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  autoComplete="off"
+                  tabIndex={-1}
+                  style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, width: 0 }}
+                />
+
+                {/* Math CAPTCHA */}
+                <div className="flex flex-col gap-2">
+                  <label className="text-[11px] font-black text-gray-600 uppercase tracking-widest flex items-center gap-1.5">
+                    🔒 Security Check <span className="text-red-500">*</span>
+                  </label>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-sm font-black text-gray-800 select-none shrink-0">
+                      <span>{captchaA}</span>
+                      <span className="text-[#1a8b4c]">+</span>
+                      <span>{captchaB}</span>
+                      <span className="text-gray-400">=</span>
+                    </div>
+                    <input
+                      type="number"
+                      value={captchaInput}
+                      onChange={(e) => setCaptchaInput(e.target.value)}
+                      placeholder="?"
+                      className={`w-24 px-4 py-3 bg-gray-50 hover:bg-white focus:bg-white border rounded-xl text-[15px] font-bold text-gray-800 text-center focus:outline-none focus:ring-4 focus:ring-green-50 transition-all shadow-sm ${errors.captcha ? 'border-red-400 focus:border-red-500' : 'border-gray-200 focus:border-[#1a8b4c]'}`}
+                    />
+                    <button
+                      type="button"
+                      onClick={refreshCaptcha}
+                      className="p-2.5 text-gray-400 hover:text-[#1a8b4c] hover:bg-green-50 rounded-xl transition-all border border-gray-200"
+                      title="New question"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                    </button>
+                  </div>
+                  {errors.captcha && <span className="text-red-500 text-[11px] font-bold">{errors.captcha}</span>}
+                </div>
 
                 <m.button 
                   whileHover={{ scale: 1.01, translateY: -2 }}

@@ -3,6 +3,17 @@ import Link from 'next/link';
 import { db } from '@/lib/db';
 import { Layers, Newspaper, Plus, Eye, ArrowRight, MessageSquare, ChevronRight } from 'lucide-react';
 import { getSlugTitle } from '@/lib/replaceLocation';
+import { v2 as cloudinary } from 'cloudinary';
+import { Cloud } from 'lucide-react';
+
+function formatBytes(bytes: number, decimals = 2) {
+  if (!+bytes) return '0 Bytes';
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+}
 
 export const revalidate = 0; // Disable cache so the dashboard stats are always real-time
 
@@ -13,7 +24,8 @@ export default async function AdminDashboardOverview() {
     blogsCount,
     rawCount,
     recentServices,
-    recentBlogs
+    recentBlogs,
+    cloudinaryUsage
   ] = await Promise.all([
     db.servicePage.count(),
     db.blogPost.count(),
@@ -22,25 +34,31 @@ export default async function AdminDashboardOverview() {
       return [];
     }),
     db.servicePage.findMany({
-      select: {
-        id: true,
-        slug: true,
-        category: true,
-        createdAt: true
-      },
+      select: { id: true, slug: true, category: true, createdAt: true },
       orderBy: { createdAt: 'desc' },
       take: 5
     }),
     db.blogPost.findMany({
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        isActive: true,
-        createdAt: true
-      },
+      select: { id: true, title: true, slug: true, isActive: true, createdAt: true },
       orderBy: { createdAt: 'desc' },
       take: 5
+    }),
+    new Promise<any>(async (resolve) => {
+      try {
+        if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+          return resolve(null);
+        }
+        cloudinary.config({
+          cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+          api_key: process.env.CLOUDINARY_API_KEY,
+          api_secret: process.env.CLOUDINARY_API_SECRET,
+        });
+        const usage = await cloudinary.api.usage();
+        resolve(usage);
+      } catch (err) {
+        console.error('Cloudinary usage fetch failed', err);
+        resolve(null);
+      }
     })
   ]);
 
@@ -70,6 +88,33 @@ export default async function AdminDashboardOverview() {
         
 
       </div>
+
+      {/* Cloudinary Storage Stats Panel */}
+      {cloudinaryUsage && (
+        <div className="bg-white rounded-[32px] border border-gray-100 shadow-[0_15px_40px_-20px_rgba(0,0,0,0.04)] p-6 md:p-8 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
+              <Cloud size={24} />
+            </div>
+            <div>
+              <h4 className="font-black text-gray-900 uppercase text-xs tracking-widest font-heading">
+                Cloudinary Storage Usage
+              </h4>
+              <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mt-0.5">
+                {formatBytes(cloudinaryUsage.storage?.usage || 0)} Used (Plan: {cloudinaryUsage.plan})
+              </p>
+            </div>
+          </div>
+          <div className="text-right">
+            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">
+              Monthly Bandwidth
+            </span>
+            <span className="text-lg font-black text-gray-900 leading-none">
+              {formatBytes(cloudinaryUsage.bandwidth?.usage || 0)}
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* Triple Large Stats Panel */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

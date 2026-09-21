@@ -103,7 +103,7 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
     );
   });
 
-  const totalPages = Math.ceil(filteredSubmissions.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredSubmissions.length / itemsPerPage));
   const paginatedSubmissions = filteredSubmissions.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -111,9 +111,8 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
 
   // Calculate statistics
   const totalCount = submissions.length;
-  const affiliateCount = submissions.filter(s => s.partnershipType && s.partnershipType.toLowerCase().includes('affiliate')).length;
-  const resellerCount = submissions.filter(s => s.partnershipType && s.partnershipType.toLowerCase().includes('reseller')).length;
-  const strategicCount = submissions.filter(s => s.partnershipType && s.partnershipType.toLowerCase().includes('strategic')).length;
+  const newCount = submissions.filter(s => new Date().getTime() - new Date(s.createdAt).getTime() < 24 * 60 * 60 * 1000).length;
+  const thisMonthCount = submissions.filter(s => new Date(s.createdAt).getMonth() === new Date().getMonth()).length;
 
   return (
     <div className="space-y-6 font-sans">
@@ -127,22 +126,18 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
       )}
 
       {/* Stats Counter Panels */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.01)]">
           <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider block">Total Requests</span>
           <span className="text-2xl font-black text-gray-900 mt-1 block">{totalCount}</span>
         </div>
         <div className="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.01)]">
-          <span className="text-[10px] font-black text-purple-600 uppercase tracking-wider block">Affiliates</span>
-          <span className="text-2xl font-black text-purple-900 mt-1 block">{affiliateCount}</span>
+          <span className="text-[10px] font-black text-[#1a8b4c] uppercase tracking-wider block">New (Last 24h)</span>
+          <span className="text-2xl font-black text-[#1a8b4c] mt-1 block">{newCount}</span>
         </div>
         <div className="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.01)]">
-          <span className="text-[10px] font-black text-emerald-600 uppercase tracking-wider block">Resellers</span>
-          <span className="text-2xl font-black text-emerald-900 mt-1 block">{resellerCount}</span>
-        </div>
-        <div className="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.01)]">
-          <span className="text-[10px] font-black text-blue-600 uppercase tracking-wider block">Strategic Co-Dev</span>
-          <span className="text-2xl font-black text-blue-900 mt-1 block">{strategicCount}</span>
+          <span className="text-[10px] font-black text-blue-600 uppercase tracking-wider block">This Month</span>
+          <span className="text-2xl font-black text-blue-900 mt-1 block">{thisMonthCount}</span>
         </div>
       </div>
 
@@ -308,6 +303,34 @@ export default function PartnershipSubmissionsClient({ initialSubmissions }: Par
             </tbody>
           </table>
         </div>
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="p-4 border-t border-gray-100 bg-gray-50 flex items-center justify-between">
+            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
+              Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredSubmissions.length)} of {filteredSubmissions.length} entries
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-[10px] font-bold text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-all uppercase tracking-wider"
+              >
+                Previous
+              </button>
+              <div className="text-[10px] font-black text-gray-900 bg-white px-3 py-1.5 rounded-lg border border-gray-200 shadow-sm">
+                {currentPage} / {totalPages}
+              </div>
+              <button
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-[10px] font-bold text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-all uppercase tracking-wider"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Floating Detailed Message View Modal */}

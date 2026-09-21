@@ -93,11 +93,56 @@ export async function getApplications() {
   });
 }
 
+import { v2 as cloudinary } from 'cloudinary';
+
+async function deleteFromCloudinary(url: string) {
+  if (!url || !url.includes('cloudinary.com')) return;
+  try {
+    cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET,
+    });
+    
+    const urlParts = url.split('/upload/');
+    if (urlParts.length > 1) {
+      const pathPart = urlParts[1];
+      let publicIdWithExtension = pathPart;
+      if (pathPart.match(/^v\d+\//)) {
+        publicIdWithExtension = pathPart.substring(pathPart.indexOf('/') + 1);
+      }
+      if (publicIdWithExtension) {
+        // Resumes are typically uploaded as 'raw' documents
+        await cloudinary.uploader.destroy(publicIdWithExtension, { resource_type: 'raw' });
+      }
+    }
+  } catch (error) {
+    console.error('Failed to delete file from Cloudinary:', error);
+  }
+}
+
 export async function deleteApplication(id: number) {
   await requireAdmin();
+  const app = await db.jobApplication.findUnique({ where: { id } });
+  if (app && app.resumeUrl) {
+    await deleteFromCloudinary(app.resumeUrl);
+  }
+  
   await db.jobApplication.delete({
     where: { id },
   });
+  revalidatePath('/admin/careers/applications');
+}
+
+export async function deleteAllApplications() {
+  await requireAdmin();
+  const apps = await db.jobApplication.findMany();
+  for (const app of apps) {
+    if (app.resumeUrl) {
+      await deleteFromCloudinary(app.resumeUrl);
+    }
+  }
+  await db.jobApplication.deleteMany();
   revalidatePath('/admin/careers/applications');
 }
 

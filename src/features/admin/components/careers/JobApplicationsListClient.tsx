@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Search, Download, Trash2, Mail, Phone, Calendar, Briefcase, FileText, CheckCircle2, XCircle, Link as LinkIcon, ExternalLink, Settings } from 'lucide-react';
-import { deleteApplication, saveLockDuration } from '@/app/admin/(dashboard)/careers/actions';
+import { deleteApplication, saveLockDuration, deleteAllApplications } from '@/app/admin/(dashboard)/careers/actions';
 
 interface JobApplication {
   id: number;
@@ -32,6 +32,7 @@ export default function JobApplicationsListClient({
   const [selectedLetter, setSelectedLetter] = useState<{ name: string; letter: string } | null>(null);
   const [selectedResume, setSelectedResume] = useState<{ name: string; url: string } | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [deletingAll, setDeletingAll] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   
   // Settings State
@@ -56,7 +57,7 @@ export default function JobApplicationsListClient({
   };
 
   const handleDelete = async (id: number) => {
-    if (confirm('Are you sure you want to delete this job application? This action cannot be undone.')) {
+    if (confirm('Are you sure you want to delete this job application? The resume will also be deleted from Cloudinary. This action cannot be undone.')) {
       setDeletingId(id);
       try {
         await deleteApplication(id);
@@ -70,6 +71,25 @@ export default function JobApplicationsListClient({
     }
   };
 
+  const handleDeleteAll = async () => {
+    if (confirm('Are you sure you want to delete ALL job applications? ALL resumes will also be deleted from Cloudinary. This action cannot be undone.')) {
+      setDeletingAll(true);
+      try {
+        await deleteAllApplications();
+        setApplications([]);
+        showToast('All applications deleted successfully!', 'success');
+        setCurrentPage(1);
+      } catch (error) {
+        showToast('Failed to delete all applications.', 'error');
+      } finally {
+        setDeletingAll(false);
+      }
+    }
+  };
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   const filteredApplications = applications.filter((app) => {
     return (
       app.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -77,6 +97,12 @@ export default function JobApplicationsListClient({
       app.email.toLowerCase().includes(search.toLowerCase())
     );
   });
+
+  const totalPages = Math.max(1, Math.ceil(filteredApplications.length / itemsPerPage));
+  const paginatedApplications = filteredApplications.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="space-y-6 font-sans">
@@ -99,11 +125,24 @@ export default function JobApplicationsListClient({
             <input
               type="text"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+              }}
               placeholder="Search applicants or jobs..."
               className="w-full bg-white border-2 border-gray-150 hover:border-gray-250 rounded-2xl pl-11 pr-4 py-3 text-xs font-bold text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1a8b4c] focus:ring-4 focus:ring-[#1a8b4c]/5 transition-all shadow-sm"
             />
           </div>
+          {applications.length > 0 && (
+            <button
+              onClick={handleDeleteAll}
+              disabled={deletingAll}
+              className="px-4 py-3 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 border border-red-200 rounded-2xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 whitespace-nowrap disabled:opacity-50"
+            >
+              <Trash2 size={15} />
+              {deletingAll ? 'Deleting...' : 'Delete All'}
+            </button>
+          )}
         </div>
       </div>
 
@@ -114,8 +153,11 @@ export default function JobApplicationsListClient({
             <Settings size={14} className="text-[#1a8b4c]" />
             Application Lock Settings
           </h4>
-          <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-            Prevent spam by blocking duplicate entries for a selected period. Existing application lockouts remain unaffected.
+          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider leading-relaxed max-w-lg mt-1">
+            <span className="text-amber-600 block mb-1">
+              Note: This feature prevents users from re-applying for the same job multiple times to block spam.
+            </span>
+            If you set this to 30 days, candidates cannot submit a new application for the same role until 30 days have passed. You can increase or decrease this limit here.
           </p>
         </div>
         <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
@@ -173,7 +215,7 @@ export default function JobApplicationsListClient({
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-xs font-semibold text-gray-700">
-                {filteredApplications.map((app) => (
+                {paginatedApplications.map((app) => (
                   <tr key={app.id} className="hover:bg-gray-50/50 transition-colors">
                     {/* Applicant details */}
                     <td className="py-4 px-6 space-y-1">
@@ -278,6 +320,34 @@ export default function JobApplicationsListClient({
               </tbody>
             </table>
           </div>
+          
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="p-4 border-t border-gray-100 bg-gray-50 flex items-center justify-between">
+              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
+                Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredApplications.length)} of {filteredApplications.length} entries
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-[10px] font-bold text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-all uppercase tracking-wider"
+                >
+                  Previous
+                </button>
+                <div className="text-[10px] font-black text-gray-900 bg-white px-3 py-1.5 rounded-lg border border-gray-200 shadow-sm">
+                  {currentPage} / {totalPages}
+                </div>
+                <button
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-[10px] font-bold text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-all uppercase tracking-wider"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

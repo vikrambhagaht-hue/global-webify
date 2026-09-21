@@ -58,7 +58,57 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Too many requests. Please try again later.' }, { status: 429 });
     }
 
-    const { name, email, phone, service, message } = await req.json();
+    const body = await req.json();
+    const { name, email, phone, service, message } = body;
+
+    // ====== ANTI-SPAM LAYER 1: Honeypot Trap ======
+    // Hidden field that real users never fill. Bots auto-fill everything.
+    // Return fake success so bot thinks it worked.
+    if (body._hp) {
+      return NextResponse.json({ success: true });
+    }
+
+    // ====== ANTI-SPAM LAYER 2: Time-Based Bot Detection ======
+    // Real humans take at least 3 seconds to fill a form. Bots submit instantly.
+    if (body._t) {
+      const loadTime = parseInt(body._t, 10);
+      if (!isNaN(loadTime) && (Date.now() - loadTime) < 3000) {
+        return NextResponse.json({ success: true }); // Silent fake success
+      }
+    }
+
+    // ====== ANTI-SPAM LAYER 3: Math CAPTCHA Verification ======
+    // Simple math question (e.g. "3 + 5 = ?") that bots can't solve
+    const captchaA = parseInt(body._ca, 10);
+    const captchaB = parseInt(body._cb, 10);
+    const captchaR = parseInt(body._cr, 10);
+    if (isNaN(captchaA) || isNaN(captchaB) || isNaN(captchaR) || captchaA < 1 || captchaA > 9 || captchaB < 1 || captchaB > 9) {
+      return NextResponse.json({ success: false, error: 'Please solve the security question.' }, { status: 400 });
+    }
+    if (captchaA + captchaB !== captchaR) {
+      return NextResponse.json({ success: false, error: 'Wrong answer to the security question. Please try again.' }, { status: 400 });
+    }
+
+    // ====== ANTI-SPAM LAYER 4: Name Gibberish Detection ======
+    // Catches random garbage names like "tiLSUeXwINvNQmwAF" or "qqlerUHDxZbSOWFAdIAAE"
+    if (name && typeof name === 'string') {
+      const cleaned = name.replace(/\s/g, '').toLowerCase();
+      // Reject: 4+ consecutive consonants (no real name has this)
+      if (/[bcdfghjklmnpqrstvwxyz]{4,}/i.test(cleaned)) {
+        return NextResponse.json({ success: false, error: 'Please enter a valid name.' }, { status: 400 });
+      }
+      // Reject: name has zero vowels
+      if (cleaned.length > 2 && !/[aeiou]/i.test(cleaned)) {
+        return NextResponse.json({ success: false, error: 'Please enter a valid name.' }, { status: 400 });
+      }
+      // Reject: more than 60% uppercase in the original (like "AKJDHFSKJDHF")
+      const upperCount = (name.match(/[A-Z]/g) || []).length;
+      const letterCount = (name.match(/[a-zA-Z]/g) || []).length;
+      if (letterCount > 4 && upperCount / letterCount > 0.6) {
+        return NextResponse.json({ success: false, error: 'Please enter a valid name.' }, { status: 400 });
+      }
+    }
+
     if (!name || !email || !phone) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
@@ -77,12 +127,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Invalid email format' }, { status: 400 });
     }
 
-    // Spam Protection: Rate limit by email in DB (Max 3 per day)
+    // Spam Protection: Rate limit by email in DB (Max 2 per day — tightened from 3)
     const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
     const count = await db.contactSubmission.count({
       where: { email, createdAt: { gt: yesterday } }
     });
-    if (count >= 3) {
+    if (count >= 2) {
       return NextResponse.json({ success: false, error: 'You have submitted too many requests today. Please try again tomorrow.' }, { status: 429 });
     }
 
