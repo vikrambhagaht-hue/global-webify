@@ -200,9 +200,9 @@ export default function ContactClient() {
   });
   // Anti-spam states
   const [honeypot, setHoneypot] = useState('');
-  const [formLoadedAt] = useState(() => Date.now());
-  const [captchaA, setCaptchaA] = useState(() => Math.floor(Math.random() * 9) + 1);
-  const [captchaB, setCaptchaB] = useState(() => Math.floor(Math.random() * 9) + 1);
+  const [formLoadedAt, setFormLoadedAt] = useState(0);
+  const [captchaA, setCaptchaA] = useState(0);
+  const [captchaB, setCaptchaB] = useState(0);
   const [captchaInput, setCaptchaInput] = useState('');
 
   const refreshCaptcha = () => {
@@ -210,6 +210,12 @@ export default function ContactClient() {
     setCaptchaB(Math.floor(Math.random() * 9) + 1);
     setCaptchaInput('');
   };
+
+  // Run once on client to avoid Next.js SSR hydration mismatch
+  useEffect(() => {
+    setFormLoadedAt(Date.now());
+    refreshCaptcha();
+  }, []);
 
   const selectedCountry = COUNTRIES[selectedCountryIndex];
 
