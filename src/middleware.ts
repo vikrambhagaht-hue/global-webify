@@ -22,6 +22,15 @@ async function getRedirects(origin: string): Promise<{ source: string; destinati
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const host = request.headers.get('host') || request.nextUrl.host;
+
+  // 1. Enforce www.globalwebify.com canonical domain (redirect apex globalwebify.com to www)
+  if (host === 'globalwebify.com') {
+    const url = request.nextUrl.clone();
+    url.host = 'www.globalwebify.com';
+    url.port = '';
+    return NextResponse.redirect(url, 301);
+  }
 
   // Set header to pass the current pathname and full URL to Server Components (like layouts)
   const requestHeaders = new Headers(request.headers);
@@ -42,13 +51,23 @@ export async function middleware(request: NextRequest) {
     const origin = request.nextUrl.origin;
     const redirects = await getRedirects(origin);
 
+    const isLocalhost = request.nextUrl.hostname === 'localhost' || request.nextUrl.hostname === '127.0.0.1';
+
     const match = redirects.find(
       (r) =>
-        r.source === pathname ||
+        r.source !== '/' &&
+        (r.source === pathname ||
         r.source === pathname + '/' ||
-        pathname === r.source + '/'
+        pathname === r.source + '/')
     );
     if (match && match.destination) {
+      if (isLocalhost && match.destination.includes('globalwebify.com')) {
+        try {
+          const targetPath = new URL(match.destination).pathname;
+          return NextResponse.redirect(new URL(targetPath, request.url), 301);
+        } catch {}
+      }
+
       let destUrl = match.destination;
       if (match.destination.startsWith('http')) {
         try {

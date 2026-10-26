@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { cache } from 'react';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
 import { blogPosts as staticBlogPosts } from '@/data/posts';
@@ -6,32 +6,59 @@ import { Metadata } from 'next';
 import { replaceLocation } from '@/lib/replaceLocation';
 import { BlogPostView } from '@/features/blog/components/BlogPostView';
 
-export const revalidate = 3600; // Cache page and revalidate at most every hour or on-demand
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+export const revalidate = 0;
 
 interface Props {
   params: { slug: string };
 }
 
-// Generate dynamic static params (ISR)
+// Request-level caching to prevent duplicate Prisma queries between generateMetadata and Page
+const getCachedBlogPost = cache(async (rawSlug: string) => {
+  const cleanSlug = rawSlug.replace(/^\/blog\//, '').replace(/^\//, '');
+  const slugsToTry = [
+    `/blog/${cleanSlug}`,
+    `/blog/${cleanSlug}/`,
+    `/${cleanSlug}`,
+    cleanSlug
+  ];
+  try {
+    return await db.blogPost.findFirst({
+      where: {
+        slug: { in: slugsToTry },
+        isActive: true
+      }
+    });
+  } catch (error) {
+    console.error("Failed to query DB blog:", error);
+    return null;
+  }
+});
+
+// Generate dynamic static params (ISR fallback)
 export async function generateStaticParams() {
   try {
-    const dbPosts = await db.blogPost.findMany({ select: { slug: true } });
-    const dbSlugs = dbPosts.map(p => ({ slug: p.slug.replace('/blog/', '') }));
-    const staticSlugs = staticBlogPosts.map(p => ({ slug: p.slug.replace('/blog/', '') }));
+    const dbPosts = await db.blogPost.findMany({ 
+      where: { isActive: true },
+      select: { slug: true } 
+    });
+    const dbSlugs = dbPosts.map(p => ({ slug: p.slug.replace(/^\/blog\//, '').replace(/^\//, '') }));
+    const staticSlugs = staticBlogPosts.map(p => ({ slug: p.slug.replace(/^\/blog\//, '').replace(/^\//, '') }));
     return [...dbSlugs, ...staticSlugs];
   } catch (error) {
-    return staticBlogPosts.map(p => ({ slug: p.slug.replace('/blog/', '') }));
+    return staticBlogPosts.map(p => ({ slug: p.slug.replace(/^\/blog\//, '').replace(/^\//, '') }));
   }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const slugWithPrefix = `/blog/${params.slug}`;
+  const rawSlug = params?.slug || '';
+  const cleanSlug = rawSlug.replace(/^\/blog\//, '').replace(/^\//, '');
+  const slugWithPrefix = `/blog/${cleanSlug}`;
   const locationName = "";
   
   try {
-    const dbPost = await db.blogPost.findUnique({
-      where: { slug: slugWithPrefix }
-    });
+    const dbPost = await getCachedBlogPost(rawSlug);
 
     if (dbPost) {
       const title = replaceLocation(dbPost.seoTitle || dbPost.title || '', locationName);
@@ -40,6 +67,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title: title,
         description: description,
         keywords: dbPost.seoKeywords ? dbPost.seoKeywords.split(',').map(k => k.trim()) : undefined,
+        robots: {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+          },
+        },
         alternates: {
           canonical: slugWithPrefix
         }
@@ -47,11 +82,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
   } catch (e) {}
 
-  const staticPost = staticBlogPosts.find((p) => p.slug === slugWithPrefix);
+  const slugsToTry = [`/blog/${cleanSlug}`, cleanSlug, `/${cleanSlug}`];
+  const staticPost = staticBlogPosts.find((p) => slugsToTry.includes(p.slug));
   if (staticPost) {
     return {
       title: `${staticPost.title} | GlobalWebify`,
       description: staticPost.excerpt,
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+        },
+      },
       alternates: {
         canonical: slugWithPrefix
       }
@@ -62,18 +106,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogPostPage({ params }: Props) {
-  const slugWithPrefix = `/blog/${params.slug}`;
+  const rawSlug = params?.slug || '';
+  const cleanSlug = rawSlug.replace(/^\/blog\//, '').replace(/^\//, '');
+  const slugsToTry = [`/blog/${cleanSlug}`, cleanSlug, `/${cleanSlug}`];
   
   let post: any = null;
   let isDbPost = false;
 
   try {
-    post = await db.blogPost.findFirst({
-      where: {
-        slug: slugWithPrefix,
-        isActive: true
-      }
-    });
+    post = await getCachedBlogPost(rawSlug);
     if (post) {
       isDbPost = true;
     }
@@ -82,7 +123,7 @@ export default async function BlogPostPage({ params }: Props) {
   }
 
   if (!post) {
-    post = staticBlogPosts.find((p) => p.slug === slugWithPrefix);
+    post = staticBlogPosts.find((p) => slugsToTry.includes(p.slug));
   }
 
   if (!post) {
